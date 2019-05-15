@@ -1050,7 +1050,6 @@ type
     StringField9: TStringField;
     dsPosseEstoque_NaoApagar: TDataSource;
     cdsPosseEstoqueNOME_TERCEIRO: TStringField;
-    cdsPosseEstoqueDESC_TIPO_EST: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure cdsBalancoCalcFields(DataSet: TDataSet);
   private

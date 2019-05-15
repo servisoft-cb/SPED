@@ -4,7 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ACBrSpedFiscal, StdCtrls, Buttons, Mask, ToolEdit, NxCollection;
+  Dialogs, ACBrSpedFiscal, StdCtrls, Buttons, Mask, ToolEdit, NxCollection,
+  ACBrBase;
 
 type
   TForm1 = class(TForm)
