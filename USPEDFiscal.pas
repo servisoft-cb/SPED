@@ -3142,19 +3142,10 @@ begin
   if (ComboBox3.ItemIndex = 4) and not(ckImobilizado.Checked) then
     vComando := vComando + ' AND TIPO_REG <> ' + QuotedStr('I');
 
-
-
-  //vComando := vComando + vComandoAux;
   fDMSPEDFiscal.cdsBalanco.Close;
   fDMSPEDFiscal.sdsBalanco.CommandText := vComando;
   fDMSPEDFiscal.sdsBalanco.ParamByName('FILIAL').AsInteger   := RxDBLookupCombo1.KeyValue;
   fDMSPEDFiscal.sdsBalanco.ParamByName('DTMOVIMENTO').AsDate := DateEdit3.Date;
-  {case ComboBox3.ItemIndex of
-    0: fDMSPEDFiscal.sdsBalanco.ParamByName('TIPO_REG').AsString  := 'P';
-    1: fDMSPEDFiscal.sdsBalanco.ParamByName('TIPO_REG').AsString  := 'M';
-    2: fDMSPEDFiscal.sdsBalanco.ParamByName('TIPO_REG').AsString  := 'C';
-    3: fDMSPEDFiscal.sdsBalanco.ParamByName('TIPO_REG').AsString  := 'S';
-  end;}
   fDMSPEDFiscal.cdsBalanco.Open;
 end;
 

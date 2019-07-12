@@ -173,6 +173,11 @@ object DMSPEDFiscal: TDMSPEDFiscal
       FixedChar = True
       Size = 1
     end
+    object cdsFilialSPED_SOMA_IPI_CUSTO: TStringField
+      FieldName = 'SPED_SOMA_IPI_CUSTO'
+      FixedChar = True
+      Size = 1
+    end
   end
   object dsFilial: TDataSource
     DataSet = cdsFilial
@@ -4015,42 +4020,44 @@ object DMSPEDFiscal: TDMSPEDFiscal
       '     AND ENT.gerar_custo = '#39'S'#39#13#10'       AND ENT.ID_PRODUTO = EM.I' +
       'D_PRODUTO'#13#10'       AND ENT.tamanho = EM.TAMANHO'#13#10'       AND ENT.F' +
       'ILIAL = :FILIAL'#13#10'       AND ENT.DTMOVIMENTO <= :DTMOVIMENTO) QTD' +
-      '_ENTRADA'#13#10' FROM ESTOQUE_MOV EM'#13#10' INNER JOIN PRODUTO PRO'#13#10' ON EM.' +
-      'ID_PRODUTO = PRO.ID'#13#10' LEFT JOIN COMBINACAO COMB'#13#10' ON EM.ID_COR =' +
-      ' COMB.ID'#13#10' WHERE EM.FILIAL = :FILIAL'#13#10'   AND EM.DTMOVIMENTO <= :' +
-      'DTMOVIMENTO'#13#10'   AND PRO.INATIVO = '#39'N'#39#13#10'   AND PRO.ESTOQUE = '#39'S'#39#13 +
-      #10'GROUP BY EM.ID_PRODUTO, EM.TAMANHO, PRO.REFERENCIA, PRO.NOME, P' +
-      'RO.UNIDADE, EM.id_cor, COMB.NOME, PRO.TIPO_REG)'#13#10'AUX'#13#10'WHERE QTD_' +
-      'ESTOQUE > 0'
+      '_ENTRADA,'#13#10'SUM('#13#10'  CASE'#13#10'    WHEN coalesce(EM.perc_ipi,0) > 0 an' +
+      'd EM.tipo_es = '#39'E'#39' THEN ROUND(((EM.vlr_unitario * EM.perc_ipi / ' +
+      '100) * EM.qtd),3)'#13#10'    ELSE 0'#13#10'    END) VLR_IPI'#13#10#13#10' FROM ESTOQUE' +
+      '_MOV EM'#13#10' INNER JOIN PRODUTO PRO'#13#10' ON EM.ID_PRODUTO = PRO.ID'#13#10' L' +
+      'EFT JOIN COMBINACAO COMB'#13#10' ON EM.ID_COR = COMB.ID'#13#10' WHERE EM.FIL' +
+      'IAL = :FILIAL'#13#10'   AND EM.DTMOVIMENTO <= :DTMOVIMENTO'#13#10'   AND PRO' +
+      '.INATIVO = '#39'N'#39#13#10'   AND PRO.ESTOQUE = '#39'S'#39#13#10'GROUP BY EM.ID_PRODUTO' +
+      ', EM.TAMANHO, PRO.REFERENCIA, PRO.NOME, PRO.UNIDADE, EM.id_cor, ' +
+      'COMB.NOME, PRO.TIPO_REG)'#13#10'AUX'#13#10'WHERE QTD_ESTOQUE > 0'#13#10#13#10
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftUnknown
+        DataType = ftInteger
         Name = 'FILIAL'
         ParamType = ptInput
       end
       item
-        DataType = ftUnknown
+        DataType = ftDate
         Name = 'DTMOVIMENTO'
         ParamType = ptInput
       end
       item
-        DataType = ftUnknown
+        DataType = ftInteger
         Name = 'FILIAL'
         ParamType = ptInput
       end
       item
-        DataType = ftUnknown
+        DataType = ftDate
         Name = 'DTMOVIMENTO'
         ParamType = ptInput
       end
       item
-        DataType = ftUnknown
+        DataType = ftInteger
         Name = 'FILIAL'
         ParamType = ptInput
       end
       item
-        DataType = ftUnknown
+        DataType = ftDate
         Name = 'DTMOVIMENTO'
         ParamType = ptInput
       end>
@@ -4119,6 +4126,9 @@ object DMSPEDFiscal: TDMSPEDFiscal
     object cdsBalancoNOME_COMBINACAO: TStringField
       FieldName = 'NOME_COMBINACAO'
       Size = 60
+    end
+    object cdsBalancoVLR_IPI: TFloatField
+      FieldName = 'VLR_IPI'
     end
   end
   object dsBalanco: TDataSource

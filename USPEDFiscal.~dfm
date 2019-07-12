@@ -3,7 +3,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
   Top = 48
   Width = 1133
   Height = 641
-  Caption = 'Gerar SPED Fiscal    (Vers'#227'o  09/04/2019   1.0.13) '
+  Caption = 'Gerar SPED Fiscal    (Vers'#227'o  12/04/2019   1.0.14) '
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -21,7 +21,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
     Left = 0
     Top = 0
     Width = 1117
-    Height = 603
+    Height = 602
     ActivePage = TabSheet1
     Align = alClient
     BackgroundColor = clSilver
@@ -250,7 +250,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
       Caption = 'TS_Exemplo'
       DesignSize = (
         1113
-        580)
+        579)
       object Label2: TLabel
         Left = 8
         Top = 161
@@ -387,7 +387,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edtFile: TEdit
           Left = 22
           Top = 28
-          Width = 362
+          Width = 358
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 0
@@ -396,7 +396,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           OnExit = edtFileChange
         end
         object cbConcomitante: TCheckBox
-          Left = 408
+          Left = 404
           Top = 30
           Width = 134
           Height = 19
@@ -419,7 +419,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edNotas: TEdit
           Left = 654
           Top = 29
-          Width = 125
+          Width = 121
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 2
@@ -955,7 +955,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         Left = 0
         Top = 141
         Width = 1113
-        Height = 439
+        Height = 438
         ActivePage = TS_SPED
         Align = alClient
         TabIndex = 0
@@ -967,7 +967,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
             Left = 0
             Top = 0
             Width = 1109
-            Height = 416
+            Height = 415
             TabStop = False
             Align = alClient
             Font.Charset = ANSI_CHARSET
@@ -988,7 +988,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
             Left = 0
             Top = 0
             Width = 1109
-            Height = 416
+            Height = 415
             Align = alClient
             DataSource = DMSPEDFiscal.dsPosseEstoque
             Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit]

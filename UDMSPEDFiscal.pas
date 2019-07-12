@@ -1051,6 +1051,8 @@ type
     dsPosseEstoque_NaoApagar: TDataSource;
     cdsPosseEstoqueNOME_TERCEIRO: TStringField;
     cdsPosseEstoqueDESC_TIPO_EST: TStringField;
+    cdsFilialSPED_SOMA_IPI_CUSTO: TStringField;
+    cdsBalancoVLR_IPI: TFloatField;
     procedure DataModuleCreate(Sender: TObject);
     procedure cdsBalancoCalcFields(DataSet: TDataSet);
   private
@@ -1107,10 +1109,17 @@ begin
 end;
 
 procedure TDMSPEDFiscal.cdsBalancoCalcFields(DataSet: TDataSet);
+var
+  vVlrAux : Real;
 begin
   if (StrToFloat(FormatFloat('0.00000',cdsBalancoVLR_ENTRADA.AsFloat)) > 0) and (StrToFloat(FormatFloat('0.00000',cdsBalancoQTD_ENTRADA.AsFloat)) > 0) then
   begin
-    cdsBalancoclPreco_Medio.AsFloat := StrToFloat(FormatFloat('0.00000',cdsBalancoVLR_ENTRADA.AsFloat / cdsBalancoQTD_ENTRADA.AsFloat));
+    vVlrAux := cdsBalancoVLR_ENTRADA.AsFloat;
+    if cdsFilialSPED_SOMA_IPI_CUSTO.AsString = 'S' then
+      vVlrAux := vVlrAux + cdsBalancoVLR_IPI.AsFloat;
+    //12/07/2019  Foi acrescentado para somar o IPI no custo do produto, conforme Fabricio contador da Lotus 
+    //cdsBalancoclPreco_Medio.AsFloat := StrToFloat(FormatFloat('0.00000',cdsBalancoVLR_ENTRADA.AsFloat / cdsBalancoQTD_ENTRADA.AsFloat));
+    cdsBalancoclPreco_Medio.AsFloat := StrToFloat(FormatFloat('0.00000',vVlrAux / cdsBalancoQTD_ENTRADA.AsFloat));
     cdsBalancoclVlr_Total.AsFloat   := StrToFloat(FormatFloat('0.00',cdsBalancoclPreco_Medio.AsFloat * cdsBalancoQTD_ESTOQUE.AsFloat));
   end
   else
