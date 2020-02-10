@@ -4613,4 +4613,19 @@ object DMSPEDFiscal: TDMSPEDFiscal
     Left = 600
     Top = 424
   end
+  object qParametros_Est: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQL.Strings = (
+      'SELECT GERAR_REG_H020'
+      'FROM PARAMETROS_EST')
+    SQLConnection = dmDatabase.scoDados
+    Left = 624
+    Top = 96
+    object qParametros_EstGERAR_REG_H020: TStringField
+      FieldName = 'GERAR_REG_H020'
+      FixedChar = True
+      Size = 1
+    end
+  end
 end

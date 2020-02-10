@@ -1053,6 +1053,8 @@ type
     cdsPosseEstoqueDESC_TIPO_EST: TStringField;
     cdsFilialSPED_SOMA_IPI_CUSTO: TStringField;
     cdsBalancoVLR_IPI: TFloatField;
+    qParametros_Est: TSQLQuery;
+    qParametros_EstGERAR_REG_H020: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure cdsBalancoCalcFields(DataSet: TDataSet);
   private

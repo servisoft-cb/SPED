@@ -3,7 +3,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
   Top = 48
   Width = 1133
   Height = 641
-  Caption = 'Gerar SPED Fiscal    (Vers'#227'o  12/04/2019   1.0.14) '
+  Caption = 'Gerar SPED Fiscal    (Vers'#227'o  10/02/2020  1.0.16) '
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -22,7 +22,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
     Top = 0
     Width = 1117
     Height = 602
-    ActivePage = TabSheet1
+    ActivePage = TS_Gerar_SPED
     Align = alClient
     BackgroundColor = clSilver
     BoldCurrentTab = True
@@ -387,7 +387,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edtFile: TEdit
           Left = 22
           Top = 28
-          Width = 358
+          Width = 346
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 0
@@ -396,7 +396,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           OnExit = edtFileChange
         end
         object cbConcomitante: TCheckBox
-          Left = 404
+          Left = 392
           Top = 30
           Width = 134
           Height = 19
@@ -419,7 +419,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edNotas: TEdit
           Left = 654
           Top = 29
-          Width = 121
+          Width = 109
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 2
@@ -439,7 +439,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object Label4: TLabel
           Left = 1
           Top = 1
-          Width = 450
+          Width = 1107
           Height = 16
           Align = alTop
           Alignment = taCenter
@@ -571,8 +571,8 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         Text = '1000'
       end
     end
-    object TabSheet1: TRzTabSheet
-      Caption = 'TabSheet1'
+    object TS_Gerar_SPED: TRzTabSheet
+      Caption = 'SPED'
       object Panel3: TPanel
         Left = 0
         Top = 0
@@ -771,13 +771,11 @@ object frmSPEDFiscal: TfrmSPEDFiscal
             Height = 21
             Style = csDropDownList
             ItemHeight = 13
-            ItemIndex = 4
             TabOrder = 1
-            Text = 'Ambos'
             Items.Strings = (
               'Produto'
               'Material'
-              'Mterial de Consumo'
+              'Material de Consumo'
               'Semi Acabado'
               'Ambos')
           end

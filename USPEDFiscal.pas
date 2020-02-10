@@ -65,7 +65,7 @@ type
     btnGerar: TNxButton;
     btnBloco_K: TNxButton;
     btnGerar_K: TNxButton;
-    TabSheet1: TRzTabSheet;
+    TS_Gerar_SPED: TRzTabSheet;
     Panel3: TPanel;
     Label9: TLabel;
     Label10: TLabel;
@@ -192,7 +192,6 @@ type
     procedure prc_Gerar_Bloco_H;
     procedure prc_Bloco_H_Reg_H005;
     procedure prc_Bloco_H_Reg_H010;
-    procedure prc_Bloco_H_Reg_H020;
     procedure prc_Bloco_H_Reg_H990;
     procedure prc_Verifica_Produtos_Balanco;
 
@@ -3224,16 +3223,17 @@ begin
         VL_ITEM_IR := 0;
         vContador_Reg_H := vContador_Reg_H + 1;
 
-        prc_Bloco_H_Reg_H020;
-
-        {with RegistroH020New do
+        //10/02/2020  incluído o registro H020
+        if fDMSPEDFiscal.qParametros_EstGERAR_REG_H020.AsString = 'S' then
         begin
-          CST_ICMS := '00';
-          BC_ICMS  := 1;
-          VL_ICMS := 2;
-          vContador_Reg_H := vContador_Reg_H + 1;
-        end;}
-        //05/07/2018
+          with RegistroH020New do
+          begin
+            CST_ICMS := '000';
+            BC_ICMS  := StrToFloat(FormatFloat('0.000000',fDMSPEDFiscal.cdsBalancoclPreco_Medio.AsFloat));
+            VL_ICMS  := StrToFloat(FormatFloat('0.00',((fDMSPEDFiscal.cdsBalancoclPreco_Medio.AsFloat * fDMSPEDFiscal.qUFPERC_ICMS.AsFloat) / 100)));
+            vContador_Reg_H := vContador_Reg_H + 1;
+          end;
+        end;
       end;
     end;
 
@@ -3242,10 +3242,6 @@ begin
 
 end;
 
-procedure TfrmSPEDFiscal.prc_Bloco_H_Reg_H020;
-begin
-
-end;
 
 procedure TfrmSPEDFiscal.prc_Bloco_H_Reg_H990;
 begin
