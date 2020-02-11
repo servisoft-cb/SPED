@@ -2745,36 +2745,36 @@ var
   vAux : Real;
 begin
   try
-  vAux_Aliq := StrToFloat(FormatFloat('0.000',fDMSPEDFiscal.cdsNotaFiscal_ItensPERC_ICMS.AsFloat));
-  if fDMSPEDFiscal.mC190.FindKey([StrToFloat(FormatFloat('0',fDMSPEDFiscal.cdsNotaFiscal_ItensCST_ICMS.AsInteger)),fDMSPEDFiscal.cdsNotaFiscal_ItensCODCFOP.AsInteger,vAux_Aliq]) then
-    fDMSPEDFiscal.mC190.Edit
-  else
-  begin
-    fDMSPEDFiscal.mC190.Insert;
-    fDMSPEDFiscal.mC190CST_ICMS.AsInteger := fDMSPEDFiscal.cdsNotaFiscal_ItensCST_ICMS.AsInteger;
-    fDMSPEDFiscal.mC190Cod_CFOP.AsInteger := fDMSPEDFiscal.cdsNotaFiscal_ItensCODCFOP.AsInteger;
-    fDMSPEDFiscal.mC190Perc_ICMS.AsFloat  := StrToFloat(FormatFloat('0.000',vAux_Aliq));
-  end;
-  fDMSPEDFiscal.mC190Vlr_Operacao.AsFloat := fDMSPEDFiscal.mC190Vlr_Operacao.AsFloat + fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_TOTAL.AsFloat
-                                           + fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_FRETE.AsFloat + fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_SEGURO.AsFloat
-                                           + fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_OUTRASDESPESAS.AsFloat
-                                           + fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_ICMSSUBST.AsFloat + fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_IPI.AsFloat;
-  fDMSPEDFiscal.mC190Vlr_Base_ICMS.AsFloat := fDMSPEDFiscal.mC190Vlr_Base_ICMS.AsFloat + fDMSPEDFiscal.cdsNotaFiscal_ItensBASE_ICMS.AsFloat
-                                            + fDMSPEDFiscal.cdsNotaFiscalBASE_ICMSSIMPLES.AsFloat;
-  fDMSPEDFiscal.mC190Vlr_ICMS.AsFloat      := fDMSPEDFiscal.mC190Vlr_ICMS.AsFloat + fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_ICMS.AsFloat
-                                            + fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_ICMSSIMPLES.AsFloat;
-  fDMSPEDFiscal.mC190Vlr_Base_ICMS_ST.AsFloat := fDMSPEDFiscal.mC190Vlr_Base_ICMS_ST.AsFloat + fDMSPEDFiscal.cdsNotaFiscal_ItensBASE_ICMSSUBST.AsFloat;
-  fDMSPEDFiscal.mC190Vlr_ICMS_ST.AsFloat      := fDMSPEDFiscal.mC190Vlr_ICMS_ST.AsFloat + fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_ICMSSUBST.AsFloat;
-  if (StrToFloat(FormatFloat('0.00',fDMSPEDFiscal.cdsNotaFiscal_ItensPERC_TRIBICMS.AsFloat)) > 0) and (StrToFloat(FormatFloat('0.00',fDMSPEDFiscal.cdsNotaFiscal_ItensPERC_TRIBICMS.AsFloat)) < 100) and
-     (StrToFloat(FormatFloat('0.00',fDMSPEDFiscal.cdsNotaFiscal_ItensPERC_ICMS.AsFloat)) > 0) then
-  begin
-    vAux := StrToFloat(FormatFloat('0.0000',100 - fDMSPEDFiscal.cdsNotaFiscal_ItensPERC_TRIBICMS.AsFloat));
-    vAux := StrToFloat(FormatFloat('0.00',((fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_TOTAL.AsFloat * vAux) * fDMSPEDFiscal.cdsNotaFiscal_ItensPERC_ICMS.AsFloat) / 100));
-    fDMSPEDFiscal.mC190Vlr_Reducao_ICMS.AsFloat := StrToFloat(FormatFloat('0.00',fDMSPEDFiscal.mC190Vlr_Reducao_ICMS.AsFloat + vAux));
-  end;
-  fDMSPEDFiscal.mC190Vlr_IPI.AsFloat          := fDMSPEDFiscal.mC190Vlr_IPI.AsFloat + fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_IPI.AsFloat;
-  fDMSPEDFiscal.mC190Cod_OBS.AsString         := '';
-  fDMSPEDFiscal.mC190.Post;
+    vAux_Aliq := StrToFloat(FormatFloat('0.000',fDMSPEDFiscal.cdsNotaFiscal_ItensPERC_ICMS.AsFloat));
+    if fDMSPEDFiscal.mC190.FindKey([StrToFloat(FormatFloat('0',fDMSPEDFiscal.cdsNotaFiscal_ItensCST_ICMS.AsInteger)),fDMSPEDFiscal.cdsNotaFiscal_ItensCODCFOP.AsInteger,vAux_Aliq]) then
+      fDMSPEDFiscal.mC190.Edit
+    else
+    begin
+      fDMSPEDFiscal.mC190.Insert;
+      fDMSPEDFiscal.mC190CST_ICMS.AsInteger := fDMSPEDFiscal.cdsNotaFiscal_ItensCST_ICMS.AsInteger;
+      fDMSPEDFiscal.mC190Cod_CFOP.AsInteger := fDMSPEDFiscal.cdsNotaFiscal_ItensCODCFOP.AsInteger;
+      fDMSPEDFiscal.mC190Perc_ICMS.AsFloat  := StrToFloat(FormatFloat('0.000',vAux_Aliq));
+    end;
+    fDMSPEDFiscal.mC190Vlr_Operacao.AsFloat := fDMSPEDFiscal.mC190Vlr_Operacao.AsFloat + fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_TOTAL.AsFloat
+                                             + fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_FRETE.AsFloat + fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_SEGURO.AsFloat
+                                             + fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_OUTRASDESPESAS.AsFloat
+                                             + fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_ICMSSUBST.AsFloat + fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_IPI.AsFloat;
+    fDMSPEDFiscal.mC190Vlr_Base_ICMS.AsFloat := fDMSPEDFiscal.mC190Vlr_Base_ICMS.AsFloat + fDMSPEDFiscal.cdsNotaFiscal_ItensBASE_ICMS.AsFloat
+                                              + fDMSPEDFiscal.cdsNotaFiscalBASE_ICMSSIMPLES.AsFloat;
+    fDMSPEDFiscal.mC190Vlr_ICMS.AsFloat      := fDMSPEDFiscal.mC190Vlr_ICMS.AsFloat + fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_ICMS.AsFloat
+                                              + fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_ICMSSIMPLES.AsFloat;
+    fDMSPEDFiscal.mC190Vlr_Base_ICMS_ST.AsFloat := fDMSPEDFiscal.mC190Vlr_Base_ICMS_ST.AsFloat + fDMSPEDFiscal.cdsNotaFiscal_ItensBASE_ICMSSUBST.AsFloat;
+    fDMSPEDFiscal.mC190Vlr_ICMS_ST.AsFloat      := fDMSPEDFiscal.mC190Vlr_ICMS_ST.AsFloat + fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_ICMSSUBST.AsFloat;
+    if (StrToFloat(FormatFloat('0.00',fDMSPEDFiscal.cdsNotaFiscal_ItensPERC_TRIBICMS.AsFloat)) > 0) and (StrToFloat(FormatFloat('0.00',fDMSPEDFiscal.cdsNotaFiscal_ItensPERC_TRIBICMS.AsFloat)) < 100) and
+       (StrToFloat(FormatFloat('0.00',fDMSPEDFiscal.cdsNotaFiscal_ItensPERC_ICMS.AsFloat)) > 0) then
+    begin
+      vAux := StrToFloat(FormatFloat('0.0000',100 - fDMSPEDFiscal.cdsNotaFiscal_ItensPERC_TRIBICMS.AsFloat));
+      vAux := StrToFloat(FormatFloat('0.00',((fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_TOTAL.AsFloat * vAux) * fDMSPEDFiscal.cdsNotaFiscal_ItensPERC_ICMS.AsFloat) / 100));
+      fDMSPEDFiscal.mC190Vlr_Reducao_ICMS.AsFloat := StrToFloat(FormatFloat('0.00',fDMSPEDFiscal.mC190Vlr_Reducao_ICMS.AsFloat + vAux));
+    end;
+    fDMSPEDFiscal.mC190Vlr_IPI.AsFloat          := fDMSPEDFiscal.mC190Vlr_IPI.AsFloat + fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_IPI.AsFloat;
+    fDMSPEDFiscal.mC190Cod_OBS.AsString         := '';
+    fDMSPEDFiscal.mC190.Post;
   except
       on E: exception do
       begin
@@ -3663,6 +3663,8 @@ begin
 end;
 
 procedure TfrmSPEDFiscal.NxButton1Click(Sender: TObject);
+var
+  Form : TForm;
 begin
   if (RzCheckList1.ItemChecked[5]) and (not fnc_Valida_Campos('H')) then
     exit;
@@ -3676,6 +3678,7 @@ begin
   fDMSPEDFiscal.mProduto.EmptyDataSet;
   fDMSPEDFiscal.mUnidade.EmptyDataSet;
   fDMSPEDFiscal.mNatureza.EmptyDataSet;
+  fDMSPEDFiscal.qParametros_Est.Open;
 
   if fDMSPEDFiscal.cdsFilialID.AsInteger <> RxDBLookupCombo1.KeyValue then
     fDMSPEDFiscal.cdsFilial.Locate('ID',RxDBLookupCombo1.KeyValue,([Locaseinsensitive]));
@@ -3683,29 +3686,36 @@ begin
   fDMSPEDFiscal.qUF.ParamByName('UF').AsString := fDMSPEDFiscal.cdsFilialUF.AsString;
   fDMSPEDFiscal.qUF.Open;
 
-  vGerar_K := (RzCheckList1.ItemChecked[6]);
+  Form := TForm.Create(Application);
+  uUtilPadrao.prc_Form_Aguarde(Form);
 
-  if (RzCheckList1.ItemChecked[2]) or (RzCheckList1.ItemChecked[3]) then
-    prc_Movimento;
+  try
+    vGerar_K := (RzCheckList1.ItemChecked[6]);
 
-  if (RzCheckList1.ItemChecked[5]) then
-    prc_Verifica_Produtos_Balanco;
+    if (RzCheckList1.ItemChecked[2]) or (RzCheckList1.ItemChecked[3]) then
+      prc_Movimento;
 
-  if (RzCheckList1.ItemChecked[6]) then
-  begin
-    prc_Consultar_PosseEstoque;
-    prc_Le_PosseEstoque;
+    if (RzCheckList1.ItemChecked[5]) then
+      prc_Verifica_Produtos_Balanco;
+
+    if (RzCheckList1.ItemChecked[6]) then
+    begin
+      prc_Consultar_PosseEstoque;
+      prc_Le_PosseEstoque;
+    end;
+
+    if (RzCheckList1.ItemChecked[1]) then
+      prc_Gerar_Bloco_0;
+    if (RzCheckList1.ItemChecked[4]) then
+      prc_gerar_Bloco_E;
+    if (RzCheckList1.ItemChecked[5]) then
+      prc_Gerar_Bloco_H;
+    if (RzCheckList1.ItemChecked[6]) then
+      prc_Gerar_Bloco_K;
+    btnGravar_TxtClick(Sender);
+  finally
+    FreeAndNil(Form);
   end;
-
-  if (RzCheckList1.ItemChecked[1]) then
-    prc_Gerar_Bloco_0;
-  if (RzCheckList1.ItemChecked[4]) then
-    prc_gerar_Bloco_E;
-  if (RzCheckList1.ItemChecked[5]) then
-    prc_Gerar_Bloco_H;
-  if (RzCheckList1.ItemChecked[6]) then
-    prc_Gerar_Bloco_K;
-  btnGravar_TxtClick(Sender);
 end;
 
 procedure TfrmSPEDFiscal.prc_Gerar_Bloco_E;

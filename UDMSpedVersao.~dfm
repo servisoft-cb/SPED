@@ -1,7 +1,7 @@
 object DMSpedVersao: TDMSpedVersao
   OldCreateOrder = False
-  Left = 421
-  Top = 206
+  Left = 65533
+  Top = 70
   Height = 271
   Width = 422
   object sdsSPEDVersao: TSQLDataSet
@@ -45,7 +45,6 @@ object DMSpedVersao: TDMSpedVersao
     Top = 32
     object cdsSpedVersaoID: TIntegerField
       FieldName = 'ID'
-      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       Required = True
     end
     object cdsSpedVersaoDTINICIO: TDateField
