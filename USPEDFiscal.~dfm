@@ -3,7 +3,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
   Top = 48
   Width = 1133
   Height = 641
-  Caption = 'Gerar SPED Fiscal    (Vers'#227'o  10/02/2020  1.0.16) '
+  Caption = 'Gerar SPED Fiscal    (Vers'#227'o  13/02/2020  1.0.18) '
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -387,7 +387,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edtFile: TEdit
           Left = 22
           Top = 28
-          Width = 342
+          Width = 334
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 0
@@ -396,7 +396,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           OnExit = edtFileChange
         end
         object cbConcomitante: TCheckBox
-          Left = 388
+          Left = 380
           Top = 30
           Width = 134
           Height = 19
@@ -419,7 +419,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edNotas: TEdit
           Left = 654
           Top = 29
-          Width = 105
+          Width = 97
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 2
@@ -634,20 +634,20 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object DateEdit1: TDateEdit
           Left = 91
           Top = 3
-          Width = 95
+          Width = 94
           Height = 21
           NumGlyphs = 2
           TabOrder = 0
-          Text = '01/01/2019'
+          Text = '01/01/2020'
         end
         object DateEdit2: TDateEdit
           Left = 242
           Top = 3
-          Width = 95
+          Width = 94
           Height = 21
           NumGlyphs = 2
           TabOrder = 1
-          Text = '31/01/2019'
+          Text = '31/01/2020'
         end
         object RxDBLookupCombo1: TRxDBLookupCombo
           Left = 91
@@ -782,11 +782,11 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           object DateEdit3: TDateEdit
             Left = 116
             Top = 56
-            Width = 94
+            Width = 93
             Height = 21
             NumGlyphs = 2
             TabOrder = 2
-            Text = '31/12/2018'
+            Text = '31/12/2019'
           end
           object ckImobilizado: TCheckBox
             Left = 240
@@ -948,15 +948,25 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           TabOrder = 10
           OnClick = NxButton3Click
         end
+        object ck0600: TCheckBox
+          Left = 192
+          Top = 120
+          Width = 209
+          Height = 17
+          Caption = 'Gerar Centro de Custo (Reg. 0600)'
+          Checked = True
+          State = cbChecked
+          TabOrder = 11
+        end
       end
       object RzPageControl1: TRzPageControl
         Left = 0
         Top = 141
         Width = 1113
         Height = 438
-        ActivePage = TS_SPED
+        ActivePage = TS_Resumo
         Align = alClient
-        TabIndex = 0
+        TabIndex = 2
         TabOrder = 1
         FixedDimension = 19
         object TS_SPED: TRzTabSheet
@@ -1092,6 +1102,89 @@ object frmSPEDFiscal: TfrmSPEDFiscal
                 Expanded = False
                 FieldName = 'TIPO_EST'
                 Width = 64
+                Visible = True
+              end>
+          end
+        end
+        object TS_Resumo: TRzTabSheet
+          Caption = 'Resumo'
+          object SMDBGrid2: TSMDBGrid
+            Left = 0
+            Top = 0
+            Width = 1109
+            Height = 415
+            Align = alClient
+            Ctl3D = False
+            DataSource = DMSPEDFiscal.dsmAuxResumo
+            Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
+            ParentCtl3D = False
+            ReadOnly = True
+            TabOrder = 0
+            TitleFont.Charset = DEFAULT_CHARSET
+            TitleFont.Color = clWindowText
+            TitleFont.Height = -11
+            TitleFont.Name = 'Tahoma'
+            TitleFont.Style = []
+            Flat = True
+            BandsFont.Charset = DEFAULT_CHARSET
+            BandsFont.Color = clWindowText
+            BandsFont.Height = -11
+            BandsFont.Name = 'MS Sans Serif'
+            BandsFont.Style = []
+            Groupings = <>
+            GridStyle.Style = gsCustom
+            GridStyle.OddColor = clWindow
+            GridStyle.EvenColor = clWindow
+            TitleHeight.PixelCount = 24
+            FooterColor = clBtnFace
+            ExOptions = [eoENTERlikeTAB, eoKeepSelection, eoStandardPopup, eoBLOBEditor, eoTitleWordWrap]
+            RegistryKey = 'Software\Scalabium'
+            RegistrySection = 'SMDBGrid'
+            WidthOfIndicator = 11
+            DefaultRowHeight = 17
+            ScrollBars = ssHorizontal
+            ColCount = 6
+            RowCount = 2
+            Columns = <
+              item
+                Expanded = False
+                FieldName = 'Registro'
+                Title.Alignment = taCenter
+                Title.Color = 16777143
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'Descricao_Sped'
+                Title.Alignment = taCenter
+                Title.Caption = 'Tipo SPED'
+                Title.Color = 16777143
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'Desc_Posse'
+                Title.Alignment = taCenter
+                Title.Caption = 'Posse'
+                Title.Color = 16777143
+                Width = 263
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'Qtd'
+                Title.Alignment = taCenter
+                Title.Color = 16777143
+                Width = 105
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'Vlr_Total'
+                Title.Alignment = taCenter
+                Title.Caption = 'Vlr. Total'
+                Title.Color = 16777143
+                Width = 124
                 Visible = True
               end>
           end

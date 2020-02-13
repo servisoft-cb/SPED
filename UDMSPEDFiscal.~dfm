@@ -4010,25 +4010,26 @@ object DMSPEDFiscal: TDMSPEDFiscal
     CommandText = 
       'SELECT AUX.*'#13#10'FROM ('#13#10'SELECT EM.ID_PRODUTO, EM.TAMANHO, SUM(EM.Q' +
       'TD2) QTD_ESTOQUE, PRO.REFERENCIA,'#13#10'PRO.NOME NOME_PRODUTO, PRO.UN' +
-      'IDADE, EM.id_cor, COMB.NOME NOME_COMBINACAO, PRO.TIPO_REG,'#13#10' (se' +
-      'lect SUM(ENT.QTD * ENT.VLR_UNITARIO) VLR_ENTRADA'#13#10'  FROM estoque' +
-      '_mov ENT'#13#10'  WHERE ENT.tipo_es = '#39'E'#39#13#10'    AND ENT.gerar_custo = '#39 +
-      'S'#39#13#10'    AND ENT.ID_PRODUTO = EM.ID_PRODUTO'#13#10'    AND ENT.tamanho ' +
-      '= EM.TAMANHO'#13#10'    AND ENT.FILIAL = :FILIAL'#13#10'    AND ENT.DTMOVIME' +
-      'NTO <= :DTMOVIMENTO) VLR_ENTRADA,'#13#10' (select SUM(ENT.QTD) QTD_ENT' +
-      'RADA'#13#10'    FROM estoque_mov ENT'#13#10'     WHERE ENT.tipo_es = '#39'E'#39#13#10'  ' +
-      '     AND ENT.gerar_custo = '#39'S'#39#13#10'       AND ENT.ID_PRODUTO = EM.I' +
-      'D_PRODUTO'#13#10'       AND ENT.tamanho = EM.TAMANHO'#13#10'       AND ENT.F' +
-      'ILIAL = :FILIAL'#13#10'       AND ENT.DTMOVIMENTO <= :DTMOVIMENTO) QTD' +
-      '_ENTRADA,'#13#10'SUM('#13#10'  CASE'#13#10'    WHEN coalesce(EM.perc_ipi,0) > 0 an' +
-      'd EM.tipo_es = '#39'E'#39' THEN ROUND(((EM.vlr_unitario * EM.perc_ipi / ' +
-      '100) * EM.qtd),3)'#13#10'    ELSE 0'#13#10'    END) VLR_IPI'#13#10#13#10' FROM ESTOQUE' +
-      '_MOV EM'#13#10' INNER JOIN PRODUTO PRO'#13#10' ON EM.ID_PRODUTO = PRO.ID'#13#10' L' +
-      'EFT JOIN COMBINACAO COMB'#13#10' ON EM.ID_COR = COMB.ID'#13#10' WHERE EM.FIL' +
-      'IAL = :FILIAL'#13#10'   AND EM.DTMOVIMENTO <= :DTMOVIMENTO'#13#10'   AND PRO' +
-      '.INATIVO = '#39'N'#39#13#10'   AND PRO.ESTOQUE = '#39'S'#39#13#10'GROUP BY EM.ID_PRODUTO' +
-      ', EM.TAMANHO, PRO.REFERENCIA, PRO.NOME, PRO.UNIDADE, EM.id_cor, ' +
-      'COMB.NOME, PRO.TIPO_REG)'#13#10'AUX'#13#10'WHERE QTD_ESTOQUE > 0'#13#10#13#10
+      'IDADE, EM.id_cor, COMB.NOME NOME_COMBINACAO, PRO.TIPO_REG, PRO.s' +
+      'ped_tipo_item,'#13#10' (select SUM(ENT.QTD * ENT.VLR_UNITARIO) VLR_ENT' +
+      'RADA '#13#10'  FROM estoque_mov ENT'#13#10'  WHERE ENT.tipo_es = '#39'E'#39#13#10'    AN' +
+      'D ENT.gerar_custo = '#39'S'#39#13#10'    AND ENT.ID_PRODUTO = EM.ID_PRODUTO'#13 +
+      #10'    AND ENT.tamanho = EM.TAMANHO'#13#10'    AND ENT.FILIAL = :FILIAL'#13 +
+      #10'    AND ENT.DTMOVIMENTO <= :DTMOVIMENTO) VLR_ENTRADA,'#13#10' (select' +
+      ' SUM(ENT.QTD) QTD_ENTRADA'#13#10'    FROM estoque_mov ENT'#13#10'     WHERE ' +
+      'ENT.tipo_es = '#39'E'#39#13#10'       AND ENT.gerar_custo = '#39'S'#39#13#10'       AND ' +
+      'ENT.ID_PRODUTO = EM.ID_PRODUTO'#13#10'       AND ENT.tamanho = EM.TAMA' +
+      'NHO'#13#10'       AND ENT.FILIAL = :FILIAL'#13#10'       AND ENT.DTMOVIMENTO' +
+      ' <= :DTMOVIMENTO) QTD_ENTRADA,'#13#10'SUM('#13#10'  CASE'#13#10'    WHEN coalesce(' +
+      'EM.perc_ipi,0) > 0 and EM.tipo_es = '#39'E'#39' THEN ROUND(((EM.vlr_unit' +
+      'ario * EM.perc_ipi / 100) * EM.qtd),3)'#13#10'    ELSE 0'#13#10'    END) VLR' +
+      '_IPI'#13#10#13#10' FROM ESTOQUE_MOV EM'#13#10' INNER JOIN PRODUTO PRO'#13#10' ON EM.ID' +
+      '_PRODUTO = PRO.ID'#13#10' LEFT JOIN COMBINACAO COMB'#13#10' ON EM.ID_COR = C' +
+      'OMB.ID'#13#10' WHERE EM.FILIAL = :FILIAL'#13#10'   AND EM.DTMOVIMENTO <= :DT' +
+      'MOVIMENTO'#13#10'   AND PRO.INATIVO = '#39'N'#39#13#10'   AND PRO.ESTOQUE = '#39'S'#39#13#10'G' +
+      'ROUP BY EM.ID_PRODUTO, EM.TAMANHO, PRO.REFERENCIA, PRO.NOME, PRO' +
+      '.UNIDADE, EM.id_cor, COMB.NOME, PRO.TIPO_REG, PRO.sped_tipo_item' +
+      ')'#13#10'AUX'#13#10'WHERE QTD_ESTOQUE > 0'#13#10#13#10
     MaxBlobSize = -1
     Params = <
       item
@@ -4129,6 +4130,21 @@ object DMSPEDFiscal: TDMSPEDFiscal
     end
     object cdsBalancoVLR_IPI: TFloatField
       FieldName = 'VLR_IPI'
+    end
+    object cdsBalancoTIPO_REG: TStringField
+      FieldName = 'TIPO_REG'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsBalancoSPED_TIPO_ITEM: TStringField
+      FieldName = 'SPED_TIPO_ITEM'
+      Size = 2
+    end
+    object cdsBalancoclDesc_Tipo_Sped: TStringField
+      FieldKind = fkCalculated
+      FieldName = 'clDesc_Tipo_Sped'
+      Size = 30
+      Calculated = True
     end
   end
   object dsBalanco: TDataSource
@@ -4612,5 +4628,115 @@ object DMSPEDFiscal: TDMSPEDFiscal
     DataSet = cdsPosseEstoque_NaoApagar
     Left = 600
     Top = 424
+  end
+  object qParametros_Est: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQL.Strings = (
+      'SELECT GERAR_REG_H020'
+      'FROM PARAMETROS_EST')
+    SQLConnection = dmDatabase.scoDados
+    Left = 624
+    Top = 96
+    object qParametros_EstGERAR_REG_H020: TStringField
+      FieldName = 'GERAR_REG_H020'
+      FixedChar = True
+      Size = 1
+    end
+  end
+  object mAuxResumo: TClientDataSet
+    Active = True
+    Aggregates = <>
+    FieldDefs = <
+      item
+        Name = 'Bloco'
+        DataType = ftString
+        Size = 2
+      end
+      item
+        Name = 'Registro'
+        DataType = ftString
+        Size = 4
+      end
+      item
+        Name = 'Tipo_SPED'
+        DataType = ftString
+        Size = 2
+      end
+      item
+        Name = 'Descricao_Sped'
+        DataType = ftString
+        Size = 30
+      end
+      item
+        Name = 'Qtd'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Vlr_Total'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Posse'
+        DataType = ftString
+        Size = 2
+      end
+      item
+        Name = 'Desc_Posse'
+        DataType = ftString
+        Size = 40
+      end>
+    IndexDefs = <>
+    Params = <>
+    StoreDefs = True
+    OnNewRecord = mAuxResumoNewRecord
+    Left = 240
+    Top = 304
+    Data = {
+      E90000009619E0BD010000001800000008000000000003000000E90005426C6F
+      636F010049000000010005574944544802000200020008526567697374726F01
+      00490000000100055749445448020002000400095469706F5F53504544010049
+      00000001000557494454480200020002000E44657363726963616F5F53706564
+      0100490000000100055749445448020002001E00035174640800040000000000
+      09566C725F546F74616C080004000000000005506F7373650100490000000100
+      0557494454480200020002000A446573635F506F737365010049000000010005
+      57494454480200020028000000}
+    object mAuxResumoBloco: TStringField
+      FieldName = 'Bloco'
+      Size = 2
+    end
+    object mAuxResumoRegistro: TStringField
+      FieldName = 'Registro'
+      Size = 4
+    end
+    object mAuxResumoTipo_SPED: TStringField
+      FieldName = 'Tipo_SPED'
+      Size = 2
+    end
+    object mAuxResumoDescricao_Sped: TStringField
+      FieldName = 'Descricao_Sped'
+      Size = 30
+    end
+    object mAuxResumoQtd: TFloatField
+      FieldName = 'Qtd'
+      DisplayFormat = '0.000#'
+    end
+    object mAuxResumoVlr_Total: TFloatField
+      FieldName = 'Vlr_Total'
+      DisplayFormat = '0.00'
+    end
+    object mAuxResumoPosse: TStringField
+      FieldName = 'Posse'
+      Size = 2
+    end
+    object mAuxResumoDesc_Posse: TStringField
+      FieldName = 'Desc_Posse'
+      Size = 40
+    end
+  end
+  object dsmAuxResumo: TDataSource
+    DataSet = mAuxResumo
+    Left = 272
+    Top = 304
   end
 end
