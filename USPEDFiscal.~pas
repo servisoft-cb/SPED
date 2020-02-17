@@ -99,6 +99,7 @@ type
     ck0600: TCheckBox;
     TS_Resumo: TRzTabSheet;
     SMDBGrid2: TSMDBGrid;
+    ckICMSH020: TCheckBox;
     procedure btnB_0Click(Sender: TObject);
     procedure btnB_9Click(Sender: TObject);
     procedure btnTXTClick(Sender: TObject);
@@ -3235,19 +3236,25 @@ begin
         begin
           with RegistroH020New do
           begin
-            CST_ICMS := '000';
+            if (fDMSPEDFiscal.cdsBalancoSPED_TIPO_ITEM.AsString = '04') and (ckICMSH020.Checked) then
+              CST_ICMS := '041'
+            else
+              CST_ICMS := '000';
             BC_ICMS  := StrToFloat(FormatFloat('0.000000',fDMSPEDFiscal.cdsBalancoclPreco_Medio.AsFloat));
-            VL_ICMS  := StrToFloat(FormatFloat('0.00',((fDMSPEDFiscal.cdsBalancoclPreco_Medio.AsFloat * fDMSPEDFiscal.qUFPERC_ICMS.AsFloat) / 100)));
+            if (fDMSPEDFiscal.cdsBalancoSPED_TIPO_ITEM.AsString = '04') and (ckICMSH020.Checked) then
+              VL_ICMS  := StrToFloat(FormatFloat('0.00',0))
+            else
+              VL_ICMS  := StrToFloat(FormatFloat('0.00',((fDMSPEDFiscal.cdsBalancoclPreco_Medio.AsFloat * fDMSPEDFiscal.qUFPERC_ICMS.AsFloat) / 100)));
             vContador_Reg_H := vContador_Reg_H + 1;
           end;
         end;
-        if fDMSPEDFiscal.mAuxResumo.Locate('Tipo_SPED;Registro',VarArrayOf([fDMSPEDFiscal.cdsBalancoSPED_TIPO_ITEM.AsString,'H020']),[locaseinsensitive]) then
+        if fDMSPEDFiscal.mAuxResumo.Locate('Tipo_SPED;Registro',VarArrayOf([fDMSPEDFiscal.cdsBalancoSPED_TIPO_ITEM.AsString,'H010']),[locaseinsensitive]) then
           fDMSPEDFiscal.mAuxResumo.Edit
         else
         begin
           fDMSPEDFiscal.mAuxResumo.Insert;
           fDMSPEDFiscal.mAuxResumoBloco.AsString          := 'H';
-          fDMSPEDFiscal.mAuxResumoRegistro.AsString       := 'H020';
+          fDMSPEDFiscal.mAuxResumoRegistro.AsString       := 'H010';
           fDMSPEDFiscal.mAuxResumoTipo_SPED.AsString      := fDMSPEDFiscal.cdsBalancoSPED_TIPO_ITEM.AsString;
           fDMSPEDFiscal.mAuxResumoDescricao_Sped.AsString := fDMSPEDFiscal.cdsBalancoclDesc_Tipo_Sped.AsString;
           fDMSPEDFiscal.mAuxResumoPosse.AsString          := '';

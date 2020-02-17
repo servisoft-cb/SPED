@@ -3,7 +3,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
   Top = 48
   Width = 1133
   Height = 641
-  Caption = 'Gerar SPED Fiscal    (Vers'#227'o  13/02/2020  1.0.18) '
+  Caption = 'Gerar SPED Fiscal    (Vers'#227'o  17/02/2020  1.0.20) '
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -387,7 +387,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edtFile: TEdit
           Left = 22
           Top = 28
-          Width = 334
+          Width = 326
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 0
@@ -396,7 +396,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           OnExit = edtFileChange
         end
         object cbConcomitante: TCheckBox
-          Left = 380
+          Left = 372
           Top = 30
           Width = 134
           Height = 19
@@ -419,7 +419,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edNotas: TEdit
           Left = 654
           Top = 29
-          Width = 97
+          Width = 89
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 2
@@ -949,7 +949,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           OnClick = NxButton3Click
         end
         object ck0600: TCheckBox
-          Left = 192
+          Left = 8
           Top = 120
           Width = 209
           Height = 17
@@ -957,6 +957,14 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           Checked = True
           State = cbChecked
           TabOrder = 11
+        end
+        object ckICMSH020: TCheckBox
+          Left = 232
+          Top = 120
+          Width = 188
+          Height = 17
+          Caption = 'Produto Final (H020 ICMS Isento)'
+          TabOrder = 12
         end
       end
       object RzPageControl1: TRzPageControl
