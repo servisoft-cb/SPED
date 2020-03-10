@@ -100,6 +100,11 @@ type
     TS_Resumo: TRzTabSheet;
     SMDBGrid2: TSMDBGrid;
     ckICMSH020: TCheckBox;
+    ckImp_BlocoK: TCheckBox;
+    TS_Bloco_K: TRzTabSheet;
+    SMDBGrid3: TSMDBGrid;
+    Panel4: TPanel;
+    btnImp_Bloco_K: TNxButton;
     procedure btnB_0Click(Sender: TObject);
     procedure btnB_9Click(Sender: TObject);
     procedure btnTXTClick(Sender: TObject);
@@ -128,6 +133,7 @@ type
     procedure NxButton1Click(Sender: TObject);
     procedure NxButton2Click(Sender: TObject);
     procedure NxButton3Click(Sender: TObject);
+    procedure btnImp_Bloco_KClick(Sender: TObject);
   private
     fDMSPEDFiscal: TDMSPEDFiscal;
     vContador_Reg_0 : Integer;
@@ -3600,11 +3606,7 @@ begin
         if copy(fDMSPEDFiscal.cdsPosseEstoqueTIPO_EST.AsString,1,1) = '2' then
           IND_EST  := estPropTerceirosInformante;
         if (copy(fDMSPEDFiscal.cdsPosseEstoqueTIPO_EST.AsString,1,1) = '1') or (copy(fDMSPEDFiscal.cdsPosseEstoqueTIPO_EST.AsString,1,1) = '2') then
-        begin
-          //if fDMSPEDFiscal.cdsPosseEstoqueID_PESSOA.AsInteger <= 0 then
-          //  showmessage('aqui');
           COD_PART := fDMSPEDFiscal.cdsPosseEstoqueID_PESSOA.AsString;
-        end;
         DT_EST := DateEdit2.Date;
       end;
     end;
@@ -3662,10 +3664,32 @@ begin
     fDMSPEDFiscal.mAuxResumoQtd.AsFloat       := StrToFloat(FormatFloat('0.0000',fDMSPEDFiscal.mAuxResumoQtd.AsFloat + fDMSPEDFiscal.cdsPosseEstoqueQTD.AsFloat));
     fDMSPEDFiscal.mAuxResumo.Post;
 
+    //Gravar o mK200 para impressão   10/03/2020
+    if ckImp_BlocoK.Checked then
+    begin
+      fDMSPEDFiscal.mK200.Insert;
+      fDMSPEDFiscal.mK200DtEstoque.AsDateTime  := DateEdit2.Date;
+      fDMSPEDFiscal.mK200Cod_Produto.AsString  := vCodigo;
+      fDMSPEDFiscal.mK200Nome_Produto.AsString := fDMSPEDFiscal.cdsPosseEstoqueNOME_PRODUTO.AsString;
+      fDMSPEDFiscal.mK200Qtd.AsFloat          := StrToFloat(FormatFloat('0.000',fDMSPEDFiscal.cdsPosseEstoqueQTD.AsFloat));
+      if (copy(fDMSPEDFiscal.cdsPosseEstoqueTIPO_EST.AsString,1,1) = '1') or (copy(fDMSPEDFiscal.cdsPosseEstoqueTIPO_EST.AsString,1,1) = '2') then
+      begin
+         fDMSPEDFiscal.mK200Cod_Pessoa.AsString  := fDMSPEDFiscal.cdsPosseEstoqueID_PESSOA.AsString;
+         fDMSPEDFiscal.mK200Nome_Pessoa.AsString := fDMSPEDFiscal.cdsPosseEstoqueNOME_TERCEIRO.AsString;
+      end;
+      fDMSPEDFiscal.mK200Posse.AsString      := fDMSPEDFiscal.cdsPosseEstoqueTIPO_EST.AsString;
+      fDMSPEDFiscal.mK200Desc_Posse.AsString := fDMSPEDFiscal.mAuxResumoDesc_Posse.AsString;
+      fDMSPEDFiscal.mK200Descricao_Sped.AsString := fDMSPEDFiscal.mAuxResumoDescricao_Sped.AsString;
+      fDMSPEDFiscal.mK200Tipo_Sped.AsString      := fDMSPEDFiscal.mAuxResumoTipo_SPED.AsString;
+      fDMSPEDFiscal.mK200.Post;
+    end;
+    //****************************
+
     vContador_Reg_K := vContador_Reg_K + 1;
 
     fDMSPEDFiscal.cdsPosseEstoque.Next;
   end;
+  fDMSPEDFiscal.mK200.IndexFieldNames := 'Posse;Tipo_Sped;Nome_Produto';
 end;
 
 procedure TfrmSPEDFiscal.prc_Bloco_K_Reg_K990;
@@ -3751,7 +3775,13 @@ begin
     MessageDlg('*** Data do inventário inválida' , mtError, [mbOk], 0);
     exit;
   end;
+  if trim(RxDBLookupCombo1.Text) = '' then
+  begin
+    MessageDlg('*** Filial não informada' , mtError, [mbOk], 0);
+    exit;
+  end;
 
+  fDMSPEDFiscal.mK200.EmptyDataSet;
   fDMSPEDFiscal.mPessoa.EmptyDataSet;
   fDMSPEDFiscal.mProduto.EmptyDataSet;
   fDMSPEDFiscal.mUnidade.EmptyDataSet;
@@ -3791,6 +3821,7 @@ begin
       prc_Gerar_Bloco_H;
     if (RzCheckList1.ItemChecked[6]) then
       prc_Gerar_Bloco_K;
+
     btnGravar_TxtClick(Sender);
   finally
     FreeAndNil(Form);
@@ -3883,5 +3914,24 @@ begin
   frmConsPosseEstoque.ShowModal;
   FreeAndNil(frmConsPosseEstoque);
 end;
+
+procedure TfrmSPEDFiscal.btnImp_Bloco_KClick(Sender: TObject);
+var
+  vArq : String;
+  vOpcaoAux : String;
+begin
+  vArq := ExtractFilePath(Application.ExeName) + 'Relatorios\Bloco_K200.fr3';
+  if (FileExists(vArq)) and (trim(vArq) <> '') then
+    fDMSPEDFiscal.frxReport1.Report.LoadFromFile(vArq)
+  else
+  begin
+    ShowMessage('Relatório não localizado! ' + vArq);
+    Exit;
+  end;
+  vOpcaoAux := '(Data: ' + DateEdit1.Text + ' a ' + DateEdit2.Text + ')'
+             + '(Filial: ' + RxDBLookupCombo1.Text + ')';
+  fDMSPEDFiscal.frxReport1.variables['ImpOpcao'] := QuotedStr(vOpcaoAux);
+  fDMSPEDFiscal.frxReport1.ShowReport;
+end;            '
 
 end.

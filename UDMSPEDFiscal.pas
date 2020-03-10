@@ -3,7 +3,8 @@ unit UDMSPEDFiscal;
 interface
 
 uses
-  SysUtils, Classes, FMTBcd, DB, SqlExpr, DBClient, Provider;
+  SysUtils, Classes, FMTBcd, DB, SqlExpr, DBClient, Provider, frxClass,
+  frxDBSet, frxBarcode;
 
 type
   TDMSPEDFiscal = class(TDataModule)
@@ -1068,6 +1069,21 @@ type
     mAuxResumoPosse: TStringField;
     mAuxResumoDesc_Posse: TStringField;
     dsmAuxResumo: TDataSource;
+    mK200: TClientDataSet;
+    mK200DtEstoque: TDateField;
+    mK200Cod_Produto: TStringField;
+    mK200Qtd: TFloatField;
+    mK200Cod_Pessoa: TStringField;
+    mK200Nome_Pessoa: TStringField;
+    dsmK200: TDataSource;
+    mK200Posse: TStringField;
+    mK200Desc_Posse: TStringField;
+    mK200Descricao_Sped: TStringField;
+    mK200Tipo_Sped: TStringField;
+    mK200Nome_Produto: TStringField;
+    frxReport1: TfrxReport;
+    frxBarCodeObject1: TfrxBarCodeObject;
+    frxmK200: TfrxDBDataset;
     procedure DataModuleCreate(Sender: TObject);
     procedure cdsBalancoCalcFields(DataSet: TDataSet);
     procedure mAuxResumoNewRecord(DataSet: TDataSet);

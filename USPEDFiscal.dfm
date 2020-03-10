@@ -3,7 +3,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
   Top = 48
   Width = 1133
   Height = 641
-  Caption = 'Gerar SPED Fiscal    (Vers'#227'o  17/02/2020  1.0.20) '
+  Caption = 'Gerar SPED Fiscal    (Vers'#227'o  10/03/2020  1.0.21) '
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -387,7 +387,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edtFile: TEdit
           Left = 22
           Top = 28
-          Width = 326
+          Width = 318
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 0
@@ -396,7 +396,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           OnExit = edtFileChange
         end
         object cbConcomitante: TCheckBox
-          Left = 372
+          Left = 364
           Top = 30
           Width = 134
           Height = 19
@@ -419,7 +419,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edNotas: TEdit
           Left = 654
           Top = 29
-          Width = 89
+          Width = 81
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 2
@@ -847,7 +847,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         end
         object NxButton1: TNxButton
           Left = 754
-          Top = 107
+          Top = 110
           Width = 145
           Height = 30
           Caption = 'Gerar'
@@ -918,7 +918,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         end
         object NxButton2: TNxButton
           Left = 464
-          Top = 107
+          Top = 110
           Width = 145
           Height = 30
           Caption = 'Vers'#227'o SPED'
@@ -934,7 +934,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         end
         object NxButton3: TNxButton
           Left = 609
-          Top = 107
+          Top = 110
           Width = 145
           Height = 30
           Caption = 'Cons. Estoque'
@@ -966,15 +966,24 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           Caption = 'Produto Final (H020 ICMS Isento)'
           TabOrder = 12
         end
+        object ckImp_BlocoK: TCheckBox
+          Left = 759
+          Top = 91
+          Width = 122
+          Height = 17
+          Caption = 'Imprimir Bloco K'
+          TabOrder = 13
+        end
       end
       object RzPageControl1: TRzPageControl
         Left = 0
         Top = 141
         Width = 1113
         Height = 438
-        ActivePage = TS_Resumo
+        ActivePage = TS_Bloco_K
+        ActivePageDefault = TS_Resumo
         Align = alClient
-        TabIndex = 2
+        TabIndex = 3
         TabOrder = 1
         FixedDimension = 19
         object TS_SPED: TRzTabSheet
@@ -1195,6 +1204,136 @@ object frmSPEDFiscal: TfrmSPEDFiscal
                 Width = 124
                 Visible = True
               end>
+          end
+        end
+        object TS_Bloco_K: TRzTabSheet
+          Caption = 'Bloco K'
+          object SMDBGrid3: TSMDBGrid
+            Left = 0
+            Top = 34
+            Width = 1109
+            Height = 381
+            Align = alClient
+            Ctl3D = False
+            DataSource = DMSPEDFiscal.dsmK200
+            Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
+            ParentCtl3D = False
+            ReadOnly = True
+            TabOrder = 0
+            TitleFont.Charset = DEFAULT_CHARSET
+            TitleFont.Color = clWindowText
+            TitleFont.Height = -11
+            TitleFont.Name = 'Tahoma'
+            TitleFont.Style = []
+            Flat = True
+            BandsFont.Charset = DEFAULT_CHARSET
+            BandsFont.Color = clWindowText
+            BandsFont.Height = -11
+            BandsFont.Name = 'MS Sans Serif'
+            BandsFont.Style = []
+            Groupings = <>
+            GridStyle.Style = gsCustom
+            GridStyle.OddColor = clWindow
+            GridStyle.EvenColor = clWindow
+            TitleHeight.PixelCount = 24
+            FooterColor = clBtnFace
+            ExOptions = [eoENTERlikeTAB, eoKeepSelection, eoStandardPopup, eoBLOBEditor, eoTitleWordWrap]
+            RegistryKey = 'Software\Scalabium'
+            RegistrySection = 'SMDBGrid'
+            WidthOfIndicator = 11
+            DefaultRowHeight = 17
+            ScrollBars = ssHorizontal
+            ColCount = 8
+            RowCount = 2
+            Columns = <
+              item
+                Expanded = False
+                FieldName = 'Desc_Posse'
+                Title.Alignment = taCenter
+                Title.Caption = 'Posse'
+                Title.Color = 4227327
+                Width = 205
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'Descricao_Sped'
+                Title.Alignment = taCenter
+                Title.Caption = 'Tipo SPED'
+                Title.Color = 4227327
+                Width = 147
+                Visible = True
+              end
+              item
+                Alignment = taCenter
+                Expanded = False
+                FieldName = 'Cod_Produto'
+                Title.Alignment = taCenter
+                Title.Caption = 'C'#243'd. Produto'
+                Title.Color = 4227327
+                Width = 169
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'Nome_Produto'
+                Title.Alignment = taCenter
+                Title.Caption = 'Nome Produto'
+                Title.Color = 4227327
+                Width = 404
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'Qtd'
+                Title.Alignment = taCenter
+                Title.Color = 4227327
+                Width = 86
+                Visible = True
+              end
+              item
+                Alignment = taCenter
+                Expanded = False
+                FieldName = 'Cod_Pessoa'
+                Title.Alignment = taCenter
+                Title.Caption = 'C'#243'd. Pessoa'
+                Title.Color = 4227327
+                Width = 83
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'Nome_Pessoa'
+                Title.Alignment = taCenter
+                Title.Caption = 'Nome Pessoa'
+                Title.Color = 4227327
+                Visible = True
+              end>
+          end
+          object Panel4: TPanel
+            Left = 0
+            Top = 0
+            Width = 1109
+            Height = 34
+            Align = alTop
+            Color = clSilver
+            TabOrder = 1
+            object btnImp_Bloco_K: TNxButton
+              Left = 7
+              Top = 3
+              Width = 145
+              Height = 30
+              Caption = 'Imprimir'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlue
+              Font.Height = -16
+              Font.Name = 'Verdana'
+              Font.Style = [fsBold]
+              GlyphSpacing = 10
+              ParentFont = False
+              TabOrder = 0
+              OnClick = btnImp_Bloco_KClick
+            end
           end
         end
       end

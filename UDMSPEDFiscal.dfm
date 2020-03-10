@@ -2,8 +2,8 @@ object DMSPEDFiscal: TDMSPEDFiscal
   OldCreateOrder = False
   OnCreate = DataModuleCreate
   Left = 278
-  Top = 131
-  Height = 551
+  Top = 103
+  Height = 676
   Width = 1000
   object qParametros: TSQLQuery
     MaxBlobSize = -1
@@ -4738,5 +4738,159 @@ object DMSPEDFiscal: TDMSPEDFiscal
     DataSet = mAuxResumo
     Left = 272
     Top = 304
+  end
+  object mK200: TClientDataSet
+    Active = True
+    Aggregates = <>
+    FieldDefs = <
+      item
+        Name = 'DtEstoque'
+        DataType = ftDate
+      end
+      item
+        Name = 'Cod_Produto'
+        DataType = ftString
+        Size = 60
+      end
+      item
+        Name = 'Qtd'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Cod_Pessoa'
+        DataType = ftString
+        Size = 60
+      end
+      item
+        Name = 'Nome_Pessoa'
+        DataType = ftString
+        Size = 100
+      end
+      item
+        Name = 'Posse'
+        DataType = ftString
+        Size = 1
+      end
+      item
+        Name = 'Desc_Posse'
+        DataType = ftString
+        Size = 40
+      end
+      item
+        Name = 'Descricao_Sped'
+        DataType = ftString
+        Size = 30
+      end
+      item
+        Name = 'Tipo_Sped'
+        DataType = ftString
+        Size = 2
+      end
+      item
+        Name = 'Nome_Produto'
+        DataType = ftString
+        Size = 100
+      end>
+    IndexDefs = <>
+    Params = <>
+    StoreDefs = True
+    Left = 288
+    Top = 408
+    Data = {
+      320100009619E0BD01000000180000000A000000000003000000320109447445
+      73746F71756504000600000000000B436F645F50726F6475746F010049000000
+      0100055749445448020002003C000351746408000400000000000A436F645F50
+      6573736F610100490000000100055749445448020002003C000B4E6F6D655F50
+      6573736F61010049000000010005574944544802000200640005506F73736501
+      004900000001000557494454480200020001000A446573635F506F7373650100
+      4900000001000557494454480200020028000E44657363726963616F5F537065
+      640100490000000100055749445448020002001E00095469706F5F5370656401
+      004900000001000557494454480200020002000C4E6F6D655F50726F6475746F
+      01004900000001000557494454480200020064000000}
+    object mK200DtEstoque: TDateField
+      FieldName = 'DtEstoque'
+    end
+    object mK200Cod_Produto: TStringField
+      FieldName = 'Cod_Produto'
+      Size = 60
+    end
+    object mK200Qtd: TFloatField
+      FieldName = 'Qtd'
+    end
+    object mK200Cod_Pessoa: TStringField
+      FieldName = 'Cod_Pessoa'
+      Size = 60
+    end
+    object mK200Nome_Pessoa: TStringField
+      FieldName = 'Nome_Pessoa'
+      Size = 100
+    end
+    object mK200Posse: TStringField
+      FieldName = 'Posse'
+      Size = 1
+    end
+    object mK200Desc_Posse: TStringField
+      DisplayWidth = 40
+      FieldName = 'Desc_Posse'
+      Size = 40
+    end
+    object mK200Descricao_Sped: TStringField
+      FieldName = 'Descricao_Sped'
+      Size = 30
+    end
+    object mK200Tipo_Sped: TStringField
+      FieldName = 'Tipo_Sped'
+      Size = 2
+    end
+    object mK200Nome_Produto: TStringField
+      FieldName = 'Nome_Produto'
+      Size = 100
+    end
+  end
+  object dsmK200: TDataSource
+    DataSet = mK200
+    Left = 312
+    Top = 408
+  end
+  object frxReport1: TfrxReport
+    Tag = 1
+    Version = '5.6.8'
+    DotMatrixReport = False
+    EngineOptions.PrintIfEmpty = False
+    IniFile = '\Software\Fast Reports'
+    PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick]
+    PreviewOptions.Zoom = 1.000000000000000000
+    PrintOptions.Printer = 'Default'
+    PrintOptions.PrintOnSheet = 0
+    ReportOptions.CreateDate = 41928.578144409700000000
+    ReportOptions.LastChange = 43539.490109618050000000
+    ScriptLanguage = 'PascalScript'
+    StoreInDFM = False
+    OnReportPrint = 'frxReportOnReportPrint'
+    Left = 408
+    Top = 512
+  end
+  object frxBarCodeObject1: TfrxBarCodeObject
+    Left = 448
+    Top = 512
+  end
+  object frxmK200: TfrxDBDataset
+    UserName = 'frxmK200'
+    CloseDataSource = False
+    FieldAliases.Strings = (
+      'DtEstoque=DtEstoque'
+      'Cod_Produto=Cod_Produto'
+      'Qtd=Qtd'
+      'Cod_Pessoa=Cod_Pessoa'
+      'Nome_Pessoa=Nome_Pessoa'
+      'Posse=Posse'
+      'Desc_Posse=Desc_Posse'
+      'Descricao_Sped=Descricao_Sped'
+      'Tipo_Sped=Tipo_Sped'
+      'Nome_Produto=Nome_Produto')
+    DataSource = dsmK200
+    BCDToCurrency = False
+    Left = 488
+    Top = 512
   end
 end
