@@ -11,7 +11,8 @@ uses
   rsDBUtils in '..\rslib\nova\rsDBUtils.pas',
   UDMSpedVersao in 'UDMSpedVersao.pas' {DMSpedVersao: TDataModule},
   UCadSpedVersao in 'UCadSpedVersao.pas' {frmCadSpedVersao},
-  UConsPosseEstoque in 'UConsPosseEstoque.pas' {frmConsPosseEstoque};
+  UConsPosseEstoque in 'UConsPosseEstoque.pas' {frmConsPosseEstoque},
+  DmdDatabase_NFeBD in '..\ssfacil\DmdDatabase_NFeBD.pas' {dmDatabase_NFeBD: TDataModule};
 
 {$R *.res}
 

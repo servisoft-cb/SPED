@@ -84,7 +84,7 @@ type
     Label16: TLabel;
     Label17: TLabel;
     ComboBox2: TComboBox;
-    ComboBox3: TComboBox;
+    cbTipo: TComboBox;
     DateEdit3: TDateEdit;
     RzCheckList1: TRzCheckList;
     NxButton1: TNxButton;
@@ -1499,6 +1499,7 @@ begin
     11 : ACBrSPEDFiscal1.Bloco_0.Registro0000New.COD_VER := vlVersao110;
     12 : ACBrSPEDFiscal1.Bloco_0.Registro0000New.COD_VER := vlVersao111;
     13 : ACBrSPEDFiscal1.Bloco_0.Registro0000New.COD_VER := vlVersao112;
+    15 : ACBrSPEDFiscal1.Bloco_0.Registro0000New.COD_VER := vlVersao114;
   end;
   case cbFinalidade.ItemIndex of
     0 : ACBrSPEDFiscal1.Bloco_0.Registro0000New.COD_FIN := raOriginal;
@@ -3139,6 +3140,7 @@ var
 begin
   vQtdAux     := 0;
   vComando    := fDMSPEDFiscal.ctBalanco;
+
   {vComandoAux := '';
   i:= Pos('GROUP',vComando);
   if i > 0 then
@@ -3146,14 +3148,26 @@ begin
     vComandoAux := copy(vComando,i,Length(vComando)-i);
     delete(vComando,i,Length(vComando)-i);
   end;}
-  case ComboBox3.ItemIndex of
+  {case ComboBox3.ItemIndex of
     0 : vComando := vComando + ' AND TIPO_REG = ' + QuotedStr('P');
     1 : vComando := vComando + ' AND TIPO_REG = ' + QuotedStr('M');
     2 : vComando := vComando + ' AND TIPO_REG = ' + QuotedStr('C');
     3 : vComando := vComando + ' AND TIPO_REG = ' + QuotedStr('S');
-  end;
-  if (ComboBox3.ItemIndex = 4) and not(ckImobilizado.Checked) then
-    vComando := vComando + ' AND TIPO_REG <> ' + QuotedStr('I');
+  end;}
+  //if ckImobilizado.Checked then
+    //vImobilizado := ' OR SPED_TIPO_ITEM = ' + QuotedStr('08');
+
+  vComando := vComando + ' AND (SPED_TIPO_ITEM = ' + QuotedStr('00')
+                       + '   OR SPED_TIPO_ITEM = ' + QuotedStr('01')
+                       + '   OR SPED_TIPO_ITEM = ' + QuotedStr('02')
+                       + '   OR SPED_TIPO_ITEM = ' + QuotedStr('03')
+                       + '   OR SPED_TIPO_ITEM = ' + QuotedStr('04')
+                       + '   OR SPED_TIPO_ITEM = ' + QuotedStr('05')
+                       + '   OR SPED_TIPO_ITEM = ' + QuotedStr('06')
+                       + '   OR SPED_TIPO_ITEM = ' + QuotedStr('10') + ')';
+
+  //if (ComboBox3.ItemIndex = 4) and not(ckImobilizado.Checked) then
+    //vComando := vComando + ' AND TIPO_REG <> ' + QuotedStr('I');
 
   fDMSPEDFiscal.cdsBalanco.Close;
   fDMSPEDFiscal.sdsBalanco.CommandText := vComando;
@@ -3197,6 +3211,14 @@ begin
     begin
         DT_INV := DT_FIN; //o valor informado no campo deve ser menor ou igual ao valor no campo DT_FIN do registro 0000
         VL_INV := StrToCurr(FormatCurr('0.00',vVlrEstoque));
+        case ComboBox2.ItemIndex of
+          0 : MOT_INV := miFinalPeriodo;
+          1 : MOT_INV := miMudancaTributacao;
+          2 : MOT_INV := miBaixaCadastral;
+          3 : MOT_INV := miRegimePagamento;
+          4 : MOT_INV := miDeterminacaoFiscos;
+          5 : MOT_INV := miControleMercadoriaSujeitaST;
+        end;
     end;
     vContador_Reg_H := vContador_Reg_H + 1;
   end;
