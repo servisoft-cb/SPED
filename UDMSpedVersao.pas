@@ -21,6 +21,8 @@ type
     cdsSpedVersaoDTFINAL: TDateField;
     cdsSpedVersaoCOD_LEIAUTE: TIntegerField;
     cdsSpedVersaoVERSAO_LEIAUTE: TStringField;
+    procedure dspSpedVersaoGetTableName(Sender: TObject; DataSet: TDataSet;
+      var TableName: String);
   private
     { Private declarations }
   public
@@ -35,5 +37,11 @@ implementation
 uses DmdDatabase;
 
 {$R *.dfm}
+
+procedure TDMSpedVersao.dspSpedVersaoGetTableName(Sender: TObject;
+  DataSet: TDataSet; var TableName: String);
+begin
+  TableName := 'SPED_VERSAO';
+end;
 
 end.

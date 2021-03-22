@@ -5,6 +5,8 @@ object DMSpedVersao: TDMSpedVersao
   Height = 271
   Width = 422
   object sdsSPEDVersao: TSQLDataSet
+    NoMetadata = True
+    GetMetadata = False
     CommandText = 'select *'#13#10'from sped_versao'
     MaxBlobSize = -1
     Params = <>
@@ -33,16 +35,17 @@ object DMSpedVersao: TDMSpedVersao
   object dspSpedVersao: TDataSetProvider
     DataSet = sdsSPEDVersao
     UpdateMode = upWhereKeyOnly
+    OnGetTableName = dspSpedVersaoGetTableName
     Left = 96
-    Top = 32
+    Top = 33
   end
   object cdsSpedVersao: TClientDataSet
     Aggregates = <>
     IndexFieldNames = 'ID'
     Params = <>
     ProviderName = 'dspSpedVersao'
-    Left = 144
-    Top = 32
+    Left = 145
+    Top = 35
     object cdsSpedVersaoID: TIntegerField
       FieldName = 'ID'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]

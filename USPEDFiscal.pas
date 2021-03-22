@@ -2049,6 +2049,9 @@ begin
 
   RzCheckList1.ItemChecked[1] := True;
   RzCheckList1.ItemChecked[6] := True;
+
+  DateEdit1.Date := IncMonth(EncodeDate(YearOf(Date),MonthOf(Date),01), -1);
+  DateEdit2.Date := EncodeDate(YearOf(DateEdit1.Date),MonthOf(DateEdit1.Date),DaysInAMonth(YearOf(DateEdit1.Date),MonthOf(DateEdit1.Date)));
 end;
 
 procedure TfrmSPEDFiscal.prc_Bloco_0_Reg_0450;

@@ -20,7 +20,7 @@ object frmCadSpedVersao: TfrmCadSpedVersao
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 508
+    Width = 516
     Height = 41
     Align = alTop
     Color = clSilver
@@ -91,8 +91,8 @@ object frmCadSpedVersao: TfrmCadSpedVersao
   object SMDBGrid1: TSMDBGrid
     Left = 0
     Top = 157
-    Width = 508
-    Height = 285
+    Width = 516
+    Height = 292
     Align = alClient
     DataSource = DMSpedVersao.dsSpedVersao
     Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
@@ -171,7 +171,7 @@ object frmCadSpedVersao: TfrmCadSpedVersao
   object Panel2: TPanel
     Left = 0
     Top = 41
-    Width = 508
+    Width = 516
     Height = 116
     Align = alTop
     Enabled = False
@@ -235,7 +235,7 @@ object frmCadSpedVersao: TfrmCadSpedVersao
       Height = 21
       DataField = 'COD_LEIAUTE'
       DataSource = DMSpedVersao.dsSpedVersao
-      TabOrder = 1
+      TabOrder = 3
     end
     object DBEdit5: TDBEdit
       Left = 96
@@ -244,17 +244,17 @@ object frmCadSpedVersao: TfrmCadSpedVersao
       Height = 21
       DataField = 'VERSAO_LEIAUTE'
       DataSource = DMSpedVersao.dsSpedVersao
-      TabOrder = 2
+      TabOrder = 4
     end
     object DBDateEdit1: TDBDateEdit
       Left = 96
-      Top = 26
+      Top = 28
       Width = 121
       Height = 21
       DataField = 'DTINICIO'
       DataSource = DMSpedVersao.dsSpedVersao
       NumGlyphs = 2
-      TabOrder = 3
+      TabOrder = 1
     end
     object DBDateEdit2: TDBDateEdit
       Left = 96
@@ -264,7 +264,7 @@ object frmCadSpedVersao: TfrmCadSpedVersao
       DataField = 'DTFINAL'
       DataSource = DMSpedVersao.dsSpedVersao
       NumGlyphs = 2
-      TabOrder = 4
+      TabOrder = 2
     end
   end
 end
