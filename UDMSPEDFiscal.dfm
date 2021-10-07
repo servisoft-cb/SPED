@@ -30,7 +30,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
   object sdsFilial: TSQLDataSet
     NoMetadata = True
     GetMetadata = False
-    CommandText = 'SELECT *'#13#10'FROM FILIAL'
+    CommandText = 'SELECT *'#13#10'FROM FILIAL'#13#10'WHERE INATIVO = '#39'N'#39
     MaxBlobSize = -1
     Params = <>
     SQLConnection = dmDatabase.scoDados
@@ -4008,28 +4008,29 @@ object DMSPEDFiscal: TDMSPEDFiscal
     NoMetadata = True
     GetMetadata = False
     CommandText = 
-      'SELECT AUX.*'#13#10'FROM ('#13#10'SELECT EM.ID_PRODUTO, EM.TAMANHO, SUM(EM.Q' +
-      'TD2) QTD_ESTOQUE, PRO.REFERENCIA,'#13#10'PRO.NOME NOME_PRODUTO, PRO.UN' +
-      'IDADE, EM.id_cor, COMB.NOME NOME_COMBINACAO, PRO.TIPO_REG, PRO.s' +
-      'ped_tipo_item,'#13#10' (select SUM(ENT.QTD * ENT.VLR_UNITARIO) VLR_ENT' +
-      'RADA '#13#10'  FROM estoque_mov ENT'#13#10'  WHERE ENT.tipo_es = '#39'E'#39#13#10'    AN' +
-      'D ENT.gerar_custo = '#39'S'#39#13#10'    AND ENT.ID_PRODUTO = EM.ID_PRODUTO'#13 +
-      #10'    AND ENT.tamanho = EM.TAMANHO'#13#10'    AND ENT.FILIAL = :FILIAL'#13 +
-      #10'    AND ENT.DTMOVIMENTO <= :DTMOVIMENTO) VLR_ENTRADA,'#13#10' (select' +
-      ' SUM(ENT.QTD) QTD_ENTRADA'#13#10'    FROM estoque_mov ENT'#13#10'     WHERE ' +
-      'ENT.tipo_es = '#39'E'#39#13#10'       AND ENT.gerar_custo = '#39'S'#39#13#10'       AND ' +
-      'ENT.ID_PRODUTO = EM.ID_PRODUTO'#13#10'       AND ENT.tamanho = EM.TAMA' +
-      'NHO'#13#10'       AND ENT.FILIAL = :FILIAL'#13#10'       AND ENT.DTMOVIMENTO' +
-      ' <= :DTMOVIMENTO) QTD_ENTRADA,'#13#10'SUM('#13#10'  CASE'#13#10'    WHEN coalesce(' +
-      'EM.perc_ipi,0) > 0 and EM.tipo_es = '#39'E'#39' THEN ROUND(((EM.vlr_unit' +
-      'ario * EM.perc_ipi / 100) * EM.qtd),3)'#13#10'    ELSE 0'#13#10'    END) VLR' +
-      '_IPI'#13#10#13#10' FROM ESTOQUE_MOV EM'#13#10' INNER JOIN PRODUTO PRO'#13#10' ON EM.ID' +
-      '_PRODUTO = PRO.ID'#13#10' LEFT JOIN COMBINACAO COMB'#13#10' ON EM.ID_COR = C' +
-      'OMB.ID'#13#10' WHERE EM.FILIAL = :FILIAL'#13#10'   AND EM.DTMOVIMENTO <= :DT' +
-      'MOVIMENTO'#13#10'   AND PRO.INATIVO = '#39'N'#39#13#10'   AND PRO.ESTOQUE = '#39'S'#39#13#10'G' +
-      'ROUP BY EM.ID_PRODUTO, EM.TAMANHO, PRO.REFERENCIA, PRO.NOME, PRO' +
-      '.UNIDADE, EM.id_cor, COMB.NOME, PRO.TIPO_REG, PRO.sped_tipo_item' +
-      ')'#13#10'AUX'#13#10'WHERE QTD_ESTOQUE > 0'#13#10#13#10
+      'SELECT AUX.*'#13#10'FROM ('#13#10'SELECT EM.ID_PRODUTO, EM.TAMANHO, sum(cast' +
+      '(EM.QTD2  AS NUMERIC(15,5))) QTD_ESTOQUE, PRO.REFERENCIA,'#13#10'PRO.N' +
+      'OME NOME_PRODUTO, PRO.UNIDADE, EM.id_cor, COMB.NOME NOME_COMBINA' +
+      'CAO, PRO.TIPO_REG, PRO.sped_tipo_item,'#13#10' (select SUM(ENT.QTD * E' +
+      'NT.VLR_UNITARIO) VLR_ENTRADA '#13#10'  FROM estoque_mov ENT'#13#10'  WHERE E' +
+      'NT.tipo_es = '#39'E'#39#13#10'    AND ENT.gerar_custo = '#39'S'#39#13#10'    AND ENT.ID_' +
+      'PRODUTO = EM.ID_PRODUTO'#13#10'    AND ENT.tamanho = EM.TAMANHO'#13#10'    A' +
+      'ND ENT.FILIAL = :FILIAL'#13#10'    AND ENT.DTMOVIMENTO <= :DTMOVIMENTO' +
+      ') VLR_ENTRADA,'#13#10' (select sum(cast(ENT.QTD AS NUMERIC(15,5))) QTD' +
+      '_ENTRADA'#13#10'    FROM estoque_mov ENT'#13#10'     WHERE ENT.tipo_es = '#39'E'#39 +
+      #13#10'       AND ENT.gerar_custo = '#39'S'#39#13#10'       AND ENT.ID_PRODUTO = ' +
+      'EM.ID_PRODUTO'#13#10'       AND ENT.tamanho = EM.TAMANHO'#13#10'       AND E' +
+      'NT.FILIAL = :FILIAL'#13#10'       AND ENT.DTMOVIMENTO <= :DTMOVIMENTO)' +
+      ' QTD_ENTRADA,'#13#10'SUM('#13#10'  CASE'#13#10'    WHEN coalesce(EM.perc_ipi,0) > ' +
+      '0 and EM.tipo_es = '#39'E'#39' THEN ROUND(((EM.vlr_unitario * EM.perc_ip' +
+      'i / 100) * EM.qtd),3)'#13#10'    ELSE 0'#13#10'    END) VLR_IPI'#13#10#13#10' FROM EST' +
+      'OQUE_MOV EM'#13#10' INNER JOIN PRODUTO PRO'#13#10' ON EM.ID_PRODUTO = PRO.ID' +
+      #13#10' LEFT JOIN COMBINACAO COMB'#13#10' ON EM.ID_COR = COMB.ID'#13#10' WHERE EM' +
+      '.FILIAL = :FILIAL'#13#10'   AND EM.DTMOVIMENTO <= :DTMOVIMENTO'#13#10'   AND' +
+      ' PRO.INATIVO = '#39'N'#39#13#10'   AND PRO.ESTOQUE = '#39'S'#39#13#10'GROUP BY EM.ID_PRO' +
+      'DUTO, EM.TAMANHO, PRO.REFERENCIA, PRO.NOME, PRO.UNIDADE, EM.id_c' +
+      'or, COMB.NOME, PRO.TIPO_REG, PRO.sped_tipo_item)'#13#10'AUX'#13#10'WHERE QTD' +
+      '_ESTOQUE > 0'#13#10#13#10
     MaxBlobSize = -1
     Params = <
       item
@@ -4077,18 +4078,14 @@ object DMSPEDFiscal: TDMSPEDFiscal
     Params = <>
     ProviderName = 'dspBalanco'
     OnCalcFields = cdsBalancoCalcFields
-    Left = 560
-    Top = 328
+    Left = 561
+    Top = 329
     object cdsBalancoID_PRODUTO: TIntegerField
       FieldName = 'ID_PRODUTO'
     end
     object cdsBalancoTAMANHO: TStringField
       FieldName = 'TAMANHO'
       Size = 10
-    end
-    object cdsBalancoQTD_ESTOQUE: TFloatField
-      FieldName = 'QTD_ESTOQUE'
-      DisplayFormat = '0.000##'
     end
     object cdsBalancoREFERENCIA: TStringField
       FieldName = 'REFERENCIA'
@@ -4103,10 +4100,6 @@ object DMSPEDFiscal: TDMSPEDFiscal
     end
     object cdsBalancoVLR_ENTRADA: TFloatField
       FieldName = 'VLR_ENTRADA'
-      DisplayFormat = '0.000##'
-    end
-    object cdsBalancoQTD_ENTRADA: TFloatField
-      FieldName = 'QTD_ENTRADA'
       DisplayFormat = '0.000##'
     end
     object cdsBalancoclPreco_Medio: TFloatField
@@ -4145,6 +4138,16 @@ object DMSPEDFiscal: TDMSPEDFiscal
       FieldName = 'clDesc_Tipo_Sped'
       Size = 30
       Calculated = True
+    end
+    object cdsBalancoQTD_ESTOQUE: TFMTBCDField
+      FieldName = 'QTD_ESTOQUE'
+      Precision = 15
+      Size = 5
+    end
+    object cdsBalancoQTD_ENTRADA: TFMTBCDField
+      FieldName = 'QTD_ENTRADA'
+      Precision = 15
+      Size = 5
     end
   end
   object dsBalanco: TDataSource
@@ -4211,51 +4214,52 @@ object DMSPEDFiscal: TDMSPEDFiscal
       'select aux.*,'#13#10'CASE'#13#10'  WHEN TIPO_EST = '#39'00'#39' THEN '#39'Pr'#243'prio'#39#13#10'  WH' +
       'EN TIPO_EST = '#39'1E'#39' THEN '#39'Em Terceiro'#39#13#10'  WHEN TIPO_EST = '#39'22'#39' TH' +
       'EN '#39'De Terceiro'#39#13#10'ELSE '#39#39#13#10'end DESC_TIPO_EST'#13#10#13#10'from('#13#10'SELECT EM' +
-      '.id_produto, EM.filial, EM.ID_COR, sum(em.qtd2) QTD, C.NOME NOME' +
-      '_COMBINACAO,'#13#10'P.NOME NOME_PRODUTO, P.REFERENCIA, 0 ID_PESSOA, '#39'0' +
-      '0'#39' TIPO_EST, EM.TAMANHO,'#13#10'P.unidade, P.sped_tipo_item, P.ncm_ex,' +
-      ' NCM.ncm, '#39#39' NOME_TERCEIRO'#13#10'FROM ESTOQUE_MOV EM'#13#10'INNER JOIN PROD' +
-      'UTO P'#13#10'ON EM.ID_PRODUTO = P.ID'#13#10'LEFT JOIN TAB_NCM NCM'#13#10'ON P.ID_N' +
-      'CM = NCM.ID'#13#10'LEFT JOIN operacao_nota ONOTA'#13#10'ON EM.ID_OPERACAO = ' +
-      'ONOTA.ID'#13#10'LEFT JOIN COMBINACAO C'#13#10'ON EM.ID_COR = C.ID'#13#10'WHERE EM.' +
-      'FILIAL = :FILIAL'#13#10'  AND P.POSSE_MATERIAL = '#39'E'#39#13#10'  AND P.INATIVO ' +
-      '= '#39'N'#39#13#10'  AND ((P.SPED_TIPO_ITEM = '#39'00'#39')'#13#10'     or (P.SPED_TIPO_IT' +
-      'EM = '#39'01'#39')'#13#10'     or (P.SPED_TIPO_ITEM = '#39'02'#39')'#13#10'     or (P.SPED_T' +
-      'IPO_ITEM = '#39'03'#39')'#13#10'     or (P.SPED_TIPO_ITEM = '#39'04'#39')'#13#10'     or (P.' +
-      'SPED_TIPO_ITEM = '#39'05'#39')'#13#10'     or (P.SPED_TIPO_ITEM = '#39'06'#39')'#13#10'     ' +
-      'or (P.SPED_TIPO_ITEM = '#39'10'#39'))'#13#10'  AND EM.DTMOVIMENTO <= :DTMOVIME' +
-      'NTO'#13#10'GROUP BY EM.id_produto, EM.filial, EM.ID_COR, C.NOME,'#13#10'P.NO' +
-      'ME, P.REFERENCIA, ID_PESSOA, EM.TAMANHO,'#13#10'P.unidade, P.sped_tipo' +
-      '_item, P.ncm_ex, NCM.ncm, NOME_TERCEIRO'#13#10#13#10'UNION'#13#10#13#10'SELECT ET.id' +
-      '_produto, ET.filial, ET.id_cor, (sum(et.qtdrestante)) QTD, et.no' +
-      'me_combinacao,'#13#10'et.NOME_PRODUTO, et.REFERENCIA, et.id_terceiro I' +
-      'D_PESSOA , '#39'1E'#39' TIPO_EST, et.tamanho,'#13#10'et.unidade, et.sped_tipo_' +
-      'item, p.ncm_ex, NCM.ncm, ET.nome_terceiro'#13#10'FROM vestoque_em_terc' +
-      ' ET'#13#10'INNER JOIN PRODUTO P'#13#10'ON et.ID_PRODUTO = P.ID'#13#10'LEFT JOIN TA' +
-      'B_NCM NCM'#13#10'ON P.ID_NCM = NCM.ID'#13#10'WHERE et.FILIAL = :FILIAL'#13#10'  AN' +
-      'D ((et.SPED_TIPO_ITEM = '#39'00'#39')'#13#10'     or (et.SPED_TIPO_ITEM = '#39'01'#39 +
-      ')'#13#10'     or (et.SPED_TIPO_ITEM = '#39'02'#39')'#13#10'     or (et.SPED_TIPO_ITE' +
-      'M = '#39'03'#39')'#13#10'     or (et.SPED_TIPO_ITEM = '#39'04'#39')'#13#10'     or (et.SPED_' +
-      'TIPO_ITEM = '#39'05'#39')'#13#10'     or (et.SPED_TIPO_ITEM = '#39'06'#39')'#13#10'     or (' +
-      'et.SPED_TIPO_ITEM = '#39'10'#39'))'#13#10'  AND et.data <= :DTMOVIMENTO'#13#10'GROUP' +
-      ' BY et.id_produto, et.filial, et.ID_COR, et.nome_combinacao,'#13#10'et' +
-      '.nome_produto, et.referencia, et.id_terceiro, et.tamanho,'#13#10'et.un' +
-      'idade, et.sped_tipo_item, P.ncm_ex, NCM.ncm, ET.nome_terceiro'#13#10#13 +
-      #10'UNION'#13#10#13#10'SELECT DT.id_produto, DT.filial, DT.ID_COR, sum(DT.qtd' +
-      'restante) QTD, DT.NOME_COMBINACAO,'#13#10'DT.NOME_PRODUTO, DT.REFERENC' +
-      'IA, DT.id_terceiro ID_PESSOA , '#39'22'#39' TIPO_EST, DT.TAMANHO,'#13#10'DT.un' +
-      'idade, DT.sped_tipo_item, P.ncm_ex, NCM.ncm, DT.nome_terceiro'#13#10'F' +
-      'ROM vestoque_de_terc DT'#13#10'INNER JOIN PRODUTO P'#13#10'ON DT.ID_PRODUTO ' +
-      '= P.ID'#13#10'LEFT JOIN TAB_NCM NCM'#13#10'ON P.ID_NCM = NCM.ID'#13#10'WHERE DT.FI' +
-      'LIAL = :FILIAL'#13#10'  AND DT.data <= :DTMOVIMENTO'#13#10'  AND ((DT.SPED_T' +
-      'IPO_ITEM = '#39'00'#39')'#13#10'     or (DT.SPED_TIPO_ITEM = '#39'01'#39')'#13#10'     or (D' +
-      'T.SPED_TIPO_ITEM = '#39'02'#39')'#13#10'     or (DT.SPED_TIPO_ITEM = '#39'03'#39')'#13#10'  ' +
-      '   or (DT.SPED_TIPO_ITEM = '#39'04'#39')'#13#10'     or (DT.SPED_TIPO_ITEM = '#39 +
-      '05'#39')'#13#10'     or (DT.SPED_TIPO_ITEM = '#39'06'#39')'#13#10'     or (DT.SPED_TIPO_' +
-      'ITEM = '#39'10'#39'))'#13#10'GROUP BY DT.id_produto, DT.filial, DT.ID_COR, DT.' +
-      'nome_combinacao,'#13#10'DT.nome_produto, DT.REFERENCIA, DT.id_terceiro' +
-      ', DT.TAMANHO,'#13#10'DT.unidade, DT.sped_tipo_item, P.ncm_ex, NCM.ncm,' +
-      ' DT.nome_terceiro'#13#10') aux'#13#10'where aux.qtd > 0'#13#10#13#10
+      '.id_produto, EM.filial, EM.ID_COR, sum(cast(EM.QTD2  AS NUMERIC(' +
+      '15,5))) QTD, C.NOME NOME_COMBINACAO,'#13#10'P.NOME NOME_PRODUTO, P.REF' +
+      'ERENCIA, 0 ID_PESSOA, '#39'00'#39' TIPO_EST, EM.TAMANHO,'#13#10'P.unidade, P.s' +
+      'ped_tipo_item, P.ncm_ex, NCM.ncm, '#39#39' NOME_TERCEIRO'#13#10'FROM ESTOQUE' +
+      '_MOV EM'#13#10'INNER JOIN PRODUTO P'#13#10'ON EM.ID_PRODUTO = P.ID'#13#10'LEFT JOI' +
+      'N TAB_NCM NCM'#13#10'ON P.ID_NCM = NCM.ID'#13#10'LEFT JOIN operacao_nota ONO' +
+      'TA'#13#10'ON EM.ID_OPERACAO = ONOTA.ID'#13#10'LEFT JOIN COMBINACAO C'#13#10'ON EM.' +
+      'ID_COR = C.ID'#13#10'WHERE EM.FILIAL = :FILIAL'#13#10'  AND P.POSSE_MATERIAL' +
+      ' = '#39'E'#39#13#10'  AND P.INATIVO = '#39'N'#39#13#10'  AND ((P.SPED_TIPO_ITEM = '#39'00'#39')'#13 +
+      #10'     or (P.SPED_TIPO_ITEM = '#39'01'#39')'#13#10'     or (P.SPED_TIPO_ITEM = ' +
+      #39'02'#39')'#13#10'     or (P.SPED_TIPO_ITEM = '#39'03'#39')'#13#10'     or (P.SPED_TIPO_I' +
+      'TEM = '#39'04'#39')'#13#10'     or (P.SPED_TIPO_ITEM = '#39'05'#39')'#13#10'     or (P.SPED_' +
+      'TIPO_ITEM = '#39'06'#39')'#13#10'     or (P.SPED_TIPO_ITEM = '#39'10'#39'))'#13#10'  AND EM.' +
+      'DTMOVIMENTO <= :DTMOVIMENTO'#13#10'GROUP BY EM.id_produto, EM.filial, ' +
+      'EM.ID_COR, C.NOME,'#13#10'P.NOME, P.REFERENCIA, ID_PESSOA, EM.TAMANHO,' +
+      #13#10'P.unidade, P.sped_tipo_item, P.ncm_ex, NCM.ncm, NOME_TERCEIRO'#13 +
+      #10#13#10'UNION'#13#10#13#10'SELECT ET.id_produto, ET.filial, ET.id_cor, sum(cast' +
+      '(et.qtdrestante AS NUMERIC(15,5))) QTD, et.nome_combinacao,'#13#10'et.' +
+      'NOME_PRODUTO, et.REFERENCIA, et.id_terceiro ID_PESSOA , '#39'1E'#39' TIP' +
+      'O_EST, et.tamanho,'#13#10'et.unidade, et.sped_tipo_item, p.ncm_ex, NCM' +
+      '.ncm, ET.nome_terceiro'#13#10'FROM vestoque_em_terc ET'#13#10'INNER JOIN PRO' +
+      'DUTO P'#13#10'ON et.ID_PRODUTO = P.ID'#13#10'LEFT JOIN TAB_NCM NCM'#13#10'ON P.ID_' +
+      'NCM = NCM.ID'#13#10'WHERE et.FILIAL = :FILIAL'#13#10'  AND ((et.SPED_TIPO_IT' +
+      'EM = '#39'00'#39')'#13#10'     or (et.SPED_TIPO_ITEM = '#39'01'#39')'#13#10'     or (et.SPED' +
+      '_TIPO_ITEM = '#39'02'#39')'#13#10'     or (et.SPED_TIPO_ITEM = '#39'03'#39')'#13#10'     or ' +
+      '(et.SPED_TIPO_ITEM = '#39'04'#39')'#13#10'     or (et.SPED_TIPO_ITEM = '#39'05'#39')'#13#10 +
+      '     or (et.SPED_TIPO_ITEM = '#39'06'#39')'#13#10'     or (et.SPED_TIPO_ITEM =' +
+      ' '#39'10'#39'))'#13#10'  AND et.data <= :DTMOVIMENTO'#13#10'GROUP BY et.id_produto, ' +
+      'et.filial, et.ID_COR, et.nome_combinacao,'#13#10'et.nome_produto, et.r' +
+      'eferencia, et.id_terceiro, et.tamanho,'#13#10'et.unidade, et.sped_tipo' +
+      '_item, P.ncm_ex, NCM.ncm, ET.nome_terceiro'#13#10#13#10'UNION'#13#10#13#10'SELECT DT' +
+      '.id_produto, DT.filial, DT.ID_COR, sum(cast(DT.qtdrestante AS NU' +
+      'MERIC(15,5))) QTD, DT.NOME_COMBINACAO,'#13#10#13#10'DT.NOME_PRODUTO, DT.RE' +
+      'FERENCIA, DT.id_terceiro ID_PESSOA , '#39'22'#39' TIPO_EST, DT.TAMANHO,'#13 +
+      #10'DT.unidade, DT.sped_tipo_item, P.ncm_ex, NCM.ncm, DT.nome_terce' +
+      'iro'#13#10'FROM vestoque_de_terc DT'#13#10'INNER JOIN PRODUTO P'#13#10'ON DT.ID_PR' +
+      'ODUTO = P.ID'#13#10'LEFT JOIN TAB_NCM NCM'#13#10'ON P.ID_NCM = NCM.ID'#13#10'WHERE' +
+      ' DT.FILIAL = :FILIAL'#13#10'  AND DT.data <= :DTMOVIMENTO'#13#10'  AND ((DT.' +
+      'SPED_TIPO_ITEM = '#39'00'#39')'#13#10'     or (DT.SPED_TIPO_ITEM = '#39'01'#39')'#13#10'    ' +
+      ' or (DT.SPED_TIPO_ITEM = '#39'02'#39')'#13#10'     or (DT.SPED_TIPO_ITEM = '#39'03' +
+      #39')'#13#10'     or (DT.SPED_TIPO_ITEM = '#39'04'#39')'#13#10'     or (DT.SPED_TIPO_IT' +
+      'EM = '#39'05'#39')'#13#10'     or (DT.SPED_TIPO_ITEM = '#39'06'#39')'#13#10'     or (DT.SPED' +
+      '_TIPO_ITEM = '#39'10'#39'))'#13#10'GROUP BY DT.id_produto, DT.filial, DT.ID_CO' +
+      'R, DT.nome_combinacao,'#13#10'DT.nome_produto, DT.REFERENCIA, DT.id_te' +
+      'rceiro, DT.TAMANHO,'#13#10'DT.unidade, DT.sped_tipo_item, P.ncm_ex, NC' +
+      'M.ncm, DT.nome_terceiro'#13#10') aux'#13#10'where aux.qtd > 0'#13#10#13#10
     MaxBlobSize = -1
     Params = <
       item
@@ -4314,9 +4318,6 @@ object DMSPEDFiscal: TDMSPEDFiscal
     object cdsPosseEstoqueID_COR: TIntegerField
       FieldName = 'ID_COR'
     end
-    object cdsPosseEstoqueQTD: TFloatField
-      FieldName = 'QTD'
-    end
     object cdsPosseEstoqueNOME_COMBINACAO: TStringField
       FieldName = 'NOME_COMBINACAO'
       Size = 60
@@ -4366,6 +4367,12 @@ object DMSPEDFiscal: TDMSPEDFiscal
       Required = True
       FixedChar = True
       Size = 11
+    end
+    object cdsPosseEstoqueQTD: TFMTBCDField
+      FieldName = 'QTD'
+      DisplayFormat = '0.000#'
+      Precision = 15
+      Size = 5
     end
   end
   object dsPosseEstoque: TDataSource
@@ -4442,76 +4449,77 @@ object DMSPEDFiscal: TDMSPEDFiscal
     GetMetadata = False
     CommandText = 
       'select aux.*'#13#10'from('#13#10'SELECT EM.id_produto, EM.filial, EM.ID_COR,' +
-      ' sum(em.qtd2) QTD, C.NOME NOME_COMBINACAO,'#13#10'P.NOME NOME_PRODUTO,' +
-      ' P.REFERENCIA, 0 ID_PESSOA, '#39'00'#39' TIPO_EST, EM.TAMANHO,'#13#10'P.unidad' +
-      'e, P.sped_tipo_item, P.ncm_ex, NCM.ncm'#13#10'FROM ESTOQUE_MOV EM'#13#10'INN' +
-      'ER JOIN PRODUTO P'#13#10'ON EM.ID_PRODUTO = P.ID'#13#10'LEFT JOIN TAB_NCM NC' +
-      'M'#13#10'ON P.ID_NCM = NCM.ID'#13#10'LEFT JOIN operacao_nota ONOTA'#13#10'ON EM.ID' +
-      '_OPERACAO = ONOTA.ID'#13#10'LEFT JOIN COMBINACAO C'#13#10'ON EM.ID_COR = C.I' +
-      'D'#13#10'WHERE EM.FILIAL = :FILIAL'#13#10'  AND P.POSSE_MATERIAL = '#39'E'#39#13#10'  AN' +
-      'D P.INATIVO = '#39'N'#39#13#10'  AND ((P.SPED_TIPO_ITEM = '#39'00'#39')'#13#10'     or (P.' +
-      'SPED_TIPO_ITEM = '#39'01'#39')'#13#10'     or (P.SPED_TIPO_ITEM = '#39'02'#39')'#13#10'     ' +
-      'or (P.SPED_TIPO_ITEM = '#39'03'#39')'#13#10'     or (P.SPED_TIPO_ITEM = '#39'04'#39')'#13 +
-      #10'     or (P.SPED_TIPO_ITEM = '#39'05'#39')'#13#10'     or (P.SPED_TIPO_ITEM = ' +
-      #39'06'#39')'#13#10'     or (P.SPED_TIPO_ITEM = '#39'10'#39'))'#13#10'  AND EM.DTMOVIMENTO ' +
-      '<= :DTMOVIMENTO'#13#10'  --AND coalesce(ONOTA.estoque_em_terceiro,'#39'N'#39')' +
-      ' = '#39'S'#39#13#10'GROUP BY EM.id_produto, EM.filial, EM.ID_COR, C.NOME,'#13#10'P' +
-      '.NOME, P.REFERENCIA, ID_PESSOA, EM.TAMANHO,'#13#10'P.unidade, P.sped_t' +
-      'ipo_item, P.ncm_ex, NCM.ncm'#13#10#13#10'UNION'#13#10#13#10'SELECT EM.id_produto, EM' +
-      '.filial, EM.ID_COR, (sum(em.qtd2) * -1) QTD, C.NOME NOME_COMBINA' +
-      'CAO,'#13#10'P.NOME NOME_PRODUTO, P.REFERENCIA, EM.ID_PESSOA , '#39'1E'#39' TIP' +
-      'O_EST, EM.TAMANHO,'#13#10'P.unidade, P.sped_tipo_item, P.ncm_ex, NCM.n' +
-      'cm'#13#10'FROM ESTOQUE_MOV EM'#13#10'INNER JOIN PRODUTO P'#13#10'ON EM.ID_PRODUTO ' +
-      '= P.ID'#13#10'LEFT JOIN TAB_NCM NCM'#13#10'ON P.ID_NCM = NCM.ID'#13#10'LEFT JOIN o' +
-      'peracao_nota ONOTA'#13#10'ON EM.ID_OPERACAO = ONOTA.ID'#13#10'LEFT JOIN COMB' +
-      'INACAO C'#13#10'ON EM.ID_COR = C.ID'#13#10'WHERE EM.FILIAL = :FILIAL'#13#10'  AND ' +
-      'P.INATIVO = '#39'N'#39#13#10'  AND ((P.SPED_TIPO_ITEM = '#39'00'#39')'#13#10'     or (P.SP' +
-      'ED_TIPO_ITEM = '#39'01'#39')'#13#10'     or (P.SPED_TIPO_ITEM = '#39'02'#39')'#13#10'     or' +
-      ' (P.SPED_TIPO_ITEM = '#39'03'#39')'#13#10'     or (P.SPED_TIPO_ITEM = '#39'04'#39')'#13#10' ' +
-      '    or (P.SPED_TIPO_ITEM = '#39'05'#39')'#13#10'     or (P.SPED_TIPO_ITEM = '#39'0' +
-      '6'#39')'#13#10'     or (P.SPED_TIPO_ITEM = '#39'10'#39'))'#13#10'  AND coalesce(P.POSSE_' +
-      'MATERIAL,'#39'E'#39') = '#39'E'#39#13#10'  AND (EM.TIPO_MOV = '#39'NTS'#39' or  EM.TIPO_MOV ' +
-      '= '#39'NTE'#39')'#13#10'  AND EM.DTMOVIMENTO <= :DTMOVIMENTO'#13#10'  AND coalesce(O' +
-      'NOTA.estoque_em_terceiro,'#39'N'#39') = '#39'S'#39#13#10'GROUP BY EM.id_produto, EM.' +
-      'filial, EM.ID_COR, C.NOME,'#13#10'P.NOME, P.REFERENCIA, EM.ID_PESSOA, ' +
-      'EM.TAMANHO,'#13#10'P.unidade, P.sped_tipo_item, P.ncm_ex, NCM.ncm'#13#10#13#10'U' +
-      'NION'#13#10#13#10'SELECT MOV.id_produto, MOV.filial, MOV.ID_COR,'#13#10'SUM(CASE' +
-      #13#10'  WHEN MOV.TIPO_ES = '#39'E'#39' THEN MOV.qtd * -1'#13#10'  WHEN MOV.TIPO_ES' +
-      ' = '#39'S'#39' THEN MOV.qtd '#13#10'  END) QTD'#13#10' , C.NOME NOME_COMBINACAO,'#13#10'P.' +
-      'NOME NOME_PRODUTO, P.REFERENCIA, MOV.ID_PESSOA , '#39'1M'#39' TIPO_EST, ' +
-      'MOV.TAMANHO,'#13#10'P.unidade, P.sped_tipo_item, P.ncm_ex, NCM.ncm'#13#10'FR' +
-      'OM MOVIMENTO MOV'#13#10'INNER JOIN PRODUTO P'#13#10'ON MOV.ID_PRODUTO = P.ID' +
-      #13#10'LEFT JOIN TAB_NCM NCM'#13#10'ON P.ID_NCM = NCM.ID'#13#10'LEFT JOIN COMBINA' +
-      'CAO C'#13#10'ON MOV.ID_COR = C.ID'#13#10'left join tab_cfop CFOP'#13#10'ON MOV.ID_' +
-      'CFOP = CFOP.ID'#13#10'WHERE MOV.FILIAL = :FILIAL'#13#10'  AND MOV.dtentradas' +
-      'aida <= :DTMOVIMENTO'#13#10'  AND MOV.CANCELADO = '#39'N'#39#13#10'  AND MOV.DENEG' +
-      'ADA = '#39'N'#39#13#10'  AND CFOP.beneficiamento = '#39'S'#39#13#10'  AND P.POSSE_MATERI' +
-      'AL = '#39'E'#39#13#10'  AND P.INATIVO = '#39'N'#39#13#10'  AND ((P.SPED_TIPO_ITEM = '#39'00'#39 +
-      ')'#13#10'     or (P.SPED_TIPO_ITEM = '#39'01'#39')'#13#10'     or (P.SPED_TIPO_ITEM ' +
-      '= '#39'02'#39')'#13#10'     or (P.SPED_TIPO_ITEM = '#39'03'#39')'#13#10'     or (P.SPED_TIPO' +
-      '_ITEM = '#39'04'#39')'#13#10'     or (P.SPED_TIPO_ITEM = '#39'05'#39')'#13#10'     or (P.SPE' +
-      'D_TIPO_ITEM = '#39'06'#39')'#13#10'     or (P.SPED_TIPO_ITEM = '#39'10'#39'))'#13#10'GROUP B' +
-      'Y MOV.id_produto, MOV.filial, MOV.ID_COR, C.NOME,'#13#10'P.NOME, P.REF' +
-      'ERENCIA, MOV.ID_PESSOA, MOV.TAMANHO,'#13#10'P.unidade, P.sped_tipo_ite' +
-      'm, P.ncm_ex, NCM.ncm'#13#10#13#10'UNION'#13#10#13#10'SELECT EM.id_produto, EM.filial' +
-      ', EM.ID_COR, sum(em.qtd2) QTD, C.NOME NOME_COMBINACAO,'#13#10'P.NOME N' +
-      'OME_PRODUTO, P.REFERENCIA, EM.ID_PESSOA , '#39'22'#39' TIPO_EST, EM.TAMA' +
-      'NHO,'#13#10'P.unidade, P.sped_tipo_item, P.ncm_ex, NCM.ncm'#13#10'FROM ESTOQ' +
-      'UE_MOV EM'#13#10'INNER JOIN PRODUTO P'#13#10'ON EM.ID_PRODUTO = P.ID'#13#10'LEFT J' +
-      'OIN TAB_NCM NCM'#13#10'ON P.ID_NCM = NCM.ID'#13#10'LEFT JOIN operacao_nota O' +
-      'NOTA'#13#10'ON EM.ID_OPERACAO = ONOTA.ID'#13#10'LEFT JOIN COMBINACAO C'#13#10'ON E' +
-      'M.ID_COR = C.ID'#13#10'WHERE EM.FILIAL = :FILIAL'#13#10'  AND P.POSSE_MATERI' +
-      'AL = '#39'T'#39#13#10'  AND EM.DTMOVIMENTO <= :DTMOVIMENTO'#13#10'  AND P.INATIVO ' +
-      '= '#39'N'#39#13#10'  AND ((P.SPED_TIPO_ITEM = '#39'00'#39')'#13#10'     or (P.SPED_TIPO_IT' +
-      'EM = '#39'01'#39')'#13#10'     or (P.SPED_TIPO_ITEM = '#39'02'#39')'#13#10'     or (P.SPED_T' +
-      'IPO_ITEM = '#39'03'#39')'#13#10'     or (P.SPED_TIPO_ITEM = '#39'04'#39')'#13#10'     or (P.' +
-      'SPED_TIPO_ITEM = '#39'05'#39')'#13#10'     or (P.SPED_TIPO_ITEM = '#39'06'#39')'#13#10'     ' +
-      'or (P.SPED_TIPO_ITEM = '#39'10'#39'))'#13#10'  --AND ((EM.TIPO_MOV = '#39'NTS'#39' or ' +
-      ' EM.TIPO_MOV = '#39'NTE'#39')'#13#10'  --AND coalesce(ONOTA.estoque_de_terceir' +
-      'o,'#39'N'#39') = '#39'S'#39')'#13#10'GROUP BY EM.id_produto, EM.filial, EM.ID_COR, C.N' +
-      'OME,'#13#10'P.NOME, P.REFERENCIA, EM.ID_PESSOA, EM.TAMANHO,'#13#10'P.unidade' +
-      ', P.sped_tipo_item, P.ncm_ex, NCM.ncm'#13#10') aux'#13#10'where aux.qtd > 0'#13 +
-      #10#13#10
+      ' sum(cast(EM.QTD2 AS NUMERIC(15,5))) QTD, C.NOME NOME_COMBINACAO' +
+      ','#13#10'P.NOME NOME_PRODUTO, P.REFERENCIA, 0 ID_PESSOA, '#39'00'#39' TIPO_EST' +
+      ', EM.TAMANHO,'#13#10'P.unidade, P.sped_tipo_item, P.ncm_ex, NCM.ncm'#13#10'F' +
+      'ROM ESTOQUE_MOV EM'#13#10'INNER JOIN PRODUTO P'#13#10'ON EM.ID_PRODUTO = P.I' +
+      'D'#13#10'LEFT JOIN TAB_NCM NCM'#13#10'ON P.ID_NCM = NCM.ID'#13#10'LEFT JOIN operac' +
+      'ao_nota ONOTA'#13#10'ON EM.ID_OPERACAO = ONOTA.ID'#13#10'LEFT JOIN COMBINACA' +
+      'O C'#13#10'ON EM.ID_COR = C.ID'#13#10'WHERE EM.FILIAL = :FILIAL'#13#10'  AND P.POS' +
+      'SE_MATERIAL = '#39'E'#39#13#10'  AND P.INATIVO = '#39'N'#39#13#10'  AND ((P.SPED_TIPO_IT' +
+      'EM = '#39'00'#39')'#13#10'     or (P.SPED_TIPO_ITEM = '#39'01'#39')'#13#10'     or (P.SPED_T' +
+      'IPO_ITEM = '#39'02'#39')'#13#10'     or (P.SPED_TIPO_ITEM = '#39'03'#39')'#13#10'     or (P.' +
+      'SPED_TIPO_ITEM = '#39'04'#39')'#13#10'     or (P.SPED_TIPO_ITEM = '#39'05'#39')'#13#10'     ' +
+      'or (P.SPED_TIPO_ITEM = '#39'06'#39')'#13#10'     or (P.SPED_TIPO_ITEM = '#39'10'#39'))' +
+      #13#10'  AND EM.DTMOVIMENTO <= :DTMOVIMENTO'#13#10'  --AND coalesce(ONOTA.e' +
+      'stoque_em_terceiro,'#39'N'#39') = '#39'S'#39#13#10'GROUP BY EM.id_produto, EM.filial' +
+      ', EM.ID_COR, C.NOME,'#13#10'P.NOME, P.REFERENCIA, ID_PESSOA, EM.TAMANH' +
+      'O,'#13#10'P.unidade, P.sped_tipo_item, P.ncm_ex, NCM.ncm'#13#10#13#10'UNION'#13#10#13#10'S' +
+      'ELECT EM.id_produto, EM.filial, EM.ID_COR, (sum(cast(em.qtd2 AS ' +
+      'NUMERIC(15,5))) * -1) QTD, C.NOME NOME_COMBINACAO,'#13#10'P.NOME NOME_' +
+      'PRODUTO, P.REFERENCIA, EM.ID_PESSOA , '#39'1E'#39' TIPO_EST, EM.TAMANHO,' +
+      #13#10'P.unidade, P.sped_tipo_item, P.ncm_ex, NCM.ncm'#13#10'FROM ESTOQUE_M' +
+      'OV EM'#13#10'INNER JOIN PRODUTO P'#13#10'ON EM.ID_PRODUTO = P.ID'#13#10'LEFT JOIN ' +
+      'TAB_NCM NCM'#13#10'ON P.ID_NCM = NCM.ID'#13#10'LEFT JOIN operacao_nota ONOTA' +
+      #13#10'ON EM.ID_OPERACAO = ONOTA.ID'#13#10'LEFT JOIN COMBINACAO C'#13#10'ON EM.ID' +
+      '_COR = C.ID'#13#10'WHERE EM.FILIAL = :FILIAL'#13#10'  AND P.INATIVO = '#39'N'#39#13#10' ' +
+      ' AND ((P.SPED_TIPO_ITEM = '#39'00'#39')'#13#10'     or (P.SPED_TIPO_ITEM = '#39'01' +
+      #39')'#13#10'     or (P.SPED_TIPO_ITEM = '#39'02'#39')'#13#10'     or (P.SPED_TIPO_ITEM' +
+      ' = '#39'03'#39')'#13#10'     or (P.SPED_TIPO_ITEM = '#39'04'#39')'#13#10'     or (P.SPED_TIP' +
+      'O_ITEM = '#39'05'#39')'#13#10'     or (P.SPED_TIPO_ITEM = '#39'06'#39')'#13#10'     or (P.SP' +
+      'ED_TIPO_ITEM = '#39'10'#39'))'#13#10'  AND coalesce(P.POSSE_MATERIAL,'#39'E'#39') = '#39'E' +
+      #39#13#10'  AND (EM.TIPO_MOV = '#39'NTS'#39' or  EM.TIPO_MOV = '#39'NTE'#39')'#13#10'  AND EM' +
+      '.DTMOVIMENTO <= :DTMOVIMENTO'#13#10'  AND coalesce(ONOTA.estoque_em_te' +
+      'rceiro,'#39'N'#39') = '#39'S'#39#13#10'GROUP BY EM.id_produto, EM.filial, EM.ID_COR,' +
+      ' C.NOME,'#13#10'P.NOME, P.REFERENCIA, EM.ID_PESSOA, EM.TAMANHO,'#13#10'P.uni' +
+      'dade, P.sped_tipo_item, P.ncm_ex, NCM.ncm'#13#10#13#10'UNION'#13#10#13#10'SELECT MOV' +
+      '.id_produto, MOV.filial, MOV.ID_COR,'#13#10'SUM(CASE'#13#10'  WHEN MOV.TIPO_' +
+      'ES = '#39'E'#39' THEN MOV.qtd * -1'#13#10'  WHEN MOV.TIPO_ES = '#39'S'#39' THEN MOV.qt' +
+      'd '#13#10'  END) QTD'#13#10' , C.NOME NOME_COMBINACAO,'#13#10'P.NOME NOME_PRODUTO,' +
+      ' P.REFERENCIA, MOV.ID_PESSOA , '#39'1M'#39' TIPO_EST, MOV.TAMANHO,'#13#10'P.un' +
+      'idade, P.sped_tipo_item, P.ncm_ex, NCM.ncm'#13#10'FROM MOVIMENTO MOV'#13#10 +
+      'INNER JOIN PRODUTO P'#13#10'ON MOV.ID_PRODUTO = P.ID'#13#10'LEFT JOIN TAB_NC' +
+      'M NCM'#13#10'ON P.ID_NCM = NCM.ID'#13#10'LEFT JOIN COMBINACAO C'#13#10'ON MOV.ID_C' +
+      'OR = C.ID'#13#10'left join tab_cfop CFOP'#13#10'ON MOV.ID_CFOP = CFOP.ID'#13#10'WH' +
+      'ERE MOV.FILIAL = :FILIAL'#13#10'  AND MOV.dtentradasaida <= :DTMOVIMEN' +
+      'TO'#13#10'  AND MOV.CANCELADO = '#39'N'#39#13#10'  AND MOV.DENEGADA = '#39'N'#39#13#10'  AND C' +
+      'FOP.beneficiamento = '#39'S'#39#13#10'  AND P.POSSE_MATERIAL = '#39'E'#39#13#10'  AND P.' +
+      'INATIVO = '#39'N'#39#13#10'  AND ((P.SPED_TIPO_ITEM = '#39'00'#39')'#13#10'     or (P.SPED' +
+      '_TIPO_ITEM = '#39'01'#39')'#13#10'     or (P.SPED_TIPO_ITEM = '#39'02'#39')'#13#10'     or (' +
+      'P.SPED_TIPO_ITEM = '#39'03'#39')'#13#10'     or (P.SPED_TIPO_ITEM = '#39'04'#39')'#13#10'   ' +
+      '  or (P.SPED_TIPO_ITEM = '#39'05'#39')'#13#10'     or (P.SPED_TIPO_ITEM = '#39'06'#39 +
+      ')'#13#10'     or (P.SPED_TIPO_ITEM = '#39'10'#39'))'#13#10'GROUP BY MOV.id_produto, ' +
+      'MOV.filial, MOV.ID_COR, C.NOME,'#13#10'P.NOME, P.REFERENCIA, MOV.ID_PE' +
+      'SSOA, MOV.TAMANHO,'#13#10'P.unidade, P.sped_tipo_item, P.ncm_ex, NCM.n' +
+      'cm'#13#10#13#10'UNION'#13#10#13#10'SELECT EM.id_produto, EM.filial, EM.ID_COR,(sum(c' +
+      'ast(em.qtd2 AS NUMERIC(15,5))) * -1) QTD, C.NOME NOME_COMBINACAO' +
+      ','#13#10'P.NOME NOME_PRODUTO, P.REFERENCIA, EM.ID_PESSOA , '#39'22'#39' TIPO_E' +
+      'ST, EM.TAMANHO,'#13#10'P.unidade, P.sped_tipo_item, P.ncm_ex, NCM.ncm'#13 +
+      #10'FROM ESTOQUE_MOV EM'#13#10'INNER JOIN PRODUTO P'#13#10'ON EM.ID_PRODUTO = P' +
+      '.ID'#13#10'LEFT JOIN TAB_NCM NCM'#13#10'ON P.ID_NCM = NCM.ID'#13#10'LEFT JOIN oper' +
+      'acao_nota ONOTA'#13#10'ON EM.ID_OPERACAO = ONOTA.ID'#13#10'LEFT JOIN COMBINA' +
+      'CAO C'#13#10'ON EM.ID_COR = C.ID'#13#10'WHERE EM.FILIAL = :FILIAL'#13#10'  AND P.P' +
+      'OSSE_MATERIAL = '#39'T'#39#13#10'  AND EM.DTMOVIMENTO <= :DTMOVIMENTO'#13#10'  AND' +
+      ' P.INATIVO = '#39'N'#39#13#10'  AND ((P.SPED_TIPO_ITEM = '#39'00'#39')'#13#10'     or (P.S' +
+      'PED_TIPO_ITEM = '#39'01'#39')'#13#10'     or (P.SPED_TIPO_ITEM = '#39'02'#39')'#13#10'     o' +
+      'r (P.SPED_TIPO_ITEM = '#39'03'#39')'#13#10'     or (P.SPED_TIPO_ITEM = '#39'04'#39')'#13#10 +
+      '     or (P.SPED_TIPO_ITEM = '#39'05'#39')'#13#10'     or (P.SPED_TIPO_ITEM = '#39 +
+      '06'#39')'#13#10'     or (P.SPED_TIPO_ITEM = '#39'10'#39'))'#13#10'  --AND ((EM.TIPO_MOV ' +
+      '= '#39'NTS'#39' or  EM.TIPO_MOV = '#39'NTE'#39')'#13#10'  --AND coalesce(ONOTA.estoque' +
+      '_de_terceiro,'#39'N'#39') = '#39'S'#39')'#13#10'GROUP BY EM.id_produto, EM.filial, EM.' +
+      'ID_COR, C.NOME,'#13#10'P.NOME, P.REFERENCIA, EM.ID_PESSOA, EM.TAMANHO,' +
+      #13#10'P.unidade, P.sped_tipo_item, P.ncm_ex, NCM.ncm'#13#10') aux'#13#10'where a' +
+      'ux.qtd > 0'#13#10#13#10
     MaxBlobSize = -1
     Params = <
       item
@@ -4569,7 +4577,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
     Params = <>
     ProviderName = 'dspPosseEstoque_NaoApagar'
     OnCalcFields = cdsBalancoCalcFields
-    Left = 560
+    Left = 561
     Top = 424
     object IntegerField1: TIntegerField
       FieldName = 'ID_PRODUTO'
@@ -4579,9 +4587,6 @@ object DMSPEDFiscal: TDMSPEDFiscal
     end
     object IntegerField3: TIntegerField
       FieldName = 'ID_COR'
-    end
-    object FloatField1: TFloatField
-      FieldName = 'QTD'
     end
     object StringField1: TStringField
       FieldName = 'NOME_COMBINACAO'
@@ -4622,6 +4627,9 @@ object DMSPEDFiscal: TDMSPEDFiscal
       Required = True
       FixedChar = True
       Size = 2
+    end
+    object cdsPosseEstoque_NaoApagarQTD: TFloatField
+      FieldName = 'QTD'
     end
   end
   object dsPosseEstoque_NaoApagar: TDataSource

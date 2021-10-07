@@ -3,7 +3,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
   Top = 48
   Width = 1133
   Height = 641
-  Caption = 'Gerar SPED Fiscal    (Vers'#227'o  22/03/2021  1.0.23) '
+  Caption = 'Gerar SPED Fiscal    (Vers'#227'o  07/10/2021  1.0.25) '
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -387,7 +387,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edtFile: TEdit
           Left = 22
           Top = 28
-          Width = 306
+          Width = 294
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 0
@@ -396,7 +396,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           OnExit = edtFileChange
         end
         object cbConcomitante: TCheckBox
-          Left = 352
+          Left = 340
           Top = 30
           Width = 134
           Height = 19
@@ -419,7 +419,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edNotas: TEdit
           Left = 654
           Top = 29
-          Width = 69
+          Width = 57
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 2
@@ -439,7 +439,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object Label4: TLabel
           Left = 1
           Top = 1
-          Width = 450
+          Width = 1115
           Height = 16
           Align = alTop
           Alignment = taCenter
@@ -1083,7 +1083,6 @@ object frmSPEDFiscal: TfrmSPEDFiscal
               item
                 Expanded = False
                 FieldName = 'REFERENCIA'
-                Width = 64
                 Visible = True
               end
               item
@@ -1099,19 +1098,16 @@ object frmSPEDFiscal: TfrmSPEDFiscal
               item
                 Expanded = False
                 FieldName = 'UNIDADE'
-                Width = 64
                 Visible = True
               end
               item
                 Expanded = False
                 FieldName = 'SPED_TIPO_ITEM'
-                Width = 64
                 Visible = True
               end
               item
                 Expanded = False
                 FieldName = 'NCM_EX'
-                Width = 64
                 Visible = True
               end
               item
@@ -1122,7 +1118,6 @@ object frmSPEDFiscal: TfrmSPEDFiscal
               item
                 Expanded = False
                 FieldName = 'TIPO_EST'
-                Width = 64
                 Visible = True
               end>
           end

@@ -3932,12 +3932,16 @@ end;
 procedure TfrmSPEDFiscal.NxButton3Click(Sender: TObject);
 begin
   Screen.Cursor := crHourGlass;
-  prc_Consultar_PosseEstoque;
-  Screen.Cursor := crDefault;
   frmConsPosseEstoque := TfrmConsPosseEstoque.Create(self);
-  frmConsPosseEstoque.fDMSPEDFiscal := fDMSPEDFiscal;
-  frmConsPosseEstoque.ShowModal;
-  FreeAndNil(frmConsPosseEstoque);
+  try
+    prc_Consultar_PosseEstoque;
+    Screen.Cursor := crDefault;
+    frmConsPosseEstoque.fDMSPEDFiscal := fDMSPEDFiscal;
+    frmConsPosseEstoque.ShowModal;
+  finally
+    FreeAndNil(frmConsPosseEstoque);
+    Screen.Cursor := crDefault;
+  end;
 end;
 
 procedure TfrmSPEDFiscal.btnImp_Bloco_KClick(Sender: TObject);

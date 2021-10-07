@@ -982,12 +982,10 @@ type
     cdsBalanco: TClientDataSet;
     cdsBalancoID_PRODUTO: TIntegerField;
     cdsBalancoTAMANHO: TStringField;
-    cdsBalancoQTD_ESTOQUE: TFloatField;
     cdsBalancoREFERENCIA: TStringField;
     cdsBalancoNOME_PRODUTO: TStringField;
     cdsBalancoUNIDADE: TStringField;
     cdsBalancoVLR_ENTRADA: TFloatField;
-    cdsBalancoQTD_ENTRADA: TFloatField;
     cdsBalancoclPreco_Medio: TFloatField;
     cdsBalancoclVlr_Total: TFloatField;
     cdsBalancoID_COR: TIntegerField;
@@ -1011,7 +1009,6 @@ type
     cdsPosseEstoqueID_PRODUTO: TIntegerField;
     cdsPosseEstoqueFILIAL: TIntegerField;
     cdsPosseEstoqueID_COR: TIntegerField;
-    cdsPosseEstoqueQTD: TFloatField;
     cdsPosseEstoqueNOME_COMBINACAO: TStringField;
     cdsPosseEstoqueNOME_PRODUTO: TStringField;
     cdsPosseEstoqueREFERENCIA: TStringField;
@@ -1038,7 +1035,6 @@ type
     IntegerField1: TIntegerField;
     IntegerField2: TIntegerField;
     IntegerField3: TIntegerField;
-    FloatField1: TFloatField;
     StringField1: TStringField;
     StringField2: TStringField;
     StringField3: TStringField;
@@ -1084,6 +1080,10 @@ type
     frxReport1: TfrxReport;
     frxBarCodeObject1: TfrxBarCodeObject;
     frxmK200: TfrxDBDataset;
+    cdsPosseEstoqueQTD: TFMTBCDField;
+    cdsBalancoQTD_ESTOQUE: TFMTBCDField;
+    cdsBalancoQTD_ENTRADA: TFMTBCDField;
+    cdsPosseEstoque_NaoApagarQTD: TFloatField;
     procedure DataModuleCreate(Sender: TObject);
     procedure cdsBalancoCalcFields(DataSet: TDataSet);
     procedure mAuxResumoNewRecord(DataSet: TDataSet);
