@@ -4169,7 +4169,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
         ', P.ncm_ex, n.ncm,'
       'p.unidade'
       'from produto p'
-      'inner join tab_ncm n'
+      'left join tab_ncm n'
       'on p.id_ncm = n.id'
       'where p.id = :ID')
     SQLConnection = dmDatabase.scoDados
@@ -4231,64 +4231,64 @@ object DMSPEDFiscal: TDMSPEDFiscal
       'EM.ID_COR, C.NOME,'#13#10'P.NOME, P.REFERENCIA, ID_PESSOA, EM.TAMANHO,' +
       #13#10'P.unidade, P.sped_tipo_item, P.ncm_ex, NCM.ncm, NOME_TERCEIRO'#13 +
       #10#13#10'UNION'#13#10#13#10'SELECT ET.id_produto, ET.filial, ET.id_cor, sum(cast' +
-      '(et.qtdrestante AS NUMERIC(15,5))) QTD, et.nome_combinacao,'#13#10'et.' +
-      'NOME_PRODUTO, et.REFERENCIA, et.id_terceiro ID_PESSOA , '#39'1E'#39' TIP' +
-      'O_EST, et.tamanho,'#13#10'et.unidade, et.sped_tipo_item, p.ncm_ex, NCM' +
-      '.ncm, ET.nome_terceiro'#13#10'FROM vestoque_em_terc ET'#13#10'INNER JOIN PRO' +
-      'DUTO P'#13#10'ON et.ID_PRODUTO = P.ID'#13#10'LEFT JOIN TAB_NCM NCM'#13#10'ON P.ID_' +
-      'NCM = NCM.ID'#13#10'WHERE et.FILIAL = :FILIAL'#13#10'  AND ((et.SPED_TIPO_IT' +
-      'EM = '#39'00'#39')'#13#10'     or (et.SPED_TIPO_ITEM = '#39'01'#39')'#13#10'     or (et.SPED' +
-      '_TIPO_ITEM = '#39'02'#39')'#13#10'     or (et.SPED_TIPO_ITEM = '#39'03'#39')'#13#10'     or ' +
-      '(et.SPED_TIPO_ITEM = '#39'04'#39')'#13#10'     or (et.SPED_TIPO_ITEM = '#39'05'#39')'#13#10 +
-      '     or (et.SPED_TIPO_ITEM = '#39'06'#39')'#13#10'     or (et.SPED_TIPO_ITEM =' +
-      ' '#39'10'#39'))'#13#10'  AND et.data <= :DTMOVIMENTO'#13#10'GROUP BY et.id_produto, ' +
-      'et.filial, et.ID_COR, et.nome_combinacao,'#13#10'et.nome_produto, et.r' +
-      'eferencia, et.id_terceiro, et.tamanho,'#13#10'et.unidade, et.sped_tipo' +
-      '_item, P.ncm_ex, NCM.ncm, ET.nome_terceiro'#13#10#13#10'UNION'#13#10#13#10'SELECT DT' +
-      '.id_produto, DT.filial, DT.ID_COR, sum(cast(DT.qtdrestante AS NU' +
-      'MERIC(15,5))) QTD, DT.NOME_COMBINACAO,'#13#10#13#10'DT.NOME_PRODUTO, DT.RE' +
-      'FERENCIA, DT.id_terceiro ID_PESSOA , '#39'22'#39' TIPO_EST, DT.TAMANHO,'#13 +
-      #10'DT.unidade, DT.sped_tipo_item, P.ncm_ex, NCM.ncm, DT.nome_terce' +
-      'iro'#13#10'FROM vestoque_de_terc DT'#13#10'INNER JOIN PRODUTO P'#13#10'ON DT.ID_PR' +
-      'ODUTO = P.ID'#13#10'LEFT JOIN TAB_NCM NCM'#13#10'ON P.ID_NCM = NCM.ID'#13#10'WHERE' +
-      ' DT.FILIAL = :FILIAL'#13#10'  AND DT.data <= :DTMOVIMENTO'#13#10'  AND ((DT.' +
-      'SPED_TIPO_ITEM = '#39'00'#39')'#13#10'     or (DT.SPED_TIPO_ITEM = '#39'01'#39')'#13#10'    ' +
-      ' or (DT.SPED_TIPO_ITEM = '#39'02'#39')'#13#10'     or (DT.SPED_TIPO_ITEM = '#39'03' +
-      #39')'#13#10'     or (DT.SPED_TIPO_ITEM = '#39'04'#39')'#13#10'     or (DT.SPED_TIPO_IT' +
-      'EM = '#39'05'#39')'#13#10'     or (DT.SPED_TIPO_ITEM = '#39'06'#39')'#13#10'     or (DT.SPED' +
-      '_TIPO_ITEM = '#39'10'#39'))'#13#10'GROUP BY DT.id_produto, DT.filial, DT.ID_CO' +
-      'R, DT.nome_combinacao,'#13#10'DT.nome_produto, DT.REFERENCIA, DT.id_te' +
-      'rceiro, DT.TAMANHO,'#13#10'DT.unidade, DT.sped_tipo_item, P.ncm_ex, NC' +
-      'M.ncm, DT.nome_terceiro'#13#10') aux'#13#10'where aux.qtd > 0'#13#10#13#10
+      '(et.qtdrestante AS NUMERIC(15,5))) QTD, et.nome_combinacao,'#13#10'p.N' +
+      'OME NOME_PRODUTO, et.REFERENCIA, et.id_terceiro ID_PESSOA , '#39'1E'#39 +
+      ' TIPO_EST, et.tamanho,'#13#10'et.unidade, et.sped_tipo_item, p.ncm_ex,' +
+      ' NCM.ncm, ET.nome_terceiro'#13#10'FROM vestoque_em_terc ET'#13#10'INNER JOIN' +
+      ' PRODUTO P ON et.ID_PRODUTO = P.ID'#13#10'LEFT JOIN TAB_NCM NCM'#13#10'ON P.' +
+      'ID_NCM = NCM.ID'#13#10'WHERE et.FILIAL = :FILIAL'#13#10'  AND ((et.SPED_TIPO' +
+      '_ITEM = '#39'00'#39')'#13#10'     or (et.SPED_TIPO_ITEM = '#39'01'#39')'#13#10'     or (et.S' +
+      'PED_TIPO_ITEM = '#39'02'#39')'#13#10'     or (et.SPED_TIPO_ITEM = '#39'03'#39')'#13#10'     ' +
+      'or (et.SPED_TIPO_ITEM = '#39'04'#39')'#13#10'     or (et.SPED_TIPO_ITEM = '#39'05'#39 +
+      ')'#13#10'     or (et.SPED_TIPO_ITEM = '#39'06'#39')'#13#10'     or (et.SPED_TIPO_ITE' +
+      'M = '#39'10'#39'))'#13#10'  AND et.data <= :DTMOVIMENTO'#13#10'GROUP BY et.id_produt' +
+      'o, et.filial, et.ID_COR, et.nome_combinacao,'#13#10'P.NOME, et.referen' +
+      'cia, et.id_terceiro, et.tamanho,'#13#10'et.unidade, et.sped_tipo_item,' +
+      ' P.ncm_ex, NCM.ncm, ET.nome_terceiro'#13#10#13#10'UNION'#13#10#13#10'SELECT DT.id_pr' +
+      'oduto, DT.filial, DT.ID_COR, sum(cast(DT.qtdrestante AS NUMERIC(' +
+      '15,5))) QTD, DT.NOME_COMBINACAO,'#13#10#13#10'DT.NOME_PRODUTO, DT.REFERENC' +
+      'IA, DT.id_terceiro ID_PESSOA , '#39'22'#39' TIPO_EST, DT.TAMANHO,'#13#10'DT.un' +
+      'idade, DT.sped_tipo_item, P.ncm_ex, NCM.ncm, DT.nome_terceiro'#13#10'F' +
+      'ROM vestoque_de_terc DT'#13#10'INNER JOIN PRODUTO P'#13#10'ON DT.ID_PRODUTO ' +
+      '= P.ID'#13#10'LEFT JOIN TAB_NCM NCM'#13#10'ON P.ID_NCM = NCM.ID'#13#10'WHERE DT.FI' +
+      'LIAL = :FILIAL'#13#10'  AND DT.data <= :DTMOVIMENTO'#13#10'  AND ((DT.SPED_T' +
+      'IPO_ITEM = '#39'00'#39')'#13#10'     or (DT.SPED_TIPO_ITEM = '#39'01'#39')'#13#10'     or (D' +
+      'T.SPED_TIPO_ITEM = '#39'02'#39')'#13#10'     or (DT.SPED_TIPO_ITEM = '#39'03'#39')'#13#10'  ' +
+      '   or (DT.SPED_TIPO_ITEM = '#39'04'#39')'#13#10'     or (DT.SPED_TIPO_ITEM = '#39 +
+      '05'#39')'#13#10'     or (DT.SPED_TIPO_ITEM = '#39'06'#39')'#13#10'     or (DT.SPED_TIPO_' +
+      'ITEM = '#39'10'#39'))'#13#10'GROUP BY DT.id_produto, DT.filial, DT.ID_COR, DT.' +
+      'nome_combinacao,'#13#10'DT.nome_produto, DT.REFERENCIA, DT.id_terceiro' +
+      ', DT.TAMANHO,'#13#10'DT.unidade, DT.sped_tipo_item, P.ncm_ex, NCM.ncm,' +
+      ' DT.nome_terceiro'#13#10') aux'#13#10'where aux.qtd > 0'#13#10#13#10
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftInteger
+        DataType = ftUnknown
         Name = 'FILIAL'
         ParamType = ptInput
       end
       item
-        DataType = ftDate
+        DataType = ftUnknown
         Name = 'DTMOVIMENTO'
         ParamType = ptInput
       end
       item
-        DataType = ftInteger
+        DataType = ftUnknown
         Name = 'FILIAL'
         ParamType = ptInput
       end
       item
-        DataType = ftDate
+        DataType = ftUnknown
         Name = 'DTMOVIMENTO'
         ParamType = ptInput
       end
       item
-        DataType = ftInteger
+        DataType = ftUnknown
         Name = 'FILIAL'
         ParamType = ptInput
       end
       item
-        DataType = ftDate
+        DataType = ftUnknown
         Name = 'DTMOVIMENTO'
         ParamType = ptInput
       end>

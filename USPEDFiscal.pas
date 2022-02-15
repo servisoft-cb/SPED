@@ -210,6 +210,7 @@ type
     procedure prc_Bloco_K_Reg_K200;
     procedure prc_Bloco_K_Reg_K990;
 
+
     //procedure prc_Gravar_mProduto2(ID_Produto : Integer ; Codigo : String);
 
     function Monta_Numero(Campo: String; Tamanho: Integer): String;
@@ -1500,6 +1501,7 @@ begin
     12 : ACBrSPEDFiscal1.Bloco_0.Registro0000New.COD_VER := vlVersao111;
     13 : ACBrSPEDFiscal1.Bloco_0.Registro0000New.COD_VER := vlVersao112;
     15 : ACBrSPEDFiscal1.Bloco_0.Registro0000New.COD_VER := vlVersao114;
+    16 : ACBrSPEDFiscal1.Bloco_0.Registro0000New.COD_VER := vlVersao114;
   end;
   case cbFinalidade.ItemIndex of
     0 : ACBrSPEDFiscal1.Bloco_0.Registro0000New.COD_FIN := raOriginal;
@@ -1620,7 +1622,7 @@ begin
               CNPJ := Monta_Numero(fDMSPEDFiscal.mPessoaCNPJ.AsString,14)
             else
               CPF := Monta_Numero(fDMSPEDFiscal.mPessoaCPF.AsString,11);
-            IE := fDMSPEDFiscal.mPessoaInscr_Estadual.AsString;
+            IE := Monta_Numero(fDMSPEDFiscal.mPessoaInscr_Estadual.AsString,0);
           end;
           //IE := fDMSPEDFiscal.mPessoaInscr_Estadual.AsString;
           vAux := Monta_Numero(fDMSPEDFiscal.mPessoaCod_Municipio.AsString,0);
@@ -3314,7 +3316,6 @@ end;
 procedure TfrmSPEDFiscal.prc_Gerar_Bloco_H;
 begin
   vContador_Reg_H := 0;
-  prc_Consultar_cdsBalanco;
 
   // Alimenta o componente com informações para gerar todos os registros do
   // Bloco H.
@@ -3410,7 +3411,7 @@ procedure TfrmSPEDFiscal.prc_Verifica_Produtos_Balanco;
 var
   vCodigo : String;
 begin
-  prc_Consultar_cdsBalanco;
+  //prc_Consultar_cdsBalanco;
   fDMSPEDFiscal.cdsBalanco.First;
   while not fDMSPEDFiscal.cdsBalanco.Eof do
   begin
@@ -3825,6 +3826,9 @@ begin
 
   try
     vGerar_K := (RzCheckList1.ItemChecked[6]);
+
+    if (RzCheckList1.ItemChecked[5]) then
+      prc_Consultar_cdsBalanco;
 
     if (RzCheckList1.ItemChecked[2]) or (RzCheckList1.ItemChecked[3]) then
       prc_Movimento;
