@@ -986,8 +986,6 @@ type
     cdsBalancoNOME_PRODUTO: TStringField;
     cdsBalancoUNIDADE: TStringField;
     cdsBalancoVLR_ENTRADA: TFloatField;
-    cdsBalancoclPreco_Medio: TFloatField;
-    cdsBalancoclVlr_Total: TFloatField;
     cdsBalancoID_COR: TIntegerField;
     cdsBalancoNOME_COMBINACAO: TStringField;
     dsBalanco: TDataSource;
@@ -1049,7 +1047,6 @@ type
     cdsPosseEstoqueNOME_TERCEIRO: TStringField;
     cdsPosseEstoqueDESC_TIPO_EST: TStringField;
     cdsFilialSPED_SOMA_IPI_CUSTO: TStringField;
-    cdsBalancoVLR_IPI: TFloatField;
     qParametros_Est: TSQLQuery;
     qParametros_EstGERAR_REG_H020: TStringField;
     mAuxResumo: TClientDataSet;
@@ -1061,7 +1058,6 @@ type
     mAuxResumoVlr_Total: TFloatField;
     cdsBalancoTIPO_REG: TStringField;
     cdsBalancoSPED_TIPO_ITEM: TStringField;
-    cdsBalancoclDesc_Tipo_Sped: TStringField;
     mAuxResumoPosse: TStringField;
     mAuxResumoDesc_Posse: TStringField;
     dsmAuxResumo: TDataSource;
@@ -1081,11 +1077,19 @@ type
     frxBarCodeObject1: TfrxBarCodeObject;
     frxmK200: TfrxDBDataset;
     cdsPosseEstoqueQTD: TFMTBCDField;
-    cdsBalancoQTD_ESTOQUE: TFMTBCDField;
-    cdsBalancoQTD_ENTRADA: TFMTBCDField;
     cdsPosseEstoque_NaoApagarQTD: TFloatField;
+    cdsBalancoTIPO_SPED: TStringField;
+    cdsBalancoDESC_TIPO_REG: TStringField;
+    cdsBalancoPERC_IPI: TFloatField;
+    cdsBalancoREF_NOME_COR: TStringField;
+    cdsBalancoPRODUTO_NOME_COR: TStringField;
+    cdsBalancoNCM: TStringField;
+    cdsBalancoPERC_ICMS: TFloatField;
+    cdsBalancoPRECO_MEDIO: TFloatField;
+    cdsBalancoVLR_TOTAL: TFloatField;
+    cdsBalancoQTD_ESTOQUE: TFMTBCDField;
+    cdsBalancoQTD_ENTRADA: TFloatField;
     procedure DataModuleCreate(Sender: TObject);
-    procedure cdsBalancoCalcFields(DataSet: TDataSet);
     procedure mAuxResumoNewRecord(DataSet: TDataSet);
   private
     { Private declarations }
@@ -1138,59 +1142,6 @@ begin
   qCidade.Close;
   qCidade.ParamByName('ID').AsInteger := ID;
   qCidade.Open;
-end;
-
-procedure TDMSPEDFiscal.cdsBalancoCalcFields(DataSet: TDataSet);
-var
-  vVlrAux : Real;
-begin
-  if (StrToFloat(FormatFloat('0.00000',cdsBalancoVLR_ENTRADA.AsFloat)) > 0) and (StrToFloat(FormatFloat('0.00000',cdsBalancoQTD_ENTRADA.AsFloat)) > 0) then
-  begin
-    vVlrAux := cdsBalancoVLR_ENTRADA.AsFloat;
-    if cdsFilialSPED_SOMA_IPI_CUSTO.AsString = 'S' then
-      vVlrAux := vVlrAux + cdsBalancoVLR_IPI.AsFloat;
-    //12/07/2019  Foi acrescentado para somar o IPI no custo do produto, conforme Fabricio contador da Lotus
-    //cdsBalancoclPreco_Medio.AsFloat := StrToFloat(FormatFloat('0.00000',cdsBalancoVLR_ENTRADA.AsFloat / cdsBalancoQTD_ENTRADA.AsFloat));
-    cdsBalancoclPreco_Medio.AsFloat := StrToFloat(FormatFloat('0.00000',vVlrAux / cdsBalancoQTD_ENTRADA.AsFloat));
-    cdsBalancoclVlr_Total.AsFloat   := StrToFloat(FormatFloat('0.00',cdsBalancoclPreco_Medio.AsFloat * cdsBalancoQTD_ESTOQUE.AsFloat));
-  end
-  else
-  begin
-    cdsBalancoclPreco_Medio.AsFloat := StrToFloat(FormatFloat('0.00000',0));
-    cdsBalancoclVlr_Total.AsFloat   := StrToFloat(FormatFloat('0.00',0));
-  end;
-  if cdsBalancoSPED_TIPO_ITEM.AsString = '00' then
-    cdsBalancoclDesc_Tipo_Sped.AsString := '00- Mercadoria para Revenda'
-  else
-  if cdsBalancoSPED_TIPO_ITEM.AsString = '01' then
-    cdsBalancoclDesc_Tipo_Sped.AsString := '01- Matéria-Prima'
-  else
-  if cdsBalancoSPED_TIPO_ITEM.AsString = '02' then
-    cdsBalancoclDesc_Tipo_Sped.AsString := '02- Embalagem'
-  else
-  if cdsBalancoSPED_TIPO_ITEM.AsString = '03' then
-    cdsBalancoclDesc_Tipo_Sped.AsString := '03- Produto em Processo'
-  else
-  if cdsBalancoSPED_TIPO_ITEM.AsString = '04' then
-    cdsBalancoclDesc_Tipo_Sped.AsString := '04- Produto Acabado'
-  else
-  if cdsBalancoSPED_TIPO_ITEM.AsString = '05' then
-    cdsBalancoclDesc_Tipo_Sped.AsString := '05- SubProduto'
-  else
-  if cdsBalancoSPED_TIPO_ITEM.AsString = '06' then
-    cdsBalancoclDesc_Tipo_Sped.AsString := '06- Produto Intermediário'
-  else
-  if cdsBalancoSPED_TIPO_ITEM.AsString = '07' then
-    cdsBalancoclDesc_Tipo_Sped.AsString := '07- Material de Uso e Consumo'
-  else
-  if cdsBalancoSPED_TIPO_ITEM.AsString = '08' then
-    cdsBalancoclDesc_Tipo_Sped.AsString := '08- Ativo Imobilizado'
-  else
-  if cdsBalancoSPED_TIPO_ITEM.AsString = '10' then
-    cdsBalancoclDesc_Tipo_Sped.AsString := '10- Outros Insumos'
-  else
-  if cdsBalancoSPED_TIPO_ITEM.AsString = '99' then
-    cdsBalancoclDesc_Tipo_Sped.AsString := '99- Outras';
 end;
 
 procedure TDMSPEDFiscal.mAuxResumoNewRecord(DataSet: TDataSet);

@@ -3144,36 +3144,68 @@ var
   i : Integer;
 begin
   vQtdAux     := 0;
-  vComando    := fDMSPEDFiscal.ctBalanco;
-
-  {vComandoAux := '';
-  i:= Pos('GROUP',vComando);
-  if i > 0 then
-  begin
-    vComandoAux := copy(vComando,i,Length(vComando)-i);
-    delete(vComando,i,Length(vComando)-i);
-  end;}
-  {case ComboBox3.ItemIndex of
-    0 : vComando := vComando + ' AND TIPO_REG = ' + QuotedStr('P');
-    1 : vComando := vComando + ' AND TIPO_REG = ' + QuotedStr('M');
-    2 : vComando := vComando + ' AND TIPO_REG = ' + QuotedStr('C');
-    3 : vComando := vComando + ' AND TIPO_REG = ' + QuotedStr('S');
-  end;}
-  //if ckImobilizado.Checked then
-    //vImobilizado := ' OR SPED_TIPO_ITEM = ' + QuotedStr('08');
-
-  vComando := vComando + ' AND (SPED_TIPO_ITEM = ' + QuotedStr('00')
-                       + '   OR SPED_TIPO_ITEM = ' + QuotedStr('01')
-                       + '   OR SPED_TIPO_ITEM = ' + QuotedStr('02')
-                       + '   OR SPED_TIPO_ITEM = ' + QuotedStr('03')
-                       + '   OR SPED_TIPO_ITEM = ' + QuotedStr('04')
-                       + '   OR SPED_TIPO_ITEM = ' + QuotedStr('05')
-                       + '   OR SPED_TIPO_ITEM = ' + QuotedStr('06')
-                       + '   OR SPED_TIPO_ITEM = ' + QuotedStr('10') + ')';
-
-  //if (ComboBox3.ItemIndex = 4) and not(ckImobilizado.Checked) then
-    //vComando := vComando + ' AND TIPO_REG <> ' + QuotedStr('I');
-
+  vComando    := 'select aux.*, aux.qtd_estoque * aux.preco_medio vlr_total '
+               + 'from ( '
+               + 'with e as ( '
+               + 'select em.tipo_es, em.gerar_custo, EM.ID_PRODUTO, EM.TAMANHO, sum(cast(EM.QTD2 as numeric(15,5))) QTD_ESTOQUE, PRO.REFERENCIA, '
+               + '       PRO.NOME NOME_PRODUTO, PRO.UNIDADE, EM.ID_COR, PRO.SPED_TIPO_ITEM, PRO.TIPO_REG, '
+               + '       case '
+               + '         when PRO.SPED_TIPO_ITEM = ' + QuotedStr('00') + ' then ' + QuotedStr('00 - Mercadoria para Revenda')
+               + '         when PRO.SPED_TIPO_ITEM = ' + QuotedStr('01') + ' then ' + QuotedStr('01- Matéria-Prima')
+               + '         when PRO.SPED_TIPO_ITEM = ' + QuotedStr('02') + ' then ' + QuotedStr('02- Embalagem')
+               + '         when PRO.SPED_TIPO_ITEM = ' + QuotedStr('03') + ' then ' + QuotedStr('03 - Produto em Processo')
+               + '         when PRO.SPED_TIPO_ITEM = ' + QuotedStr('04') + ' then ' + QuotedStr('04 - Produto Acabado')
+               + '         when PRO.SPED_TIPO_ITEM = ' + QuotedStr('05') + ' then ' + QuotedStr('05 - SubProduto')
+               + '         when PRO.SPED_TIPO_ITEM = ' + QuotedStr('06') + ' then ' + QuotedStr('06 - Produto Intermediário')
+               + '         when PRO.SPED_TIPO_ITEM = ' + QuotedStr('07') + ' then ' + QuotedStr('07 - Material de Uso e Consumo')
+               + '         when PRO.SPED_TIPO_ITEM = ' + QuotedStr('08') + ' then ' + QuotedStr('08 - Ativo Imobilizado')
+               + '         when PRO.SPED_TIPO_ITEM = ' + QuotedStr('10') + ' then ' + QuotedStr('10 - Outros Insumos')
+               + '         when PRO.SPED_TIPO_ITEM = ' + QuotedStr('99') + ' then ' + QuotedStr('99 - Outras')
+               + '         else ' + QuotedStr('')
+               + '       end TIPO_SPED, '
+               + '       case '
+               + '         when PRO.TIPO_REG = ' + QuotedStr('C') + ' then ' + QuotedStr('C - Material Consumo ')
+               + '         when PRO.TIPO_REG = ' + QuotedStr('M') + ' then ' + QuotedStr('M - Materia Prima ')
+               + '         when PRO.TIPO_REG = ' + QuotedStr('P') + ' then ' + QuotedStr('P - Produto Acabado ')
+               + '         when PRO.TIPO_REG = ' + QuotedStr('S') + ' then ' + QuotedStr('S - Semi Acabado ')
+               + '         when PRO.TIPO_REG = ' + QuotedStr('I') + ' then ' + QuotedStr('I - Imobilizado ')
+               + '         else ' + QuotedStr('')
+               + '       end DESC_TIPO_REG, '
+               + '       iif(Em.TIPO_ES = ' + QuotedStr('E') + ' and em.GERAR_CUSTO = ' + QuotedStr('S') + ',sum(em.QTD * em.VLR_UNITARIO),0) VLR_ENTRADA, '
+               + '       iif(Em.TIPO_ES = ' + QuotedStr('E') + ' and em.GERAR_CUSTO = ' + QuotedStr('S') + ',sum(em.QTD),0) QTD_ENTRADA, PRO.PERC_IPI, pro.id_ncm, PRO.perc_icms '
+               + 'from PRODUTO pro '
+               + 'inner join ESTOQUE_MOV em on EM.ID_PRODUTO = PRO.ID '
+               + 'where EM.FILIAL = :FILIAL and '
+               + '      EM.DTMOVIMENTO <= :DTMOVIMENTO and '
+               + '      PRO.INATIVO = ' + QuotedStr('N') + ' and '
+               + '      PRO.ESTOQUE = ' + QuotedStr('S')
+               + ' AND (pro.SPED_TIPO_ITEM = ' + QuotedStr('00')
+               + '   OR pro.SPED_TIPO_ITEM = ' + QuotedStr('01')
+               + '   OR pro.SPED_TIPO_ITEM = ' + QuotedStr('02')
+               + '   OR pro.SPED_TIPO_ITEM = ' + QuotedStr('03')
+               + '   OR pro.SPED_TIPO_ITEM = ' + QuotedStr('04')
+               + '   OR pro.SPED_TIPO_ITEM = ' + QuotedStr('05')
+               + '   OR pro.SPED_TIPO_ITEM = ' + QuotedStr('06')
+               + '   OR pro.SPED_TIPO_ITEM = ' + QuotedStr('10') + ')'
+               + 'group by em.tipo_es, em.gerar_custo, EM.ID_PRODUTO, EM.TAMANHO, PRO.REFERENCIA, PRO.NOME, PRO.UNIDADE, EM.ID_COR, PRO.SPED_TIPO_ITEM, PRO.PERC_IPI, PRO.TIPO_REG, pro.id_ncm, PRO.perc_icms) '
+               + 'Select E.ID_PRODUTO, E.TAMANHO, sum(e.QTD_ESTOQUE) QTD_ESTOQUE, e.REFERENCIA, '
+               + '       e.NOME_PRODUTO, e.UNIDADE, e.ID_COR, e.SPED_TIPO_ITEM, e.TIPO_REG, '
+               + '       e.TIPO_SPED, '
+               + '       e.DESC_TIPO_REG, '
+               + '       sum(e.VLR_ENTRADA) VLR_ENTRADA ,'
+               + '       sum(e.QTD_ENTRADA) QTD_ENTRADA, e.PERC_IPI, COMB.NOME NOME_COMBINACAO, '
+               + '       cast(e.REFERENCIA || '' '' || e.NOME_produto || '' '' || coalesce(COMB.NOME, '''') as varchar(200)) REF_NOME_COR, '
+               + '       cast(e.TIPO_REG || '' '' || e.nome_produto || '' '' || '' '' || e.ID_PRODUTO || '' '' || coalesce(COMB.NOME, '''') as varchar(200)) PRODUTO_NOME_COR, '
+               + '       NCM.NCM, E.perc_icms, (sum(e.VLR_ENTRADA) / sum(e.QTD_ENTRADA)) PRECO_MEDIO '
+               + 'from e '
+               + 'left join COMBINACAO COMB on E.ID_COR = COMB.ID '
+               + 'left join TAB_NCM NCM on e.ID_NCM = NCM.ID '
+               + 'WHERE e.QTD_ESTOQUE > 0 '
+               + 'group by E.ID_PRODUTO, E.TAMANHO, e.REFERENCIA, '
+               + '       e.NOME_PRODUTO, e.UNIDADE, e.ID_COR, e.SPED_TIPO_ITEM, e.TIPO_REG, '
+               + '       e.TIPO_SPED, '
+               + '       e.DESC_TIPO_REG, '
+               + '       e.PERC_IPI, COMB.NOME, NCM.NCM, E.PERC_ICMS) aux ';
   fDMSPEDFiscal.cdsBalanco.Close;
   fDMSPEDFiscal.sdsBalanco.CommandText := vComando;
   fDMSPEDFiscal.sdsBalanco.ParamByName('FILIAL').AsInteger   := RxDBLookupCombo1.KeyValue;
@@ -3206,7 +3238,7 @@ begin
   fDMSPEDFiscal.cdsBalanco.First;
   while not fDMSPEDFiscal.cdsBalanco.Eof do
   begin
-    vVlrEstoque := StrToCurr(FormatCurr('0.00',vVlrEstoque + fDMSPEDFiscal.cdsBalancoclVlr_Total.AsFloat));
+    vVlrEstoque := StrToCurr(FormatCurr('0.00',vVlrEstoque + fDMSPEDFiscal.cdsBalancoVlr_Total.AsFloat));
     fDMSPEDFiscal.cdsBalanco.Next;
   end;
 
@@ -3255,8 +3287,8 @@ begin
           //COD_ITEM   := fDMSPEDFiscal.cdsBalancoID_PRODUTO.AsString;
         UNID       := UpperCase(fDMSPEDFiscal.cdsBalancoUNIDADE.AsString);
         QTD        := StrToFloat(FormatFloat('0.000',fDMSPEDFiscal.cdsBalancoQTD_ESTOQUE.AsFloat));
-        VL_UNIT    := StrToFloat(FormatFloat('0.000000',fDMSPEDFiscal.cdsBalancoclPreco_Medio.AsFloat));
-        VL_ITEM    := StrToFloat(FormatFloat('0.00',fDMSPEDFiscal.cdsBalancoclVlr_Total.AsFloat));
+        VL_UNIT    := StrToFloat(FormatFloat('0.000000',fDMSPEDFiscal.cdsBalancoPreco_Medio.AsFloat));
+        VL_ITEM    := StrToFloat(FormatFloat('0.00',fDMSPEDFiscal.cdsBalancoVlr_Total.AsFloat));
         IND_PROP   := piInformante;
         COD_PART   := '';
         TXT_COMPL  := '';
@@ -3273,11 +3305,11 @@ begin
               CST_ICMS := '041'
             else
               CST_ICMS := '000';
-            BC_ICMS  := StrToFloat(FormatFloat('0.000000',fDMSPEDFiscal.cdsBalancoclPreco_Medio.AsFloat));
+            BC_ICMS  := StrToFloat(FormatFloat('0.000000',fDMSPEDFiscal.cdsBalancoPreco_Medio.AsFloat));
             if (fDMSPEDFiscal.cdsBalancoSPED_TIPO_ITEM.AsString = '04') and (ckICMSH020.Checked) then
               VL_ICMS  := StrToFloat(FormatFloat('0.00',0))
             else
-              VL_ICMS  := StrToFloat(FormatFloat('0.00',((fDMSPEDFiscal.cdsBalancoclPreco_Medio.AsFloat * fDMSPEDFiscal.qUFPERC_ICMS.AsFloat) / 100)));
+              VL_ICMS  := StrToFloat(FormatFloat('0.00',((fDMSPEDFiscal.cdsBalancoPreco_Medio.AsFloat * fDMSPEDFiscal.qUFPERC_ICMS.AsFloat) / 100)));
             vContador_Reg_H := vContador_Reg_H + 1;
           end;
         end;
@@ -3289,11 +3321,11 @@ begin
           fDMSPEDFiscal.mAuxResumoBloco.AsString          := 'H';
           fDMSPEDFiscal.mAuxResumoRegistro.AsString       := 'H010';
           fDMSPEDFiscal.mAuxResumoTipo_SPED.AsString      := fDMSPEDFiscal.cdsBalancoSPED_TIPO_ITEM.AsString;
-          fDMSPEDFiscal.mAuxResumoDescricao_Sped.AsString := fDMSPEDFiscal.cdsBalancoclDesc_Tipo_Sped.AsString;
+          fDMSPEDFiscal.mAuxResumoDescricao_Sped.AsString := fDMSPEDFiscal.cdsBalancoTIPO_SPED.AsString;
           fDMSPEDFiscal.mAuxResumoPosse.AsString          := '';
         end;
         fDMSPEDFiscal.mAuxResumoQtd.AsFloat       := StrToFloat(FormatFloat('0.0000',fDMSPEDFiscal.mAuxResumoQtd.AsFloat + fDMSPEDFiscal.cdsBalancoQTD_ESTOQUE.AsFloat));
-        fDMSPEDFiscal.mAuxResumoVlr_Total.AsFloat := StrToFloat(FormatFloat('0.00',fDMSPEDFiscal.mAuxResumoVlr_Total.AsFloat + fDMSPEDFiscal.cdsBalancoclVlr_Total.AsFloat));
+        fDMSPEDFiscal.mAuxResumoVlr_Total.AsFloat := StrToFloat(FormatFloat('0.00',fDMSPEDFiscal.mAuxResumoVlr_Total.AsFloat + fDMSPEDFiscal.cdsBalancoVlr_Total.AsFloat));
         fDMSPEDFiscal.mAuxResumo.Post;
       end;
     end;

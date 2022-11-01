@@ -90,8 +90,8 @@ MaxStackSize=1048576
 ImageBase=4194304
 ExeDescription=
 [Directories]
-OutputDir=C:\Delphi7\SSFacil\EXE
-UnitOutputDir=C:\Delphi7\SSFacil\DCU
+OutputDir=D:\Delphi7\SSFacil\EXE
+UnitOutputDir=D:\Delphi7\SSFacil\DCU_SPED
 PackageDLLOutputDir=
 PackageDCPOutputDir=
 SearchPath=
@@ -136,14 +136,15 @@ ProductVersion=1.0.0.0
 Comments=
 [Excluded Packages]
 c:\program files (x86)\borland\delphi7\Bin\DBWEBXPRT.BPL=Borland Web Wizard Package
-C:\Program Files (x86)\Developer Express Inc\Library\Delphi7\dcldxPScxScheduler3LnkD7.bpl=ExpressPrinting System ReportLink for ExpressScheduler 3 by Developer Express Inc.
 [HistoryLists\hlUnitAliases]
 Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
 [HistoryLists\hlUnitOutputDirectory]
-Count=1
-Item0=C:\Delphi7\SSFacil\DCU
-[HistoryLists\hlOutputDirectorry]
 Count=2
-Item0=C:\Delphi7\SSFacil\EXE
-Item1=C:\Delphi7\SSFacil\EXE_Novo
+Item0=D:\Delphi7\SSFacil\DCU_SPED
+Item1=C:\Delphi7\SSFacil\DCU
+[HistoryLists\hlOutputDirectorry]
+Count=3
+Item0=D:\Delphi7\SSFacil\EXE
+Item1=C:\Delphi7\SSFacil\EXE
+Item2=C:\Delphi7\SSFacil\EXE_Novo

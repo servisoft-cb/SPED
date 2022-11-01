@@ -1,8 +1,8 @@
 object DMSPEDFiscal: TDMSPEDFiscal
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Left = 278
-  Top = 103
+  Left = 224
+  Top = 47
   Height = 676
   Width = 1000
   object qParametros: TSQLQuery
@@ -4008,51 +4008,58 @@ object DMSPEDFiscal: TDMSPEDFiscal
     NoMetadata = True
     GetMetadata = False
     CommandText = 
-      'SELECT AUX.*'#13#10'FROM ('#13#10'SELECT EM.ID_PRODUTO, EM.TAMANHO, sum(cast' +
-      '(EM.QTD2  AS NUMERIC(15,5))) QTD_ESTOQUE, PRO.REFERENCIA,'#13#10'PRO.N' +
-      'OME NOME_PRODUTO, PRO.UNIDADE, EM.id_cor, COMB.NOME NOME_COMBINA' +
-      'CAO, PRO.TIPO_REG, PRO.sped_tipo_item,'#13#10' (select SUM(ENT.QTD * E' +
-      'NT.VLR_UNITARIO) VLR_ENTRADA '#13#10'  FROM estoque_mov ENT'#13#10'  WHERE E' +
-      'NT.tipo_es = '#39'E'#39#13#10'    AND ENT.gerar_custo = '#39'S'#39#13#10'    AND ENT.ID_' +
-      'PRODUTO = EM.ID_PRODUTO'#13#10'    AND ENT.tamanho = EM.TAMANHO'#13#10'    A' +
-      'ND ENT.FILIAL = :FILIAL'#13#10'    AND ENT.DTMOVIMENTO <= :DTMOVIMENTO' +
-      ') VLR_ENTRADA,'#13#10' (select sum(cast(ENT.QTD AS NUMERIC(15,5))) QTD' +
-      '_ENTRADA'#13#10'    FROM estoque_mov ENT'#13#10'     WHERE ENT.tipo_es = '#39'E'#39 +
-      #13#10'       AND ENT.gerar_custo = '#39'S'#39#13#10'       AND ENT.ID_PRODUTO = ' +
-      'EM.ID_PRODUTO'#13#10'       AND ENT.tamanho = EM.TAMANHO'#13#10'       AND E' +
-      'NT.FILIAL = :FILIAL'#13#10'       AND ENT.DTMOVIMENTO <= :DTMOVIMENTO)' +
-      ' QTD_ENTRADA,'#13#10'SUM('#13#10'  CASE'#13#10'    WHEN coalesce(EM.perc_ipi,0) > ' +
-      '0 and EM.tipo_es = '#39'E'#39' THEN ROUND(((EM.vlr_unitario * EM.perc_ip' +
-      'i / 100) * EM.qtd),3)'#13#10'    ELSE 0'#13#10'    END) VLR_IPI'#13#10#13#10' FROM EST' +
-      'OQUE_MOV EM'#13#10' INNER JOIN PRODUTO PRO'#13#10' ON EM.ID_PRODUTO = PRO.ID' +
-      #13#10' LEFT JOIN COMBINACAO COMB'#13#10' ON EM.ID_COR = COMB.ID'#13#10' WHERE EM' +
-      '.FILIAL = :FILIAL'#13#10'   AND EM.DTMOVIMENTO <= :DTMOVIMENTO'#13#10'   AND' +
-      ' PRO.INATIVO = '#39'N'#39#13#10'   AND PRO.ESTOQUE = '#39'S'#39#13#10'GROUP BY EM.ID_PRO' +
-      'DUTO, EM.TAMANHO, PRO.REFERENCIA, PRO.NOME, PRO.UNIDADE, EM.id_c' +
-      'or, COMB.NOME, PRO.TIPO_REG, PRO.sped_tipo_item)'#13#10'AUX'#13#10'WHERE QTD' +
-      '_ESTOQUE > 0'#13#10#13#10
+      'select aux.*, aux.qtd_estoque * aux.preco_medio vlr_total'#13#10'from ' +
+      '('#13#10'with e as ('#13#10'select em.tipo_es, em.gerar_custo, EM.ID_PRODUTO' +
+      ', EM.TAMANHO, sum(cast(EM.QTD2 as numeric(15,5))) QTD_ESTOQUE, P' +
+      'RO.REFERENCIA,'#13#10'       PRO.NOME NOME_PRODUTO, PRO.UNIDADE, EM.ID' +
+      '_COR, PRO.SPED_TIPO_ITEM, PRO.TIPO_REG,'#13#10'       case'#13#10'         w' +
+      'hen PRO.SPED_TIPO_ITEM = '#39'00'#39' then '#39'00 - Mercadoria para Revenda' +
+      #39#13#10'         when PRO.SPED_TIPO_ITEM = '#39'01'#39' then '#39'01- Mat'#233'ria-Pri' +
+      'ma'#39#13#10'         when PRO.SPED_TIPO_ITEM = '#39'02'#39' then '#39'02- Embalagem' +
+      #39#13#10'         when PRO.SPED_TIPO_ITEM = '#39'03'#39' then '#39'03 - Produto em' +
+      ' Processo'#39#13#10'         when PRO.SPED_TIPO_ITEM = '#39'04'#39' then '#39'04 - P' +
+      'roduto Acabado'#39#13#10'         when PRO.SPED_TIPO_ITEM = '#39'05'#39' then '#39'0' +
+      '5 - SubProduto'#39#13#10'         when PRO.SPED_TIPO_ITEM = '#39'06'#39' then '#39'0' +
+      '6 - Produto Intermedi'#225'rio'#39#13#10'         when PRO.SPED_TIPO_ITEM = '#39 +
+      '07'#39' then '#39'07 - Material de Uso e Consumo'#39#13#10'         when PRO.SPE' +
+      'D_TIPO_ITEM = '#39'08'#39' then '#39'08 - Ativo Imobilizado'#39#13#10'         when ' +
+      'PRO.SPED_TIPO_ITEM = '#39'10'#39' then '#39'10 - Outros Insumos'#39#13#10'         w' +
+      'hen PRO.SPED_TIPO_ITEM = '#39'99'#39' then '#39'99 - Outras'#39#13#10'         else ' +
+      #39#39#13#10'       end TIPO_SPED,'#13#10'       case'#13#10'         when PRO.TIPO_R' +
+      'EG = '#39'C'#39' then '#39'C - Material Consumo '#39#13#10'         when PRO.TIPO_RE' +
+      'G = '#39'M'#39' then '#39'M - Materia Prima '#39#13#10'         when PRO.TIPO_REG = ' +
+      #39'P'#39' then '#39'P - Produto Acabado '#39#13#10'         when PRO.TIPO_REG = '#39'S' +
+      #39' then '#39'S - Semi Acabado '#39#13#10'         when PRO.TIPO_REG = '#39'I'#39' the' +
+      'n '#39'I - Imobilizado '#39#13#10'         else '#39#39#13#10'       end DESC_TIPO_REG' +
+      ','#13#10'       iif(Em.TIPO_ES = '#39'E'#39' and em.GERAR_CUSTO = '#39'S'#39',sum(em.Q' +
+      'TD * em.VLR_UNITARIO),0) VLR_ENTRADA,'#13#10'       iif(Em.TIPO_ES = '#39 +
+      'E'#39' and em.GERAR_CUSTO = '#39'S'#39',sum(em.QTD),0) QTD_ENTRADA, PRO.PERC' +
+      '_IPI, pro.id_ncm, PRO.perc_icms'#13#10'from PRODUTO pro'#13#10'inner join ES' +
+      'TOQUE_MOV em on EM.ID_PRODUTO = PRO.ID'#13#10'where EM.FILIAL = :FILIA' +
+      'L and'#13#10'      EM.DTMOVIMENTO <= :DTMOVIMENTO and'#13#10'      PRO.TIPO_' +
+      'REG in ('#39'P'#39', '#39'M'#39', '#39'C'#39', '#39'S'#39', '#39'I'#39') and'#13#10'      PRO.INATIVO = '#39'N'#39' an' +
+      'd'#13#10'      PRO.ESTOQUE = '#39'S'#39#13#10'group by em.tipo_es, em.gerar_custo,' +
+      ' EM.ID_PRODUTO, EM.TAMANHO, PRO.REFERENCIA, PRO.NOME, PRO.UNIDAD' +
+      'E, EM.ID_COR, PRO.SPED_TIPO_ITEM, PRO.PERC_IPI, PRO.TIPO_REG, pr' +
+      'o.id_ncm, PRO.perc_icms)'#13#10#13#10'select E.ID_PRODUTO, E.TAMANHO, sum(' +
+      'e.QTD_ESTOQUE) QTD_ESTOQUE, e.REFERENCIA,'#13#10'       e.NOME_PRODUTO' +
+      ', e.UNIDADE, e.ID_COR, e.SPED_TIPO_ITEM, e.TIPO_REG,'#13#10'       e.T' +
+      'IPO_SPED,'#13#10'       e.DESC_TIPO_REG,'#13#10'       sum(e.VLR_ENTRADA) VL' +
+      'R_ENTRADA ,'#13#10'       sum(e.QTD_ENTRADA) QTD_ENTRADA, e.PERC_IPI, ' +
+      'COMB.NOME NOME_COMBINACAO,'#13#10'       cast(e.REFERENCIA || '#39' '#39' || e' +
+      '.NOME_produto || '#39' '#39' || coalesce(COMB.NOME, '#39#39') as varchar(200))' +
+      ' REF_NOME_COR,'#13#10'       cast(e.TIPO_REG || '#39' '#39' || e.nome_produto ' +
+      '|| '#39' '#39' || '#39' '#39' || e.ID_PRODUTO || '#39' '#39' || coalesce(COMB.NOME, '#39#39') ' +
+      'as varchar(200)) PRODUTO_NOME_COR,'#13#10'       NCM.NCM, E.perc_icms,' +
+      ' (sum(e.VLR_ENTRADA) / sum(e.QTD_ENTRADA)) PRECO_MEDIO'#13#10'from e'#13#10 +
+      #13#10'left join COMBINACAO COMB on E.ID_COR = COMB.ID'#13#10'left join TAB' +
+      '_NCM NCM on e.ID_NCM = NCM.ID'#13#10#13#10'WHERE e.QTD_ESTOQUE > 0'#13#10#13#10'grou' +
+      'p by E.ID_PRODUTO, E.TAMANHO, e.REFERENCIA,'#13#10'       e.NOME_PRODU' +
+      'TO, e.UNIDADE, e.ID_COR, e.SPED_TIPO_ITEM, e.TIPO_REG,'#13#10'       e' +
+      '.TIPO_SPED,'#13#10'       e.DESC_TIPO_REG,'#13#10'       e.PERC_IPI, COMB.NO' +
+      'ME, NCM.NCM, E.PERC_ICMS) aux'#13#10
     MaxBlobSize = -1
     Params = <
-      item
-        DataType = ftInteger
-        Name = 'FILIAL'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftDate
-        Name = 'DTMOVIMENTO'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftInteger
-        Name = 'FILIAL'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftDate
-        Name = 'DTMOVIMENTO'
-        ParamType = ptInput
-      end
       item
         DataType = ftInteger
         Name = 'FILIAL'
@@ -4077,7 +4084,6 @@ object DMSPEDFiscal: TDMSPEDFiscal
     IndexFieldNames = 'NOME_PRODUTO'
     Params = <>
     ProviderName = 'dspBalanco'
-    OnCalcFields = cdsBalancoCalcFields
     Left = 561
     Top = 329
     object cdsBalancoID_PRODUTO: TIntegerField
@@ -4102,27 +4108,12 @@ object DMSPEDFiscal: TDMSPEDFiscal
       FieldName = 'VLR_ENTRADA'
       DisplayFormat = '0.000##'
     end
-    object cdsBalancoclPreco_Medio: TFloatField
-      FieldKind = fkCalculated
-      FieldName = 'clPreco_Medio'
-      DisplayFormat = '0.000##'
-      Calculated = True
-    end
-    object cdsBalancoclVlr_Total: TFloatField
-      FieldKind = fkCalculated
-      FieldName = 'clVlr_Total'
-      DisplayFormat = '0.00'
-      Calculated = True
-    end
     object cdsBalancoID_COR: TIntegerField
       FieldName = 'ID_COR'
     end
     object cdsBalancoNOME_COMBINACAO: TStringField
       FieldName = 'NOME_COMBINACAO'
       Size = 60
-    end
-    object cdsBalancoVLR_IPI: TFloatField
-      FieldName = 'VLR_IPI'
     end
     object cdsBalancoTIPO_REG: TStringField
       FieldName = 'TIPO_REG'
@@ -4133,21 +4124,49 @@ object DMSPEDFiscal: TDMSPEDFiscal
       FieldName = 'SPED_TIPO_ITEM'
       Size = 2
     end
-    object cdsBalancoclDesc_Tipo_Sped: TStringField
-      FieldKind = fkCalculated
-      FieldName = 'clDesc_Tipo_Sped'
+    object cdsBalancoTIPO_SPED: TStringField
+      FieldName = 'TIPO_SPED'
+      Required = True
+      FixedChar = True
       Size = 30
-      Calculated = True
+    end
+    object cdsBalancoDESC_TIPO_REG: TStringField
+      FieldName = 'DESC_TIPO_REG'
+      Required = True
+      FixedChar = True
+      Size = 21
+    end
+    object cdsBalancoPERC_IPI: TFloatField
+      FieldName = 'PERC_IPI'
+    end
+    object cdsBalancoREF_NOME_COR: TStringField
+      FieldName = 'REF_NOME_COR'
+      Size = 200
+    end
+    object cdsBalancoPRODUTO_NOME_COR: TStringField
+      FieldName = 'PRODUTO_NOME_COR'
+      Size = 200
+    end
+    object cdsBalancoNCM: TStringField
+      FieldName = 'NCM'
+      Size = 10
+    end
+    object cdsBalancoPERC_ICMS: TFloatField
+      FieldName = 'PERC_ICMS'
+    end
+    object cdsBalancoPRECO_MEDIO: TFloatField
+      FieldName = 'PRECO_MEDIO'
+    end
+    object cdsBalancoVLR_TOTAL: TFloatField
+      FieldName = 'VLR_TOTAL'
     end
     object cdsBalancoQTD_ESTOQUE: TFMTBCDField
       FieldName = 'QTD_ESTOQUE'
       Precision = 15
       Size = 5
     end
-    object cdsBalancoQTD_ENTRADA: TFMTBCDField
+    object cdsBalancoQTD_ENTRADA: TFloatField
       FieldName = 'QTD_ENTRADA'
-      Precision = 15
-      Size = 5
     end
   end
   object dsBalanco: TDataSource
@@ -4306,7 +4325,6 @@ object DMSPEDFiscal: TDMSPEDFiscal
     IndexFieldNames = 'TIPO_EST;ID_PRODUTO;ID_COR'
     Params = <>
     ProviderName = 'dspPosseEstoque'
-    OnCalcFields = cdsBalancoCalcFields
     Left = 560
     Top = 376
     object cdsPosseEstoqueID_PRODUTO: TIntegerField
@@ -4576,7 +4594,6 @@ object DMSPEDFiscal: TDMSPEDFiscal
     IndexFieldNames = 'TIPO_EST;ID_PRODUTO;ID_COR'
     Params = <>
     ProviderName = 'dspPosseEstoque_NaoApagar'
-    OnCalcFields = cdsBalancoCalcFields
     Left = 561
     Top = 424
     object IntegerField1: TIntegerField
