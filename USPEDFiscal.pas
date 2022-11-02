@@ -3144,7 +3144,7 @@ var
   i : Integer;
 begin
   vQtdAux     := 0;
-  vComando    := 'select aux.*, aux.qtd_estoque * aux.preco_medio vlr_total '
+  vComando    := 'select AUX.*, AUX.QTD_ESTOQUE * AUX.PRECO_MEDIO VLR_TOTAL '
                + 'from ( '
                + 'with e as ( '
                + 'select em.tipo_es, em.gerar_custo, EM.ID_PRODUTO, EM.TAMANHO, sum(cast(EM.QTD2 as numeric(15,5))) QTD_ESTOQUE, PRO.REFERENCIA, '
@@ -3176,9 +3176,7 @@ begin
                + 'from PRODUTO pro '
                + 'inner join ESTOQUE_MOV em on EM.ID_PRODUTO = PRO.ID '
                + 'where EM.FILIAL = :FILIAL and '
-               + '      EM.DTMOVIMENTO <= :DTMOVIMENTO and '
-               + '      PRO.INATIVO = ' + QuotedStr('N') + ' and '
-               + '      PRO.ESTOQUE = ' + QuotedStr('S')
+               + '      EM.DTMOVIMENTO <= :DTMOVIMENTO '
                + ' AND (pro.SPED_TIPO_ITEM = ' + QuotedStr('00')
                + '   OR pro.SPED_TIPO_ITEM = ' + QuotedStr('01')
                + '   OR pro.SPED_TIPO_ITEM = ' + QuotedStr('02')
@@ -3187,25 +3185,34 @@ begin
                + '   OR pro.SPED_TIPO_ITEM = ' + QuotedStr('05')
                + '   OR pro.SPED_TIPO_ITEM = ' + QuotedStr('06')
                + '   OR pro.SPED_TIPO_ITEM = ' + QuotedStr('10') + ')'
-               + 'group by em.tipo_es, em.gerar_custo, EM.ID_PRODUTO, EM.TAMANHO, PRO.REFERENCIA, PRO.NOME, PRO.UNIDADE, EM.ID_COR, PRO.SPED_TIPO_ITEM, PRO.PERC_IPI, PRO.TIPO_REG, pro.id_ncm, PRO.perc_icms) '
-               + 'Select E.ID_PRODUTO, E.TAMANHO, sum(e.QTD_ESTOQUE) QTD_ESTOQUE, e.REFERENCIA, '
+               + '  and PRO.INATIVO = ' + QuotedStr('N') + ' and '
+               + '      PRO.ESTOQUE = ' + QuotedStr('S')
+               + 'group by em.tipo_es, em.gerar_custo, EM.ID_PRODUTO, EM.TAMANHO, PRO.REFERENCIA, PRO.NOME, '
+               + 'PRO.UNIDADE, EM.ID_COR, PRO.SPED_TIPO_ITEM, PRO.PERC_IPI, PRO.TIPO_REG, pro.id_ncm, PRO.perc_icms), '
+               + 'a as '
+               + '( '
+               + 'select E.ID_PRODUTO, E.TAMANHO, sum(e.QTD_ESTOQUE) QTD_ESTOQUE, e.REFERENCIA, '
                + '       e.NOME_PRODUTO, e.UNIDADE, e.ID_COR, e.SPED_TIPO_ITEM, e.TIPO_REG, '
                + '       e.TIPO_SPED, '
                + '       e.DESC_TIPO_REG, '
-               + '       sum(e.VLR_ENTRADA) VLR_ENTRADA ,'
-               + '       sum(e.QTD_ENTRADA) QTD_ENTRADA, e.PERC_IPI, COMB.NOME NOME_COMBINACAO, '
-               + '       cast(e.REFERENCIA || '' '' || e.NOME_produto || '' '' || coalesce(COMB.NOME, '''') as varchar(200)) REF_NOME_COR, '
-               + '       cast(e.TIPO_REG || '' '' || e.nome_produto || '' '' || '' '' || e.ID_PRODUTO || '' '' || coalesce(COMB.NOME, '''') as varchar(200)) PRODUTO_NOME_COR, '
-               + '       NCM.NCM, E.perc_icms, (sum(e.VLR_ENTRADA) / sum(e.QTD_ENTRADA)) PRECO_MEDIO '
+               + '       sum(e.VLR_ENTRADA) VLR_ENTRADA , '
+               + '       sum(e.QTD_ENTRADA) QTD_ENTRADA, e.PERC_IPI, '
+               + '       E.perc_icms, e.id_ncm '
                + 'from e '
-               + 'left join COMBINACAO COMB on E.ID_COR = COMB.ID '
-               + 'left join TAB_NCM NCM on e.ID_NCM = NCM.ID '
-               + 'WHERE e.QTD_ESTOQUE > 0 '
                + 'group by E.ID_PRODUTO, E.TAMANHO, e.REFERENCIA, '
                + '       e.NOME_PRODUTO, e.UNIDADE, e.ID_COR, e.SPED_TIPO_ITEM, e.TIPO_REG, '
                + '       e.TIPO_SPED, '
                + '       e.DESC_TIPO_REG, '
-               + '       e.PERC_IPI, COMB.NOME, NCM.NCM, E.PERC_ICMS) aux ';
+               + '       e.PERC_IPI, E.PERC_ICMS,  e.id_ncm) '
+               + 'select a.*, ncm.ncm,  '
+               + 'COMB.NOME NOME_COMBINACAO, '
+               + '       cast(a.REFERENCIA || '' '' || a.NOME_produto || '' '' || coalesce(COMB.NOME, '''') as varchar(200)) REF_NOME_COR, '
+               + '       cast(a.TIPO_REG || '' '' || a.nome_produto || '' '' || '' '' || a.ID_PRODUTO || '' '' || coalesce(COMB.NOME, '''') as varchar(200)) PRODUTO_NOME_COR, '
+               + '       iif(a.VLR_ENTRADA > 0 and a.QTD_ENTRADA > 0, a.VLR_ENTRADA / a.QTD_ENTRADA, 0) PRECO_MEDIO '
+               + 'from a '
+               + 'left join COMBINACAO COMB on a.ID_COR = COMB.ID '
+               + 'left join TAB_NCM NCM on a.ID_NCM = NCM.ID) aux '
+               + 'where aux.qtd_estoque > 0 ';
   fDMSPEDFiscal.cdsBalanco.Close;
   fDMSPEDFiscal.sdsBalanco.CommandText := vComando;
   fDMSPEDFiscal.sdsBalanco.ParamByName('FILIAL').AsInteger   := RxDBLookupCombo1.KeyValue;
@@ -3838,7 +3845,6 @@ begin
     MessageDlg('*** Filial não informada' , mtError, [mbOk], 0);
     exit;
   end;
-
   fDMSPEDFiscal.mK200.EmptyDataSet;
   fDMSPEDFiscal.mPessoa.EmptyDataSet;
   fDMSPEDFiscal.mProduto.EmptyDataSet;
@@ -3855,19 +3861,14 @@ begin
 
   Form := TForm.Create(Application);
   uUtilPadrao.prc_Form_Aguarde(Form);
-
   try
     vGerar_K := (RzCheckList1.ItemChecked[6]);
-
     if (RzCheckList1.ItemChecked[5]) then
       prc_Consultar_cdsBalanco;
-
     if (RzCheckList1.ItemChecked[2]) or (RzCheckList1.ItemChecked[3]) then
       prc_Movimento;
-
     if (RzCheckList1.ItemChecked[5]) then
       prc_Verifica_Produtos_Balanco;
-
     if (RzCheckList1.ItemChecked[6]) then
     begin
       prc_Consultar_PosseEstoque;
