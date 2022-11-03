@@ -1095,8 +1095,8 @@ begin
       begin
         with RegistroE200New do
         begin
-          DT_INI := StrToDate('01/11/2011');
-          DT_FIN := StrToDate('30/11/2011');
+          DT_INI := DateEdit1.Date;
+          DT_FIN := DateEdit2.Date;
           UF := ESTADOS[I];
 
           with RegistroE210New do
@@ -1158,8 +1158,10 @@ begin
       with RegistroE500New do
       begin
         IND_APUR := iaMensal;
-        DT_INI := StrToDate('01/11/2011');
-        DT_FIN := StrToDate('30/11/2011');
+        //DT_INI := StrToDate('01/11/2011');
+        //DT_FIN := StrToDate('30/11/2011');
+        DT_INI := DateEdit1.Date;
+        DT_FIN := DateEdit2.Date;
 
         with RegistroE510New do
         begin
@@ -1501,7 +1503,7 @@ begin
     12 : ACBrSPEDFiscal1.Bloco_0.Registro0000New.COD_VER := vlVersao111;
     13 : ACBrSPEDFiscal1.Bloco_0.Registro0000New.COD_VER := vlVersao112;
     15 : ACBrSPEDFiscal1.Bloco_0.Registro0000New.COD_VER := vlVersao114;
-    16 : ACBrSPEDFiscal1.Bloco_0.Registro0000New.COD_VER := vlVersao114;
+    16 : ACBrSPEDFiscal1.Bloco_0.Registro0000New.COD_VER := vlVersao115;
   end;
   case cbFinalidade.ItemIndex of
     0 : ACBrSPEDFiscal1.Bloco_0.Registro0000New.COD_FIN := raOriginal;
