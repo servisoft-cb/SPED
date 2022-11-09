@@ -183,6 +183,8 @@ type
     procedure prc_Bloco_0_Reg_0500;
     procedure prc_Bloco_0_Reg_0600;
     procedure prc_Bloco_0_Reg_0990;
+    procedure prc_Bloco_1_Reg_1001;
+
 
     procedure prc_Gerar_Bloco_C;
     procedure prc_Bloco_C_Reg_C100; //Falta gerar a NFCe
@@ -229,7 +231,7 @@ uses uUtilPadrao, DB, ACBrEFDBloco_C, ACBrEFDBloco_C_Class,
   SqlExpr, ACBrEFDBloco_D_Class, ACBrEFDBloco_D, ACBrEFDBloco_H_Class,
   ACBrEFDBloco_H, DateUtils, rsDBUtils, ACBrEFDBloco_K,
   ACBrEFDBloco_K_Class, ACBrEFDBloco_E_Class, ACBrEFDBloco_E, ACBrSped,
-  UCadSpedVersao, UConsPosseEstoque;
+  UCadSpedVersao, UConsPosseEstoque, ACBrEFDBloco_0;
 
 {$IFDEF FPC}
 {$R *.lfm}
@@ -577,19 +579,22 @@ begin
     with Registro1001New do
     begin
       IND_MOV := imComDados;
-
-      with Registro1010New do
-      begin
-        IND_EXP   := 'N'; // Reg. 1100 - Ocorreu averbação (conclusão) de exportação no período:
-        IND_CCRF  := 'N'; // Reg. 1200 – Existem informações acerca de créditos de ICMS a serem controlados, definidos pela Sefaz:
-        IND_COMB  := 'N'; // Reg. 1300 – É comercio varejista de combustíveis:
-        IND_USINA := 'N'; // Reg. 1390 – Usinas de açúcar e/álcool – O estabelecimento é produtor de açúcar e/ou álcool carburante:
-        IND_VA    := 'N'; // Reg. 1400 – Existem informações a serem prestadas neste registro e o registro é obrigatório em sua Unidade da Federação:
-        IND_EE    := 'N'; // Reg. 1500 - A empresa é distribuidora de energia e ocorreu fornecimento de energia elétrica para consumidores de outra UF:
-        IND_CART  := 'N'; // Reg. 1600 - Realizou vendas com Cartão de Crédito ou de débito:
-        IND_FORM  := 'N'; // Reg. 1700 - É obrigatório em sua unidade da federação o controle de utilização de documentos  fiscais em papel:
-        IND_AER   := 'N'; // Reg. 1800 – A empresa prestou serviços de transporte aéreo de cargas e de passageiros:
-      end;
+    end;
+    with Registro1010New do
+    begin
+      IND_EXP := 'N';
+      IND_CCRF := 'N';
+      IND_COMB := 'N';
+      IND_USINA := 'N';
+      IND_VA := 'N';
+      IND_EE := 'N';
+      IND_CART := 'N';
+      IND_FORM := 'N';
+      IND_AER := 'N';
+      IND_GIAF1 := 'N';
+      IND_GIAF3 := 'N';
+      IND_GIAF4 := 'N';
+      IND_REST_RESSARC_COMPL_ICMS := 'N';
     end;
   end;
 
@@ -1444,6 +1449,7 @@ begin
     prc_Bloco_0_Reg_0600;
   prc_Bloco_0_Reg_0990;
 
+
   //tirei daqui 18/03/2014
   //ACBrSPEDFiscal1.SaveFileTXT;
   //LoadToMemo;
@@ -1688,6 +1694,8 @@ begin
         begin
           UNID  := fDMSPEDFiscal.mUnidadeUnidade.AsString;
           DESCR := fDMSPEDFiscal.mUnidadeNome.AsString;
+          if DESCR = EmptyStr then
+            DESCR := fDMSPEDFiscal.mUnidadeUnidade.AsString;
           vContador_Reg_0 := vContador_Reg_0 + 1;
         end
       end
@@ -1721,8 +1729,9 @@ begin
        and (fDMSPEDFiscal.cdsMovimentoID_NOTAFISCAL.AsInteger <> vNumNota)) or
        ((fDMSPEDFiscal.cdsMovimentoTIPO_REG.AsString = 'NSE') and (fDMSPEDFiscal.cdsMovimentoID_NOTASERVICO.AsInteger <> vNumNota)) then
     begin
-      if (fDMSPEDFiscal.cdsMovimentoCANCELADO.AsString = 'N') and (fDMSPEDFiscal.cdsMovimentoDENEGADA.AsString = 'N') then
-        prc_Gravar_mPessoa(fDMSPEDFiscal.cdsMovimentoID_PESSOA.AsInteger);
+      //Russimar
+//      if (fDMSPEDFiscal.cdsMovimentoCANCELADO.AsString = 'N') and (fDMSPEDFiscal.cdsMovimentoDENEGADA.AsString = 'N') then
+//        prc_Gravar_mPessoa(fDMSPEDFiscal.cdsMovimentoID_PESSOA.AsInteger);
     end;
 
     if fDMSPEDFiscal.cdsMovimentoTIPO_REG.AsString = 'NTE' then
@@ -3878,7 +3887,10 @@ begin
     end;
 
     if (RzCheckList1.ItemChecked[1]) then
+    begin
       prc_Gerar_Bloco_0;
+      prc_Bloco_1_Reg_1001;
+    end;
     if (RzCheckList1.ItemChecked[4]) then
       prc_gerar_Bloco_E;
     if (RzCheckList1.ItemChecked[5]) then
@@ -3890,6 +3902,8 @@ begin
   finally
     FreeAndNil(Form);
   end;
+  mSped.Update;
+  Application.ProcessMessages;
 end;
 
 procedure TfrmSPEDFiscal.prc_Gerar_Bloco_E;
@@ -3911,24 +3925,66 @@ begin
       vContador_Reg_E := vContador_Reg_E + 1;
     end;
 
-    with RegistroE500New do
-    begin
-      if fDMSPEDFiscal.cdsFilialSPED_PERIODO_IPI.AsString = '1' then
-        IND_APUR := iaDecendial
-      else
-        IND_APUR := iaMensal;
-      DT_INI := DateEdit1.Date;
-      DT_FIN := DateEdit2.Date;
-      vContador_Reg_E := vContador_Reg_E + 1;
-    end;
-  end;
+    //Russimar
+      with RegistroE100New do
+      begin
+        DT_INI := DateEdit1.Date ;
+        DT_FIN := DateEdit2.Date;
 
-  fDMSPEDFiscal.cdsIPI.First;
-  while not fDMSPEDFiscal.cdsIPI.Eof do
-  begin
-    prc_Bloco_E_Reg_E510;
-    fDMSPEDFiscal.cdsIPI.Next;
-    vContador_Reg_E := vContador_Reg_E + 1;
+        with RegistroE110New do
+        begin
+          VL_TOT_DEBITOS := 0.00;
+          VL_AJ_DEBITOS := 0.00;
+          VL_TOT_AJ_DEBITOS := 0.00;
+          VL_ESTORNOS_CRED := 0;
+          VL_TOT_CREDITOS := 0.00;
+          VL_AJ_CREDITOS := 0;
+          VL_TOT_AJ_CREDITOS := 0;
+          VL_ESTORNOS_DEB := 0;
+          VL_SLD_CREDOR_ANT := 0;
+          VL_SLD_APURADO := 0.00;
+          VL_TOT_DED := 0.00;
+          VL_ICMS_RECOLHER := 0.00;
+          VL_SLD_CREDOR_TRANSPORTAR := 0;
+          DEB_ESP := 0;
+
+//          with RegistroE116New do
+//          begin
+//            COD_OR := '000';
+//            VL_OR := 0;
+//            DT_VCTO := Now;
+//            COD_REC := '123';
+//            NUM_PROC := '10';
+//            IND_PROC := opSefaz;
+//            PROC := 'DESCRIÇÃO DO PROCESSO';
+//            TXT_COMPL := '';
+//            MES_REF := '112011';
+//          end;
+        end;
+        vContador_Reg_E := vContador_Reg_E + 1;
+      end;
+
+    if ACBrSPEDFiscal1.Bloco_0.Registro0000New.IND_ATIV = atIndustrial then
+    begin
+      with RegistroE500New do
+      begin
+        if fDMSPEDFiscal.cdsFilialSPED_PERIODO_IPI.AsString = '1' then
+          IND_APUR := iaDecendial
+        else
+          IND_APUR := iaMensal;
+        DT_INI := DateEdit1.Date;
+        DT_FIN := DateEdit2.Date;
+        vContador_Reg_E := vContador_Reg_E + 1;
+      end;
+
+      fDMSPEDFiscal.cdsIPI.First;
+      while not fDMSPEDFiscal.cdsIPI.Eof do
+      begin
+        prc_Bloco_E_Reg_E510;
+        fDMSPEDFiscal.cdsIPI.Next;
+        vContador_Reg_E := vContador_Reg_E + 1;
+      end;
+    end;
   end;
 
   prc_Bloco_E_Reg_E990;
@@ -4001,5 +4057,39 @@ begin
   fDMSPEDFiscal.frxReport1.variables['ImpOpcao'] := QuotedStr(vOpcaoAux);
   fDMSPEDFiscal.frxReport1.ShowReport;
 end;            
+
+procedure TfrmSPEDFiscal.prc_Bloco_1_Reg_1001;
+begin
+  with ACBrSPEDFiscal1.Bloco_1 do
+  begin
+    with Registro1001New do
+    begin
+      IND_MOV := imComDados;
+    end;
+    with Registro1010New do
+    begin
+      IND_EXP := 'N';
+      IND_CCRF := 'N';
+      IND_COMB := 'N';
+      IND_USINA := 'N';
+      IND_VA := 'N';
+      IND_EE := 'N';
+      IND_CART := 'N';
+      IND_FORM := 'N';
+      IND_AER := 'N';
+      IND_GIAF1 := 'N';
+      IND_GIAF3 := 'N';
+      IND_GIAF4 := 'N';
+      IND_REST_RESSARC_COMPL_ICMS := 'N';
+    end;
+  end;
+
+  if cbConcomitante.Checked then
+  begin
+    ACBrSPEDFiscal1.WriteBloco_1;
+    LoadToMemo;
+  end;
+
+end;
 
 end.
