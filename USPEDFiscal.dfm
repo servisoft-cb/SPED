@@ -1,6 +1,6 @@
 object frmSPEDFiscal: TfrmSPEDFiscal
-  Left = -7
-  Top = 0
+  Left = 14
+  Top = 39
   Width = 1380
   Height = 735
   Caption = 'Gerar SPED Fiscal    (Vers'#227'o  01/11/2022  1.0.27) '
@@ -389,7 +389,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edtFile: TEdit
           Left = 22
           Top = 28
-          Width = 505
+          Width = 501
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 0
@@ -398,7 +398,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           OnExit = edtFileChange
         end
         object cbConcomitante: TCheckBox
-          Left = 551
+          Left = 547
           Top = 30
           Width = 134
           Height = 19
@@ -421,7 +421,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edNotas: TEdit
           Left = 654
           Top = 29
-          Width = 268
+          Width = 264
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 2
@@ -441,7 +441,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object Label4: TLabel
           Left = 1
           Top = 1
-          Width = 1354
+          Width = 450
           Height = 16
           Align = alTop
           Alignment = taCenter
@@ -1081,6 +1081,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
             Width = 1356
             Height = 509
             Align = alClient
+            DataSource = DMSPEDFiscal.dsPosseEstoque
             Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
             TabOrder = 0
             TitleFont.Charset = DEFAULT_CHARSET
@@ -1127,6 +1128,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
               item
                 Expanded = False
                 FieldName = 'QTD'
+                Width = 64
                 Visible = True
               end
               item
@@ -1144,6 +1146,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
               item
                 Expanded = False
                 FieldName = 'REFERENCIA'
+                Width = 64
                 Visible = True
               end
               item
@@ -1159,16 +1162,19 @@ object frmSPEDFiscal: TfrmSPEDFiscal
               item
                 Expanded = False
                 FieldName = 'UNIDADE'
+                Width = 64
                 Visible = True
               end
               item
                 Expanded = False
                 FieldName = 'SPED_TIPO_ITEM'
+                Width = 64
                 Visible = True
               end
               item
                 Expanded = False
                 FieldName = 'NCM_EX'
+                Width = 64
                 Visible = True
               end
               item
@@ -1179,6 +1185,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
               item
                 Expanded = False
                 FieldName = 'TIPO_EST'
+                Width = 64
                 Visible = True
               end>
           end
@@ -1192,6 +1199,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
             Height = 509
             Align = alClient
             Ctl3D = False
+            DataSource = DMSPEDFiscal.dsmAuxResumo
             Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
             ParentCtl3D = False
             ReadOnly = True
@@ -1274,6 +1282,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
             Height = 475
             Align = alClient
             Ctl3D = False
+            DataSource = DMSPEDFiscal.dsmK200
             Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
             ParentCtl3D = False
             ReadOnly = True
