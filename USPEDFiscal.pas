@@ -2869,15 +2869,19 @@ begin
   while not fDMSPEDFiscal.cdsNotaFiscal.Eof do
   begin
     fDMSPEDFiscal.mC190.EmptyDataSet;
-    if (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString = '07') or (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString = '08') or
+    //ver  03/12/2022
+    {if (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString = '07') or (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString = '08') or
         (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString = '8B') or (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString = '09') or
         (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString = '10') or (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString = '11') or
         (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString = '26') or (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString = '27') or
-        (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString = '57') then
-      prc_Bloco_D_Reg_D100
-    else
+        (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString = '57') then}
+      //prc_Bloco_D_Reg_D100
+    //else
     if (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString = '21') or (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString = '22') then
-      prc_Bloco_D_Reg_D500;
+      prc_Bloco_D_Reg_D500
+    else
+      prc_Bloco_D_Reg_D100;
+
     fDMSPEDFiscal.cdsNotaFiscal.Next;
   end;
 
@@ -2906,7 +2910,7 @@ begin
                                              + ' OR   (N.COD_MODELO = ' + QuotedStr('1B') + ')'
                                              + ' OR   (N.COD_MODELO = ' + QuotedStr('04') + ')'
                                              + ' OR   (N.COD_MODELO = ' + QuotedStr('55') + '))';}
-  if Bloco = 'D' then
+  {if Bloco = 'D' then
     fDMSPEDFiscal.sdsNotaFiscal.CommandText := fDMSPEDFiscal.sdsNotaFiscal.CommandText
                                              + ' AND ((N.COD_MODELO = ' + QuotedStr('07') + ')'
                                              + ' OR   (N.COD_MODELO = ' + QuotedStr('08') + ')'
@@ -2918,7 +2922,7 @@ begin
                                              + ' OR   (N.COD_MODELO = ' + QuotedStr('27') + ')'
                                              + ' OR   (N.COD_MODELO = ' + QuotedStr('57') + ')'
                                              + ' OR   (N.COD_MODELO = ' + QuotedStr('21') + ')'
-                                             + ' OR   (N.COD_MODELO = ' + QuotedStr('22') + '))';
+                                             + ' OR   (N.COD_MODELO = ' + QuotedStr('22') + '))';}
   fDMSPEDFiscal.cdsNotaFiscal.Open;
 end;
 
@@ -3891,6 +3895,10 @@ begin
       prc_Gerar_Bloco_0;
       prc_Bloco_1_Reg_1001;
     end;
+    if (RzCheckList1.ItemChecked[2]) then
+      prc_Gerar_Bloco_C;
+    if (RzCheckList1.ItemChecked[3]) then
+      prc_Gerar_Bloco_D;
     if (RzCheckList1.ItemChecked[4]) then
       prc_gerar_Bloco_E;
     if (RzCheckList1.ItemChecked[5]) then
