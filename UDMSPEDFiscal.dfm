@@ -30,7 +30,9 @@ object DMSPEDFiscal: TDMSPEDFiscal
   object sdsFilial: TSQLDataSet
     NoMetadata = True
     GetMetadata = False
-    CommandText = 'SELECT *'#13#10'FROM FILIAL'#13#10'WHERE INATIVO = '#39'N'#39
+    CommandText = 
+      'select F.*, C.CODIGO COD_CLASIPI'#13#10'from FILIAL F'#13#10'left join TAB_C' +
+      'LASIPI C on C.ID = F.ID_CLASIPI'#13#10'where F.INATIVO = '#39'N'#39'   '
     MaxBlobSize = -1
     Params = <>
     SQLConnection = dmDatabase.scoDados
@@ -177,6 +179,17 @@ object DMSPEDFiscal: TDMSPEDFiscal
       FieldName = 'SPED_SOMA_IPI_CUSTO'
       FixedChar = True
       Size = 1
+    end
+    object cdsFilialENDERECO_ARQ_SPED: TStringField
+      FieldName = 'ENDERECO_ARQ_SPED'
+      Size = 200
+    end
+    object cdsFilialID_CLASIPI: TIntegerField
+      FieldName = 'ID_CLASIPI'
+    end
+    object cdsFilialCOD_CLASIPI: TStringField
+      FieldName = 'COD_CLASIPI'
+      Size = 2
     end
   end
   object dsFilial: TDataSource

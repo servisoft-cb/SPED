@@ -1049,6 +1049,9 @@ type
     cdsNotaFiscalID_INTERMEDIADOR: TIntegerField;
     cdsNotaFiscalVLR_DUPLICATA_ADTO: TFloatField;
     cdsNotaFiscalCOD_MODELO: TStringField;
+    cdsFilialENDERECO_ARQ_SPED: TStringField;
+    cdsFilialID_CLASIPI: TIntegerField;
+    cdsFilialCOD_CLASIPI: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure mAuxResumoNewRecord(DataSet: TDataSet);
   private

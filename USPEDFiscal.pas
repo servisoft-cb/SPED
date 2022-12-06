@@ -134,6 +134,7 @@ type
     procedure NxButton2Click(Sender: TObject);
     procedure NxButton3Click(Sender: TObject);
     procedure btnImp_Bloco_KClick(Sender: TObject);
+    procedure RxDBLookupCombo1Exit(Sender: TObject);
   private
     fDMSPEDFiscal: TDMSPEDFiscal;
     vContador_Reg_0 : Integer;
@@ -165,6 +166,7 @@ type
     procedure prc_Gerar_Bloco_0;
     procedure prc_Bloco_0_Reg_0000;
     procedure prc_Bloco_0_Reg_0001;
+    procedure prc_Bloco_0_Reg_0002;
     procedure prc_Bloco_0_Reg_0005;
     procedure prc_Bloco_0_Reg_0015;
     procedure prc_Bloco_0_Reg_0100;
@@ -1432,6 +1434,7 @@ begin
 
   prc_Bloco_0_Reg_0000;
   prc_Bloco_0_Reg_0001;
+  prc_Bloco_0_Reg_0002;
   prc_Bloco_0_Reg_0005;
   prc_Bloco_0_Reg_0015; //Não vai ser gerado no momento
   prc_Bloco_0_Reg_0100;
@@ -1807,6 +1810,10 @@ begin
   if trim(fDMSPEDFiscal.cdsMovimentoTAMANHO.AsString) <> '' then
     fDMSPEDFiscal.mProdutoTamanho.AsString     := fDMSPEDFiscal.cdsMovimentoTAMANHO.AsString;
   fDMSPEDFiscal.mProdutoNome.AsString := fDMSPEDFiscal.cdsMovimentoNOME_PRODUTO_SERV.AsString;
+
+  if trim(fDMSPEDFiscal.mProdutoNome.AsString) = '' then
+    ShowMessage('parte 2');
+
   fDMSPEDFiscal.mProdutoCod_Barra.AsString := fDMSPEDFiscal.cdsMovimentoCOD_BARRA_CAD.AsString;
   fDMSPEDFiscal.mProdutoCod_Anterior.AsString := '';
   fDMSPEDFiscal.mProdutoUnidade.AsString      := UpperCase(fDMSPEDFiscal.cdsMovimentoUNIDADE_PRODUTO_CAD.AsString);
@@ -3489,6 +3496,9 @@ begin
         if trim(fDMSPEDFiscal.cdsBalancoTAMANHO.AsString) <> '' then
           fDMSPEDFiscal.mProdutoTamanho.AsString     := fDMSPEDFiscal.cdsBalancoTAMANHO.AsString;
         fDMSPEDFiscal.mProdutoNome.AsString := fDMSPEDFiscal.cdsBalancoNOME_PRODUTO.AsString;
+  if trim(fDMSPEDFiscal.mProdutoNome.AsString) = '' then
+    ShowMessage('parte 3');
+
         fDMSPEDFiscal.mProdutoCod_Barra.AsString    := '';
         fDMSPEDFiscal.mProdutoCod_Anterior.AsString := '';
         fDMSPEDFiscal.mProdutoUnidade.AsString      := UpperCase(fDMSPEDFiscal.qProdutoUNIDADE.AsString);
@@ -3793,18 +3803,21 @@ begin
   if (trim(fDMSPEDFiscal.cdsPosseEstoqueTAMANHO.AsString) <> '') then
     vCodigo := vCodigo + '.' + fDMSPEDFiscal.cdsPosseEstoqueTAMANHO.AsString;
 
-  if fDMSPEDFiscal.mProduto.FindKey([vCodigo]) then
+  if fDMSPEDFiscal.mProduto.Locate('Cod_Produto',vCodigo,([Locaseinsensitive])) then
     exit;
 
   //if fDMSPEDFiscal.cdsPosseEstoqueID_PRODUTO.AsInteger = 31592 then
   //  ShowMessage('aqui cdsPosseEstoque 1');
-    
+
   fDMSPEDFiscal.mProduto.Insert;
   fDMSPEDFiscal.mProdutoID.AsInteger         := fDMSPEDFiscal.cdsPosseEstoqueID_PRODUTO.AsInteger;
   fDMSPEDFiscal.mProdutoCod_Produto.AsString := vCodigo;
   if trim(fDMSPEDFiscal.cdsPosseEstoqueTAMANHO.AsString) <> '' then
     fDMSPEDFiscal.mProdutoTamanho.AsString     := fDMSPEDFiscal.cdsPosseEstoqueTAMANHO.AsString;
   fDMSPEDFiscal.mProdutoNome.AsString := fDMSPEDFiscal.cdsPosseEstoqueNOME_PRODUTO.AsString;
+  if trim(fDMSPEDFiscal.mProdutoNome.AsString) = '' then
+    ShowMessage('parte 1');
+
   if trim(fDMSPEDFiscal.cdsPosseEstoqueTAMANHO.AsString) <> '' then
     fDMSPEDFiscal.mProdutoNome.AsString := fDMSPEDFiscal.mProdutoNome.AsString + ' TAM. ' + fDMSPEDFiscal.cdsPosseEstoqueTAMANHO.AsString;
   if trim(fDMSPEDFiscal.cdsPosseEstoqueNOME_COMBINACAO.AsString) <> '' then
@@ -4094,6 +4107,17 @@ begin
     LoadToMemo;
   end;
 
+end;
+
+procedure TfrmSPEDFiscal.RxDBLookupCombo1Exit(Sender: TObject);
+begin
+  DirectoryEdit1.Text := fDMSPEDFiscal.cdsFilialENDERECO_ARQ_SPED.AsString;
+end;
+
+procedure TfrmSPEDFiscal.prc_Bloco_0_Reg_0002;
+begin
+  ACBrSPEDFiscal1.Bloco_0.Registro0002New.CLAS_ESTAB_IND := fDMSPEDFiscal.cdsFilialCOD_CLASIPI.AsString;
+  vContador_Reg_0 := vContador_Reg_0 + 1;
 end;
 
 end.
