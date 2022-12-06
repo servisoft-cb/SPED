@@ -2172,8 +2172,8 @@ begin
       (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString = '28') then
       prc_Bloco_C_Reg_C500
     else
-    //if (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString = '01') or (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString = '1B') or
-      //  (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString = '04') or (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString = '55') then
+    if (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString = '01') or (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString = '1B') or
+        (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString = '04') or (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString = '55') then
       prc_Bloco_C_Reg_C100;
     fDMSPEDFiscal.cdsNotaFiscal.Next;
   end;
@@ -2869,19 +2869,15 @@ begin
   while not fDMSPEDFiscal.cdsNotaFiscal.Eof do
   begin
     fDMSPEDFiscal.mC190.EmptyDataSet;
-    //ver  03/12/2022
-    {if (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString = '07') or (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString = '08') or
+    if (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString = '07') or (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString = '08') or
         (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString = '8B') or (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString = '09') or
         (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString = '10') or (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString = '11') or
         (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString = '26') or (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString = '27') or
-        (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString = '57') then}
-      //prc_Bloco_D_Reg_D100
-    //else
-    if (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString = '21') or (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString = '22') then
-      prc_Bloco_D_Reg_D500
+        (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString = '57') then
+      prc_Bloco_D_Reg_D100
     else
-      prc_Bloco_D_Reg_D100;
-
+    if (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString = '21') or (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString = '22') then
+      prc_Bloco_D_Reg_D500;
     fDMSPEDFiscal.cdsNotaFiscal.Next;
   end;
 
@@ -3006,7 +3002,7 @@ begin
         begin
           with RegistroD190New do
           begin
-            CST_ICMS        := fDMSPEDFiscal.mC190CST_ICMS.AsString;
+            CST_ICMS        := FormatFloat('000',fDMSPEDFiscal.mC190CST_ICMS.AsInteger);
             CFOP := fDMSPEDFiscal.mC190Cod_CFOP.AsString;
             ALIQ_ICMS       := fDMSPEDFiscal.mC190Perc_ICMS.AsFloat;
             VL_OPR          := fDMSPEDFiscal.mC190Vlr_Operacao.AsFloat;

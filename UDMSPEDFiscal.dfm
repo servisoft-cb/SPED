@@ -1908,10 +1908,72 @@ object DMSPEDFiscal: TDMSPEDFiscal
     NoMetadata = True
     GetMetadata = False
     CommandText = 
-      'SELECT N.*'#13#10'FROM NOTAFISCAL N'#13#10'WHERE (((N.dtemissao between :DT_' +
-      'INICIAL AND :DT_FINAL) AND (N.tipo_reg = '#39'NTS'#39'))'#13#10'       or ((N.' +
-      'dtsaidaentrada between :DT_INICIAL AND :DT_FINAL ) AND (N.tipo_r' +
-      'eg = '#39'NTE'#39')))'#13#10'  AND N.FILIAL = :FILIAL'#13#10#13#10
+      'select N.ID, N.TIPO_REG, N.FILIAL, N.SERIE, N.NUMNOTA, N.DTEMISS' +
+      'AO, N.ID_CFOP, N.ID_CLIENTE, N.ID_CONDPGTO,'#13#10'       N.ID_VENDEDO' +
+      'R, N.BASE_ICMS, N.VLR_ICMS, N.VLR_IPI, N.VLR_NOTA, N.VLR_ITENS, ' +
+      'N.VLR_DUPLICATA, N.VLR_ENTRADA,'#13#10'       N.PERC_DESCONTO, N.VLR_D' +
+      'ESCONTO, N.VLR_FRETE, N.VLR_SEGURO, N.VLR_OUTRASDESP, N.BASE_ICM' +
+      'STRANSF, N.PERC_TRANSF,'#13#10'       N.VLR_TRANSF, N.VLR_PIS, N.VLR_C' +
+      'OFINS, N.VLR_TAXACISCOMEX, N.VLR_OUTROS, N.BASE_ICMSSIMPLES, N.V' +
+      'LR_ICMSSIMPLES,'#13#10'       N.PERC_ICMSSIMPLES, N.VLR_IMPORTACAO, N.' +
+      'BASE_ICMSSUBST, N.VLR_ICMSSUBST, N.BASE_ICMSOUTROS, N.VLR_ICMSOU' +
+      'TROS,'#13#10'       N.VLR_DUPLICATAOUTROS, N.VLR_ADUANEIRA, N.PERC_ICM' +
+      'S_PISCOFINS, N.PERC_ICMS_OUTROSVALORES, N.PERC_ICMS_FRETE,'#13#10'    ' +
+      '   N.PERC_DESCONTOORIG, N.QTDVOLUME, N.ESPECIE, N.MARCA, N.NUMER' +
+      'OVOLUME, N.PESOBRUTO, N.PESOLIQUIDO, N.PLACA,'#13#10'       N.TIPO_FRE' +
+      'TE, N.ID_TRANSPORTADORA, N.ID_REDESPACHO, N.TIPO_NOTA, N.CANCELA' +
+      'DA, N.MOTIVO_CANCELADA,'#13#10'       N.DTSAIDAENTRADA, N.HRSAIDAENTRA' +
+      'DA, N.LOCALENTREGA, N.DESCRICAO_DESC, N.ID_CLIENTETRIANG, N.QTDT' +
+      'OTAL_ITENS,'#13#10'       N.NFERECIBO, N.NFEPROTOCOLO, N.NFECHAVEACESS' +
+      'O, N.NFEPROTOCOLO_CANCELADA, N.TIPO_ENVIONFE,'#13#10'       N.NFECODBA' +
+      'RRA_CONTINGENCIA, N.NFEVERSAO, N.NFEFINALIDADE, N.NFEAMBIENTE, N' +
+      '.NUMNOTACOPIADA, N.SERIECOPIADA,'#13#10'       N.DTCONTINGENCIA, N.HRC' +
+      'ONTINGENCIA, N.MOTIVO_CONTINGENCIA, N.NFEVERSAOEMISSAO, N.ID_REG' +
+      'IMETRIB, N.RNTC,'#13#10'       N.VAGAOBALSA_IDENTIF, N.VAGAOBALSA_TIPO' +
+      'IDENTIF, N.UFEMBEXPORTACAO, N.LOCALEMBEXPORTACAO,'#13#10'       N.PISC' +
+      'OFINS_SOMAROUTRASDESP, N.TIPO_DESCONTO, N.GERARDUPL_OUTROSVALORE' +
+      'S, N.GERARDUPL_FRETE, N.GERARDUPL_SEGURO,'#13#10'       N.INFORMADO_NU' +
+      'MNOTAMANUAL, N.NFEDENEGADA, N.MOTIVO_DENEGADA, N.DADOS_ADICIONAI' +
+      'S, N.DTINICIO_DUPLICATA,'#13#10'       N.TIPO_PRAZO, N.PERC_COMISSAO, ' +
+      'N.SIMPLES_FILIAL, N.ID_OPERACAO_NOTA, N.FINALIDADE, N.ID_VARIACA' +
+      'O,'#13#10'       N.STATUS_MANIFESTO, N.ID_CONTA, N.ID_TIPO_COBRANCA, N' +
+      '.CALCULAR_IMP_ITEM, N.GRAVOU_DADOSADICIONAIS,'#13#10'       N.VLR_TRIB' +
+      'UTOS, N.USA_TRANSFICMS, N.ID_NOTACOPIADA, N.ID_CONTA_ORCAMENTO, ' +
+      'N.NOTA_ESTORNO, N.COD_CONS_EE,'#13#10'       N.COD_CONS_AGUA, N.VLR_IC' +
+      'MSSUBST_PROPRIO, N.BASE_ICMSSUBST_PROPRIO, N.HREMISSAO, N.TIPO_D' +
+      'ESTINO_OPERACAO,'#13#10'       N.TIPO_CONSUMIDOR, N.TIPO_ATENDIMENTO, ' +
+      'N.LOCALDESPEXPORTACAO, N.VLR_ICMSDESONERADO, N.VLR_TRIBUTOS_ESTA' +
+      'DUAL,'#13#10'       N.VLR_TRIBUTOS_MUNICIPAL, N.FONTE_TRIBUTOS, N.VERS' +
+      'AO_TRIBUTOS, N.VLR_TRIBUTOS_FEDERAL,'#13#10'       N.PERC_COMISSAO_PAG' +
+      'AR_NOTA, N.NFEENVIADA, N.SELECIONADO, N.ID_LOCAL_ESTOQUE, N.VLR_' +
+      'ADIANTAMENTO, N.VLR_ICMS_FCP,'#13#10'       N.VLR_ICMS_UF_DEST, N.VLR_' +
+      'ICMS_UF_REMET, N.VLR_BASE_COMISSAO, N.NOTIFICACAO, N.VLR_PIS_COF' +
+      'INS_SUFRAMA,'#13#10'       N.VLR_DESC_SUFRAMA, N.VLR_AFRMM, N.QTD_TOTA' +
+      'L_PRODUTOS, N.VLR_AJUSTE_CUSTO, N.TIPO_AJUSTE_CUSTO,'#13#10'       N.V' +
+      'LR_FRETE_CUSTO, N.USUARIO, N.NGR, N.ID_TAB_PRECO, N.ID_PREFAT, N' +
+      '.BASE_ICMS_FCP, N.BASE_FCP_ST, N.VLR_FCP_ST,'#13#10'       N.PERC_FCP_' +
+      'ST, N.VLR_ICMS_FCP_DEST, N.BASE_ICMS_FCP_DEST, N.REC_COPIADO, N.' +
+      'SOMAR_FRETE_II, N.VLR_IPI_DEVOL,'#13#10'       N.BASE_IPI, N.VLR_BASE_' +
+      'EFET, N.VLR_ICMS_EFET, N.BASE_ICMSSUBST_RET, N.VLR_ICMSSUBST_RET' +
+      ', N.ID_NOTAORIGINAL_ENT,'#13#10'       N.BASE_PIS, N.BASE_COFINS, N.ID' +
+      '_VENDEDOR_INT, N.PERC_COMISSAO_INT, N.VLR_SALDO_USADO, N.VLR_SAL' +
+      'DO_USADO_PED,'#13#10'       N.ID_ADTO, N.REFAZER_TITULOS, N.VLR_DESCON' +
+      'TO_ITENS, N.ID_NTE_CONTRA_NOTA, N.IE_PRODUTOR_RURAL, N.ID_CENTRO' +
+      '_CUSTO,'#13#10'       N.VLR_PIS_RET, N.VLR_COFINS_RET, N.DESCONTO_FUNR' +
+      'URAL, N.PERC_FUNRURAL, N.VLR_FUNRURAL, N.PEDIDO_GERADO,'#13#10'       ' +
+      'N.INDICADOR_MARKETPLACE, N.TIPO_INT_PAGTO, N.ID_INSTITUICAO_PAGT' +
+      'O, N.COD_BANDEIRA_OPE, N.NUM_AUTORIZACAO_OPE,'#13#10'       N.ID_INTER' +
+      'MEDIADOR, N.VLR_DUPLICATA_ADTO,'#13#10'       case'#13#10'         when N.CO' +
+      'D_MODELO is not null then N.COD_MODELO'#13#10'         when N.TIPO_REG' +
+      ' = '#39'NTS'#39' then '#39'55'#39#13#10'         when O.COD_MODELO_NOTA is not null ' +
+      'then O.COD_MODELO_NOTA'#13#10'         when T.COD_MODELO_NOTA is not n' +
+      'ull then T.COD_MODELO_NOTA'#13#10'         else '#39'55'#39#13#10'       end COD_M' +
+      'ODELO'#13#10'from NOTAFISCAL N'#13#10'left join OPERACAO_NOTA O on O.ID = N.' +
+      'ID_OPERACAO_NOTA'#13#10'left join TAB_CFOP T on T.ID = N.ID_CFOP'#13#10#13#10'wh' +
+      'ere (((N.DTEMISSAO between :DT_INICIAL and :DT_FINAL) and'#13#10'     ' +
+      ' (N.TIPO_REG = '#39'NTS'#39')) or ((N.DTSAIDAENTRADA between :DT_INICIAL' +
+      ' and :DT_FINAL) and'#13#10'      (N.TIPO_REG = '#39'NTE'#39'))) and'#13#10'      N.F' +
+      'ILIAL = :FILIAL'#13#10#13#10'  '
     MaxBlobSize = -1
     Params = <
       item
@@ -1942,407 +2004,6 @@ object DMSPEDFiscal: TDMSPEDFiscal
     SQLConnection = dmDatabase.scoDados
     Left = 344
     Top = 17
-    object sdsNotaFiscalID: TIntegerField
-      FieldName = 'ID'
-      Required = True
-    end
-    object sdsNotaFiscalTIPO_REG: TStringField
-      FieldName = 'TIPO_REG'
-      Size = 3
-    end
-    object sdsNotaFiscalFILIAL: TIntegerField
-      FieldName = 'FILIAL'
-    end
-    object sdsNotaFiscalSERIE: TStringField
-      FieldName = 'SERIE'
-      Size = 3
-    end
-    object sdsNotaFiscalNUMNOTA: TIntegerField
-      FieldName = 'NUMNOTA'
-    end
-    object sdsNotaFiscalDTEMISSAO: TDateField
-      FieldName = 'DTEMISSAO'
-    end
-    object sdsNotaFiscalID_CFOP: TIntegerField
-      FieldName = 'ID_CFOP'
-    end
-    object sdsNotaFiscalID_CLIENTE: TIntegerField
-      FieldName = 'ID_CLIENTE'
-    end
-    object sdsNotaFiscalID_CONDPGTO: TIntegerField
-      FieldName = 'ID_CONDPGTO'
-    end
-    object sdsNotaFiscalID_VENDEDOR: TIntegerField
-      FieldName = 'ID_VENDEDOR'
-    end
-    object sdsNotaFiscalBASE_ICMS: TFloatField
-      FieldName = 'BASE_ICMS'
-    end
-    object sdsNotaFiscalVLR_ICMS: TFloatField
-      FieldName = 'VLR_ICMS'
-    end
-    object sdsNotaFiscalVLR_IPI: TFloatField
-      FieldName = 'VLR_IPI'
-    end
-    object sdsNotaFiscalVLR_NOTA: TFloatField
-      FieldName = 'VLR_NOTA'
-    end
-    object sdsNotaFiscalVLR_ITENS: TFloatField
-      FieldName = 'VLR_ITENS'
-    end
-    object sdsNotaFiscalVLR_DUPLICATA: TFloatField
-      FieldName = 'VLR_DUPLICATA'
-    end
-    object sdsNotaFiscalVLR_ENTRADA: TFloatField
-      FieldName = 'VLR_ENTRADA'
-    end
-    object sdsNotaFiscalPERC_DESCONTO: TFloatField
-      FieldName = 'PERC_DESCONTO'
-    end
-    object sdsNotaFiscalVLR_DESCONTO: TFloatField
-      FieldName = 'VLR_DESCONTO'
-    end
-    object sdsNotaFiscalVLR_FRETE: TFloatField
-      FieldName = 'VLR_FRETE'
-    end
-    object sdsNotaFiscalVLR_SEGURO: TFloatField
-      FieldName = 'VLR_SEGURO'
-    end
-    object sdsNotaFiscalVLR_OUTRASDESP: TFloatField
-      FieldName = 'VLR_OUTRASDESP'
-    end
-    object sdsNotaFiscalBASE_ICMSTRANSF: TFloatField
-      FieldName = 'BASE_ICMSTRANSF'
-    end
-    object sdsNotaFiscalPERC_TRANSF: TFloatField
-      FieldName = 'PERC_TRANSF'
-    end
-    object sdsNotaFiscalVLR_TRANSF: TFloatField
-      FieldName = 'VLR_TRANSF'
-    end
-    object sdsNotaFiscalVLR_PIS: TFloatField
-      FieldName = 'VLR_PIS'
-    end
-    object sdsNotaFiscalVLR_COFINS: TFloatField
-      FieldName = 'VLR_COFINS'
-    end
-    object sdsNotaFiscalVLR_TAXACISCOMEX: TFloatField
-      FieldName = 'VLR_TAXACISCOMEX'
-    end
-    object sdsNotaFiscalVLR_OUTROS: TFloatField
-      FieldName = 'VLR_OUTROS'
-    end
-    object sdsNotaFiscalBASE_ICMSSIMPLES: TFloatField
-      FieldName = 'BASE_ICMSSIMPLES'
-    end
-    object sdsNotaFiscalVLR_ICMSSIMPLES: TFloatField
-      FieldName = 'VLR_ICMSSIMPLES'
-    end
-    object sdsNotaFiscalPERC_ICMSSIMPLES: TFloatField
-      FieldName = 'PERC_ICMSSIMPLES'
-    end
-    object sdsNotaFiscalVLR_IMPORTACAO: TFloatField
-      FieldName = 'VLR_IMPORTACAO'
-    end
-    object sdsNotaFiscalBASE_ICMSSUBST: TFloatField
-      FieldName = 'BASE_ICMSSUBST'
-    end
-    object sdsNotaFiscalVLR_ICMSSUBST: TFloatField
-      FieldName = 'VLR_ICMSSUBST'
-    end
-    object sdsNotaFiscalBASE_ICMSOUTROS: TFloatField
-      FieldName = 'BASE_ICMSOUTROS'
-    end
-    object sdsNotaFiscalVLR_ICMSOUTROS: TFloatField
-      FieldName = 'VLR_ICMSOUTROS'
-    end
-    object sdsNotaFiscalVLR_DUPLICATAOUTROS: TFloatField
-      FieldName = 'VLR_DUPLICATAOUTROS'
-    end
-    object sdsNotaFiscalVLR_ADUANEIRA: TFloatField
-      FieldName = 'VLR_ADUANEIRA'
-    end
-    object sdsNotaFiscalPERC_ICMS_PISCOFINS: TFloatField
-      FieldName = 'PERC_ICMS_PISCOFINS'
-    end
-    object sdsNotaFiscalPERC_ICMS_OUTROSVALORES: TFloatField
-      FieldName = 'PERC_ICMS_OUTROSVALORES'
-    end
-    object sdsNotaFiscalPERC_ICMS_FRETE: TFloatField
-      FieldName = 'PERC_ICMS_FRETE'
-    end
-    object sdsNotaFiscalPERC_DESCONTOORIG: TFloatField
-      FieldName = 'PERC_DESCONTOORIG'
-    end
-    object sdsNotaFiscalQTDVOLUME: TIntegerField
-      FieldName = 'QTDVOLUME'
-    end
-    object sdsNotaFiscalESPECIE: TStringField
-      FieldName = 'ESPECIE'
-      Size = 30
-    end
-    object sdsNotaFiscalMARCA: TStringField
-      FieldName = 'MARCA'
-      Size = 30
-    end
-    object sdsNotaFiscalNUMEROVOLUME: TStringField
-      FieldName = 'NUMEROVOLUME'
-      Size = 30
-    end
-    object sdsNotaFiscalPESOBRUTO: TFloatField
-      FieldName = 'PESOBRUTO'
-    end
-    object sdsNotaFiscalPESOLIQUIDO: TFloatField
-      FieldName = 'PESOLIQUIDO'
-    end
-    object sdsNotaFiscalPLACA: TStringField
-      FieldName = 'PLACA'
-      Size = 8
-    end
-    object sdsNotaFiscalUFPLACA: TStringField
-      FieldName = 'UFPLACA'
-      Size = 2
-    end
-    object sdsNotaFiscalTIPO_FRETE: TStringField
-      FieldName = 'TIPO_FRETE'
-      Size = 1
-    end
-    object sdsNotaFiscalID_TRANSPORTADORA: TIntegerField
-      FieldName = 'ID_TRANSPORTADORA'
-    end
-    object sdsNotaFiscalID_REDESPACHO: TIntegerField
-      FieldName = 'ID_REDESPACHO'
-    end
-    object sdsNotaFiscalTIPO_NOTA: TStringField
-      FieldName = 'TIPO_NOTA'
-      FixedChar = True
-      Size = 1
-    end
-    object sdsNotaFiscalCANCELADA: TStringField
-      FieldName = 'CANCELADA'
-      FixedChar = True
-      Size = 1
-    end
-    object sdsNotaFiscalMOTIVO_CANCELADA: TStringField
-      FieldName = 'MOTIVO_CANCELADA'
-      Size = 100
-    end
-    object sdsNotaFiscalDTSAIDAENTRADA: TDateField
-      FieldName = 'DTSAIDAENTRADA'
-    end
-    object sdsNotaFiscalHRSAIDAENTRADA: TTimeField
-      FieldName = 'HRSAIDAENTRADA'
-    end
-    object sdsNotaFiscalID_BANCO: TIntegerField
-      FieldName = 'ID_BANCO'
-    end
-    object sdsNotaFiscalLOCALENTREGA: TStringField
-      FieldName = 'LOCALENTREGA'
-      Size = 1
-    end
-    object sdsNotaFiscalID_EXTCOMISSAO: TIntegerField
-      FieldName = 'ID_EXTCOMISSAO'
-    end
-    object sdsNotaFiscalDESCRICAO_DESC: TStringField
-      FieldName = 'DESCRICAO_DESC'
-      Size = 70
-    end
-    object sdsNotaFiscalID_CLIENTETRIANG: TIntegerField
-      FieldName = 'ID_CLIENTETRIANG'
-    end
-    object sdsNotaFiscalQTDTOTAL_ITENS: TIntegerField
-      FieldName = 'QTDTOTAL_ITENS'
-    end
-    object sdsNotaFiscalNFERECIBO: TStringField
-      FieldName = 'NFERECIBO'
-      Size = 45
-    end
-    object sdsNotaFiscalNFEPROTOCOLO: TStringField
-      FieldName = 'NFEPROTOCOLO'
-      Size = 45
-    end
-    object sdsNotaFiscalNFECHAVEACESSO: TStringField
-      FieldName = 'NFECHAVEACESSO'
-      Size = 44
-    end
-    object sdsNotaFiscalNFEPROTOCOLO_CANCELADA: TStringField
-      FieldName = 'NFEPROTOCOLO_CANCELADA'
-      Size = 45
-    end
-    object sdsNotaFiscalTIPO_ENVIONFE: TStringField
-      FieldName = 'TIPO_ENVIONFE'
-      Size = 25
-    end
-    object sdsNotaFiscalNFECODBARRA_CONTINGENCIA: TStringField
-      FieldName = 'NFECODBARRA_CONTINGENCIA'
-      Size = 44
-    end
-    object sdsNotaFiscalNFEVERSAO: TStringField
-      FieldName = 'NFEVERSAO'
-      Size = 10
-    end
-    object sdsNotaFiscalNFEFINALIDADE: TStringField
-      FieldName = 'NFEFINALIDADE'
-      Size = 1
-    end
-    object sdsNotaFiscalNFEAMBIENTE: TStringField
-      FieldName = 'NFEAMBIENTE'
-      FixedChar = True
-      Size = 1
-    end
-    object sdsNotaFiscalNUMNOTACOPIADA: TIntegerField
-      FieldName = 'NUMNOTACOPIADA'
-    end
-    object sdsNotaFiscalSERIECOPIADA: TStringField
-      FieldName = 'SERIECOPIADA'
-      Size = 3
-    end
-    object sdsNotaFiscalDTCONTINGENCIA: TDateField
-      FieldName = 'DTCONTINGENCIA'
-    end
-    object sdsNotaFiscalHRCONTINGENCIA: TTimeField
-      FieldName = 'HRCONTINGENCIA'
-    end
-    object sdsNotaFiscalMOTIVO_CONTINGENCIA: TStringField
-      FieldName = 'MOTIVO_CONTINGENCIA'
-      Size = 250
-    end
-    object sdsNotaFiscalNFEVERSAOEMISSAO: TStringField
-      FieldName = 'NFEVERSAOEMISSAO'
-    end
-    object sdsNotaFiscalID_REGIMETRIB: TIntegerField
-      FieldName = 'ID_REGIMETRIB'
-    end
-    object sdsNotaFiscalRNTC: TStringField
-      FieldName = 'RNTC'
-    end
-    object sdsNotaFiscalVAGAOBALSA_IDENTIF: TStringField
-      FieldName = 'VAGAOBALSA_IDENTIF'
-    end
-    object sdsNotaFiscalVAGAOBALSA_TIPOIDENTIF: TStringField
-      FieldName = 'VAGAOBALSA_TIPOIDENTIF'
-      Size = 1
-    end
-    object sdsNotaFiscalUFEMBEXPORTACAO: TStringField
-      FieldName = 'UFEMBEXPORTACAO'
-      Size = 2
-    end
-    object sdsNotaFiscalLOCALEMBEXPORTACAO: TStringField
-      FieldName = 'LOCALEMBEXPORTACAO'
-      Size = 60
-    end
-    object sdsNotaFiscalPISCOFINS_SOMAROUTRASDESP: TStringField
-      FieldName = 'PISCOFINS_SOMAROUTRASDESP'
-      FixedChar = True
-      Size = 1
-    end
-    object sdsNotaFiscalTIPO_DESCONTO: TStringField
-      FieldName = 'TIPO_DESCONTO'
-      Size = 1
-    end
-    object sdsNotaFiscalGERARDUPL_OUTROSVALORES: TStringField
-      FieldName = 'GERARDUPL_OUTROSVALORES'
-      FixedChar = True
-      Size = 1
-    end
-    object sdsNotaFiscalGERARDUPL_FRETE: TStringField
-      FieldName = 'GERARDUPL_FRETE'
-      FixedChar = True
-      Size = 1
-    end
-    object sdsNotaFiscalGERARDUPL_SEGURO: TStringField
-      FieldName = 'GERARDUPL_SEGURO'
-      FixedChar = True
-      Size = 1
-    end
-    object sdsNotaFiscalINFORMADO_NUMNOTAMANUAL: TStringField
-      FieldName = 'INFORMADO_NUMNOTAMANUAL'
-      FixedChar = True
-      Size = 1
-    end
-    object sdsNotaFiscalNFEDENEGADA: TStringField
-      FieldName = 'NFEDENEGADA'
-      FixedChar = True
-      Size = 1
-    end
-    object sdsNotaFiscalMOTIVO_DENEGADA: TStringField
-      FieldName = 'MOTIVO_DENEGADA'
-      Size = 250
-    end
-    object sdsNotaFiscalDADOS_ADICIONAIS: TMemoField
-      FieldName = 'DADOS_ADICIONAIS'
-      BlobType = ftMemo
-      Size = 1
-    end
-    object sdsNotaFiscalDTINICIO_DUPLICATA: TDateField
-      FieldName = 'DTINICIO_DUPLICATA'
-    end
-    object sdsNotaFiscalTIPO_PRAZO: TStringField
-      FieldName = 'TIPO_PRAZO'
-      FixedChar = True
-      Size = 1
-    end
-    object sdsNotaFiscalPERC_COMISSAO: TFloatField
-      FieldName = 'PERC_COMISSAO'
-    end
-    object sdsNotaFiscalSIMPLES_FILIAL: TStringField
-      FieldName = 'SIMPLES_FILIAL'
-      FixedChar = True
-      Size = 1
-    end
-    object sdsNotaFiscalID_OPERACAO_NOTA: TIntegerField
-      FieldName = 'ID_OPERACAO_NOTA'
-    end
-    object sdsNotaFiscalFINALIDADE: TStringField
-      FieldName = 'FINALIDADE'
-      FixedChar = True
-      Size = 1
-    end
-    object sdsNotaFiscalID_VARIACAO: TIntegerField
-      FieldName = 'ID_VARIACAO'
-    end
-    object sdsNotaFiscalSTATUS_MANIFESTO: TStringField
-      FieldName = 'STATUS_MANIFESTO'
-      Size = 3
-    end
-    object sdsNotaFiscalID_CONTA: TIntegerField
-      FieldName = 'ID_CONTA'
-    end
-    object sdsNotaFiscalID_TIPO_COBRANCA: TIntegerField
-      FieldName = 'ID_TIPO_COBRANCA'
-    end
-    object sdsNotaFiscalCALCULAR_IMP_ITEM: TStringField
-      FieldName = 'CALCULAR_IMP_ITEM'
-      FixedChar = True
-      Size = 1
-    end
-    object sdsNotaFiscalGRAVOU_DADOSADICIONAIS: TStringField
-      FieldName = 'GRAVOU_DADOSADICIONAIS'
-      FixedChar = True
-      Size = 1
-    end
-    object sdsNotaFiscalVLR_TRIBUTOS: TFloatField
-      FieldName = 'VLR_TRIBUTOS'
-    end
-    object sdsNotaFiscalUSA_TRANSFICMS: TStringField
-      FieldName = 'USA_TRANSFICMS'
-      Size = 1
-    end
-    object sdsNotaFiscalID_NOTACOPIADA: TIntegerField
-      FieldName = 'ID_NOTACOPIADA'
-    end
-    object sdsNotaFiscalID_CONTA_ORCAMENTO: TIntegerField
-      FieldName = 'ID_CONTA_ORCAMENTO'
-    end
-    object sdsNotaFiscalNOTA_ESTORNO: TStringField
-      FieldName = 'NOTA_ESTORNO'
-      FixedChar = True
-      Size = 1
-    end
-    object sdsNotaFiscalCOD_MODELO: TStringField
-      FieldName = 'COD_MODELO'
-      Size = 2
-    end
   end
   object dspNotaFiscal: TDataSetProvider
     DataSet = sdsNotaFiscal
@@ -2512,10 +2173,6 @@ object DMSPEDFiscal: TDMSPEDFiscal
       FieldName = 'PLACA'
       Size = 8
     end
-    object cdsNotaFiscalUFPLACA: TStringField
-      FieldName = 'UFPLACA'
-      Size = 2
-    end
     object cdsNotaFiscalTIPO_FRETE: TStringField
       FieldName = 'TIPO_FRETE'
       Size = 1
@@ -2546,15 +2203,9 @@ object DMSPEDFiscal: TDMSPEDFiscal
     object cdsNotaFiscalHRSAIDAENTRADA: TTimeField
       FieldName = 'HRSAIDAENTRADA'
     end
-    object cdsNotaFiscalID_BANCO: TIntegerField
-      FieldName = 'ID_BANCO'
-    end
     object cdsNotaFiscalLOCALENTREGA: TStringField
       FieldName = 'LOCALENTREGA'
       Size = 1
-    end
-    object cdsNotaFiscalID_EXTCOMISSAO: TIntegerField
-      FieldName = 'ID_EXTCOMISSAO'
     end
     object cdsNotaFiscalDESCRICAO_DESC: TStringField
       FieldName = 'DESCRICAO_DESC'
@@ -2752,9 +2403,264 @@ object DMSPEDFiscal: TDMSPEDFiscal
       FixedChar = True
       Size = 1
     end
+    object cdsNotaFiscalCOD_CONS_EE: TStringField
+      FieldName = 'COD_CONS_EE'
+      Size = 2
+    end
+    object cdsNotaFiscalCOD_CONS_AGUA: TStringField
+      FieldName = 'COD_CONS_AGUA'
+      Size = 2
+    end
+    object cdsNotaFiscalVLR_ICMSSUBST_PROPRIO: TFloatField
+      FieldName = 'VLR_ICMSSUBST_PROPRIO'
+    end
+    object cdsNotaFiscalBASE_ICMSSUBST_PROPRIO: TFloatField
+      FieldName = 'BASE_ICMSSUBST_PROPRIO'
+    end
+    object cdsNotaFiscalHREMISSAO: TTimeField
+      FieldName = 'HREMISSAO'
+    end
+    object cdsNotaFiscalTIPO_DESTINO_OPERACAO: TSmallintField
+      FieldName = 'TIPO_DESTINO_OPERACAO'
+    end
+    object cdsNotaFiscalTIPO_CONSUMIDOR: TSmallintField
+      FieldName = 'TIPO_CONSUMIDOR'
+    end
+    object cdsNotaFiscalTIPO_ATENDIMENTO: TSmallintField
+      FieldName = 'TIPO_ATENDIMENTO'
+    end
+    object cdsNotaFiscalLOCALDESPEXPORTACAO: TStringField
+      FieldName = 'LOCALDESPEXPORTACAO'
+      Size = 60
+    end
+    object cdsNotaFiscalVLR_ICMSDESONERADO: TFloatField
+      FieldName = 'VLR_ICMSDESONERADO'
+    end
+    object cdsNotaFiscalVLR_TRIBUTOS_ESTADUAL: TFloatField
+      FieldName = 'VLR_TRIBUTOS_ESTADUAL'
+    end
+    object cdsNotaFiscalVLR_TRIBUTOS_MUNICIPAL: TFloatField
+      FieldName = 'VLR_TRIBUTOS_MUNICIPAL'
+    end
+    object cdsNotaFiscalFONTE_TRIBUTOS: TStringField
+      FieldName = 'FONTE_TRIBUTOS'
+      Size = 30
+    end
+    object cdsNotaFiscalVERSAO_TRIBUTOS: TStringField
+      FieldName = 'VERSAO_TRIBUTOS'
+      Size = 15
+    end
+    object cdsNotaFiscalVLR_TRIBUTOS_FEDERAL: TFloatField
+      FieldName = 'VLR_TRIBUTOS_FEDERAL'
+    end
+    object cdsNotaFiscalPERC_COMISSAO_PAGAR_NOTA: TFloatField
+      FieldName = 'PERC_COMISSAO_PAGAR_NOTA'
+    end
+    object cdsNotaFiscalNFEENVIADA: TStringField
+      FieldName = 'NFEENVIADA'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsNotaFiscalSELECIONADO: TStringField
+      FieldName = 'SELECIONADO'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsNotaFiscalID_LOCAL_ESTOQUE: TIntegerField
+      FieldName = 'ID_LOCAL_ESTOQUE'
+    end
+    object cdsNotaFiscalVLR_ADIANTAMENTO: TFloatField
+      FieldName = 'VLR_ADIANTAMENTO'
+    end
+    object cdsNotaFiscalVLR_ICMS_FCP: TFloatField
+      FieldName = 'VLR_ICMS_FCP'
+    end
+    object cdsNotaFiscalVLR_ICMS_UF_DEST: TFloatField
+      FieldName = 'VLR_ICMS_UF_DEST'
+    end
+    object cdsNotaFiscalVLR_ICMS_UF_REMET: TFloatField
+      FieldName = 'VLR_ICMS_UF_REMET'
+    end
+    object cdsNotaFiscalVLR_BASE_COMISSAO: TFloatField
+      FieldName = 'VLR_BASE_COMISSAO'
+    end
+    object cdsNotaFiscalNOTIFICACAO: TIntegerField
+      FieldName = 'NOTIFICACAO'
+    end
+    object cdsNotaFiscalVLR_PIS_COFINS_SUFRAMA: TFloatField
+      FieldName = 'VLR_PIS_COFINS_SUFRAMA'
+    end
+    object cdsNotaFiscalVLR_DESC_SUFRAMA: TFloatField
+      FieldName = 'VLR_DESC_SUFRAMA'
+    end
+    object cdsNotaFiscalVLR_AFRMM: TFloatField
+      FieldName = 'VLR_AFRMM'
+    end
+    object cdsNotaFiscalQTD_TOTAL_PRODUTOS: TFloatField
+      FieldName = 'QTD_TOTAL_PRODUTOS'
+    end
+    object cdsNotaFiscalVLR_AJUSTE_CUSTO: TFloatField
+      FieldName = 'VLR_AJUSTE_CUSTO'
+    end
+    object cdsNotaFiscalTIPO_AJUSTE_CUSTO: TStringField
+      FieldName = 'TIPO_AJUSTE_CUSTO'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsNotaFiscalVLR_FRETE_CUSTO: TFloatField
+      FieldName = 'VLR_FRETE_CUSTO'
+    end
+    object cdsNotaFiscalUSUARIO: TStringField
+      FieldName = 'USUARIO'
+      Size = 15
+    end
+    object cdsNotaFiscalNGR: TStringField
+      FieldName = 'NGR'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsNotaFiscalID_TAB_PRECO: TIntegerField
+      FieldName = 'ID_TAB_PRECO'
+    end
+    object cdsNotaFiscalID_PREFAT: TIntegerField
+      FieldName = 'ID_PREFAT'
+    end
+    object cdsNotaFiscalBASE_ICMS_FCP: TFloatField
+      FieldName = 'BASE_ICMS_FCP'
+    end
+    object cdsNotaFiscalBASE_FCP_ST: TFloatField
+      FieldName = 'BASE_FCP_ST'
+    end
+    object cdsNotaFiscalVLR_FCP_ST: TFloatField
+      FieldName = 'VLR_FCP_ST'
+    end
+    object cdsNotaFiscalPERC_FCP_ST: TFloatField
+      FieldName = 'PERC_FCP_ST'
+    end
+    object cdsNotaFiscalVLR_ICMS_FCP_DEST: TFloatField
+      FieldName = 'VLR_ICMS_FCP_DEST'
+    end
+    object cdsNotaFiscalBASE_ICMS_FCP_DEST: TFloatField
+      FieldName = 'BASE_ICMS_FCP_DEST'
+    end
+    object cdsNotaFiscalREC_COPIADO: TStringField
+      FieldName = 'REC_COPIADO'
+      Size = 1
+    end
+    object cdsNotaFiscalSOMAR_FRETE_II: TStringField
+      FieldName = 'SOMAR_FRETE_II'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsNotaFiscalVLR_IPI_DEVOL: TFloatField
+      FieldName = 'VLR_IPI_DEVOL'
+    end
+    object cdsNotaFiscalBASE_IPI: TFloatField
+      FieldName = 'BASE_IPI'
+    end
+    object cdsNotaFiscalVLR_BASE_EFET: TFloatField
+      FieldName = 'VLR_BASE_EFET'
+    end
+    object cdsNotaFiscalVLR_ICMS_EFET: TFloatField
+      FieldName = 'VLR_ICMS_EFET'
+    end
+    object cdsNotaFiscalBASE_ICMSSUBST_RET: TFloatField
+      FieldName = 'BASE_ICMSSUBST_RET'
+    end
+    object cdsNotaFiscalVLR_ICMSSUBST_RET: TFloatField
+      FieldName = 'VLR_ICMSSUBST_RET'
+    end
+    object cdsNotaFiscalID_NOTAORIGINAL_ENT: TIntegerField
+      FieldName = 'ID_NOTAORIGINAL_ENT'
+    end
+    object cdsNotaFiscalBASE_PIS: TFloatField
+      FieldName = 'BASE_PIS'
+    end
+    object cdsNotaFiscalBASE_COFINS: TFloatField
+      FieldName = 'BASE_COFINS'
+    end
+    object cdsNotaFiscalID_VENDEDOR_INT: TIntegerField
+      FieldName = 'ID_VENDEDOR_INT'
+    end
+    object cdsNotaFiscalPERC_COMISSAO_INT: TFloatField
+      FieldName = 'PERC_COMISSAO_INT'
+    end
+    object cdsNotaFiscalVLR_SALDO_USADO: TFloatField
+      FieldName = 'VLR_SALDO_USADO'
+    end
+    object cdsNotaFiscalVLR_SALDO_USADO_PED: TFloatField
+      FieldName = 'VLR_SALDO_USADO_PED'
+    end
+    object cdsNotaFiscalID_ADTO: TIntegerField
+      FieldName = 'ID_ADTO'
+    end
+    object cdsNotaFiscalREFAZER_TITULOS: TStringField
+      FieldName = 'REFAZER_TITULOS'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsNotaFiscalVLR_DESCONTO_ITENS: TFloatField
+      FieldName = 'VLR_DESCONTO_ITENS'
+    end
+    object cdsNotaFiscalID_NTE_CONTRA_NOTA: TIntegerField
+      FieldName = 'ID_NTE_CONTRA_NOTA'
+    end
+    object cdsNotaFiscalIE_PRODUTOR_RURAL: TStringField
+      FieldName = 'IE_PRODUTOR_RURAL'
+      Size = 15
+    end
+    object cdsNotaFiscalID_CENTRO_CUSTO: TIntegerField
+      FieldName = 'ID_CENTRO_CUSTO'
+    end
+    object cdsNotaFiscalVLR_PIS_RET: TFloatField
+      FieldName = 'VLR_PIS_RET'
+    end
+    object cdsNotaFiscalVLR_COFINS_RET: TFloatField
+      FieldName = 'VLR_COFINS_RET'
+    end
+    object cdsNotaFiscalDESCONTO_FUNRURAL: TStringField
+      FieldName = 'DESCONTO_FUNRURAL'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsNotaFiscalPERC_FUNRURAL: TFloatField
+      FieldName = 'PERC_FUNRURAL'
+    end
+    object cdsNotaFiscalVLR_FUNRURAL: TFloatField
+      FieldName = 'VLR_FUNRURAL'
+    end
+    object cdsNotaFiscalPEDIDO_GERADO: TStringField
+      FieldName = 'PEDIDO_GERADO'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsNotaFiscalINDICADOR_MARKETPLACE: TStringField
+      FieldName = 'INDICADOR_MARKETPLACE'
+      Size = 1
+    end
+    object cdsNotaFiscalTIPO_INT_PAGTO: TStringField
+      FieldName = 'TIPO_INT_PAGTO'
+      Size = 1
+    end
+    object cdsNotaFiscalID_INSTITUICAO_PAGTO: TIntegerField
+      FieldName = 'ID_INSTITUICAO_PAGTO'
+    end
+    object cdsNotaFiscalCOD_BANDEIRA_OPE: TStringField
+      FieldName = 'COD_BANDEIRA_OPE'
+      Size = 2
+    end
+    object cdsNotaFiscalNUM_AUTORIZACAO_OPE: TStringField
+      FieldName = 'NUM_AUTORIZACAO_OPE'
+    end
+    object cdsNotaFiscalID_INTERMEDIADOR: TIntegerField
+      FieldName = 'ID_INTERMEDIADOR'
+    end
+    object cdsNotaFiscalVLR_DUPLICATA_ADTO: TFloatField
+      FieldName = 'VLR_DUPLICATA_ADTO'
+    end
     object cdsNotaFiscalCOD_MODELO: TStringField
       FieldName = 'COD_MODELO'
-      Size = 2
+      Size = 3
     end
   end
   object dsNotaFiscal: TDataSource
