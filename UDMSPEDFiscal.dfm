@@ -320,16 +320,25 @@ object DMSPEDFiscal: TDMSPEDFiscal
     NoMetadata = True
     GetMetadata = False
     CommandText = 
-      'SELECT M.*, PRO.unidade UNIDADE_PRODUTO_CAD, PRO.nome NOME_PRODU' +
-      'TO_CAD, PRO.cod_barra COD_BARRA_CAD,'#13#10'PRO.sped_tipo_item, NCM.NC' +
-      'M, CFOP.CODCFOP, CFOP.NOME NOME_CFOP, PES.usa_tamanho_agrupado_n' +
-      'fe, pro.ncm_ex'#13#10'FROM MOVIMENTO M'#13#10'LEFT JOIN PRODUTO PRO'#13#10'ON M.id' +
-      '_produto = PRO.ID'#13#10'LEFT JOIN PESSOA PES'#13#10'ON M.id_pessoa = PES.CO' +
-      'DIGO'#13#10'LEFT JOIN TAB_NCM NCM'#13#10'ON PRO.ID_NCM = NCM.ID'#13#10'LEFT JOIN T' +
-      'AB_CFOP CFOP'#13#10'ON M.ID_CFOP = CFOP.ID'#13#10'WHERE (M.dtentradasaida be' +
-      'tween :DT_INICIAL AND :DT_FINAL)'#13#10'  and M.FILIAL = :FILIAL'#13#10'  an' +
-      'd ((M.TIPO_REG = '#39'NTS'#39')'#13#10'    or (M.TIPO_REG = '#39'NSE'#39')'#13#10'    or (M.' +
-      'TIPO_REG = '#39'NTE'#39')'#13#10'    or (M.TIPO_REG = '#39'CFI'#39'))'#13#10
+      'select M.*, PRO.UNIDADE UNIDADE_PRODUTO_CAD, PRO.NOME NOME_PRODU' +
+      'TO_CAD, PRO.COD_BARRA COD_BARRA_CAD, PRO.SPED_TIPO_ITEM,'#13#10'      ' +
+      ' NCM.NCM, CFOP.CODCFOP, CFOP.NOME NOME_CFOP, PES.USA_TAMANHO_AGR' +
+      'UPADO_NFE, PRO.NCM_EX,'#13#10'       case'#13#10'         when M.TIPO_REG = ' +
+      #39'NTS'#39' then '#39'55'#39#13#10'         when O.COD_MODELO_NOTA is not null the' +
+      'n O.COD_MODELO_NOTA'#13#10'         when CFOP.COD_MODELO_NOTA is not n' +
+      'ull then CFOP.COD_MODELO_NOTA'#13#10'         else '#39'55'#39#13#10'       end CO' +
+      'D_MODELO,'#13#10'       PUNI.ITEM_UNIDADE, UCONV.UNIDADE_CONV, UCONV.Q' +
+      'TD QTD_CONVERSOR'#13#10'from MOVIMENTO M'#13#10'left join PRODUTO PRO on M.I' +
+      'D_PRODUTO = PRO.ID'#13#10'left join PESSOA PES on M.ID_PESSOA = PES.CO' +
+      'DIGO'#13#10'left join TAB_NCM NCM on PRO.ID_NCM = NCM.ID'#13#10'left join TA' +
+      'B_CFOP CFOP on M.ID_CFOP = CFOP.ID'#13#10'left join OPERACAO_NOTA O on' +
+      ' M.ID_OPERACAO = O.ID'#13#10'left join PRODUTO_UNI PUNI on PUNI.ID = M' +
+      '.ID_PRODUTO and PUNI.UNIDADE_CONV = M.UNIDADE'#13#10'left join UNIDADE' +
+      '_CONV UCONV on UCONV.UNIDADE = PRO.UNIDADE and UCONV.ITEM = PUNI' +
+      '.ITEM_UNIDADE'#13#10'where (M.DTENTRADASAIDA between :DT_INICIAL and :' +
+      'DT_FINAL) and'#13#10'      M.FILIAL = :FILIAL and'#13#10'      ((M.TIPO_REG ' +
+      '= '#39'NTS'#39') or (M.TIPO_REG = '#39'NSE'#39') or (M.TIPO_REG = '#39'NTE'#39') or (M.T' +
+      'IPO_REG = '#39'CFI'#39'))   '
     MaxBlobSize = -1
     Params = <
       item
@@ -502,10 +511,6 @@ object DMSPEDFiscal: TDMSPEDFiscal
     object sdsMovimentoDTENTRADASAIDA: TDateField
       FieldName = 'DTENTRADASAIDA'
     end
-    object sdsMovimentoUNIDADE: TStringField
-      FieldName = 'UNIDADE'
-      Size = 3
-    end
     object sdsMovimentoTIPO_ES: TStringField
       FieldName = 'TIPO_ES'
       FixedChar = True
@@ -578,10 +583,6 @@ object DMSPEDFiscal: TDMSPEDFiscal
       FixedChar = True
       Size = 1
     end
-    object sdsMovimentoUNIDADE_PRODUTO_CAD: TStringField
-      FieldName = 'UNIDADE_PRODUTO_CAD'
-      Size = 3
-    end
     object sdsMovimentoNOME_PRODUTO_CAD: TStringField
       FieldName = 'NOME_PRODUTO_CAD'
       Size = 100
@@ -617,6 +618,28 @@ object DMSPEDFiscal: TDMSPEDFiscal
     object sdsMovimentoNCM_EX: TStringField
       FieldName = 'NCM_EX'
       Size = 2
+    end
+    object sdsMovimentoID_OPERACAO: TIntegerField
+      FieldName = 'ID_OPERACAO'
+    end
+    object sdsMovimentoCOD_MODELO: TStringField
+      FieldName = 'COD_MODELO'
+      Size = 3
+    end
+    object sdsMovimentoUNIDADE_CONV: TStringField
+      FieldName = 'UNIDADE_CONV'
+      Size = 6
+    end
+    object sdsMovimentoQTD_CONVERSOR: TFloatField
+      FieldName = 'QTD_CONVERSOR'
+    end
+    object sdsMovimentoUNIDADE_PRODUTO_CAD: TStringField
+      FieldName = 'UNIDADE_PRODUTO_CAD'
+      Size = 6
+    end
+    object sdsMovimentoUNIDADE: TStringField
+      FieldName = 'UNIDADE'
+      Size = 6
     end
   end
   object dspMovimento: TDataSetProvider
@@ -782,10 +805,6 @@ object DMSPEDFiscal: TDMSPEDFiscal
     object cdsMovimentoDTENTRADASAIDA: TDateField
       FieldName = 'DTENTRADASAIDA'
     end
-    object cdsMovimentoUNIDADE: TStringField
-      FieldName = 'UNIDADE'
-      Size = 3
-    end
     object cdsMovimentoTIPO_ES: TStringField
       FieldName = 'TIPO_ES'
       FixedChar = True
@@ -858,10 +877,6 @@ object DMSPEDFiscal: TDMSPEDFiscal
       FixedChar = True
       Size = 1
     end
-    object cdsMovimentoUNIDADE_PRODUTO_CAD: TStringField
-      FieldName = 'UNIDADE_PRODUTO_CAD'
-      Size = 3
-    end
     object cdsMovimentoNOME_PRODUTO_CAD: TStringField
       FieldName = 'NOME_PRODUTO_CAD'
       Size = 100
@@ -898,6 +913,28 @@ object DMSPEDFiscal: TDMSPEDFiscal
       FieldName = 'NCM_EX'
       Size = 2
     end
+    object cdsMovimentoID_OPERACAO: TIntegerField
+      FieldName = 'ID_OPERACAO'
+    end
+    object cdsMovimentoCOD_MODELO: TStringField
+      FieldName = 'COD_MODELO'
+      Size = 3
+    end
+    object cdsMovimentoUNIDADE_CONV: TStringField
+      FieldName = 'UNIDADE_CONV'
+      Size = 6
+    end
+    object cdsMovimentoQTD_CONVERSOR: TFloatField
+      FieldName = 'QTD_CONVERSOR'
+    end
+    object cdsMovimentoUNIDADE_PRODUTO_CAD: TStringField
+      FieldName = 'UNIDADE_PRODUTO_CAD'
+      Size = 6
+    end
+    object cdsMovimentoUNIDADE: TStringField
+      FieldName = 'UNIDADE'
+      Size = 6
+    end
   end
   object dsMovimento: TDataSource
     DataSet = cdsMovimento
@@ -914,16 +951,15 @@ object DMSPEDFiscal: TDMSPEDFiscal
       end>
     SQL.Strings = (
       
-        'SELECT PES.*, PAIS.codpais, PAIS.nome NOME_PAIS, CID.codmunicipi' +
-        'o, CID.NOME NOME_CIDADE, CID_ENT.CODMUNICIPIO CODMUNICIPIO_ENT'
-      'FROM PESSOA PES'
-      'INNER JOIN PAIS'
-      'ON PES.ID_PAIS = PAIS.ID'
-      'INNER JOIN CIDADE CID'
-      'ON PES.id_cidade = CID.ID'
-      'LEFT JOIN CIDADE CID_ENT'
-      'ON PES.id_cidade_ENT = CID_ENT.ID'
-      'WHERE CODIGO = :CODIGO')
+        'select PES.*, PAIS.CODPAIS, PAIS.NOME NOME_PAIS, CID.CODMUNICIPI' +
+        'O, CID.NOME NOME_CIDADE,'
+      '       CID_ENT.CODMUNICIPIO CODMUNICIPIO_ENT, UF.QTD_DIGITOS_IE'
+      'from PESSOA PES'
+      'inner join PAIS on PES.ID_PAIS = PAIS.ID'
+      'inner join CIDADE CID on PES.ID_CIDADE = CID.ID'
+      'left join CIDADE CID_ENT on PES.ID_CIDADE_ENT = CID_ENT.ID'
+      'left join UF on PES.UF = UF.UF'
+      'where CODIGO = :CODIGO   ')
     SQLConnection = dmDatabase.scoDados
     Left = 720
     Top = 200
@@ -1216,19 +1252,45 @@ object DMSPEDFiscal: TDMSPEDFiscal
       FieldName = 'CODMUNICIPIO_ENT'
       Size = 7
     end
+    object qPessoaQTD_DIGITOS_IE: TIntegerField
+      FieldName = 'QTD_DIGITOS_IE'
+    end
   end
   object mUnidade: TClientDataSet
     Active = True
     Aggregates = <>
+    FieldDefs = <
+      item
+        Name = 'Unidade'
+        DataType = ftString
+        Size = 6
+      end
+      item
+        Name = 'Nome'
+        DataType = ftString
+        Size = 60
+      end
+      item
+        Name = 'Fator_Conversao'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Unidade_Conv'
+        DataType = ftString
+        Size = 6
+      end>
+    IndexDefs = <>
     IndexFieldNames = 'Unidade'
     Params = <>
+    StoreDefs = True
     Left = 888
     Top = 16
     Data = {
-      670000009619E0BD010000001800000003000000000003000000670007556E69
+      880000009619E0BD010000001800000004000000000003000000880007556E69
       646164650100490000000100055749445448020002000600044E6F6D65010049
       0000000100055749445448020002003C000F4661746F725F436F6E7665727361
-      6F08000400000000000000}
+      6F08000400000000000C556E69646164655F436F6E7601004900000001000557
+      494454480200020006000000}
     object mUnidadeUnidade: TStringField
       FieldName = 'Unidade'
       Size = 6
@@ -1239,6 +1301,10 @@ object DMSPEDFiscal: TDMSPEDFiscal
     end
     object mUnidadeFator_Conversao: TFloatField
       FieldName = 'Fator_Conversao'
+    end
+    object mUnidadeUnidade_Conv: TStringField
+      FieldName = 'Unidade_Conv'
+      Size = 6
     end
   end
   object mProduto: TClientDataSet
@@ -1308,6 +1374,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
       end>
     IndexDefs = <>
     IndexFieldNames = 'Cod_Produto'
+    FetchOnDemand = False
     Params = <>
     StoreDefs = True
     Left = 888
@@ -4319,13 +4386,16 @@ object DMSPEDFiscal: TDMSPEDFiscal
   end
   object sdsIPI: TSQLDataSet
     CommandText = 
-      'SELECT CFOP.CODCFOP, IPI.COD_IPI, SUM(I.vlr_total + coalesce(I.v' +
-      'lr_frete,0)) VLR_TOTAL,'#13#10'SUM(I.BASE_IPI) BASE_IPI, SUM(I.VLR_IPI' +
-      ') VLR_IPI'#13#10'FROM NOTAFISCAL N'#13#10'INNER JOIN NOTAFISCAL_ITENS I'#13#10'ON ' +
-      'N.ID = I.ID'#13#10'INNER JOIN TAB_CFOP CFOP'#13#10'ON I.ID_CFOP = CFOP.ID'#13#10'I' +
-      'NNER JOIN tab_cstipi IPI'#13#10'ON I.ID_CSTIPI = IPI.ID'#13#10'WHERE N.DTEMI' +
-      'SSAO BETWEEN :DATA1 AND :DATA2'#13#10'  AND N.FILIAL = :FILIAL'#13#10'  AND ' +
-      'N.TIPO_REG = '#39'NTS'#39#13#10'GROUP BY CFOP.CODCFOP, IPI.COD_IPI'#13#10#13#10#13#10
+      'select CFOP.CODCFOP, IPI.COD_IPI, sum(I.VLR_TOTAL + coalesce(I.V' +
+      'LR_FRETE, 0)) VLR_TOTAL, sum(I.BASE_IPI) BASE_IPI,'#13#10'       sum(I' +
+      '.VLR_IPI) VLR_IPI, N.TIPO_NOTA, IPI.gera_credito'#13#10'from NOTAFISCA' +
+      'L N'#13#10'inner join NOTAFISCAL_ITENS I on N.ID = I.ID'#13#10'LEFT join TAB' +
+      '_CFOP CFOP on I.ID_CFOP = CFOP.ID'#13#10'LEFT join TAB_CSTIPI IPI on I' +
+      '.ID_CSTIPI = IPI.ID'#13#10'where N.DTEMISSAO between :DATA1 and :DATA2' +
+      ' and'#13#10'      N.FILIAL = :FILIAL and'#13#10'      (N.TIPO_REG = '#39'NTS'#39' OR' +
+      ' N.tipo_reg = '#39'NTE'#39')'#13#10'      AND N.cancelada = '#39'N'#39#13#10'      AND N.n' +
+      'fedenegada = '#39'N'#39#13#10'group by CFOP.CODCFOP, IPI.COD_IPI, N.TIPO_NOT' +
+      'A, IPI.gera_credito'#13#10#13#10
     MaxBlobSize = -1
     Params = <
       item
@@ -4374,6 +4444,16 @@ object DMSPEDFiscal: TDMSPEDFiscal
     end
     object cdsIPIVLR_IPI: TFloatField
       FieldName = 'VLR_IPI'
+    end
+    object cdsIPITIPO_NOTA: TStringField
+      FieldName = 'TIPO_NOTA'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsIPIGERA_CREDITO: TStringField
+      FieldName = 'GERA_CREDITO'
+      FixedChar = True
+      Size = 1
     end
   end
   object dsIPI: TDataSource
@@ -4836,5 +4916,81 @@ object DMSPEDFiscal: TDMSPEDFiscal
     BCDToCurrency = False
     Left = 488
     Top = 512
+  end
+  object mE520: TClientDataSet
+    Active = True
+    Aggregates = <>
+    Params = <>
+    Left = 888
+    Top = 472
+    Data = {
+      C40000009619E0BD010000001800000007000000000003000000C4000E53616C
+      646F5F416E746572696F7208000400000000000B566C725F44656269746F7308
+      000400000000000C566C725F4372656469746F73080004000000000012566C72
+      5F4F7574726F735F44656269746F73080004000000000013566C725F4F757472
+      6F735F4372656469746F73080004000000000010566C725F53616C646F5F4372
+      65646F72080004000000000011566C725F53616C646F5F44657665646F720800
+      0400000000000000}
+    object mE520Saldo_Anterior: TFloatField
+      FieldName = 'Saldo_Anterior'
+    end
+    object mE520Vlr_Debitos: TFloatField
+      FieldName = 'Vlr_Debitos'
+    end
+    object mE520Vlr_Creditos: TFloatField
+      FieldName = 'Vlr_Creditos'
+    end
+    object mE520Vlr_Outros_Debitos: TFloatField
+      FieldName = 'Vlr_Outros_Debitos'
+    end
+    object mE520Vlr_Outros_Creditos: TFloatField
+      FieldName = 'Vlr_Outros_Creditos'
+    end
+    object mE520Vlr_Saldo_Credor: TFloatField
+      FieldName = 'Vlr_Saldo_Credor'
+    end
+    object mE520Vlr_Saldo_Devedor: TFloatField
+      FieldName = 'Vlr_Saldo_Devedor'
+    end
+  end
+  object mUnidade_Conv: TClientDataSet
+    Active = True
+    Aggregates = <>
+    FieldDefs = <
+      item
+        Name = 'Unidade'
+        DataType = ftString
+        Size = 6
+      end
+      item
+        Name = 'Qtd_Conv'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Cod_Produto'
+        DataType = ftString
+        Size = 30
+      end>
+    IndexDefs = <>
+    Params = <>
+    StoreDefs = True
+    Left = 696
+    Top = 560
+    Data = {
+      670000009619E0BD010000001800000003000000000003000000670007556E69
+      646164650100490000000100055749445448020002000600085174645F436F6E
+      7608000400000000000B436F645F50726F6475746F0100490000000100055749
+      445448020002001E000000}
+    object mUnidade_ConvUnidade: TStringField
+      FieldName = 'Unidade'
+      Size = 6
+    end
+    object mUnidade_ConvQtd_Conv: TFloatField
+      FieldName = 'Qtd_Conv'
+    end
+    object mUnidade_ConvCod_Produto: TStringField
+      FieldName = 'Cod_Produto'
+      Size = 30
+    end
   end
 end
