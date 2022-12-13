@@ -1076,6 +1076,15 @@ type
     cdsMovimentoQTD_CONVERSOR: TFloatField;
     cdsMovimentoUNIDADE_PRODUTO_CAD: TStringField;
     cdsMovimentoUNIDADE: TStringField;
+    cdsNotaFiscalCODMUNICIPIO_ORI: TStringField;
+    cdsNotaFiscalCODMUNICIPIO_DEST: TStringField;
+    mE110: TClientDataSet;
+    sdsICMS: TSQLDataSet;
+    dspICMS: TDataSetProvider;
+    cdsICMS: TClientDataSet;
+    dsICMS: TDataSource;
+    cdsICMSVLR_ICMS_DEBITO: TFloatField;
+    cdsICMSVLR_ICMS_CREDITO: TFloatField;
     procedure DataModuleCreate(Sender: TObject);
     procedure mAuxResumoNewRecord(DataSet: TDataSet);
   private

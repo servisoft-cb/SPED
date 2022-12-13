@@ -4,7 +4,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
   Left = 224
   Top = 47
   Height = 676
-  Width = 1000
+  Width = 999
   object qParametros: TSQLQuery
     MaxBlobSize = -1
     Params = <>
@@ -2048,12 +2048,15 @@ object DMSPEDFiscal: TDMSPEDFiscal
       ' = '#39'NTS'#39' then '#39'55'#39#13#10'         when O.COD_MODELO_NOTA is not null ' +
       'then O.COD_MODELO_NOTA'#13#10'         when T.COD_MODELO_NOTA is not n' +
       'ull then T.COD_MODELO_NOTA'#13#10'         else '#39'55'#39#13#10'       end COD_M' +
-      'ODELO'#13#10'from NOTAFISCAL N'#13#10'left join OPERACAO_NOTA O on O.ID = N.' +
-      'ID_OPERACAO_NOTA'#13#10'left join TAB_CFOP T on T.ID = N.ID_CFOP'#13#10#13#10'wh' +
-      'ere (((N.DTEMISSAO between :DT_INICIAL and :DT_FINAL) and'#13#10'     ' +
-      ' (N.TIPO_REG = '#39'NTS'#39')) or ((N.DTSAIDAENTRADA between :DT_INICIAL' +
-      ' and :DT_FINAL) and'#13#10'      (N.TIPO_REG = '#39'NTE'#39'))) and'#13#10'      N.F' +
-      'ILIAL = :FILIAL'#13#10#13#10'  '
+      'ODELO,'#13#10'       ORI.CODMUNICIPIO CODMUNICIPIO_ORI, DEST.CODMUNICI' +
+      'PIO CODMUNICIPIO_DEST'#13#10'from NOTAFISCAL N'#13#10'left join OPERACAO_NOT' +
+      'A O on O.ID = N.ID_OPERACAO_NOTA'#13#10'left join TAB_CFOP T on T.ID =' +
+      ' N.ID_CFOP'#13#10'left join CIDADE ORI on N.ID_CIDADE_CTE_ORI = ORI.ID' +
+      #13#10'left join CIDADE DEST on N.ID_CIDADE_CTE_DEST = DEST.ID'#13#10'where' +
+      ' (((N.DTEMISSAO between :DT_INICIAL and :DT_FINAL) and'#13#10'      (N' +
+      '.TIPO_REG = '#39'NTS'#39')) or ((N.DTSAIDAENTRADA between :DT_INICIAL an' +
+      'd :DT_FINAL) and'#13#10'      (N.TIPO_REG = '#39'NTE'#39'))) and'#13#10'      N.FILI' +
+      'AL = :FILIAL'#13#10#13#10'  '
     MaxBlobSize = -1
     Params = <
       item
@@ -2741,6 +2744,14 @@ object DMSPEDFiscal: TDMSPEDFiscal
     object cdsNotaFiscalCOD_MODELO: TStringField
       FieldName = 'COD_MODELO'
       Size = 3
+    end
+    object cdsNotaFiscalCODMUNICIPIO_ORI: TStringField
+      FieldName = 'CODMUNICIPIO_ORI'
+      Size = 7
+    end
+    object cdsNotaFiscalCODMUNICIPIO_DEST: TStringField
+      FieldName = 'CODMUNICIPIO_DEST'
+      Size = 7
     end
   end
   object dsNotaFiscal: TDataSource
@@ -4714,8 +4725,8 @@ object DMSPEDFiscal: TDMSPEDFiscal
     Params = <>
     StoreDefs = True
     OnNewRecord = mAuxResumoNewRecord
-    Left = 240
-    Top = 304
+    Left = 360
+    Top = 280
     Data = {
       E90000009619E0BD010000001800000008000000000003000000E90005426C6F
       636F010049000000010005574944544802000200020008526567697374726F01
@@ -4760,8 +4771,8 @@ object DMSPEDFiscal: TDMSPEDFiscal
   end
   object dsmAuxResumo: TDataSource
     DataSet = mAuxResumo
-    Left = 272
-    Top = 304
+    Left = 392
+    Top = 280
   end
   object mK200: TClientDataSet
     Active = True
@@ -4974,8 +4985,8 @@ object DMSPEDFiscal: TDMSPEDFiscal
     IndexDefs = <>
     Params = <>
     StoreDefs = True
-    Left = 696
-    Top = 560
+    Left = 656
+    Top = 536
     Data = {
       670000009619E0BD010000001800000003000000000003000000670007556E69
       646164650100490000000100055749445448020002000600085174645F436F6E
@@ -4992,5 +5003,68 @@ object DMSPEDFiscal: TDMSPEDFiscal
       FieldName = 'Cod_Produto'
       Size = 30
     end
+  end
+  object mE110: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    Left = 896
+    Top = 528
+  end
+  object sdsICMS: TSQLDataSet
+    CommandText = 
+      'with A'#13#10'as (select'#13#10'           case'#13#10'             when (N.TIPO_N' +
+      'OTA = '#39'S'#39') then sum(N.VLR_ICMS)'#13#10'             else 0'#13#10'          ' +
+      ' end VLR_ICMS_DEBITO,'#13#10'           case'#13#10'             when (N.TIP' +
+      'O_NOTA = '#39'E'#39') then sum(N.VLR_ICMS)'#13#10'             else 0'#13#10'       ' +
+      '    end VLR_ICMS_CREDITO'#13#10'    from NOTAFISCAL N'#13#10'    where N.DTE' +
+      'MISSAO between :DATA1 and :DATA2 and'#13#10'          N.FILIAL = :FILI' +
+      'AL and'#13#10'          (N.TIPO_REG = '#39'NTS'#39' or N.TIPO_REG = '#39'NTE'#39') and' +
+      #13#10'          N.CANCELADA = '#39'N'#39' and'#13#10'          N.NFEDENEGADA = '#39'N'#39 +
+      #13#10'    group by N.TIPO_NOTA)'#13#10'select sum(A.VLR_ICMS_DEBITO) VLR_I' +
+      'CMS_DEBITO, sum(A.VLR_ICMS_CREDITO) VLR_ICMS_CREDITO'#13#10'from A'#13#10#13#10 +
+      '  '
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftDate
+        Name = 'DATA1'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'DATA2'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'FILIAL'
+        ParamType = ptInput
+      end>
+    SQLConnection = dmDatabase.scoDados
+    Left = 48
+    Top = 312
+  end
+  object dspICMS: TDataSetProvider
+    DataSet = sdsICMS
+    Left = 96
+    Top = 312
+  end
+  object cdsICMS: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspICMS'
+    Left = 136
+    Top = 312
+    object cdsICMSVLR_ICMS_DEBITO: TFloatField
+      FieldName = 'VLR_ICMS_DEBITO'
+    end
+    object cdsICMSVLR_ICMS_CREDITO: TFloatField
+      FieldName = 'VLR_ICMS_CREDITO'
+    end
+  end
+  object dsICMS: TDataSource
+    DataSet = cdsICMS
+    Left = 176
+    Top = 312
   end
 end

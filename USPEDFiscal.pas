@@ -1746,7 +1746,7 @@ begin
     if fDMSPEDFiscal.cdsMovimentoTIPO_REG.AsString = 'NTE' then
     begin
       //07/12/2022  não vai gravar qdo for frete
-      if fDMSPEDFiscal.cdsMovimentoCOD_MODELO.AsString <> '57' then
+      if (fDMSPEDFiscal.cdsMovimentoCOD_MODELO.AsString <> '57') and (fDMSPEDFiscal.cdsMovimentoCOD_MODELO.AsString <> '06') then
       begin
         prc_Gravar_mProduto;
         prc_Gravar_mUnidade(fDMSPEDFiscal.cdsMovimentoUNIDADE.AsString);
@@ -2001,7 +2001,7 @@ end;
 
 procedure TfrmSPEDFiscal.prc_Gravar_mNatureza;
 begin
-  if fDMSPEDFiscal.cdsMovimentoCOD_MODELO.AsString = '57' then
+  if (fDMSPEDFiscal.cdsMovimentoCOD_MODELO.AsString = '57') or (fDMSPEDFiscal.cdsMovimentoCOD_MODELO.AsString = '06') then
     exit;
   if fDMSPEDFiscal.mNatureza.FindKey([fDMSPEDFiscal.cdsMovimentoCODCFOP.AsString]) then
     exit;
@@ -3017,6 +3017,8 @@ begin
           VL_NT      := fDMSPEDFiscal.cdsNotaFiscalVLR_NOTA.AsFloat - fDMSPEDFiscal.cdsNotaFiscalBASE_ICMS.AsFloat;
           COD_INF    := ''; //mesmo do 0450 e 0460
           COD_CTA    := '';
+          COD_MUN_ORIG := fDMSPEDFiscal.cdsNotaFiscalCODMUNICIPIO_ORI.AsString;
+          COD_MUN_DEST := fDMSPEDFiscal.cdsNotaFiscalCODMUNICIPIO_DEST.AsString;
         end;
         vContador_Reg_D := vContador_Reg_D + 1;
 
@@ -3834,9 +3836,6 @@ begin
   if fDMSPEDFiscal.mProduto.Locate('Cod_Produto',vCodigo,([Locaseinsensitive])) then
     exit;
 
-  //if fDMSPEDFiscal.cdsPosseEstoqueID_PRODUTO.AsInteger = 31592 then
-  //  ShowMessage('aqui cdsPosseEstoque 1');
-
   fDMSPEDFiscal.mProduto.Insert;
   fDMSPEDFiscal.mProdutoID.AsInteger         := fDMSPEDFiscal.cdsPosseEstoqueID_PRODUTO.AsInteger;
   fDMSPEDFiscal.mProdutoCod_Produto.AsString := vCodigo;
@@ -3961,9 +3960,15 @@ begin
   fDMSPEDFiscal.sdsIPI.ParamByName('FILIAL').AsInteger := RxDBLookupCombo1.KeyValue;
   fDMSPEDFiscal.cdsIPI.Open;
 
+  fDMSPEDFiscal.cdsICMS.Close;
+  fDMSPEDFiscal.sdsICMS.ParamByName('DATA1').AsDate     := DateEdit1.Date;
+  fDMSPEDFiscal.sdsICMS.ParamByName('DATA2').AsDate     := DateEdit2.Date;
+  fDMSPEDFiscal.sdsICMS.ParamByName('FILIAL').AsInteger := RxDBLookupCombo1.KeyValue;
+  fDMSPEDFiscal.cdsICMS.Open;
+  
   fDMSPEDFiscal.mE520.EmptyDataSet;
 
-  //Abertura do Bloco C
+  //Abertura do Bloco E
   with ACBrSPEDFiscal1.Bloco_E do
   begin
     with RegistroE001New do
@@ -3972,43 +3977,53 @@ begin
       vContador_Reg_E := vContador_Reg_E + 1;
     end;
 
-    //Russimar
       with RegistroE100New do
       begin
         DT_INI := DateEdit1.Date ;
         DT_FIN := DateEdit2.Date;
 
-        with RegistroE110New do
+        fDMSPEDFiscal.cdsICMS.First;
+        while not fDMSPEDFiscal.cdsICMS.Eof do
         begin
-          VL_TOT_DEBITOS := 0.00;
-          VL_AJ_DEBITOS := 0.00;
-          VL_TOT_AJ_DEBITOS := 0.00;
-          VL_ESTORNOS_CRED := 0;
-          VL_TOT_CREDITOS := 0.00;
-          VL_AJ_CREDITOS := 0;
-          VL_TOT_AJ_CREDITOS := 0;
-          VL_ESTORNOS_DEB := 0;
-          VL_SLD_CREDOR_ANT := 0;
-          VL_SLD_APURADO := 0.00;
-          VL_TOT_DED := 0.00;
-          VL_ICMS_RECOLHER := 0.00;
-          VL_SLD_CREDOR_TRANSPORTAR := 0;
-          DEB_ESP := 0;
+          with RegistroE110New do
+          begin
+            VL_TOT_DEBITOS     := fDMSPEDFiscal.cdsICMSVLR_ICMS_DEBITO.AsFloat;
+            VL_AJ_DEBITOS      := 0.00;
+            VL_TOT_AJ_DEBITOS  := 0.00;
+            VL_ESTORNOS_CRED   := 0;
+            VL_TOT_CREDITOS    := fDMSPEDFiscal.cdsICMSVLR_ICMS_CREDITO.AsFloat;
+            VL_AJ_CREDITOS     := 0;
+            VL_TOT_AJ_CREDITOS := 0;
+            VL_ESTORNOS_DEB    := 0;
+            VL_SLD_CREDOR_ANT  := 0;
+            VL_SLD_APURADO     := fDMSPEDFiscal.cdsICMSVLR_ICMS_DEBITO.AsFloat - fDMSPEDFiscal.cdsICMSVLR_ICMS_CREDITO.AsFloat;
+            VL_TOT_DED         := 0.00;
+            VL_ICMS_RECOLHER   := VL_SLD_APURADO - VL_TOT_DED;
+            if VL_ICMS_RECOLHER < 0 then
+            begin
+              VL_ICMS_RECOLHER := 0.00;
+              VL_SLD_CREDOR_TRANSPORTAR := fDMSPEDFiscal.cdsICMSVLR_ICMS_DEBITO.AsFloat - fDMSPEDFiscal.cdsICMSVLR_ICMS_CREDITO.AsFloat;
+            end
+            else
+              VL_SLD_CREDOR_TRANSPORTAR := VL_ICMS_RECOLHER;
+            DEB_ESP := 0;
 
-//          with RegistroE116New do
-//          begin
-//            COD_OR := '000';
-//            VL_OR := 0;
-//            DT_VCTO := Now;
-//            COD_REC := '123';
-//            NUM_PROC := '10';
-//            IND_PROC := opSefaz;
-//            PROC := 'DESCRIÇÃO DO PROCESSO';
-//            TXT_COMPL := '';
-//            MES_REF := '112011';
-//          end;
+            //with RegistroE116New do
+            //begin
+              //COD_OR := '000';
+              //VL_OR := 0;
+              //DT_VCTO := Now;
+              //COD_REC := '123';
+              //NUM_PROC := '10';
+              //IND_PROC := opSefaz;
+              //PROC := 'DESCRIÇÃO DO PROCESSO';
+              //TXT_COMPL := '';
+              //MES_REF := '112011';
+            //end;
+          end;
+          vContador_Reg_E := vContador_Reg_E + 1;
+          fDMSPEDFiscal.cdsICMS.Next;
         end;
-        vContador_Reg_E := vContador_Reg_E + 1;
       end;
 
     if ACBrSPEDFiscal1.Bloco_0.Registro0000New.IND_ATIV = atIndustrial then
