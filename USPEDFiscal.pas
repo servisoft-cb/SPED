@@ -87,15 +87,12 @@ type
     cbTipo: TComboBox;
     DateEdit3: TDateEdit;
     RzCheckList1: TRzCheckList;
-    NxButton1: TNxButton;
-    NxButton2: TNxButton;
     ckImobilizado: TCheckBox;
     RzPageControl1: TRzPageControl;
     TS_SPED: TRzTabSheet;
     TS_Posse: TRzTabSheet;
     mSped: TMemo;
     SMDBGrid1: TSMDBGrid;
-    NxButton3: TNxButton;
     ck0600: TCheckBox;
     TS_Resumo: TRzTabSheet;
     SMDBGrid2: TSMDBGrid;
@@ -105,6 +102,11 @@ type
     SMDBGrid3: TSMDBGrid;
     Panel4: TPanel;
     btnImp_Bloco_K: TNxButton;
+    NxPanel1: TNxPanel;
+    btnGerarSped: TNxButton;
+    btnEstoque: TNxButton;
+    btnVersao: TNxButton;
+    btnImportarExcel: TNxButton;
     procedure btnB_0Click(Sender: TObject);
     procedure btnB_9Click(Sender: TObject);
     procedure btnTXTClick(Sender: TObject);
@@ -130,9 +132,9 @@ type
       Shift: TShiftState);
     procedure btnGerar_KClick(Sender: TObject);
     procedure btnBloco_KClick(Sender: TObject);
-    procedure NxButton1Click(Sender: TObject);
-    procedure NxButton2Click(Sender: TObject);
-    procedure NxButton3Click(Sender: TObject);
+    procedure btnGerarSpedClick(Sender: TObject);
+    procedure btnVersaoClick(Sender: TObject);
+    procedure btnEstoqueClick(Sender: TObject);
     procedure btnImp_Bloco_KClick(Sender: TObject);
     procedure RxDBLookupCombo1Exit(Sender: TObject);
   private
@@ -2104,6 +2106,9 @@ begin
 
   DateEdit1.Date := IncMonth(EncodeDate(YearOf(Date),MonthOf(Date),01), -1);
   DateEdit2.Date := EncodeDate(YearOf(DateEdit1.Date),MonthOf(DateEdit1.Date),DaysInAMonth(YearOf(DateEdit1.Date),MonthOf(DateEdit1.Date)));
+
+  if RxDBLookupCombo1.Text <> '' then
+    btnImportarExcel.Enabled := (SQLLocate('FILIAL','ID','SPED_IMPORTAR_EXCEL',IntToStr(RxDBLookupCombo1.KeyValue)) = 'S');
 end;
 
 procedure TfrmSPEDFiscal.prc_Bloco_0_Reg_0450;
@@ -3639,9 +3644,6 @@ procedure TfrmSPEDFiscal.prc_Gerar_Bloco_K;
 begin
   vContador_Reg_K := 0;
 
-  //22/01/2019 Foi colocado para abrir no início dos blocos 
-  //prc_Consultar_PosseEstoque;
-
   // Alimenta o componente com informações para gerar todos os registros do
   // Bloco H.
   with ACBrSPEDFiscal1.Bloco_K do
@@ -3687,7 +3689,6 @@ procedure TfrmSPEDFiscal.prc_Bloco_K_Reg_K200;
 var
   vCodigo : String;
 begin
-
   fDMSPEDFiscal.cdsPosseEstoque.First;
   while not fDMSPEDFiscal.cdsPosseEstoque.Eof do
   begin
@@ -3880,7 +3881,7 @@ begin
   end;
 end;
 
-procedure TfrmSPEDFiscal.NxButton1Click(Sender: TObject);
+procedure TfrmSPEDFiscal.btnGerarSpedClick(Sender: TObject);
 var
   Form : TForm;
 begin
@@ -4081,14 +4082,14 @@ begin
   end;
 end;
 
-procedure TfrmSPEDFiscal.NxButton2Click(Sender: TObject);
+procedure TfrmSPEDFiscal.btnVersaoClick(Sender: TObject);
 begin
   frmCadSpedVersao := TfrmCadSpedVersao.Create(self);
   frmCadSpedVersao.ShowModal;
   FreeAndNil(frmCadSpedVersao);
 end;
 
-procedure TfrmSPEDFiscal.NxButton3Click(Sender: TObject);
+procedure TfrmSPEDFiscal.btnEstoqueClick(Sender: TObject);
 begin
   Screen.Cursor := crHourGlass;
   frmConsPosseEstoque := TfrmConsPosseEstoque.Create(self);

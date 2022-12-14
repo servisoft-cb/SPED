@@ -1,0 +1,1118 @@
+unit UDMImportar;
+
+interface
+
+uses
+  SysUtils, Classes, FMTBcd, DB, SqlExpr, Provider, DBClient;
+
+type
+  TDMImportar = class(TDataModule)
+    sdsProduto: TSQLDataSet;
+    sdsProdutoID: TIntegerField;
+    sdsProdutoREFERENCIA: TStringField;
+    sdsProdutoNOME: TStringField;
+    sdsProdutoPESOLIQUIDO: TFloatField;
+    sdsProdutoPESOBRUTO: TFloatField;
+    sdsProdutoINATIVO: TStringField;
+    sdsProdutoID_CSTIPI: TIntegerField;
+    sdsProdutoPERC_IPI: TFloatField;
+    sdsProdutoPRECO_CUSTO: TFloatField;
+    sdsProdutoPRECO_VENDA: TFloatField;
+    sdsProdutoTIPO_REG: TStringField;
+    sdsProdutoPOSSE_MATERIAL: TStringField;
+    sdsProdutoESTOQUE: TStringField;
+    sdsProdutoMATERIAL_OUTROS: TStringField;
+    sdsProdutoUSUARIO: TStringField;
+    sdsProdutoDTCAD: TDateField;
+    sdsProdutoHRCAD: TTimeField;
+    sdsProdutoCA: TStringField;
+    sdsProdutoCOMPLEMENTO: TStringField;
+    sdsProdutoID_NCM: TIntegerField;
+    sdsProdutoORIGEM_PROD: TStringField;
+    sdsProdutoOBS: TMemoField;
+    sdsProdutoCODSITCF: TStringField;
+    sdsProdutoPERC_REDUCAOICMS: TFloatField;
+    sdsProdutoTIPO_VENDA: TStringField;
+    sdsProdutoPERC_MARGEMLUCRO: TFloatField;
+    sdsProdutoUNIDADE: TStringField;
+    sdsProdutoDT_ALTPRECO: TDateField;
+    sdsProdutoLOCALIZACAO: TStringField;
+    sdsProdutoID_GRUPO: TIntegerField;
+    sdsProdutoID_SUBGRUPO: TIntegerField;
+    sdsProdutoID_MARCA: TIntegerField;
+    sdsProdutoID_FORNECEDOR: TIntegerField;
+    sdsProdutoCOD_BARRA: TStringField;
+    sdsProdutoPERC_IMPORTACAO: TFloatField;
+    sdsProdutoCOD_ANT: TStringField;
+    sdsProdutoPERC_REDUCAOICMSSUBST: TFloatField;
+    sdsProdutoUSA_GRADE: TStringField;
+    sdsProdutoID_GRADE: TIntegerField;
+    sdsProdutoUSA_PERC_IMP_INTERESTADUAL: TStringField;
+    sdsProdutoIMPRIMIR_ETIQUETA_NAV: TStringField;
+    sdsProdutoCARIMBO: TStringField;
+    sdsProdutoPERC_QUEBRAMAT: TFloatField;
+    sdsProdutoSPED_TIPO_ITEM: TStringField;
+    sdsProdutoQTD_ESTOQUE_MIN: TFloatField;
+    sdsProdutoPERC_PIS: TFloatField;
+    sdsProdutoPERC_COFINS: TFloatField;
+    sdsProdutoPERC_ICMS_IMP: TFloatField;
+    sdsProdutoPERC_IPI_IMP: TFloatField;
+    sdsProdutoREFERENCIA_PADRAO: TStringField;
+    sdsProdutoNUM_FCI: TStringField;
+    sdsProdutoPERC_USADO_FCI: TFloatField;
+    sdsProdutoNCM_EX: TStringField;
+    sdsProdutoID_SITTRIB_CF: TIntegerField;
+    sdsProdutoID_CLIENTE: TIntegerField;
+    sdsProdutoPRECO_REVENDA: TFMTBCDField;
+    sdsProdutoPRECO_INDUSTRIALIZACAO: TFMTBCDField;
+    sdsProdutoPRECO_CONSUMO: TFMTBCDField;
+    sdsProdutoFOTO: TStringField;
+    sdsProdutoREFERENCIA_SEQ: TIntegerField;
+    sdsProdutoID_COR: TIntegerField;
+    sdsProdutoCALCULAR_2_LADOS: TStringField;
+    sdsProdutoPERC_VIDRO: TFloatField;
+    sdsProdutoID_LINHA: TIntegerField;
+    sdsProdutoID_CFOP_NFCE: TIntegerField;
+    sdsProdutoUSA_PRECO_COR: TStringField;
+    sdsProdutoUSA_COR: TStringField;
+    sdsProdutoTRANSFER: TStringField;
+    sdsProdutoPRECO_CUSTO_TOTAL: TFloatField;
+    sdsProdutoID_CONTA_ORCAMENTO: TIntegerField;
+    sdsProdutoID_LOCAL_ESTOQUE_PROD: TIntegerField;
+    sdsProdutoPERC_COMISSAO: TFloatField;
+    sdsProdutoID_ENQIPI: TIntegerField;
+    sdsProdutoLANCA_LOTE_CONTROLE: TStringField;
+    sdsProdutoCOD_CEST: TStringField;
+    sdsProdutoPICTOGRAMA: TStringField;
+    sdsProdutoPICTO_CABEDAL: TStringField;
+    sdsProdutoPICTO_INTERIOR: TStringField;
+    sdsProdutoPICTO_SOLA: TStringField;
+    sdsProdutoCOD_PRODUTO_CLI: TStringField;
+    sdsProdutoFILIAL: TIntegerField;
+    sdsProdutoBAIXA_ESTOQUE_MAT: TStringField;
+    sdsProdutoCOD_JUSTNEW: TIntegerField;
+    sdsProdutoNOME_ORIGINAL: TStringField;
+    sdsProdutoIMP_ROTULO: TStringField;
+    sdsProdutoNUM_MS: TStringField;
+    sdsProdutoIMP_CONSUMO_NFE: TStringField;
+    sdsProdutoGERAR_FCI: TStringField;
+    sdsProdutoMEDIDA: TStringField;
+    sdsProdutoQTD_EMBALAGEM: TFloatField;
+    sdsProdutoDT_ALT_PRECOCUSTO: TDateField;
+    sdsProdutoUSA_CARIMBO_OC: TStringField;
+    sdsProdutoUSA_NA_BALANCA: TStringField;
+    sdsProdutoMENSAGEM: TStringField;
+    sdsProdutoPERC_DESC_MAX: TFloatField;
+    sdsProdutoID_CSTICMS_BRED: TIntegerField;
+    sdsProdutoTIPO_MAT: TStringField;
+    sdsProdutoID_PROCESSO_GRUPO: TIntegerField;
+    sdsProdutoTIPO_PRODUCAO: TStringField;
+    sdsProdutoCRIADO_OS: TStringField;
+    sdsProdutoID_MATERIAL_CRU: TIntegerField;
+    sdsProdutoID_FORMA: TIntegerField;
+    sdsProdutoTAMANHO: TStringField;
+    sdsProdutoTESTE: TStringField;
+    sdsProdutoPRECO_LIQ: TFloatField;
+    sdsProdutoUSA_CLIQ: TStringField;
+    sdsProdutoQTD_PECA_EMB: TIntegerField;
+    sdsProdutoLARGURA: TFloatField;
+    sdsProdutoALTURA: TFloatField;
+    sdsProdutoESPESSURA: TFloatField;
+    sdsProdutoMULTIPLICADOR: TFloatField;
+    sdsProdutoREF2: TStringField;
+    sdsProdutoFATOR_CALCULO: TFloatField;
+    sdsProdutoREF_ORD: TStringField;
+    sdsProdutoGERAR_WEB: TStringField;
+    sdsProdutoTAM_CALC: TFloatField;
+    sdsProdutoCOD_BARRA2: TStringField;
+    sdsProdutoPOSSUE_LADO: TStringField;
+    sdsProdutoUNIDADE2: TStringField;
+    sdsProdutoCAIXINHA: TStringField;
+    sdsProdutoSEPARA_COR: TStringField;
+    sdsProdutoVALIDADE: TSmallintField;
+    sdsProdutoID_CSTICMS: TIntegerField;
+    sdsProdutoNOME_MODELO: TStringField;
+    sdsProdutoDESC_MAXIMO: TFloatField;
+    sdsProdutoQTD_POR_ROTULO: TFloatField;
+    sdsProdutoPERC_ICMS_NFCE: TFloatField;
+    sdsProdutoTIPO_ALGODAO: TStringField;
+    sdsProdutoCALCULAR_ST: TStringField;
+    sdsProdutoPRECO_CUSTO_ANT: TFloatField;
+    sdsProdutoTMP: TIntegerField;
+    sdsProdutoCOD_BENEF: TStringField;
+    sdsProdutoTIPO_PRODUTO: TStringField;
+    sdsProdutoID_PRODUTO_EST: TIntegerField;
+    sdsProdutoINDEXADOR_PRECO: TFloatField;
+    sdsProdutoANP_ID: TIntegerField;
+    sdsProdutoPRECO_VAREJO: TFloatField;
+    sdsProdutoTIPO_BALANCA: TStringField;
+    sdsProdutoCODIGO_BALANCA: TIntegerField;
+    sdsProdutoPERC_IMPOSTO: TFloatField;
+    sdsProdutoQTD_COTADA: TFloatField;
+    sdsProdutoAPLICAR_ITEM_MINIMO: TStringField;
+    sdsProdutoVLR_MINIMO: TFloatField;
+    sdsProdutoPRECO_PROCESSO: TFloatField;
+    sdsProdutoPESO_EM_GRAMA: TFloatField;
+    sdsProdutoPRECO_KG: TFloatField;
+    sdsProdutoID_SERVICO_INT: TIntegerField;
+    sdsProdutoPRAZO_ENTREGA: TIntegerField;
+    sdsProdutoQTD_ESTOQUE_MAX: TFloatField;
+    sdsProdutoRMS: TStringField;
+    sdsProdutoOBS_CONSUMO: TMemoField;
+    sdsProdutoDENSIDADE: TFloatField;
+    sdsProdutoMOSTRAR_PROCESSO: TStringField;
+    sdsProdutoID_TIPO_MATERIAL: TIntegerField;
+    sdsProdutoTIPO_REDONDO_CHATO: TStringField;
+    sdsProdutoDTAJUSTEIPI: TDateField;
+    sdsProdutoDESCRICAO_WEB: TMemoField;
+    sdsProdutoFUSO: TIntegerField;
+    sdsProdutoQTD_CARGA: TFloatField;
+    sdsProdutoDTCONSUMO_ALT: TDateField;
+    sdsProdutoHRCONSUMO_ALT: TDateField;
+    sdsProdutoUSUARIO_CONSUMO_ALT: TStringField;
+    sdsProdutoPERC_CONSUMO_ALT: TFloatField;
+    sdsProdutoTIPO_CONSUMO_ALT: TStringField;
+    sdsProdutoNOME2: TStringField;
+    sdsProdutoPERC_ICMS: TFloatField;
+    sdsProdutoQTD_ETIQUETA_EST: TFloatField;
+    sdsProdutoCOD_PRODUTO_CLI_NOME: TStringField;
+    dspProduto: TDataSetProvider;
+    cdsProduto: TClientDataSet;
+    cdsProdutoID: TIntegerField;
+    cdsProdutoREFERENCIA: TStringField;
+    cdsProdutoNOME: TStringField;
+    cdsProdutoPESOLIQUIDO: TFloatField;
+    cdsProdutoPESOBRUTO: TFloatField;
+    cdsProdutoINATIVO: TStringField;
+    cdsProdutoID_CSTIPI: TIntegerField;
+    cdsProdutoPERC_IPI: TFloatField;
+    cdsProdutoPRECO_CUSTO: TFloatField;
+    cdsProdutoPRECO_VENDA: TFloatField;
+    cdsProdutoTIPO_REG: TStringField;
+    cdsProdutoPOSSE_MATERIAL: TStringField;
+    cdsProdutoESTOQUE: TStringField;
+    cdsProdutoMATERIAL_OUTROS: TStringField;
+    cdsProdutoUSUARIO: TStringField;
+    cdsProdutoDTCAD: TDateField;
+    cdsProdutoHRCAD: TTimeField;
+    cdsProdutoCA: TStringField;
+    cdsProdutoCOMPLEMENTO: TStringField;
+    cdsProdutoID_NCM: TIntegerField;
+    cdsProdutoORIGEM_PROD: TStringField;
+    cdsProdutoOBS: TMemoField;
+    cdsProdutoCODSITCF: TStringField;
+    cdsProdutoPERC_REDUCAOICMS: TFloatField;
+    cdsProdutoTIPO_VENDA: TStringField;
+    cdsProdutoPERC_MARGEMLUCRO: TFloatField;
+    cdsProdutoUNIDADE: TStringField;
+    cdsProdutoDT_ALTPRECO: TDateField;
+    cdsProdutoLOCALIZACAO: TStringField;
+    cdsProdutoID_GRUPO: TIntegerField;
+    cdsProdutoID_SUBGRUPO: TIntegerField;
+    cdsProdutoID_MARCA: TIntegerField;
+    cdsProdutoID_FORNECEDOR: TIntegerField;
+    cdsProdutoCOD_BARRA: TStringField;
+    cdsProdutoPERC_IMPORTACAO: TFloatField;
+    cdsProdutoCOD_ANT: TStringField;
+    cdsProdutoPERC_REDUCAOICMSSUBST: TFloatField;
+    cdsProdutoUSA_GRADE: TStringField;
+    cdsProdutoID_GRADE: TIntegerField;
+    cdsProdutoUSA_PERC_IMP_INTERESTADUAL: TStringField;
+    cdsProdutoIMPRIMIR_ETIQUETA_NAV: TStringField;
+    cdsProdutoCARIMBO: TStringField;
+    cdsProdutoPERC_QUEBRAMAT: TFloatField;
+    cdsProdutoSPED_TIPO_ITEM: TStringField;
+    cdsProdutoQTD_ESTOQUE_MIN: TFloatField;
+    cdsProdutoPERC_PIS: TFloatField;
+    cdsProdutoPERC_COFINS: TFloatField;
+    cdsProdutoPERC_ICMS_IMP: TFloatField;
+    cdsProdutoPERC_IPI_IMP: TFloatField;
+    cdsProdutoREFERENCIA_PADRAO: TStringField;
+    cdsProdutoNUM_FCI: TStringField;
+    cdsProdutoPERC_USADO_FCI: TFloatField;
+    cdsProdutoNCM_EX: TStringField;
+    cdsProdutoID_SITTRIB_CF: TIntegerField;
+    cdsProdutoID_CLIENTE: TIntegerField;
+    cdsProdutoPRECO_REVENDA: TFMTBCDField;
+    cdsProdutoPRECO_INDUSTRIALIZACAO: TFMTBCDField;
+    cdsProdutoPRECO_CONSUMO: TFMTBCDField;
+    cdsProdutoFOTO: TStringField;
+    cdsProdutoREFERENCIA_SEQ: TIntegerField;
+    cdsProdutoID_COR: TIntegerField;
+    cdsProdutoCALCULAR_2_LADOS: TStringField;
+    cdsProdutoPERC_VIDRO: TFloatField;
+    cdsProdutoID_LINHA: TIntegerField;
+    cdsProdutoID_CFOP_NFCE: TIntegerField;
+    cdsProdutoUSA_PRECO_COR: TStringField;
+    cdsProdutoUSA_COR: TStringField;
+    cdsProdutoTRANSFER: TStringField;
+    cdsProdutoPRECO_CUSTO_TOTAL: TFloatField;
+    cdsProdutoID_CONTA_ORCAMENTO: TIntegerField;
+    cdsProdutoID_LOCAL_ESTOQUE_PROD: TIntegerField;
+    cdsProdutoPERC_COMISSAO: TFloatField;
+    cdsProdutoID_ENQIPI: TIntegerField;
+    cdsProdutoLANCA_LOTE_CONTROLE: TStringField;
+    cdsProdutoCOD_CEST: TStringField;
+    cdsProdutoPICTOGRAMA: TStringField;
+    cdsProdutoPICTO_CABEDAL: TStringField;
+    cdsProdutoPICTO_INTERIOR: TStringField;
+    cdsProdutoPICTO_SOLA: TStringField;
+    cdsProdutoCOD_PRODUTO_CLI: TStringField;
+    cdsProdutoFILIAL: TIntegerField;
+    cdsProdutoBAIXA_ESTOQUE_MAT: TStringField;
+    cdsProdutoCOD_JUSTNEW: TIntegerField;
+    cdsProdutoNOME_ORIGINAL: TStringField;
+    cdsProdutoIMP_ROTULO: TStringField;
+    cdsProdutoNUM_MS: TStringField;
+    cdsProdutoIMP_CONSUMO_NFE: TStringField;
+    cdsProdutoGERAR_FCI: TStringField;
+    cdsProdutoMEDIDA: TStringField;
+    cdsProdutoQTD_EMBALAGEM: TFloatField;
+    cdsProdutoDT_ALT_PRECOCUSTO: TDateField;
+    cdsProdutoUSA_CARIMBO_OC: TStringField;
+    cdsProdutoUSA_NA_BALANCA: TStringField;
+    cdsProdutoMENSAGEM: TStringField;
+    cdsProdutoPERC_DESC_MAX: TFloatField;
+    cdsProdutoID_CSTICMS_BRED: TIntegerField;
+    cdsProdutoTIPO_MAT: TStringField;
+    cdsProdutoID_PROCESSO_GRUPO: TIntegerField;
+    cdsProdutoTIPO_PRODUCAO: TStringField;
+    cdsProdutoCRIADO_OS: TStringField;
+    cdsProdutoID_MATERIAL_CRU: TIntegerField;
+    cdsProdutoID_FORMA: TIntegerField;
+    cdsProdutoTAMANHO: TStringField;
+    cdsProdutoTESTE: TStringField;
+    cdsProdutoPRECO_LIQ: TFloatField;
+    cdsProdutoUSA_CLIQ: TStringField;
+    cdsProdutoQTD_PECA_EMB: TIntegerField;
+    cdsProdutoLARGURA: TFloatField;
+    cdsProdutoALTURA: TFloatField;
+    cdsProdutoESPESSURA: TFloatField;
+    cdsProdutoMULTIPLICADOR: TFloatField;
+    cdsProdutoREF2: TStringField;
+    cdsProdutoFATOR_CALCULO: TFloatField;
+    cdsProdutoREF_ORD: TStringField;
+    cdsProdutoGERAR_WEB: TStringField;
+    cdsProdutoTAM_CALC: TFloatField;
+    cdsProdutoCOD_BARRA2: TStringField;
+    cdsProdutoPOSSUE_LADO: TStringField;
+    cdsProdutoUNIDADE2: TStringField;
+    cdsProdutoCAIXINHA: TStringField;
+    cdsProdutoSEPARA_COR: TStringField;
+    cdsProdutoVALIDADE: TSmallintField;
+    cdsProdutoID_CSTICMS: TIntegerField;
+    cdsProdutoNOME_MODELO: TStringField;
+    cdsProdutoDESC_MAXIMO: TFloatField;
+    cdsProdutoQTD_POR_ROTULO: TFloatField;
+    cdsProdutoPERC_ICMS_NFCE: TFloatField;
+    cdsProdutoTIPO_ALGODAO: TStringField;
+    cdsProdutoCALCULAR_ST: TStringField;
+    cdsProdutoPRECO_CUSTO_ANT: TFloatField;
+    cdsProdutoTMP: TIntegerField;
+    cdsProdutoCOD_BENEF: TStringField;
+    cdsProdutoTIPO_PRODUTO: TStringField;
+    cdsProdutoID_PRODUTO_EST: TIntegerField;
+    cdsProdutoINDEXADOR_PRECO: TFloatField;
+    cdsProdutoANP_ID: TIntegerField;
+    cdsProdutoPRECO_VAREJO: TFloatField;
+    cdsProdutoTIPO_BALANCA: TStringField;
+    cdsProdutoCODIGO_BALANCA: TIntegerField;
+    cdsProdutoPERC_IMPOSTO: TFloatField;
+    cdsProdutoQTD_COTADA: TFloatField;
+    cdsProdutoAPLICAR_ITEM_MINIMO: TStringField;
+    cdsProdutoVLR_MINIMO: TFloatField;
+    cdsProdutoPRECO_PROCESSO: TFloatField;
+    cdsProdutoPESO_EM_GRAMA: TFloatField;
+    cdsProdutoPRECO_KG: TFloatField;
+    cdsProdutoID_SERVICO_INT: TIntegerField;
+    cdsProdutoPRAZO_ENTREGA: TIntegerField;
+    cdsProdutoQTD_ESTOQUE_MAX: TFloatField;
+    cdsProdutoRMS: TStringField;
+    cdsProdutoOBS_CONSUMO: TMemoField;
+    cdsProdutoDENSIDADE: TFloatField;
+    cdsProdutoMOSTRAR_PROCESSO: TStringField;
+    cdsProdutoID_TIPO_MATERIAL: TIntegerField;
+    cdsProdutoTIPO_REDONDO_CHATO: TStringField;
+    cdsProdutoDTAJUSTEIPI: TDateField;
+    cdsProdutoDESCRICAO_WEB: TMemoField;
+    cdsProdutoFUSO: TIntegerField;
+    cdsProdutoQTD_CARGA: TFloatField;
+    cdsProdutoDTCONSUMO_ALT: TDateField;
+    cdsProdutoHRCONSUMO_ALT: TDateField;
+    cdsProdutoUSUARIO_CONSUMO_ALT: TStringField;
+    cdsProdutoPERC_CONSUMO_ALT: TFloatField;
+    cdsProdutoTIPO_CONSUMO_ALT: TStringField;
+    cdsProdutoNOME2: TStringField;
+    cdsProdutoPERC_ICMS: TFloatField;
+    cdsProdutoQTD_ETIQUETA_EST: TFloatField;
+    cdsProdutoCOD_PRODUTO_CLI_NOME: TStringField;
+    dsProduto: TDataSource;
+    sdsNCM: TSQLDataSet;
+    dspNCM: TDataSetProvider;
+    cdsNCM: TClientDataSet;
+    dsNCM: TDataSource;
+    sdsNCMID: TIntegerField;
+    sdsNCMNCM: TStringField;
+    sdsNCMNOME: TStringField;
+    sdsNCMPERC_RED_STRIB: TFloatField;
+    sdsNCMGERAR_ST: TStringField;
+    sdsNCMINATIVO: TStringField;
+    sdsNCMTIPO_AS: TStringField;
+    sdsNCMCOD_PRINCIPAL: TStringField;
+    sdsNCMUSAR_MVA_UF_DESTINO: TStringField;
+    sdsNCMCOD_CEST: TStringField;
+    sdsNCMUNIDADE_TRIB: TStringField;
+    sdsNCMID_CFOP: TIntegerField;
+    sdsNCMID_PIS: TIntegerField;
+    sdsNCMID_COFINS: TIntegerField;
+    sdsNCMID_CST_ICMS: TIntegerField;
+    sdsNCMPERC_PIS: TFloatField;
+    sdsNCMPERC_COFINS: TFloatField;
+    sdsNCMPERC_BASE_ICMS: TFloatField;
+    sdsNCMID_OBS_LEI: TIntegerField;
+    sdsNCMPERC_ICMS: TFloatField;
+    sdsNCMPERC_IPI: TFloatField;
+    sdsNCMID_CSTIPI: TIntegerField;
+    sdsNCMTIPO_ESCALA: TStringField;
+    sdsNCMCALCULA_FCP: TStringField;
+    sdsNCMIBPT_INATIVO: TStringField;
+    sdsNCMCOD_BENEF: TStringField;
+    sdsNCMALTERADO: TStringField;
+    cdsNCMID: TIntegerField;
+    cdsNCMNCM: TStringField;
+    cdsNCMNOME: TStringField;
+    cdsNCMPERC_RED_STRIB: TFloatField;
+    cdsNCMGERAR_ST: TStringField;
+    cdsNCMINATIVO: TStringField;
+    cdsNCMTIPO_AS: TStringField;
+    cdsNCMCOD_PRINCIPAL: TStringField;
+    cdsNCMUSAR_MVA_UF_DESTINO: TStringField;
+    cdsNCMCOD_CEST: TStringField;
+    cdsNCMUNIDADE_TRIB: TStringField;
+    cdsNCMID_CFOP: TIntegerField;
+    cdsNCMID_PIS: TIntegerField;
+    cdsNCMID_COFINS: TIntegerField;
+    cdsNCMID_CST_ICMS: TIntegerField;
+    cdsNCMPERC_PIS: TFloatField;
+    cdsNCMPERC_COFINS: TFloatField;
+    cdsNCMPERC_BASE_ICMS: TFloatField;
+    cdsNCMID_OBS_LEI: TIntegerField;
+    cdsNCMPERC_ICMS: TFloatField;
+    cdsNCMPERC_IPI: TFloatField;
+    cdsNCMID_CSTIPI: TIntegerField;
+    cdsNCMTIPO_ESCALA: TStringField;
+    cdsNCMCALCULA_FCP: TStringField;
+    cdsNCMIBPT_INATIVO: TStringField;
+    cdsNCMCOD_BENEF: TStringField;
+    cdsNCMALTERADO: TStringField;
+    sdsUnidade: TSQLDataSet;
+    dspUnidade: TDataSetProvider;
+    cdsUnidade: TClientDataSet;
+    dsUnidade: TDataSource;
+    sdsUnidadeUNIDADE: TStringField;
+    sdsUnidadeCONVERSOR: TFloatField;
+    sdsUnidadeNOME: TStringField;
+    sdsUnidadeEXPORTACAO: TStringField;
+    sdsUnidadeFRACIONAVEL: TStringField;
+    sdsUnidadeFATOR_CALCULO: TFloatField;
+    sdsUnidadeMOSTRAR_GROSA: TStringField;
+    sdsUnidadeINATIVA: TStringField;
+    sdsPessoa: TSQLDataSet;
+    dspPessoa: TDataSetProvider;
+    cdsPessoa: TClientDataSet;
+    dsPessoa: TDataSource;
+    cdsUnidadeUNIDADE: TStringField;
+    cdsUnidadeCONVERSOR: TFloatField;
+    cdsUnidadeNOME: TStringField;
+    cdsUnidadeEXPORTACAO: TStringField;
+    cdsUnidadeFRACIONAVEL: TStringField;
+    cdsUnidadeFATOR_CALCULO: TFloatField;
+    cdsUnidadeMOSTRAR_GROSA: TStringField;
+    cdsUnidadeINATIVA: TStringField;
+    sdsPessoaCODIGO: TIntegerField;
+    sdsPessoaNOME: TStringField;
+    sdsPessoaFANTASIA: TStringField;
+    sdsPessoaENDERECO: TStringField;
+    sdsPessoaCOMPLEMENTO_END: TStringField;
+    sdsPessoaNUM_END: TStringField;
+    sdsPessoaBAIRRO: TStringField;
+    sdsPessoaID_CIDADE: TIntegerField;
+    sdsPessoaCIDADE: TStringField;
+    sdsPessoaUF: TStringField;
+    sdsPessoaCEP: TStringField;
+    sdsPessoaDDDFONE1: TIntegerField;
+    sdsPessoaTELEFONE1: TStringField;
+    sdsPessoaDDDFONE2: TIntegerField;
+    sdsPessoaTELEFONE2: TStringField;
+    sdsPessoaDDDFAX: TIntegerField;
+    sdsPessoaFAX: TStringField;
+    sdsPessoaPESSOA: TStringField;
+    sdsPessoaCNPJ_CPF: TStringField;
+    sdsPessoaINSCR_EST: TStringField;
+    sdsPessoaENDERECO_ENT: TStringField;
+    sdsPessoaCOMPLEMENTO_END_ENT: TStringField;
+    sdsPessoaNUM_END_ENT: TStringField;
+    sdsPessoaBAIRRO_ENT: TStringField;
+    sdsPessoaID_CIDADE_ENT: TIntegerField;
+    sdsPessoaCIDADE_ENT: TStringField;
+    sdsPessoaCEP_ENT: TStringField;
+    sdsPessoaUF_ENT: TStringField;
+    sdsPessoaPESSOA_ENT: TStringField;
+    sdsPessoaCNPJ_CPF_ENT: TStringField;
+    sdsPessoaINSC_EST_ENT: TStringField;
+    sdsPessoaENDERECO_PGTO: TStringField;
+    sdsPessoaCOMPLEMENTO_END_PGTO: TStringField;
+    sdsPessoaNUM_END_PGTO: TStringField;
+    sdsPessoaBAIRRO_PGTO: TStringField;
+    sdsPessoaID_CIDADE_PGTO: TIntegerField;
+    sdsPessoaCIDADE_PGTO: TStringField;
+    sdsPessoaCEP_PGTO: TStringField;
+    sdsPessoaUF_PGTO: TStringField;
+    sdsPessoaUSUARIO: TStringField;
+    sdsPessoaDTCADASTRO: TDateField;
+    sdsPessoaHRCADASTRO: TTimeField;
+    sdsPessoaOBS: TMemoField;
+    sdsPessoaCAIXAPOSTAL: TStringField;
+    sdsPessoaRG: TStringField;
+    sdsPessoaID_VENDEDOR: TIntegerField;
+    sdsPessoaID_CONDPGTO: TIntegerField;
+    sdsPessoaID_CONTABOLETO: TIntegerField;
+    sdsPessoaID_TRANSPORTADORA: TIntegerField;
+    sdsPessoaID_TIPOCOBRANCA: TIntegerField;
+    sdsPessoaID_REDESPACHO: TIntegerField;
+    sdsPessoaID_PAIS: TIntegerField;
+    sdsPessoaID_REGIME_TRIB: TIntegerField;
+    sdsPessoaPERC_COMISSAO: TFloatField;
+    sdsPessoaDDD_ENT: TIntegerField;
+    sdsPessoaFONE_ENT: TStringField;
+    sdsPessoaDDD_PGTO: TIntegerField;
+    sdsPessoaFONE_PGTO: TStringField;
+    sdsPessoaINATIVO: TStringField;
+    sdsPessoaHOMEPAGE: TStringField;
+    sdsPessoaTIPO_FRETE: TStringField;
+    sdsPessoaNOME_ENTREGA: TStringField;
+    sdsPessoaEMAIL_NFE: TStringField;
+    sdsPessoaEMAIL_PGTO: TStringField;
+    sdsPessoaEMAIL_NFE2: TStringField;
+    sdsPessoaPESSOA_PGTO: TStringField;
+    sdsPessoaCNPJ_CPG_PGTO: TStringField;
+    sdsPessoaINSC_EST_PGTO: TStringField;
+    sdsPessoaUF_PLACA: TStringField;
+    sdsPessoaPLACA: TStringField;
+    sdsPessoaTP_CLIENTE: TStringField;
+    sdsPessoaTP_FORNECEDOR: TStringField;
+    sdsPessoaTP_TRANSPORTADORA: TStringField;
+    sdsPessoaTP_VENDEDOR: TStringField;
+    sdsPessoaTIPO_ICMS: TStringField;
+    sdsPessoaID_TAB_PRECO: TIntegerField;
+    sdsPessoaTP_ATELIER: TStringField;
+    sdsPessoaTIPO_COMISSAO: TStringField;
+    sdsPessoaPERC_COMISSAO_VEND: TFloatField;
+    sdsPessoaNOME_CONTATO: TStringField;
+    sdsPessoaINSC_MUNICIPAL: TStringField;
+    sdsPessoaDT_CONTRATO_INI: TDateField;
+    sdsPessoaDT_CONTRATO_FIN: TDateField;
+    sdsPessoaID_SERVICO: TIntegerField;
+    sdsPessoaID_SERVICO_INT: TIntegerField;
+    sdsPessoaVLR_SERVICO: TFloatField;
+    sdsPessoaCLIENTE_CONTA_ID: TIntegerField;
+    sdsPessoaFORNECEDOR_CONTA_ID: TIntegerField;
+    sdsPessoaVENDEDOR_CONTA_ID: TIntegerField;
+    sdsPessoaTRANSPORTADORA_CONTA_ID: TIntegerField;
+    sdsPessoaATELIER_CONTA_ID: TIntegerField;
+    sdsPessoaRETEM_ISS: TStringField;
+    sdsPessoaRETEM_CSLL: TStringField;
+    sdsPessoaRETEM_PISCOFINS: TStringField;
+    sdsPessoaRETEM_INSS: TStringField;
+    sdsPessoaEMAIL_COMPRAS: TStringField;
+    sdsPessoaCONTATO_COMPRAS: TStringField;
+    sdsPessoaORGAO_PUBLICO: TStringField;
+    sdsPessoaID_NATUREZA: TIntegerField;
+    sdsPessoaDIMINUIR_RETENCAO: TStringField;
+    sdsPessoaPERC_REDUCAO_INSS: TFloatField;
+    sdsPessoaUSA_TRANSFICMS: TStringField;
+    sdsPessoaCLIENTE_ESTOQUE: TStringField;
+    sdsPessoaUSA_TAMANHO_AGRUPADO_NFE: TStringField;
+    sdsPessoaCOD_ANT: TIntegerField;
+    sdsPessoaID_EDI: TIntegerField;
+    sdsPessoaPAI_NOME: TStringField;
+    sdsPessoaMAE_NOME: TStringField;
+    sdsPessoaTP_ALUNO: TStringField;
+    sdsPessoaCOBRAR_TAXA_BANCO: TStringField;
+    sdsPessoaVLR_LIMITE_CREDITO: TFloatField;
+    sdsPessoaINSC_EST_ST: TStringField;
+    sdsPessoaUF_ST: TStringField;
+    sdsPessoaTIPO_CONSUMIDOR: TSmallintField;
+    sdsPessoaTIPO_CONTRIBUINTE: TSmallintField;
+    sdsPessoaINSC_SUFRAMA: TStringField;
+    sdsPessoaCOD_ALFA: TStringField;
+    sdsPessoaTP_PREPOSTO: TStringField;
+    sdsPessoaTP_EXPORTACAO: TStringField;
+    sdsPessoaCARIMBO: TStringField;
+    sdsPessoaDTPEDIDO: TDateField;
+    sdsPessoaDTNOTA: TDateField;
+    sdsPessoaPERC_DESC_SUFRAMA: TFloatField;
+    sdsPessoaVLR_LIMITE_COMPRA: TFloatField;
+    sdsPessoaID_GRUPO: TIntegerField;
+    sdsPessoaTP_FUNCIONARIO: TStringField;
+    sdsPessoaIMP_COD_PRODUTO_CLI: TStringField;
+    sdsPessoaFILIAL: TIntegerField;
+    sdsPessoaVLR_ULT_FATURAMENTO: TFloatField;
+    sdsPessoaQTD_ULT_FATURAMENTO: TFloatField;
+    sdsPessoaCOD_CONTABIL_CLIENTE: TIntegerField;
+    sdsPessoaCOD_CONTABIL_FORNECEDOR: TIntegerField;
+    sdsPessoaID_REGIAO_VENDA: TIntegerField;
+    sdsPessoaTIPO_CREDITO: TStringField;
+    sdsPessoaUSUARIO_LOG: TStringField;
+    sdsPessoaPROTESTAR: TStringField;
+    sdsPessoaID_CARTEIRA: TIntegerField;
+    sdsPessoaCELULAR: TStringField;
+    sdsPessoaDDDCELULAR: TIntegerField;
+    sdsPessoaCONT_CUSTO_LIQ: TStringField;
+    sdsPessoaUSA_OC_XML: TStringField;
+    sdsPessoaIMP_COR_CLIENTE: TStringField;
+    sdsPessoaOBS_AVISO: TStringField;
+    sdsPessoaMOSTRAR_AVISO: TStringField;
+    sdsPessoaID_ROTA: TIntegerField;
+    sdsPessoaMDIA1: TIntegerField;
+    sdsPessoaMDIA2: TIntegerField;
+    sdsPessoaASSOCIAR_PROD: TStringField;
+    sdsPessoaFUNCIONARIO_CONTA_ID: TIntegerField;
+    sdsPessoaBAIXAR_ETIQ_PREFAT: TStringField;
+    sdsPessoaCAIXINHA: TStringField;
+    sdsPessoaIPI_PAGO_FILIAL: TStringField;
+    sdsPessoaIMP_NOMEPROD_CLIENTE: TStringField;
+    sdsPessoaSENHA_PEDIDO: TStringField;
+    sdsPessoaDESC_MAXIMO: TFloatField;
+    sdsPessoaIMP_ETIQUETA_ROT: TStringField;
+    sdsPessoaGERAR_PROTESTO: TStringField;
+    sdsPessoaID_VENDEDOR_INT: TIntegerField;
+    sdsPessoaPERC_COMISSAO_INT: TFloatField;
+    sdsPessoaIMP_TAMANHO_FINAL: TStringField;
+    sdsPessoaUSA_TAMANHO_EDI_COD: TStringField;
+    sdsPessoaUSA_PRECO_VAREJO: TStringField;
+    sdsPessoaINFADI_DESC_CPROD: TStringField;
+    sdsPessoaINFADI_DESC_OS: TStringField;
+    sdsPessoaQTD_DIAS_PROTESTO: TIntegerField;
+    sdsPessoaTIPO_PROTESTO: TStringField;
+    sdsPessoaTIPO_PAGTO_COMISSAO: TStringField;
+    sdsPessoaTP_PRODUTOR_RURAL: TStringField;
+    sdsPessoaLOGO_DANFE: TStringField;
+    sdsPessoaENVIAR_CODCORFORN: TStringField;
+    sdsPessoaTIPO_PHOSPITALAR: TStringField;
+    sdsPessoaAUX_ALTERADO: TStringField;
+    sdsPessoaTP_INTERMEDIADOR: TStringField;
+    sdsPessoaID_INSTITUICAO_PAGTO: TIntegerField;
+    sdsPessoaNOME_IDENTIFICADOR: TStringField;
+    sdsPessoaTP_INSTITUICAO_PAGTO: TStringField;
+    sdsPessoaGERADO_WEB: TStringField;
+    sdsPessoaCONFERIDO: TStringField;
+    sdsPessoaIMP_FABRICA_NFE: TStringField;
+    sdsPessoaID_FUNCIONARIO: TIntegerField;
+    sdsPessoaCOD_CLIENTE_PROD: TIntegerField;
+    sdsPessoaAGENCIA: TStringField;
+    sdsPessoaNUMCONTA: TStringField;
+    sdsPessoaID_BANCO: TIntegerField;
+    sdsPessoaPIX: TStringField;
+    sdsPessoaDIGITO_SEPARADO_TAM: TStringField;
+    sdsPessoaUSAR_COD_CLIENTE_PROD: TStringField;
+    cdsPessoaCODIGO: TIntegerField;
+    cdsPessoaNOME: TStringField;
+    cdsPessoaFANTASIA: TStringField;
+    cdsPessoaENDERECO: TStringField;
+    cdsPessoaCOMPLEMENTO_END: TStringField;
+    cdsPessoaNUM_END: TStringField;
+    cdsPessoaBAIRRO: TStringField;
+    cdsPessoaID_CIDADE: TIntegerField;
+    cdsPessoaCIDADE: TStringField;
+    cdsPessoaUF: TStringField;
+    cdsPessoaCEP: TStringField;
+    cdsPessoaDDDFONE1: TIntegerField;
+    cdsPessoaTELEFONE1: TStringField;
+    cdsPessoaDDDFONE2: TIntegerField;
+    cdsPessoaTELEFONE2: TStringField;
+    cdsPessoaDDDFAX: TIntegerField;
+    cdsPessoaFAX: TStringField;
+    cdsPessoaPESSOA: TStringField;
+    cdsPessoaCNPJ_CPF: TStringField;
+    cdsPessoaINSCR_EST: TStringField;
+    cdsPessoaENDERECO_ENT: TStringField;
+    cdsPessoaCOMPLEMENTO_END_ENT: TStringField;
+    cdsPessoaNUM_END_ENT: TStringField;
+    cdsPessoaBAIRRO_ENT: TStringField;
+    cdsPessoaID_CIDADE_ENT: TIntegerField;
+    cdsPessoaCIDADE_ENT: TStringField;
+    cdsPessoaCEP_ENT: TStringField;
+    cdsPessoaUF_ENT: TStringField;
+    cdsPessoaPESSOA_ENT: TStringField;
+    cdsPessoaCNPJ_CPF_ENT: TStringField;
+    cdsPessoaINSC_EST_ENT: TStringField;
+    cdsPessoaENDERECO_PGTO: TStringField;
+    cdsPessoaCOMPLEMENTO_END_PGTO: TStringField;
+    cdsPessoaNUM_END_PGTO: TStringField;
+    cdsPessoaBAIRRO_PGTO: TStringField;
+    cdsPessoaID_CIDADE_PGTO: TIntegerField;
+    cdsPessoaCIDADE_PGTO: TStringField;
+    cdsPessoaCEP_PGTO: TStringField;
+    cdsPessoaUF_PGTO: TStringField;
+    cdsPessoaUSUARIO: TStringField;
+    cdsPessoaDTCADASTRO: TDateField;
+    cdsPessoaHRCADASTRO: TTimeField;
+    cdsPessoaOBS: TMemoField;
+    cdsPessoaCAIXAPOSTAL: TStringField;
+    cdsPessoaRG: TStringField;
+    cdsPessoaID_VENDEDOR: TIntegerField;
+    cdsPessoaID_CONDPGTO: TIntegerField;
+    cdsPessoaID_CONTABOLETO: TIntegerField;
+    cdsPessoaID_TRANSPORTADORA: TIntegerField;
+    cdsPessoaID_TIPOCOBRANCA: TIntegerField;
+    cdsPessoaID_REDESPACHO: TIntegerField;
+    cdsPessoaID_PAIS: TIntegerField;
+    cdsPessoaID_REGIME_TRIB: TIntegerField;
+    cdsPessoaPERC_COMISSAO: TFloatField;
+    cdsPessoaDDD_ENT: TIntegerField;
+    cdsPessoaFONE_ENT: TStringField;
+    cdsPessoaDDD_PGTO: TIntegerField;
+    cdsPessoaFONE_PGTO: TStringField;
+    cdsPessoaINATIVO: TStringField;
+    cdsPessoaHOMEPAGE: TStringField;
+    cdsPessoaTIPO_FRETE: TStringField;
+    cdsPessoaNOME_ENTREGA: TStringField;
+    cdsPessoaEMAIL_NFE: TStringField;
+    cdsPessoaEMAIL_PGTO: TStringField;
+    cdsPessoaEMAIL_NFE2: TStringField;
+    cdsPessoaPESSOA_PGTO: TStringField;
+    cdsPessoaCNPJ_CPG_PGTO: TStringField;
+    cdsPessoaINSC_EST_PGTO: TStringField;
+    cdsPessoaUF_PLACA: TStringField;
+    cdsPessoaPLACA: TStringField;
+    cdsPessoaTP_CLIENTE: TStringField;
+    cdsPessoaTP_FORNECEDOR: TStringField;
+    cdsPessoaTP_TRANSPORTADORA: TStringField;
+    cdsPessoaTP_VENDEDOR: TStringField;
+    cdsPessoaTIPO_ICMS: TStringField;
+    cdsPessoaID_TAB_PRECO: TIntegerField;
+    cdsPessoaTP_ATELIER: TStringField;
+    cdsPessoaTIPO_COMISSAO: TStringField;
+    cdsPessoaPERC_COMISSAO_VEND: TFloatField;
+    cdsPessoaNOME_CONTATO: TStringField;
+    cdsPessoaINSC_MUNICIPAL: TStringField;
+    cdsPessoaDT_CONTRATO_INI: TDateField;
+    cdsPessoaDT_CONTRATO_FIN: TDateField;
+    cdsPessoaID_SERVICO: TIntegerField;
+    cdsPessoaID_SERVICO_INT: TIntegerField;
+    cdsPessoaVLR_SERVICO: TFloatField;
+    cdsPessoaCLIENTE_CONTA_ID: TIntegerField;
+    cdsPessoaFORNECEDOR_CONTA_ID: TIntegerField;
+    cdsPessoaVENDEDOR_CONTA_ID: TIntegerField;
+    cdsPessoaTRANSPORTADORA_CONTA_ID: TIntegerField;
+    cdsPessoaATELIER_CONTA_ID: TIntegerField;
+    cdsPessoaRETEM_ISS: TStringField;
+    cdsPessoaRETEM_CSLL: TStringField;
+    cdsPessoaRETEM_PISCOFINS: TStringField;
+    cdsPessoaRETEM_INSS: TStringField;
+    cdsPessoaEMAIL_COMPRAS: TStringField;
+    cdsPessoaCONTATO_COMPRAS: TStringField;
+    cdsPessoaORGAO_PUBLICO: TStringField;
+    cdsPessoaID_NATUREZA: TIntegerField;
+    cdsPessoaDIMINUIR_RETENCAO: TStringField;
+    cdsPessoaPERC_REDUCAO_INSS: TFloatField;
+    cdsPessoaUSA_TRANSFICMS: TStringField;
+    cdsPessoaCLIENTE_ESTOQUE: TStringField;
+    cdsPessoaUSA_TAMANHO_AGRUPADO_NFE: TStringField;
+    cdsPessoaCOD_ANT: TIntegerField;
+    cdsPessoaID_EDI: TIntegerField;
+    cdsPessoaPAI_NOME: TStringField;
+    cdsPessoaMAE_NOME: TStringField;
+    cdsPessoaTP_ALUNO: TStringField;
+    cdsPessoaCOBRAR_TAXA_BANCO: TStringField;
+    cdsPessoaVLR_LIMITE_CREDITO: TFloatField;
+    cdsPessoaINSC_EST_ST: TStringField;
+    cdsPessoaUF_ST: TStringField;
+    cdsPessoaTIPO_CONSUMIDOR: TSmallintField;
+    cdsPessoaTIPO_CONTRIBUINTE: TSmallintField;
+    cdsPessoaINSC_SUFRAMA: TStringField;
+    cdsPessoaCOD_ALFA: TStringField;
+    cdsPessoaTP_PREPOSTO: TStringField;
+    cdsPessoaTP_EXPORTACAO: TStringField;
+    cdsPessoaCARIMBO: TStringField;
+    cdsPessoaDTPEDIDO: TDateField;
+    cdsPessoaDTNOTA: TDateField;
+    cdsPessoaPERC_DESC_SUFRAMA: TFloatField;
+    cdsPessoaVLR_LIMITE_COMPRA: TFloatField;
+    cdsPessoaID_GRUPO: TIntegerField;
+    cdsPessoaTP_FUNCIONARIO: TStringField;
+    cdsPessoaIMP_COD_PRODUTO_CLI: TStringField;
+    cdsPessoaFILIAL: TIntegerField;
+    cdsPessoaVLR_ULT_FATURAMENTO: TFloatField;
+    cdsPessoaQTD_ULT_FATURAMENTO: TFloatField;
+    cdsPessoaCOD_CONTABIL_CLIENTE: TIntegerField;
+    cdsPessoaCOD_CONTABIL_FORNECEDOR: TIntegerField;
+    cdsPessoaID_REGIAO_VENDA: TIntegerField;
+    cdsPessoaTIPO_CREDITO: TStringField;
+    cdsPessoaUSUARIO_LOG: TStringField;
+    cdsPessoaPROTESTAR: TStringField;
+    cdsPessoaID_CARTEIRA: TIntegerField;
+    cdsPessoaCELULAR: TStringField;
+    cdsPessoaDDDCELULAR: TIntegerField;
+    cdsPessoaCONT_CUSTO_LIQ: TStringField;
+    cdsPessoaUSA_OC_XML: TStringField;
+    cdsPessoaIMP_COR_CLIENTE: TStringField;
+    cdsPessoaOBS_AVISO: TStringField;
+    cdsPessoaMOSTRAR_AVISO: TStringField;
+    cdsPessoaID_ROTA: TIntegerField;
+    cdsPessoaMDIA1: TIntegerField;
+    cdsPessoaMDIA2: TIntegerField;
+    cdsPessoaASSOCIAR_PROD: TStringField;
+    cdsPessoaFUNCIONARIO_CONTA_ID: TIntegerField;
+    cdsPessoaBAIXAR_ETIQ_PREFAT: TStringField;
+    cdsPessoaCAIXINHA: TStringField;
+    cdsPessoaIPI_PAGO_FILIAL: TStringField;
+    cdsPessoaIMP_NOMEPROD_CLIENTE: TStringField;
+    cdsPessoaSENHA_PEDIDO: TStringField;
+    cdsPessoaDESC_MAXIMO: TFloatField;
+    cdsPessoaIMP_ETIQUETA_ROT: TStringField;
+    cdsPessoaGERAR_PROTESTO: TStringField;
+    cdsPessoaID_VENDEDOR_INT: TIntegerField;
+    cdsPessoaPERC_COMISSAO_INT: TFloatField;
+    cdsPessoaIMP_TAMANHO_FINAL: TStringField;
+    cdsPessoaUSA_TAMANHO_EDI_COD: TStringField;
+    cdsPessoaUSA_PRECO_VAREJO: TStringField;
+    cdsPessoaINFADI_DESC_CPROD: TStringField;
+    cdsPessoaINFADI_DESC_OS: TStringField;
+    cdsPessoaQTD_DIAS_PROTESTO: TIntegerField;
+    cdsPessoaTIPO_PROTESTO: TStringField;
+    cdsPessoaTIPO_PAGTO_COMISSAO: TStringField;
+    cdsPessoaTP_PRODUTOR_RURAL: TStringField;
+    cdsPessoaLOGO_DANFE: TStringField;
+    cdsPessoaENVIAR_CODCORFORN: TStringField;
+    cdsPessoaTIPO_PHOSPITALAR: TStringField;
+    cdsPessoaAUX_ALTERADO: TStringField;
+    cdsPessoaTP_INTERMEDIADOR: TStringField;
+    cdsPessoaID_INSTITUICAO_PAGTO: TIntegerField;
+    cdsPessoaNOME_IDENTIFICADOR: TStringField;
+    cdsPessoaTP_INSTITUICAO_PAGTO: TStringField;
+    cdsPessoaGERADO_WEB: TStringField;
+    cdsPessoaCONFERIDO: TStringField;
+    cdsPessoaIMP_FABRICA_NFE: TStringField;
+    cdsPessoaID_FUNCIONARIO: TIntegerField;
+    cdsPessoaCOD_CLIENTE_PROD: TIntegerField;
+    cdsPessoaAGENCIA: TStringField;
+    cdsPessoaNUMCONTA: TStringField;
+    cdsPessoaID_BANCO: TIntegerField;
+    cdsPessoaPIX: TStringField;
+    cdsPessoaDIGITO_SEPARADO_TAM: TStringField;
+    cdsPessoaUSAR_COD_CLIENTE_PROD: TStringField;
+    sdsEstoque_Mov: TSQLDataSet;
+    dspEstoque_Mov: TDataSetProvider;
+    cdsEstoque_Mov: TClientDataSet;
+    dsEstoque_Mov: TDataSource;
+    sdsEstoque_MovID: TIntegerField;
+    sdsEstoque_MovFILIAL: TIntegerField;
+    sdsEstoque_MovID_PRODUTO: TIntegerField;
+    sdsEstoque_MovID_COR: TIntegerField;
+    sdsEstoque_MovDTMOVIMENTO: TDateField;
+    sdsEstoque_MovTIPO_ES: TStringField;
+    sdsEstoque_MovTIPO_MOV: TStringField;
+    sdsEstoque_MovNUMNOTA: TIntegerField;
+    sdsEstoque_MovID_PESSOA: TIntegerField;
+    sdsEstoque_MovVLR_UNITARIO: TFloatField;
+    sdsEstoque_MovQTD: TFloatField;
+    sdsEstoque_MovPERC_ICMS: TFloatField;
+    sdsEstoque_MovPERC_IPI: TFloatField;
+    sdsEstoque_MovVLR_DESCONTO: TFloatField;
+    sdsEstoque_MovUNIDADE: TStringField;
+    sdsEstoque_MovQTD2: TFloatField;
+    sdsEstoque_MovTAMANHO: TStringField;
+    sdsEstoque_MovPERC_TRIBUTACAO: TFloatField;
+    sdsEstoque_MovVLR_FRETE: TFloatField;
+    sdsEstoque_MovID_CFOP: TIntegerField;
+    sdsEstoque_MovID_NOTA: TIntegerField;
+    sdsEstoque_MovSERIE: TStringField;
+    sdsEstoque_MovUNIDADE_ORIG: TStringField;
+    sdsEstoque_MovVLR_UNITARIOORIG: TFloatField;
+    sdsEstoque_MovQTD_ORIG: TFloatField;
+    sdsEstoque_MovVLR_DESCONTOORIG: TFloatField;
+    sdsEstoque_MovMERCADO: TStringField;
+    sdsEstoque_MovID_CENTROCUSTO: TIntegerField;
+    sdsEstoque_MovQTD_ENT: TFloatField;
+    sdsEstoque_MovQTD_SAI: TFloatField;
+    sdsEstoque_MovTESTE: TStringField;
+    sdsEstoque_MovID_CUPOM: TIntegerField;
+    sdsEstoque_MovID_LOCAL_ESTOQUE: TIntegerField;
+    sdsEstoque_MovNUM_LOTE_CONTROLE: TStringField;
+    sdsEstoque_MovGERAR_CUSTO: TStringField;
+    sdsEstoque_MovPRECO_CUSTO_TOTAL: TFloatField;
+    sdsEstoque_MovVLR_AJUSTE_CUSTO: TFloatField;
+    sdsEstoque_MovID_OPERACAO: TIntegerField;
+    sdsEstoque_MovREF_PROD_FORNECEDOR: TStringField;
+    sdsEstoque_MovLARGURA: TFloatField;
+    sdsEstoque_MovCOMPRIMENTO: TFloatField;
+    sdsEstoque_MovESPESSURA: TFloatField;
+    sdsEstoque_MovID_PRODUTO_ORIG: TIntegerField;
+    sdsEstoque_MovID_PEDIDO: TIntegerField;
+    sdsEstoque_MovID_PEDIDO_RESERVA: TIntegerField;
+    sdsEstoque_MovITEM_PEDIDO: TIntegerField;
+    sdsEstoque_MovLOCALIZACAO: TStringField;
+    sdsEstoque_MovUSUARIO: TStringField;
+    sdsEstoque_MovVLR_ICMS_ST_RETIDO: TFloatField;
+    sdsEstoque_MovVLR_ICMS_ST_SUBSTITUTO: TFloatField;
+    cdsEstoque_MovID: TIntegerField;
+    cdsEstoque_MovFILIAL: TIntegerField;
+    cdsEstoque_MovID_PRODUTO: TIntegerField;
+    cdsEstoque_MovID_COR: TIntegerField;
+    cdsEstoque_MovDTMOVIMENTO: TDateField;
+    cdsEstoque_MovTIPO_ES: TStringField;
+    cdsEstoque_MovTIPO_MOV: TStringField;
+    cdsEstoque_MovNUMNOTA: TIntegerField;
+    cdsEstoque_MovID_PESSOA: TIntegerField;
+    cdsEstoque_MovVLR_UNITARIO: TFloatField;
+    cdsEstoque_MovQTD: TFloatField;
+    cdsEstoque_MovPERC_ICMS: TFloatField;
+    cdsEstoque_MovPERC_IPI: TFloatField;
+    cdsEstoque_MovVLR_DESCONTO: TFloatField;
+    cdsEstoque_MovUNIDADE: TStringField;
+    cdsEstoque_MovQTD2: TFloatField;
+    cdsEstoque_MovTAMANHO: TStringField;
+    cdsEstoque_MovPERC_TRIBUTACAO: TFloatField;
+    cdsEstoque_MovVLR_FRETE: TFloatField;
+    cdsEstoque_MovID_CFOP: TIntegerField;
+    cdsEstoque_MovID_NOTA: TIntegerField;
+    cdsEstoque_MovSERIE: TStringField;
+    cdsEstoque_MovUNIDADE_ORIG: TStringField;
+    cdsEstoque_MovVLR_UNITARIOORIG: TFloatField;
+    cdsEstoque_MovQTD_ORIG: TFloatField;
+    cdsEstoque_MovVLR_DESCONTOORIG: TFloatField;
+    cdsEstoque_MovMERCADO: TStringField;
+    cdsEstoque_MovID_CENTROCUSTO: TIntegerField;
+    cdsEstoque_MovQTD_ENT: TFloatField;
+    cdsEstoque_MovQTD_SAI: TFloatField;
+    cdsEstoque_MovTESTE: TStringField;
+    cdsEstoque_MovID_CUPOM: TIntegerField;
+    cdsEstoque_MovID_LOCAL_ESTOQUE: TIntegerField;
+    cdsEstoque_MovNUM_LOTE_CONTROLE: TStringField;
+    cdsEstoque_MovGERAR_CUSTO: TStringField;
+    cdsEstoque_MovPRECO_CUSTO_TOTAL: TFloatField;
+    cdsEstoque_MovVLR_AJUSTE_CUSTO: TFloatField;
+    cdsEstoque_MovID_OPERACAO: TIntegerField;
+    cdsEstoque_MovREF_PROD_FORNECEDOR: TStringField;
+    cdsEstoque_MovLARGURA: TFloatField;
+    cdsEstoque_MovCOMPRIMENTO: TFloatField;
+    cdsEstoque_MovESPESSURA: TFloatField;
+    cdsEstoque_MovID_PRODUTO_ORIG: TIntegerField;
+    cdsEstoque_MovID_PEDIDO: TIntegerField;
+    cdsEstoque_MovID_PEDIDO_RESERVA: TIntegerField;
+    cdsEstoque_MovITEM_PEDIDO: TIntegerField;
+    cdsEstoque_MovLOCALIZACAO: TStringField;
+    cdsEstoque_MovUSUARIO: TStringField;
+    cdsEstoque_MovVLR_ICMS_ST_RETIDO: TFloatField;
+    cdsEstoque_MovVLR_ICMS_ST_SUBSTITUTO: TFloatField;
+    qFilial: TSQLQuery;
+    qFilialID: TIntegerField;
+    qFilialNOME: TStringField;
+    qFilialNOME_INTERNO: TStringField;
+    qFilialCNPJ_CPF: TStringField;
+  private
+    { Private declarations }
+
+    function fnc_Gravar_Estoque(ID_Estoque, ID_Filial, ID_Local_Estoque, ID_Produto, NumDoc, ID_Pessoa, ID_CFOP, ID_Nota, ID_CentroCusto: Integer;
+                       Tipo_ES, Tipo_Mov, Unidade, Unidade_Orig, Serie, Tamanho: String; Data: TDateTime;
+                       Vlr_Unitario, Qtd, Perc_ICMS, Perc_IPI, Vlr_Desconto, Perc_Trib, Vlr_Frete, Qtd_Orig,
+                       Vlr_Unitario_Orig,Vlr_Desconto_Orig: Real; Qtd_Pacote: Real; Unidade_Interna: String;
+                       ID_COR: Integer; Num_Lote_Controle, Gerar_Custo: String; Preco_Custo_Total, Comprimento, Largura, Espessura: Real;
+                       ID_Operacao: Integer; ID_Pedido, Item_Pedido: Integer; Localizacao : String; Vlr_ICMS_ST_Ret, Vlr_ICMS_ST_Subst : Real): Integer;
+
+  public
+    { Public declarations }
+  end;
+
+var
+  DMImportar: TDMImportar;
+
+implementation
+
+uses DmdDatabase;
+
+{$R *.dfm}
+
+{ TDMImportar }
+
+function TDMImportar.fnc_Gravar_Estoque(ID_Estoque, ID_Filial,
+  ID_Local_Estoque, ID_Produto, NumDoc, ID_Pessoa, ID_CFOP, ID_Nota,
+  ID_CentroCusto: Integer; Tipo_ES, Tipo_Mov, Unidade, Unidade_Orig, Serie,
+  Tamanho: String; Data: TDateTime; Vlr_Unitario, Qtd, Perc_ICMS, Perc_IPI,
+  Vlr_Desconto, Perc_Trib, Vlr_Frete, Qtd_Orig, Vlr_Unitario_Orig,
+  Vlr_Desconto_Orig, Qtd_Pacote: Real; Unidade_Interna: String;
+  ID_COR: Integer; Num_Lote_Controle, Gerar_Custo: String;
+  Preco_Custo_Total, Comprimento, Largura, Espessura: Real; ID_Operacao,
+  ID_Pedido, Item_Pedido: Integer; Localizacao: String; Vlr_ICMS_ST_Ret, Vlr_ICMS_ST_Subst : Real): Integer;
+var  
+  vAux: Integer;
+  vQtdAux: Real;
+  ID_Produto_Orig: Integer;
+begin
+  Result := 0;
+
+  if ID_Estoque > 0 then
+  begin
+    prc_Abrir_Estoque_Mov(ID_Estoque);
+    //29/09/2022
+    //if cdsEstoque_Mov.IsEmpty then
+    //  ID_Estoque := 0;
+    vaux := ID_Estoque;
+  end;
+  if ID_Estoque <= 0 then
+  begin
+    //12/09/2021
+    //vAux := dmDatabase.ProximaSequencia('ESTOQUE_MOV',0);
+    vAux := dmDatabase.fnc_Generator_ID('GEN_ESTOQUE_MOV');
+    if not(cdsEstoque_Mov.Active)  then
+      prc_Abrir_Estoque_Mov(0);
+  end;
+
+  ID_Produto_Orig := 0;
+  if (qParametros_EstUSA_PRODUTO_EST.AsString = 'S') then
+  begin
+    qProduto.Close;
+    qProduto.ParamByName('ID').AsInteger := ID_Produto;
+    qProduto.Open;
+    if qProdutoID_PRODUTO_EST.AsInteger > 0 then
+    begin
+      ID_Produto_Orig := ID_Produto;
+      ID_Produto      := qProdutoID_PRODUTO_EST.AsInteger;
+    end;
+  end;
+
+  //08/07/2014  -  Foi incluido devido a quantidade com unidade diferente (quantidade pacote)
+  if StrToCurr(FormatCurr('0.00000',Qtd_Pacote)) > 0 then
+  begin
+    vQtdAux := StrToCurr(FormatCurr('0.00000',Qtd * Qtd_Pacote));
+    if StrToCurr(FormatCurr('0.00000',Qtd_Orig)) <= 0 then
+    begin
+      Qtd_Orig          := StrToCurr(FormatCurr('0.00000',Qtd));
+      Vlr_Unitario_Orig := StrToCurr(FormatCurr('0.0000000000',Vlr_Unitario));
+    end;
+    Vlr_Unitario := StrToCurr(FormatCurr('0.0000000000',Vlr_Unitario * Qtd / (Qtd_Pacote * Qtd)));
+    Qtd := StrToCurr(FormatCurr('0.00000',vQtdAux));
+    if trim(Unidade_Interna) = '' then
+    begin
+      qProduto.Close;
+      qProduto.ParamByName('ID').AsInteger := ID_Produto;
+      qProduto.Open;
+      Unidade := qProdutoUNIDADE.AsString;
+    end
+    else
+      Unidade := Unidade_Interna;
+  end;
+  //*****************
+
+  try
+    if ID_Estoque > 0 then
+    begin
+      if cdsEstoque_Mov.IsEmpty then
+      begin
+        cdsEstoque_Mov.Insert;
+        cdsEstoque_MovID.AsInteger := ID_Estoque;
+      end
+      else
+        cdsEstoque_Mov.Edit
+    end
+    else
+    begin
+      cdsEstoque_Mov.Insert;
+      cdsEstoque_MovID.AsInteger := vAux;
+    end;
+    cdsEstoque_MovFILIAL.AsInteger           := ID_Filial;
+    if ID_Local_Estoque <= 0 then
+      cdsEstoque_MovID_LOCAL_ESTOQUE.AsInteger := 1
+    else
+      cdsEstoque_MovID_LOCAL_ESTOQUE.AsInteger := ID_Local_Estoque;
+    cdsEstoque_MovID_PRODUTO.AsInteger       := ID_Produto;
+    cdsEstoque_MovID_NOTA.AsInteger          := ID_Nota;
+    cdsEstoque_MovTAMANHO.AsString           := Tamanho;
+    cdsEstoque_MovDTMOVIMENTO.AsDateTime     := Data;
+    cdsEstoque_MovTIPO_ES.AsString           := Tipo_ES;
+    cdsEstoque_MovTIPO_MOV.AsString          := Tipo_Mov;
+    cdsEstoque_MovNUMNOTA.AsInteger          := NumDoc;
+    if Tipo_Mov = 'CFI' then
+      cdsEstoque_MovID_CUPOM.AsInteger := ID_Nota;
+    if ID_Pessoa > 0 then
+      cdsEstoque_MovID_PESSOA.AsInteger := ID_Pessoa
+    else
+      cdsEstoque_MovID_PESSOA.Clear;
+    cdsEstoque_MovVLR_UNITARIO.AsFloat    := Vlr_Unitario;
+    cdsEstoque_MovQTD.AsFloat             := StrToFloat(FormatFloat('0.00000',Qtd));
+    cdsEstoque_MovQTD2.AsFloat            := StrToFloat(FormatFloat('0.00000',Qtd));
+    if Tipo_ES = 'S' then
+      cdsEstoque_MovQTD2.AsFloat          := StrToFloat(FormatFloat('0.00000',Qtd * -1));
+    cdsEstoque_MovUNIDADE.AsString        := Unidade;
+    cdsEstoque_MovPERC_ICMS.AsFloat       := Perc_ICMS;
+    cdsEstoque_MovPERC_IPI.AsFloat        := Perc_IPI;
+    cdsEstoque_MovVLR_DESCONTO.AsFloat    := StrToFloat(FormatFloat('0.000',Vlr_Desconto));
+    cdsEstoque_MovPERC_TRIBUTACAO.AsFloat := StrToFloat(FormatFloat('0.0000',Perc_Trib));
+    cdsEstoque_MovVLR_FRETE.AsFloat       := StrToFloat(FormatFloat('0.00',Vlr_Frete));
+    cdsEstoque_MovID_CFOP.AsInteger       := ID_CFOP;
+    cdsEstoque_MovSERIE.AsString          := Serie;
+    cdsEstoque_MovVLR_DESCONTOORIG.AsFloat := Vlr_Desconto_Orig;
+    cdsEstoque_MovVLR_UNITARIOORIG.AsFloat := Vlr_Unitario_Orig;
+    cdsEstoque_MovUNIDADE_ORIG.AsString    := Unidade_Orig;
+    cdsEstoque_MovQTD_ORIG.AsFloat         := StrToFloat(FormatFloat('0.00000',Qtd_Orig));
+    if ID_COR <= 0 then
+      ID_COR := 0;
+    cdsEstoque_MovID_COR.AsInteger         := ID_COR;
+    cdsEstoque_MovPRECO_CUSTO_TOTAL.AsFloat := StrToFloat(FormatFloat('0.00000',Preco_Custo_Total));
+    if ID_CentroCusto > 0 then
+      cdsEstoque_MovID_CENTROCUSTO.AsInteger := ID_CentroCusto
+    else
+      cdsEstoque_MovID_CENTROCUSTO.Clear;
+    if trim(Num_Lote_Controle) <> '' then
+      cdsEstoque_MovNUM_LOTE_CONTROLE.AsString := Num_Lote_Controle
+    else
+      cdsEstoque_MovNUM_LOTE_CONTROLE.AsString := '';
+    cdsEstoque_MovGERAR_CUSTO.AsString := Gerar_Custo;
+    if (Gerar_Custo <> 'S') and (Gerar_Custo <> 'N') then
+    begin
+      if Tipo_Mov = 'NTE' then
+        cdsEstoque_MovGERAR_CUSTO.AsString := 'S'
+      else
+        cdsEstoque_MovGERAR_CUSTO.AsString := 'N';
+    end;
+
+    cdsEstoque_MovComprimento.AsFloat := Comprimento;
+    cdsEstoque_MovLargura.AsFloat     := Largura;
+    cdsEstoque_MovEspessura.AsFloat   := Espessura;
+
+    //14/01/2019 Vai gravar a operação para controle do estoque em terceiro e de terceiro
+    if ID_Operacao <= 0 then
+      cdsEstoque_MovID_OPERACAO.Clear
+    else
+      cdsEstoque_MovID_OPERACAO.AsInteger := ID_Operacao;
+    //*******************************
+
+    if ID_Produto_Orig > 0 then
+      cdsEstoque_MovID_PRODUTO_ORIG.AsInteger := ID_Produto_Orig
+    else
+      cdsEstoque_MovID_PRODUTO_ORIG.Clear;
+
+    if (ID_Pedido <= 0) or (trim(qParametros_PedUSA_RESERVA_EST.AsString) <> 'S') then
+    begin
+      cdsEstoque_MovID_PEDIDO.Clear;
+      cdsEstoque_MovITEM_PEDIDO.Clear;
+    end
+    else
+    begin
+      cdsEstoque_MovID_PEDIDO.AsInteger := ID_Pedido;
+      cdsEstoque_MovITEM_PEDIDO.AsInteger := Item_Pedido;
+    end;
+    if trim(Localizacao) <> '' then
+      cdsEstoque_MovLOCALIZACAO.AsString := Localizacao;
+    cdsEstoque_MovVLR_ICMS_ST_RETIDO.AsFloat     := StrToFloat(FormatFloat('0.00',Vlr_ICMS_ST_Ret));
+    cdsEstoque_MovVLR_ICMS_ST_SUBSTITUTO.AsFloat := StrToFloat(FormatFloat('0.00',Vlr_ICMS_ST_Subst));
+    cdsEstoque_Mov.Post;
+    cdsEstoque_Mov.ApplyUpdates(0);
+    Result := vAux;
+  except
+  end;
+end;
+
+end.

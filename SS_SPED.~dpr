@@ -13,7 +13,9 @@ uses
   UConsPosseEstoque in 'UConsPosseEstoque.pas' {frmConsPosseEstoque},
   DmdDatabase_NFeBD in '..\ssfacil\DmdDatabase_NFeBD.pas' {dmDatabase_NFeBD: TDataModule},
   UImportar_Excel in 'UImportar_Excel.pas' {frmImportar_Excel},
-  UDMImportar in 'UDMImportar.pas' {DMImportar: TDataModule};
+  UDMImportar in 'UDMImportar.pas' {DMImportar: TDataModule},
+  LogProvider in '..\Logs\src\LogProvider.pas',
+  LogTypes in '..\Logs\src\LogTypes.pas';
 
 {$R *.res}
 
