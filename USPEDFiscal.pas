@@ -81,10 +81,8 @@ type
     ComboBox1: TComboBox;
     gbxVendedor: TRzGroupBox;
     Label15: TLabel;
-    Label16: TLabel;
     Label17: TLabel;
     ComboBox2: TComboBox;
-    cbTipo: TComboBox;
     DateEdit3: TDateEdit;
     RzCheckList1: TRzCheckList;
     ckImobilizado: TCheckBox;
@@ -106,7 +104,7 @@ type
     btnGerarSped: TNxButton;
     btnEstoque: TNxButton;
     btnVersao: TNxButton;
-    btnImportarExcel: TNxButton;
+    NxButton1: TNxButton;
     procedure btnB_0Click(Sender: TObject);
     procedure btnB_9Click(Sender: TObject);
     procedure btnTXTClick(Sender: TObject);
@@ -137,6 +135,8 @@ type
     procedure btnEstoqueClick(Sender: TObject);
     procedure btnImp_Bloco_KClick(Sender: TObject);
     procedure RxDBLookupCombo1Exit(Sender: TObject);
+    procedure NxButton1Click(Sender: TObject);
+    procedure RzCheckList1Enter(Sender: TObject);
   private
     fDMSPEDFiscal: TDMSPEDFiscal;
     vContador_Reg_0 : Integer;
@@ -239,7 +239,7 @@ uses uUtilPadrao, DB, ACBrEFDBloco_C, ACBrEFDBloco_C_Class,
   SqlExpr, ACBrEFDBloco_D_Class, ACBrEFDBloco_D, ACBrEFDBloco_H_Class,
   ACBrEFDBloco_H, DateUtils, rsDBUtils, ACBrEFDBloco_K,
   ACBrEFDBloco_K_Class, ACBrEFDBloco_E_Class, ACBrEFDBloco_E, ACBrSped,
-  UCadSpedVersao, UConsPosseEstoque, ACBrEFDBloco_0;
+  UCadSpedVersao, UConsPosseEstoque, ACBrEFDBloco_0, UImportar_Excel;
 
 {$IFDEF FPC}
 {$R *.lfm}
@@ -2106,9 +2106,6 @@ begin
 
   DateEdit1.Date := IncMonth(EncodeDate(YearOf(Date),MonthOf(Date),01), -1);
   DateEdit2.Date := EncodeDate(YearOf(DateEdit1.Date),MonthOf(DateEdit1.Date),DaysInAMonth(YearOf(DateEdit1.Date),MonthOf(DateEdit1.Date)));
-
-  if RxDBLookupCombo1.Text <> '' then
-    btnImportarExcel.Enabled := (SQLLocate('FILIAL','ID','SPED_IMPORTAR_EXCEL',IntToStr(RxDBLookupCombo1.KeyValue)) = 'S');
 end;
 
 procedure TfrmSPEDFiscal.prc_Bloco_0_Reg_0450;
@@ -3197,11 +3194,19 @@ var
   i : Integer;
 begin
   vQtdAux     := 0;
-  vComando    := 'select AUX.*, AUX.QTD_ESTOQUE * AUX.PRECO_MEDIO VLR_TOTAL '
+  vComando    := 'select AUX.*,'
+               + '       case '
+               + '         when AUX.PRECO_MEDIO_FIXO > 0 or AUX.PRECO_MEDIO_FIXO is not null then AUX.PRECO_MEDIO_FIXO'
+               + '         else AUX.PRECO_MEDIO_CALC'
+               + '       end PRECO_MEDIO,'
+               + '       case'
+               + '         when AUX.PRECO_MEDIO_FIXO > 0 or AUX.PRECO_MEDIO_FIXO is not null then AUX.QTD_ESTOQUE * AUX.PRECO_MEDIO_FIXO'
+               + '         else AUX.QTD_ESTOQUE * AUX.PRECO_MEDIO_CALC'
+               + '       end VLR_TOTAL '
                + 'from ( '
                + 'with e as ( '
                + 'select em.tipo_es, em.gerar_custo, EM.ID_PRODUTO, EM.TAMANHO, sum(cast(EM.QTD2 as numeric(15,5))) QTD_ESTOQUE, PRO.REFERENCIA, '
-               + '       PRO.NOME NOME_PRODUTO, PRO.UNIDADE, EM.ID_COR, PRO.SPED_TIPO_ITEM, PRO.TIPO_REG, '
+               + '       PRO.NOME NOME_PRODUTO, PRO.UNIDADE, EM.ID_COR, PRO.SPED_TIPO_ITEM, PRO.TIPO_REG, PRO.USA_PRECO_COR, '
                + '       case '
                + '         when PRO.SPED_TIPO_ITEM = ' + QuotedStr('00') + ' then ' + QuotedStr('00 - Mercadoria para Revenda')
                + '         when PRO.SPED_TIPO_ITEM = ' + QuotedStr('01') + ' then ' + QuotedStr('01- Matéria-Prima')
@@ -3241,7 +3246,7 @@ begin
                + '  and PRO.INATIVO = ' + QuotedStr('N') + ' and '
                + '      PRO.ESTOQUE = ' + QuotedStr('S')
                + 'group by em.tipo_es, em.gerar_custo, EM.ID_PRODUTO, EM.TAMANHO, PRO.REFERENCIA, PRO.NOME, '
-               + 'PRO.UNIDADE, EM.ID_COR, PRO.SPED_TIPO_ITEM, PRO.PERC_IPI, PRO.TIPO_REG, pro.id_ncm, PRO.perc_icms), '
+               + 'PRO.UNIDADE, EM.ID_COR, PRO.SPED_TIPO_ITEM, PRO.PERC_IPI, PRO.TIPO_REG, pro.id_ncm, PRO.perc_icms, PRO.USA_PRECO_COR), '
                + 'a as '
                + '( '
                + 'select E.ID_PRODUTO, E.TAMANHO, sum(e.QTD_ESTOQUE) QTD_ESTOQUE, e.REFERENCIA, '
@@ -3250,18 +3255,26 @@ begin
                + '       e.DESC_TIPO_REG, '
                + '       sum(e.VLR_ENTRADA) VLR_ENTRADA , '
                + '       sum(e.QTD_ENTRADA) QTD_ENTRADA, e.PERC_IPI, '
-               + '       E.perc_icms, e.id_ncm '
+               + '       E.perc_icms, e.id_ncm, e.USA_PRECO_COR '
                + 'from e '
                + 'group by E.ID_PRODUTO, E.TAMANHO, e.REFERENCIA, '
                + '       e.NOME_PRODUTO, e.UNIDADE, e.ID_COR, e.SPED_TIPO_ITEM, e.TIPO_REG, '
                + '       e.TIPO_SPED, '
                + '       e.DESC_TIPO_REG, '
-               + '       e.PERC_IPI, E.PERC_ICMS,  e.id_ncm) '
+               + '       e.PERC_IPI, E.PERC_ICMS,  e.id_ncm, e.USA_PRECO_COR) '
                + 'select a.*, ncm.ncm,  '
                + 'COMB.NOME NOME_COMBINACAO, '
                + '       cast(a.REFERENCIA || '' '' || a.NOME_produto || '' '' || coalesce(COMB.NOME, '''') as varchar(200)) REF_NOME_COR, '
                + '       cast(a.TIPO_REG || '' '' || a.nome_produto || '' '' || '' '' || a.ID_PRODUTO || '' '' || coalesce(COMB.NOME, '''') as varchar(200)) PRODUTO_NOME_COR, '
-               + '       iif(a.VLR_ENTRADA > 0 and a.QTD_ENTRADA > 0, a.VLR_ENTRADA / a.QTD_ENTRADA, 0) PRECO_MEDIO '
+               + '       case '
+               + '          when a.usa_preco_cor = ' + QuotedStr('S') + ' then '
+               + '                        (select first 1 med.preco_medio from produto_cmedio med where med.id = a.id_produto and med.id_cor = a.id_cor '
+               + '                            and med.data <= :DTMOVIMENTO order by med.data desc) '
+               + '         else '
+               + '                        (select first 1 med.preco_medio from produto_cmedio med where med.id = a.id_produto and med.id_cor = 0 '
+               + '                            and med.data <= :DTMOVIMENTO order by med.data desc) '
+               + '         end PRECO_MEDIO_FIXO, '
+               + '       iif(A.VLR_ENTRADA > 0 and A.QTD_ENTRADA > 0, A.VLR_ENTRADA / A.QTD_ENTRADA, 0) PRECO_MEDIO_CALC '
                + 'from a '
                + 'left join COMBINACAO COMB on a.ID_COR = COMB.ID '
                + 'left join TAB_NCM NCM on a.ID_NCM = NCM.ID) aux '
@@ -3915,33 +3928,44 @@ begin
   uUtilPadrao.prc_Form_Aguarde(Form);
   try
     vGerar_K := (RzCheckList1.ItemChecked[6]);
+    uUtilPadrao.prc_Form_Aguarde(Form,'Estoque...');
     if (RzCheckList1.ItemChecked[5]) then
       prc_Consultar_cdsBalanco;
+    uUtilPadrao.prc_Form_Aguarde(Form,'Notas...');
     if (RzCheckList1.ItemChecked[2]) or (RzCheckList1.ItemChecked[3]) then
       prc_Movimento;
+    uUtilPadrao.prc_Form_Aguarde(Form,'Verificando Produto...');
     if (RzCheckList1.ItemChecked[5]) then
       prc_Verifica_Produtos_Balanco;
+    uUtilPadrao.prc_Form_Aguarde(Form,'Posse dos Produtos...');
     if (RzCheckList1.ItemChecked[6]) then
     begin
       prc_Consultar_PosseEstoque;
       prc_Le_PosseEstoque;
     end;
 
+    uUtilPadrao.prc_Form_Aguarde(Form,'Bloco 0...');
     if (RzCheckList1.ItemChecked[1]) then
     begin
       prc_Gerar_Bloco_0;
       prc_Bloco_1_Reg_1001;
     end;
+    uUtilPadrao.prc_Form_Aguarde(Form,'Bloco C...');
     if (RzCheckList1.ItemChecked[2]) then
       prc_Gerar_Bloco_C;
+    uUtilPadrao.prc_Form_Aguarde(Form,'Bloco D...');
     if (RzCheckList1.ItemChecked[3]) then
       prc_Gerar_Bloco_D;
+    uUtilPadrao.prc_Form_Aguarde(Form,'Bloco E...');
     if (RzCheckList1.ItemChecked[4]) then
       prc_gerar_Bloco_E;
+    uUtilPadrao.prc_Form_Aguarde(Form,'Bloco H...');
     if (RzCheckList1.ItemChecked[5]) then
       prc_Gerar_Bloco_H;
+    uUtilPadrao.prc_Form_Aguarde(Form,'Bloco K...');
     if (RzCheckList1.ItemChecked[6]) then
       prc_Gerar_Bloco_K;
+    uUtilPadrao.prc_Form_Aguarde(Form,'Gravando Arq...');
 
     btnGravar_TxtClick(Sender);
   finally
@@ -4158,8 +4182,17 @@ begin
 end;
 
 procedure TfrmSPEDFiscal.RxDBLookupCombo1Exit(Sender: TObject);
+var
+  vFlag: String;
 begin
   DirectoryEdit1.Text := fDMSPEDFiscal.cdsFilialENDERECO_ARQ_SPED.AsString;
+  if RxDBLookupCombo1.Text <> '' then
+  begin
+    vFlag := SQLLocate('FILIAL','ID','TIPO_SPED',IntToStr(RxDBLookupCombo1.KeyValue));
+    RzCheckList1.ItemEnabled[2] := (vFlag = '2');
+    RzCheckList1.ItemEnabled[3] := (vFlag = '2');
+    RzCheckList1.ItemEnabled[4] := (vFlag = '2');
+  end;
 end;
 
 procedure TfrmSPEDFiscal.prc_Bloco_0_Reg_0002;
@@ -4232,4 +4265,31 @@ begin
   Result := vCodigo;
 end;
 
+procedure TfrmSPEDFiscal.NxButton1Click(Sender: TObject);
+var
+  vObsAux: String;
+begin
+  vObsAux := 'Tipo do SPED que o sistema vai gerar o Bloco H:' + #13+ #13
+           + '00 - Mercadoria para Revenda' + #13
+           + '01- Matéria-Prima'+ #13
+           + '02- Embalagem'+ #13
+           + '03 - Produto em Processo'+ #13
+           + '04 - Produto Acabado'+ #13
+           + '05 - SubProduto'+ #13
+           + '06 - Produto Intermediário'+ #13
+           + '10 - Outros Insumos';
+  MessageDlg(vObsAux , mtConfirmation, [mbOk], 0);
+end;
+
+procedure TfrmSPEDFiscal.RzCheckList1Enter(Sender: TObject);
+begin
+  if RxDBLookupCombo1.Text = '' then
+  begin
+    MessageDlg('*** É preciso escolher primeiro a Filial!', mtError, [mbOk], 0);
+    RxDBLookupCombo1.SetFocus;
+    exit;
+  end;
+end;
+
 end.
+

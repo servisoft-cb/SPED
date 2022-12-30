@@ -15,57 +15,41 @@ type
     Label3: TLabel;
     Label2: TLabel;
     Label1: TLabel;
-    btnProduto: TNxButton;
+    btnImportar: TNxButton;
     ceTotal: TCurrencyEdit;
     ceLidos: TCurrencyEdit;
     File_Excel: TFilenameEdit;
     Label4: TLabel;
     ComboMes: TNxComboBox;
     ceAno: TCurrencyEdit;
+    btnExcluir: TNxButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure btnProdutoClick(Sender: TObject);
+    procedure btnImportarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
   private
     { Private declarations }
     fDMImportar: TDMImportar;
 
-    Txt, Txt_Adi, Txt_XLS : TextFile;
     vID_Produto : Integer;
-    vNome_Produto: String;
     vReferencia: String;
 
     vRegistro : String;
     vArquivo : String;
     vArquivo_XLS : String;
     vArquivo_Adi : String;
-    vContador, vContador_Adi : Integer;
     vVlrTotal : Real;
-    vDtLote : String;
-    vQtdRegistro_Lacto : Integer;
-    vItem_Dependente : Integer;
 
-    vQtd_Registro_Evento : Integer;
     gGrid: TStringGrid;
-    linha, vColuna : Integer;
-    vCd_Empresa : String;
+    linha : Integer;
 
     procedure prc_Gravar_Produto;
     procedure prc_Le_Excel;
     procedure prc_Gravar_Estoque_Mov;
 
-    procedure prc_Le_XLS_Cliente;
-    procedure prc_Gravar_Cliente;
-
     function fnc_Cliente(Nome : String) : Integer;
     function fnc_NCM(NCM : String) : Integer;
     function fnc_Unidade(Unidade : String) : String;
-
-    function fnc_Grava_NCM(NCM : String) : Integer;
-    function fnc_Grava_Marca(Marca : String) : Integer;
-    function fnc_Grava_Grupo(Nome : String) : Integer;
-    procedure prc_Gravar_Unidade(Unidade : String);
-
-    procedure prc_Gravar_Saldo(Qtd : Real);
 
     function fnc_Montar_Campo: String;
     function Monta_Numero(Campo: String; Tamanho: Integer): String;
@@ -73,6 +57,7 @@ type
     function fnc_verifica_Arquivo(NomeArquivo, Le_Grava : String) : String;
     function Replace(Str, Ant, Novo: string): string;
     function fnc_Verifica_Casas_Decimais(Campo : String) : String;
+    function fnc_existe_Estoque_Mov : Boolean;
 
   public
     { Public declarations }
@@ -119,11 +104,20 @@ begin
   Action := Cafree;
 end;
 
-procedure TfrmImportar_Excel.btnProdutoClick(Sender: TObject);
+procedure TfrmImportar_Excel.btnImportarClick(Sender: TObject);
 begin
   if trim(File_Excel.Text) = '' then
   begin
-    ShowMessage('Aquivo não informado!');
+    MessageDlg('*** Arquivo não informado!', mtInformation, [mbOk], 0);
+    exit;
+  end;
+
+  fDMImportar.qFilial.Close;
+  fDMImportar.qFilial.Open;
+
+  if fnc_existe_Estoque_Mov then
+  begin
+    MessageDlg('*** Movimento do mês já gerado, para gerar novamente deve excluir o movimento!', mtInformation, [mbOk], 0);
     exit;
   end;
 
@@ -248,7 +242,6 @@ end;
 function TfrmImportar_Excel.fnc_Verifica_Casas_Decimais(Campo: String): String;
 var
   i, x : Integer;
-  vTexto2 : string;
 begin
   Result := '';
   i := pos(',',Campo);
@@ -275,7 +268,7 @@ begin
     Linha := Linha + 1;
     ceLidos.AsInteger := ceLidos.AsInteger + 1;
     Application.ProcessMessages;
-    if (linha > 3) then
+    if (linha > 2) then
     begin
       prc_Gravar_Produto;
       prc_Gravar_Estoque_Mov;
@@ -285,18 +278,21 @@ end;
 
 procedure TfrmImportar_Excel.prc_Gravar_Produto;
 var
-  i, i2 : Integer;
   vTexto: String;
   vTexto2: String;
-  vQtdAux: Real;
 begin
   vTexto := gGrid.Cells[0,Linha];
   if trim(vTexto) = '' then
     exit;
     
   vReferencia := vTexto;
-  if trim(SQLLocate('PRODUTO','REFERENCIA','NOME',vReferencia)) <> '' then
+
+  fDMImportar.cdsProduto.Close;
+  fDMImportar.sdsProduto.ParamByName('REFERENCIA').AsString := vReferencia;
+  fDMImportar.cdsProduto.Open;
+  if not fDMImportar.cdsProduto.IsEmpty then
     exit;
+
   vID_Produto := dmDatabase.ProximaSequencia('PRODUTO',0);
   fDMImportar.cdsProduto.Insert;
   fDMImportar.cdsProdutoID.AsInteger  := vID_Produto;
@@ -311,8 +307,8 @@ begin
   fDMImportar.cdsProdutoID_MARCA.Clear;
   fDMImportar.cdsProdutoPESOLIQUIDO.AsFloat := 0;
   fDMImportar.cdsProdutoPESOBRUTO.AsFloat   := 0;
-  fDMImportar.cdsProdutoINATIVO.AsString := 'N'
-  fDMImportar.cdsProdutoPERC_IPI.AsFloat := 0;
+  fDMImportar.cdsProdutoINATIVO.AsString    := 'N';
+  fDMImportar.cdsProdutoPERC_IPI.AsFloat    := 0;
   fDMImportar.cdsProdutoPRECO_CUSTO.AsFloat := 0;
   fDMImportar.cdsProdutoTIPO_REG.AsString := 'P';
   fDMImportar.cdsProdutoPOSSE_MATERIAL.AsString := 'E';
@@ -333,7 +329,7 @@ begin
 
   fDMImportar.cdsProdutoDT_ALTPRECO.Clear;
   fDMImportar.cdsProdutoLOCALIZACAO.Clear;
-  fDMImportar.cdsProdutoID_GRUPO.Clear
+  fDMImportar.cdsProdutoID_GRUPO.Clear;
   fDMImportar.cdsProdutoCOD_BARRA.Clear;
   fDMImportar.cdsProdutoUSA_GRADE.AsString := 'N';
   fDMImportar.cdsProdutoQTD_ESTOQUE_MIN.Clear;
@@ -353,15 +349,6 @@ begin
   fDMImportar.cdsProdutoQTD_ESTOQUE_MAX.Clear;
   fDMImportar.cdsProduto.Post;
   fDMImportar.cdsProduto.ApplyUpdates(0);
-
-  vTexto := Monta_Numero(trim(gGrid.Cells[4,Linha]),1);
-  if vTexto <> '0' then
-  begin
-    vQtdAux := StrToFloat(vTexto);
-    fDMImportar.cdsProduto.Locate('ID',vID_Produto,[loCaseInsensitive]);
-    if StrToFloat(FormatFloat('0.0000',vQtdAux)) > 0 then
-      prc_Gravar_Saldo(StrToFloat(FormatFloat('0.0000',vQtdAux)));
-  end;
 end;
 
 procedure TfrmImportar_Excel.FormShow(Sender: TObject);
@@ -378,67 +365,6 @@ begin
   else
     vMes := MonthOf(Date) - 1;
   ComboMes.ItemIndex := vMes - 1;
-end;
-
-function TfrmImportar_Excel.fnc_Grava_NCM(NCM: String): Integer;
-var
-  vID : Integer;
-begin
-  fDMCadNCM.prc_Inserir;
-  vID    := fDMCadNCM.cdsNCMID.AsInteger;
-  Result := vID; 
-  fDMCadNCM.cdsNCMNCM.AsString  := NCM;
-  fDMCadNCM.cdsNCMNOME.AsString := '';
-  fDMCadNCM.cdsNCMGERAR_ST.AsString := 'N';
-  fDMCadNCM.cdsNCMINATIVO.AsString  := 'N';
-  fDMCadNCM.cdsNCMTIPO_AS.AsString  := 'A';
-  fDMCadNCM.cdsNCMUSAR_MVA_UF_DESTINO.AsString  := 'S';
-  fDMCadNCM.cdsNCMCOD_CEST.Clear;
-  fDMCadNCM.cdsNCM.Post;
-  fDMCadNCM.cdsNCM.ApplyUpdates(0);
-end;
-
-procedure TfrmImportar_Excel.prc_Gravar_Unidade(Unidade: String);
-var
-  vNome: String;
-begin
-  fDMCadUnidade.prc_Inserir;
-  vNome := Unidade + '.';
-  fDMCadUnidade.cdsUnidadeUNIDADE.AsString := Unidade;
-  fDMCadUnidade.cdsUnidadeNOME.AsString    := vNome;
-  fDMCadUnidade.prc_Gravar;
-end;
-
-function TfrmImportar_Excel.fnc_Grava_Grupo(Nome: String): Integer;
-begin
-  Result := 0;
-  fDMCadGrupo.prc_Inserir;
-  fDMCadGrupo.cdsGrupoNOME.AsString   := Nome;
-  fDMCadGrupo.cdsGrupoCODIGO.AsString := Monta_Numero(fDMCadGrupo.cdsGrupoID.AsString,3);
-  fDMCadGrupo.cdsGrupoNIVEL.AsInteger := 1;
-  fDMCadGrupo.cdsGrupoTIPO.AsString   := 'A';
-  fDMCadGrupo.cdsGrupoCOD_PRINCIPAL.AsInteger := fDMCadGrupo.cdsGrupoID.AsInteger;
-  fDMCadGrupo.cdsGrupoTIPO_PROD.AsString      := 'O';
-  fDMCadGrupo.cdsGrupo.Post;
-  fDMCadGrupo.cdsGrupo.ApplyUpdates(0);
-  result := fDMCadGrupo.cdsGrupoID.AsInteger;
-end;
-
-function TfrmImportar_Excel.fnc_Grava_Marca(Marca: String): Integer;
-begin
-  if not fDMCadMarca.cdsMarca.Active then
-    fDMCadMarca.cdsMarca.Open;
-  Marca := UpperCase(Marca);
-  if fDMCadMarca.cdsMarca.locate('NOME',Marca,[loCaseInsensitive]) then
-    Result := fDMCadMarca.cdsMarcaID.AsInteger
-  else
-  begin
-    fDMCadMarca.prc_Inserir;
-    fDMCadMarca.cdsMarcaNOME.AsString := Marca;
-    fDMCadMarca.cdsMarca.Post;
-    Result := fDMCadMarca.cdsMarcaID.AsInteger;
-    fDMCadMarca.cdsMarca.ApplyUpdates(0);
-  end;
 end;
 
 function TfrmImportar_Excel.fnc_Cliente(Nome: String): Integer;
@@ -572,12 +498,17 @@ begin
   fDMImportar.sdsProduto.ParamByName('REFERENCIA').AsString := vReferencia;
   fDMImportar.cdsProduto.Open;
 
-  vTexto := gGrid.Cells[2,Linha];
+  vTexto := gGrid.Cells[1,Linha];
   vTexto := Replace(vTexto,'.','');
   vQtd   := StrToIntDef(vTexto,0);
   if vQtd = 0 then
     exit;
-
+  vTexto := trim(gGrid.Cells[9,Linha]);
+  vTexto := Replace(vTexto,'.','');
+  vVlrRet := StrToFloatDef(vTexto,0);
+  vTexto := trim(gGrid.Cells[10,Linha]);
+  vTexto := Replace(vTexto,'.','');
+  vVlrSubst := StrToFloatDef(vTexto,0);
   vData := EncodeDate(ceAno.AsInteger,ComboMes.ItemIndex+1,DaysInAMonth(ceAno.AsInteger,ComboMes.ItemIndex+1));
   try
     vID_Estoque := fDMImportar.fnc_Gravar_Estoque(0,
@@ -590,7 +521,7 @@ begin
                                                  0,
                                                  0,
                                                  'E',
-                                                 'EXC',
+                                                 'EXCEL',
                                                  fDMImportar.cdsProdutoUNIDADE.AsString,
                                                  fDMImportar.cdsProdutoUNIDADE.AsString,
                                                  '',
@@ -610,9 +541,62 @@ begin
                                                  0,
                                                  '','S',
                                                  fDMImportar.cdsProdutoPRECO_CUSTO.AsFloat,0,0,0,
-                                                 0,0,0,'',
-                                                 );
+                                                 0,0,0,'',vVlrRet,vVlrSubst);
   except
+  end;
+end;
+
+procedure TfrmImportar_Excel.btnExcluirClick(Sender: TObject);
+var
+  sds: TSQLDataSet;
+  vData1, vData2: TDateTime;
+  Form : TForm;
+begin
+  if MessageDlg('Deseja excluir o movimento do mês / Ano: ' + ComboMes.Text + IntToStr(ceAno.AsInteger) + ' ?',mtConfirmation,[mbYes,mbNo],0) <> mrYes then
+    exit;
+
+  vData1 := EncodeDate(ceAno.AsInteger,ComboMes.ItemIndex+1,1);
+  vData2 := EncodeDate(ceAno.AsInteger,ComboMes.ItemIndex+1,DaysInAMonth(ceAno.AsInteger,ComboMes.ItemIndex+1));
+  Form := TForm.Create(Application);
+  uUtilPadrao.prc_Form_Aguarde(Form);
+  sds := TSQLDataSet.Create(nil);
+  try
+    sds.SQLConnection := dmDatabase.scoDados;
+    sds.NoMetadata  := True;
+    sds.GetMetadata := False;
+    sds.CommandText := 'delete from ESTOQUE_MOV E where E.DTMOVIMENTO between :DATA1 and :DATA2 ';
+    sds.ParamByName('DATA1').AsDate := vData1;
+    sds.ParamByName('DATA2').AsDate := vData2;
+    sds.ExecSQL;
+  finally
+    begin
+      FreeAndNil(sds);
+      FreeAndNil(Form);
+    end;
+  end;
+  MessageDlg('*** Movimento excluído!', mtConfirmation, [mbOk], 0);
+end;
+
+function TfrmImportar_Excel.fnc_existe_Estoque_Mov: Boolean;
+var
+  sds: TSQLDataSet;
+  vData1, vData2: TDateTime;
+begin
+  Result := False;
+  vData1 := EncodeDate(ceAno.AsInteger,ComboMes.ItemIndex+1,1);
+  vData2 := EncodeDate(ceAno.AsInteger,ComboMes.ItemIndex+1,DaysInAMonth(ceAno.AsInteger,ComboMes.ItemIndex+1));
+  sds := TSQLDataSet.Create(nil);
+  try
+    sds.SQLConnection := dmDatabase.scoDados;
+    sds.NoMetadata  := True;
+    sds.GetMetadata := False;
+    sds.CommandText := 'select count(1) CONTADOR from ESTOQUE_MOV E where E.DTMOVIMENTO between :DATA1 and :DATA2';
+    sds.ParamByName('DATA1').AsDate := vData1;
+    sds.ParamByName('DATA2').AsDate := vData2;
+    sds.Open;
+    Result := (sds.FieldByName('CONTADOR').AsInteger > 0);
+  finally
+    FreeAndNil(sds);
   end;
 end;
 

@@ -1085,6 +1085,8 @@ type
     dsICMS: TDataSource;
     cdsICMSVLR_ICMS_DEBITO: TFloatField;
     cdsICMSVLR_ICMS_CREDITO: TFloatField;
+    cdsBalancoPRECO_MEDIO_FIXO: TFloatField;
+    cdsBalancoPRECO_MEDIO_CALC: TFloatField;
     procedure DataModuleCreate(Sender: TObject);
     procedure mAuxResumoNewRecord(DataSet: TDataSet);
   private

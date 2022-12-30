@@ -914,7 +914,8 @@ type
     qFilialCNPJ_CPF: TStringField;
   private
     { Private declarations }
-
+  public
+    { Public declarations }
     function fnc_Gravar_Estoque(ID_Estoque, ID_Filial, ID_Local_Estoque, ID_Produto, NumDoc, ID_Pessoa, ID_CFOP, ID_Nota, ID_CentroCusto: Integer;
                        Tipo_ES, Tipo_Mov, Unidade, Unidade_Orig, Serie, Tamanho: String; Data: TDateTime;
                        Vlr_Unitario, Qtd, Perc_ICMS, Perc_IPI, Vlr_Desconto, Perc_Trib, Vlr_Frete, Qtd_Orig,
@@ -922,8 +923,6 @@ type
                        ID_COR: Integer; Num_Lote_Controle, Gerar_Custo: String; Preco_Custo_Total, Comprimento, Largura, Espessura: Real;
                        ID_Operacao: Integer; ID_Pedido, Item_Pedido: Integer; Localizacao : String; Vlr_ICMS_ST_Ret, Vlr_ICMS_ST_Subst : Real): Integer;
 
-  public
-    { Public declarations }
   end;
 
 var
@@ -953,58 +952,15 @@ var
 begin
   Result := 0;
 
-  if ID_Estoque > 0 then
+  if not cdsEstoque_Mov.Active then
   begin
-    prc_Abrir_Estoque_Mov(ID_Estoque);
-    //29/09/2022
-    //if cdsEstoque_Mov.IsEmpty then
-    //  ID_Estoque := 0;
-    vaux := ID_Estoque;
+    cdsEstoque_Mov.Close;
+    sdsEstoque_Mov.ParamByName('ID').AsInteger := -1;
+    cdsEstoque_Mov.Open;
   end;
-  if ID_Estoque <= 0 then
-  begin
-    //12/09/2021
-    //vAux := dmDatabase.ProximaSequencia('ESTOQUE_MOV',0);
-    vAux := dmDatabase.fnc_Generator_ID('GEN_ESTOQUE_MOV');
-    if not(cdsEstoque_Mov.Active)  then
-      prc_Abrir_Estoque_Mov(0);
-  end;
+  vAux := dmDatabase.fnc_Generator_ID('GEN_ESTOQUE_MOV');
 
   ID_Produto_Orig := 0;
-  if (qParametros_EstUSA_PRODUTO_EST.AsString = 'S') then
-  begin
-    qProduto.Close;
-    qProduto.ParamByName('ID').AsInteger := ID_Produto;
-    qProduto.Open;
-    if qProdutoID_PRODUTO_EST.AsInteger > 0 then
-    begin
-      ID_Produto_Orig := ID_Produto;
-      ID_Produto      := qProdutoID_PRODUTO_EST.AsInteger;
-    end;
-  end;
-
-  //08/07/2014  -  Foi incluido devido a quantidade com unidade diferente (quantidade pacote)
-  if StrToCurr(FormatCurr('0.00000',Qtd_Pacote)) > 0 then
-  begin
-    vQtdAux := StrToCurr(FormatCurr('0.00000',Qtd * Qtd_Pacote));
-    if StrToCurr(FormatCurr('0.00000',Qtd_Orig)) <= 0 then
-    begin
-      Qtd_Orig          := StrToCurr(FormatCurr('0.00000',Qtd));
-      Vlr_Unitario_Orig := StrToCurr(FormatCurr('0.0000000000',Vlr_Unitario));
-    end;
-    Vlr_Unitario := StrToCurr(FormatCurr('0.0000000000',Vlr_Unitario * Qtd / (Qtd_Pacote * Qtd)));
-    Qtd := StrToCurr(FormatCurr('0.00000',vQtdAux));
-    if trim(Unidade_Interna) = '' then
-    begin
-      qProduto.Close;
-      qProduto.ParamByName('ID').AsInteger := ID_Produto;
-      qProduto.Open;
-      Unidade := qProdutoUNIDADE.AsString;
-    end
-    else
-      Unidade := Unidade_Interna;
-  end;
-  //*****************
 
   try
     if ID_Estoque > 0 then
@@ -1093,17 +1049,8 @@ begin
       cdsEstoque_MovID_PRODUTO_ORIG.AsInteger := ID_Produto_Orig
     else
       cdsEstoque_MovID_PRODUTO_ORIG.Clear;
-
-    if (ID_Pedido <= 0) or (trim(qParametros_PedUSA_RESERVA_EST.AsString) <> 'S') then
-    begin
-      cdsEstoque_MovID_PEDIDO.Clear;
-      cdsEstoque_MovITEM_PEDIDO.Clear;
-    end
-    else
-    begin
-      cdsEstoque_MovID_PEDIDO.AsInteger := ID_Pedido;
-      cdsEstoque_MovITEM_PEDIDO.AsInteger := Item_Pedido;
-    end;
+    cdsEstoque_MovID_PEDIDO.Clear;
+    cdsEstoque_MovITEM_PEDIDO.Clear;
     if trim(Localizacao) <> '' then
       cdsEstoque_MovLOCALIZACAO.AsString := Localizacao;
     cdsEstoque_MovVLR_ICMS_ST_RETIDO.AsFloat     := StrToFloat(FormatFloat('0.00',Vlr_ICMS_ST_Ret));
