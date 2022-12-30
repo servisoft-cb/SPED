@@ -3702,124 +3702,129 @@ procedure TfrmSPEDFiscal.prc_Bloco_K_Reg_K200;
 var
   vCodigo : String;
 begin
-  fDMSPEDFiscal.cdsPosseEstoque.First;
-  while not fDMSPEDFiscal.cdsPosseEstoque.Eof do
-  begin
-    if StrToFloat(FormatFloat('0.0000',fDMSPEDFiscal.cdsPosseEstoqueQTD.AsFloat)) <= 0 then
+  SMDBGrid1.DataSource := nil;
+  try
+    fDMSPEDFiscal.cdsPosseEstoque.First;
+    while not fDMSPEDFiscal.cdsPosseEstoque.Eof do
     begin
-      fDMSPEDFiscal.cdsPosseEstoque.Next;
-      continue;
-    end;
-
-    if fDMSPEDFiscal.qParametrosIMP_NFE_REF_PROD.AsString = 'R' then
-      vCodigo := fDMSPEDFiscal.cdsPosseEstoqueREFERENCIA.AsString
-    else
-      vCodigo := fDMSPEDFiscal.cdsPosseEstoqueID_PRODUTO.AsString;
-    if fDMSPEDFiscal.cdsPosseEstoqueID_COR.AsInteger > 0 then
-      vCodigo := vCodigo + '.' + fDMSPEDFiscal.cdsPosseEstoqueID_COR.AsString;
-    if (trim(fDMSPEDFiscal.cdsPosseEstoqueTAMANHO.AsString) <> '') then
-      vCodigo := vCodigo + '.' + fDMSPEDFiscal.cdsPosseEstoqueTAMANHO.AsString;
-
-
-    with ACBrSPEDFiscal1.Bloco_K do
-    begin
-      with RegistroK200New do
+      if StrToFloat(FormatFloat('0.0000',fDMSPEDFiscal.cdsPosseEstoqueQTD.AsFloat)) <= 0 then
       begin
-        COD_ITEM := vCodigo;
-        QTD      := StrToFloat(FormatFloat('0.000',fDMSPEDFiscal.cdsPosseEstoqueQTD.AsFloat));
+        fDMSPEDFiscal.cdsPosseEstoque.Next;
+        continue;
+      end;
+
+      if fDMSPEDFiscal.qParametrosIMP_NFE_REF_PROD.AsString = 'R' then
+        vCodigo := fDMSPEDFiscal.cdsPosseEstoqueREFERENCIA.AsString
+      else
+        vCodigo := fDMSPEDFiscal.cdsPosseEstoqueID_PRODUTO.AsString;
+      if fDMSPEDFiscal.cdsPosseEstoqueID_COR.AsInteger > 0 then
+        vCodigo := vCodigo + '.' + fDMSPEDFiscal.cdsPosseEstoqueID_COR.AsString;
+      if (trim(fDMSPEDFiscal.cdsPosseEstoqueTAMANHO.AsString) <> '') then
+        vCodigo := vCodigo + '.' + fDMSPEDFiscal.cdsPosseEstoqueTAMANHO.AsString;
+
+
+      with ACBrSPEDFiscal1.Bloco_K do
+      begin
+        with RegistroK200New do
+        begin
+          COD_ITEM := vCodigo;
+          QTD      := StrToFloat(FormatFloat('0.000',fDMSPEDFiscal.cdsPosseEstoqueQTD.AsFloat));
+          if copy(fDMSPEDFiscal.cdsPosseEstoqueTIPO_EST.AsString,1,1) = '0' then
+            IND_EST  := estPropInformantePoder
+          else
+          if copy(fDMSPEDFiscal.cdsPosseEstoqueTIPO_EST.AsString,1,1) = '1'  then
+            IND_EST  := estPropInformanteTerceiros
+          else
+          if copy(fDMSPEDFiscal.cdsPosseEstoqueTIPO_EST.AsString,1,1) = '2' then
+            IND_EST  := estPropTerceirosInformante;
+          if (copy(fDMSPEDFiscal.cdsPosseEstoqueTIPO_EST.AsString,1,1) = '1') or (copy(fDMSPEDFiscal.cdsPosseEstoqueTIPO_EST.AsString,1,1) = '2') then
+            COD_PART := fDMSPEDFiscal.cdsPosseEstoqueID_PESSOA.AsString;
+          DT_EST := DateEdit2.Date;
+        end;
+      end;
+
+      if fDMSPEDFiscal.mAuxResumo.Locate('Tipo_SPED;Registro;Posse',VarArrayOf([fDMSPEDFiscal.cdsPosseEstoqueSPED_TIPO_ITEM.AsString,'K200',fDMSPEDFiscal.cdsPosseEstoqueTIPO_EST.AsString ]),[locaseinsensitive]) then
+        fDMSPEDFiscal.mAuxResumo.Edit
+      else
+      begin
+        fDMSPEDFiscal.mAuxResumo.Insert;
+        fDMSPEDFiscal.mAuxResumoPosse.AsString          := fDMSPEDFiscal.cdsPosseEstoqueTIPO_EST.AsString;
         if copy(fDMSPEDFiscal.cdsPosseEstoqueTIPO_EST.AsString,1,1) = '0' then
-          IND_EST  := estPropInformantePoder
+          fDMSPEDFiscal.mAuxResumoDesc_Posse.AsString  := 'Produto do Informante'
         else
         if copy(fDMSPEDFiscal.cdsPosseEstoqueTIPO_EST.AsString,1,1) = '1'  then
-          IND_EST  := estPropInformanteTerceiros
+          fDMSPEDFiscal.mAuxResumoDesc_Posse.AsString  := 'do Informante em poder de Terceiros'
         else
         if copy(fDMSPEDFiscal.cdsPosseEstoqueTIPO_EST.AsString,1,1) = '2' then
-          IND_EST  := estPropTerceirosInformante;
-        if (copy(fDMSPEDFiscal.cdsPosseEstoqueTIPO_EST.AsString,1,1) = '1') or (copy(fDMSPEDFiscal.cdsPosseEstoqueTIPO_EST.AsString,1,1) = '2') then
-          COD_PART := fDMSPEDFiscal.cdsPosseEstoqueID_PESSOA.AsString;
-        DT_EST := DateEdit2.Date;
+          fDMSPEDFiscal.mAuxResumoDesc_Posse.AsString  := 'De Terceiros em Poder do Informante';
+        fDMSPEDFiscal.mAuxResumoBloco.AsString          := 'K';
+        fDMSPEDFiscal.mAuxResumoRegistro.AsString       := 'K200';
+        fDMSPEDFiscal.mAuxResumoTipo_SPED.AsString      := fDMSPEDFiscal.cdsPosseEstoqueSPED_TIPO_ITEM.AsString;
+        if fDMSPEDFiscal.cdsPosseEstoqueSPED_TIPO_ITEM.AsString = '00' then
+          fDMSPEDFiscal.mAuxResumoDescricao_Sped.AsString := '00- Mercadoria para Revenda'
+        else
+        if fDMSPEDFiscal.cdsPosseEstoqueSPED_TIPO_ITEM.AsString = '01' then
+          fDMSPEDFiscal.mAuxResumoDescricao_Sped.AsString := '01- Matéria-Prima'
+        else
+        if fDMSPEDFiscal.cdsPosseEstoqueSPED_TIPO_ITEM.AsString = '02' then
+          fDMSPEDFiscal.mAuxResumoDescricao_Sped.AsString := '02- Embalagem'
+        else
+        if fDMSPEDFiscal.cdsPosseEstoqueSPED_TIPO_ITEM.AsString = '03' then
+          fDMSPEDFiscal.mAuxResumoDescricao_Sped.AsString := '03- Produto em Processo'
+        else
+        if fDMSPEDFiscal.cdsPosseEstoqueSPED_TIPO_ITEM.AsString = '04' then
+          fDMSPEDFiscal.mAuxResumoDescricao_Sped.AsString := '04- Produto Acabado'
+        else
+        if fDMSPEDFiscal.cdsPosseEstoqueSPED_TIPO_ITEM.AsString = '05' then
+          fDMSPEDFiscal.mAuxResumoDescricao_Sped.AsString := '05- SubProduto'
+        else
+        if fDMSPEDFiscal.cdsPosseEstoqueSPED_TIPO_ITEM.AsString = '06' then
+          fDMSPEDFiscal.mAuxResumoDescricao_Sped.AsString := '06- Produto Intermediário'
+        else
+        if fDMSPEDFiscal.cdsPosseEstoqueSPED_TIPO_ITEM.AsString = '07' then
+          fDMSPEDFiscal.mAuxResumoDescricao_Sped.AsString := '07- Material de Uso e Consumo'
+        else
+        if fDMSPEDFiscal.cdsPosseEstoqueSPED_TIPO_ITEM.AsString = '08' then
+          fDMSPEDFiscal.mAuxResumoDescricao_Sped.AsString := '08- Ativo Imobilizado'
+        else
+        if fDMSPEDFiscal.cdsPosseEstoqueSPED_TIPO_ITEM.AsString = '10' then
+          fDMSPEDFiscal.mAuxResumoDescricao_Sped.AsString := '10- Outros Insumos'
+        else
+        if fDMSPEDFiscal.cdsPosseEstoqueSPED_TIPO_ITEM.AsString = '99' then
+          fDMSPEDFiscal.mAuxResumoDescricao_Sped.AsString := '99- Outras';
       end;
-    end;
+      fDMSPEDFiscal.mAuxResumoQtd.AsFloat       := StrToFloat(FormatFloat('0.0000',fDMSPEDFiscal.mAuxResumoQtd.AsFloat + fDMSPEDFiscal.cdsPosseEstoqueQTD.AsFloat));
+      fDMSPEDFiscal.mAuxResumo.Post;
 
-    if fDMSPEDFiscal.mAuxResumo.Locate('Tipo_SPED;Registro;Posse',VarArrayOf([fDMSPEDFiscal.cdsPosseEstoqueSPED_TIPO_ITEM.AsString,'K200',fDMSPEDFiscal.cdsPosseEstoqueTIPO_EST.AsString ]),[locaseinsensitive]) then
-      fDMSPEDFiscal.mAuxResumo.Edit
-    else
-    begin
-      fDMSPEDFiscal.mAuxResumo.Insert;
-      fDMSPEDFiscal.mAuxResumoPosse.AsString          := fDMSPEDFiscal.cdsPosseEstoqueTIPO_EST.AsString;
-      if copy(fDMSPEDFiscal.cdsPosseEstoqueTIPO_EST.AsString,1,1) = '0' then
-        fDMSPEDFiscal.mAuxResumoDesc_Posse.AsString  := 'Produto do Informante'
-      else
-      if copy(fDMSPEDFiscal.cdsPosseEstoqueTIPO_EST.AsString,1,1) = '1'  then
-        fDMSPEDFiscal.mAuxResumoDesc_Posse.AsString  := 'do Informante em poder de Terceiros'
-      else
-      if copy(fDMSPEDFiscal.cdsPosseEstoqueTIPO_EST.AsString,1,1) = '2' then
-        fDMSPEDFiscal.mAuxResumoDesc_Posse.AsString  := 'De Terceiros em Poder do Informante';
-      fDMSPEDFiscal.mAuxResumoBloco.AsString          := 'K';
-      fDMSPEDFiscal.mAuxResumoRegistro.AsString       := 'K200';
-      fDMSPEDFiscal.mAuxResumoTipo_SPED.AsString      := fDMSPEDFiscal.cdsPosseEstoqueSPED_TIPO_ITEM.AsString;
-      if fDMSPEDFiscal.cdsPosseEstoqueSPED_TIPO_ITEM.AsString = '00' then
-        fDMSPEDFiscal.mAuxResumoDescricao_Sped.AsString := '00- Mercadoria para Revenda'
-      else
-      if fDMSPEDFiscal.cdsPosseEstoqueSPED_TIPO_ITEM.AsString = '01' then
-        fDMSPEDFiscal.mAuxResumoDescricao_Sped.AsString := '01- Matéria-Prima'
-      else
-      if fDMSPEDFiscal.cdsPosseEstoqueSPED_TIPO_ITEM.AsString = '02' then
-        fDMSPEDFiscal.mAuxResumoDescricao_Sped.AsString := '02- Embalagem'
-      else
-      if fDMSPEDFiscal.cdsPosseEstoqueSPED_TIPO_ITEM.AsString = '03' then
-        fDMSPEDFiscal.mAuxResumoDescricao_Sped.AsString := '03- Produto em Processo'
-      else
-      if fDMSPEDFiscal.cdsPosseEstoqueSPED_TIPO_ITEM.AsString = '04' then
-        fDMSPEDFiscal.mAuxResumoDescricao_Sped.AsString := '04- Produto Acabado'
-      else
-      if fDMSPEDFiscal.cdsPosseEstoqueSPED_TIPO_ITEM.AsString = '05' then
-        fDMSPEDFiscal.mAuxResumoDescricao_Sped.AsString := '05- SubProduto'
-      else
-      if fDMSPEDFiscal.cdsPosseEstoqueSPED_TIPO_ITEM.AsString = '06' then
-        fDMSPEDFiscal.mAuxResumoDescricao_Sped.AsString := '06- Produto Intermediário'
-      else
-      if fDMSPEDFiscal.cdsPosseEstoqueSPED_TIPO_ITEM.AsString = '07' then
-        fDMSPEDFiscal.mAuxResumoDescricao_Sped.AsString := '07- Material de Uso e Consumo'
-      else
-      if fDMSPEDFiscal.cdsPosseEstoqueSPED_TIPO_ITEM.AsString = '08' then
-        fDMSPEDFiscal.mAuxResumoDescricao_Sped.AsString := '08- Ativo Imobilizado'
-      else
-      if fDMSPEDFiscal.cdsPosseEstoqueSPED_TIPO_ITEM.AsString = '10' then
-        fDMSPEDFiscal.mAuxResumoDescricao_Sped.AsString := '10- Outros Insumos'
-      else
-      if fDMSPEDFiscal.cdsPosseEstoqueSPED_TIPO_ITEM.AsString = '99' then
-        fDMSPEDFiscal.mAuxResumoDescricao_Sped.AsString := '99- Outras';
-    end;
-    fDMSPEDFiscal.mAuxResumoQtd.AsFloat       := StrToFloat(FormatFloat('0.0000',fDMSPEDFiscal.mAuxResumoQtd.AsFloat + fDMSPEDFiscal.cdsPosseEstoqueQTD.AsFloat));
-    fDMSPEDFiscal.mAuxResumo.Post;
-
-    //Gravar o mK200 para impressão   10/03/2020
-    if ckImp_BlocoK.Checked then
-    begin
-      fDMSPEDFiscal.mK200.Insert;
-      fDMSPEDFiscal.mK200DtEstoque.AsDateTime  := DateEdit2.Date;
-      fDMSPEDFiscal.mK200Cod_Produto.AsString  := vCodigo;
-      fDMSPEDFiscal.mK200Nome_Produto.AsString := fDMSPEDFiscal.cdsPosseEstoqueNOME_PRODUTO.AsString;
-      fDMSPEDFiscal.mK200Qtd.AsFloat          := StrToFloat(FormatFloat('0.000',fDMSPEDFiscal.cdsPosseEstoqueQTD.AsFloat));
-      if (copy(fDMSPEDFiscal.cdsPosseEstoqueTIPO_EST.AsString,1,1) = '1') or (copy(fDMSPEDFiscal.cdsPosseEstoqueTIPO_EST.AsString,1,1) = '2') then
+      //Gravar o mK200 para impressão   10/03/2020
+      if ckImp_BlocoK.Checked then
       begin
-         fDMSPEDFiscal.mK200Cod_Pessoa.AsString  := fDMSPEDFiscal.cdsPosseEstoqueID_PESSOA.AsString;
-         fDMSPEDFiscal.mK200Nome_Pessoa.AsString := fDMSPEDFiscal.cdsPosseEstoqueNOME_TERCEIRO.AsString;
+        fDMSPEDFiscal.mK200.Insert;
+        fDMSPEDFiscal.mK200DtEstoque.AsDateTime  := DateEdit2.Date;
+        fDMSPEDFiscal.mK200Cod_Produto.AsString  := vCodigo;
+        fDMSPEDFiscal.mK200Nome_Produto.AsString := fDMSPEDFiscal.cdsPosseEstoqueNOME_PRODUTO.AsString;
+        fDMSPEDFiscal.mK200Qtd.AsFloat          := StrToFloat(FormatFloat('0.000',fDMSPEDFiscal.cdsPosseEstoqueQTD.AsFloat));
+        if (copy(fDMSPEDFiscal.cdsPosseEstoqueTIPO_EST.AsString,1,1) = '1') or (copy(fDMSPEDFiscal.cdsPosseEstoqueTIPO_EST.AsString,1,1) = '2') then
+        begin
+           fDMSPEDFiscal.mK200Cod_Pessoa.AsString  := fDMSPEDFiscal.cdsPosseEstoqueID_PESSOA.AsString;
+           fDMSPEDFiscal.mK200Nome_Pessoa.AsString := fDMSPEDFiscal.cdsPosseEstoqueNOME_TERCEIRO.AsString;
+        end;
+        fDMSPEDFiscal.mK200Posse.AsString      := fDMSPEDFiscal.cdsPosseEstoqueTIPO_EST.AsString;
+        fDMSPEDFiscal.mK200Desc_Posse.AsString := fDMSPEDFiscal.mAuxResumoDesc_Posse.AsString;
+        fDMSPEDFiscal.mK200Descricao_Sped.AsString := fDMSPEDFiscal.mAuxResumoDescricao_Sped.AsString;
+        fDMSPEDFiscal.mK200Tipo_Sped.AsString      := fDMSPEDFiscal.mAuxResumoTipo_SPED.AsString;
+        fDMSPEDFiscal.mK200.Post;
       end;
-      fDMSPEDFiscal.mK200Posse.AsString      := fDMSPEDFiscal.cdsPosseEstoqueTIPO_EST.AsString;
-      fDMSPEDFiscal.mK200Desc_Posse.AsString := fDMSPEDFiscal.mAuxResumoDesc_Posse.AsString;
-      fDMSPEDFiscal.mK200Descricao_Sped.AsString := fDMSPEDFiscal.mAuxResumoDescricao_Sped.AsString;
-      fDMSPEDFiscal.mK200Tipo_Sped.AsString      := fDMSPEDFiscal.mAuxResumoTipo_SPED.AsString;
-      fDMSPEDFiscal.mK200.Post;
+      //****************************
+
+      vContador_Reg_K := vContador_Reg_K + 1;
+
+      fDMSPEDFiscal.cdsPosseEstoque.Next;
     end;
-    //****************************
-
-    vContador_Reg_K := vContador_Reg_K + 1;
-
-    fDMSPEDFiscal.cdsPosseEstoque.Next;
+    fDMSPEDFiscal.mK200.IndexFieldNames := 'Posse;Tipo_Sped;Nome_Produto';
+  finally
+    SMDBGrid1.DataSource := fDMSPEDFiscal.dsPosseEstoque;
   end;
-  fDMSPEDFiscal.mK200.IndexFieldNames := 'Posse;Tipo_Sped;Nome_Produto';
 end;
 
 procedure TfrmSPEDFiscal.prc_Bloco_K_Reg_K990;
@@ -3880,17 +3885,22 @@ end;
 
 procedure TfrmSPEDFiscal.prc_Le_PosseEstoque;
 begin
-  fDMSPEDFiscal.cdsPosseEstoque.First;
-  while not fDMSPEDFiscal.cdsPosseEstoque.Eof do
-  begin
-    if StrToFloat(FormatFloat('0.0000',fDMSPEDFiscal.cdsPosseEstoqueQTD.AsFloat)) > 0 then
+  SMDBGrid1.DisableScroll;
+  try
+    fDMSPEDFiscal.cdsPosseEstoque.First;
+    while not fDMSPEDFiscal.cdsPosseEstoque.Eof do
     begin
-      prc_Gravar_mProdutoMov;
-      prc_Gravar_mUnidade(fDMSPEDFiscal.cdsPosseEstoqueUNIDADE.AsString);
-      if fDMSPEDFiscal.cdsPosseEstoqueID_PESSOA.AsInteger > 0 then
-        prc_Gravar_mPessoa(fDMSPEDFiscal.cdsPosseEstoqueID_PESSOA.AsInteger);
+      if StrToFloat(FormatFloat('0.0000',fDMSPEDFiscal.cdsPosseEstoqueQTD.AsFloat)) > 0 then
+      begin
+        prc_Gravar_mProdutoMov;
+        prc_Gravar_mUnidade(fDMSPEDFiscal.cdsPosseEstoqueUNIDADE.AsString);
+        if fDMSPEDFiscal.cdsPosseEstoqueID_PESSOA.AsInteger > 0 then
+          prc_Gravar_mPessoa(fDMSPEDFiscal.cdsPosseEstoqueID_PESSOA.AsInteger);
+      end;
+      fDMSPEDFiscal.cdsPosseEstoque.Next;
     end;
-    fDMSPEDFiscal.cdsPosseEstoque.Next;
+  finally
+    SMDBGrid1.EnableScroll;
   end;
 end;
 

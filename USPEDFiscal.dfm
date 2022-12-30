@@ -389,7 +389,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edtFile: TEdit
           Left = 22
           Top = 28
-          Width = 309
+          Width = 305
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 0
@@ -398,7 +398,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           OnExit = edtFileChange
         end
         object cbConcomitante: TCheckBox
-          Left = 355
+          Left = 351
           Top = 30
           Width = 134
           Height = 19
@@ -421,7 +421,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edNotas: TEdit
           Left = 654
           Top = 29
-          Width = 72
+          Width = 68
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 2
@@ -1094,11 +1094,11 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         Top = 174
         Width = 1268
         Height = 468
-        ActivePage = TS_SPED
+        ActivePage = TS_Posse
         ActivePageDefault = TS_SPED
         Align = alClient
         ParentColor = False
-        TabIndex = 0
+        TabIndex = 1
         TabOrder = 1
         FixedDimension = 19
         object TS_SPED: TRzTabSheet
