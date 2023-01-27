@@ -1087,6 +1087,14 @@ type
     cdsICMSVLR_ICMS_CREDITO: TFloatField;
     cdsBalancoPRECO_MEDIO_FIXO: TFloatField;
     cdsBalancoPRECO_MEDIO_CALC: TFloatField;
+    sdsNotaFiscal_ItensUNIDADE_CAD: TStringField;
+    cdsNotaFiscal_ItensUNIDADE_CAD: TStringField;
+    sdsNotaFiscal_ItensSPED_TIPO_ITEM: TStringField;
+    sdsNotaFiscal_ItensNCM: TStringField;
+    sdsNotaFiscal_ItensNCM_EX: TStringField;
+    cdsNotaFiscal_ItensSPED_TIPO_ITEM: TStringField;
+    cdsNotaFiscal_ItensNCM: TStringField;
+    cdsNotaFiscal_ItensNCM_EX: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure mAuxResumoNewRecord(DataSet: TDataSet);
   private
@@ -1095,6 +1103,8 @@ type
     { Public declarations }
     ctNotaFiscal : String;
     ctBalanco : String;
+    ctMovimento: String;
+    ctNotaFiscal_Itens: String;
     procedure prc_Abrir_qCidade(ID : Integer);
     //procedure prc_Abrir_NotaFiscal(Bloco : String ; DataIni, DataFin : TDateTime);
   end;
@@ -1112,6 +1122,8 @@ procedure TDMSPEDFiscal.DataModuleCreate(Sender: TObject);
 begin
   ctNotaFiscal := sdsNotaFiscal.CommandText;
   ctBalanco    := sdsBalanco.CommandText;
+  ctMovimento  := sdsMovimento.CommandText;
+  ctNotaFiscal_Itens := sdsNotaFiscal_Itens.CommandText;
   qParametros.Open;
   cdsFilial.Open;
 end;

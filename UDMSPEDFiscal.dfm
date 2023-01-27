@@ -2053,32 +2053,9 @@ object DMSPEDFiscal: TDMSPEDFiscal
       'A O on O.ID = N.ID_OPERACAO_NOTA'#13#10'left join TAB_CFOP T on T.ID =' +
       ' N.ID_CFOP'#13#10'left join CIDADE ORI on N.ID_CIDADE_CTE_ORI = ORI.ID' +
       #13#10'left join CIDADE DEST on N.ID_CIDADE_CTE_DEST = DEST.ID'#13#10'where' +
-      ' (((N.DTEMISSAO between :DT_INICIAL and :DT_FINAL) and'#13#10'      (N' +
-      '.TIPO_REG = '#39'NTS'#39')) or ((N.DTSAIDAENTRADA between :DT_INICIAL an' +
-      'd :DT_FINAL) and'#13#10'      (N.TIPO_REG = '#39'NTE'#39'))) and'#13#10'      N.FILI' +
-      'AL = :FILIAL'#13#10#13#10'  '
+      ' N.FILIAL = :FILIAL'#13#10#13#10'  '
     MaxBlobSize = -1
     Params = <
-      item
-        DataType = ftDate
-        Name = 'DT_INICIAL'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftDate
-        Name = 'DT_FINAL'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftDate
-        Name = 'DT_INICIAL'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftDate
-        Name = 'DT_FINAL'
-        ParamType = ptInput
-      end
       item
         DataType = ftInteger
         Name = 'FILIAL'
@@ -3245,22 +3222,21 @@ object DMSPEDFiscal: TDMSPEDFiscal
     NoMetadata = True
     GetMetadata = False
     CommandText = 
-      'SELECT I.*, CFOP.codcfop, CFOP.nome NOME_CFOP, coalesce(ICMS.cod' +
-      '_cst,0) CST_ICMS, coalesce(IPI.cod_ipi,0) CST_IPI,'#13#10'coalesce(PIS' +
-      '.codigo,0) CST_PIS, coalesce(COFINS.codigo,0) CST_COFINS, coales' +
-      'ce(TIPI.codigo,0) COD_ENQIPI'#13#10'FROM NOTAFISCAL_ITENS I'#13#10'INNER JOI' +
-      'N TAB_CFOP CFOP'#13#10'ON I.id_cfop = CFOP.ID'#13#10'LEFT JOIN tab_csticms I' +
-      'CMS'#13#10'ON I.id_csticms = ICMS.id'#13#10'LEFT JOIN tab_cstipi IPI'#13#10'ON I.i' +
-      'd_cstipi = IPI.id'#13#10'LEFT JOIN tab_pis PIS'#13#10'ON I.id_pis = PIS.id'#13#10 +
-      'LEFT JOIN tab_COFINS COFINS'#13#10'ON I.id_cofins = COFINS.id'#13#10'LEFT JO' +
-      'IN tab_enqipi TIPI'#13#10'ON I.id_enqipi = TIPI.id'#13#10#13#10'WHERE I.ID = :ID'
+      'select I.*, CFOP.CODCFOP, CFOP.NOME NOME_CFOP, coalesce(ICMS.COD' +
+      '_CST, 0) CST_ICMS, coalesce(IPI.COD_IPI, 0) CST_IPI,'#13#10'        co' +
+      'alesce(PIS.CODIGO, 0) CST_PIS, coalesce(COFINS.CODIGO, 0) CST_CO' +
+      'FINS,'#13#10'       coalesce(TIPI.CODIGO, 0) COD_ENQIPI,  P.UNIDADE UN' +
+      'IDADE_CAD, P.SPED_TIPO_ITEM, NCM.NCM,'#13#10'       P.NCM_EX'#13#10'from NOT' +
+      'AFISCAL_ITENS I'#13#10'inner join NOTAFISCAL N on I.ID = N.ID'#13#10'inner j' +
+      'oin TAB_CFOP CFOP on I.ID_CFOP = CFOP.ID '#13#10'inner join PRODUTO P ' +
+      'on I.ID_PRODUTO = P.ID'#13#10'left join TAB_CSTICMS ICMS on I.ID_CSTIC' +
+      'MS = ICMS.ID '#13#10'left join TAB_CSTIPI IPI on I.ID_CSTIPI = IPI.ID ' +
+      #13#10'left join TAB_PIS PIS on I.ID_PIS = PIS.ID '#13#10'left join TAB_COF' +
+      'INS COFINS on I.ID_COFINS = COFINS.ID '#13#10'left join TAB_ENQIPI TIP' +
+      'I on I.ID_ENQIPI = TIPI.ID '#13#10'left join TAB_NCM NCM on P.ID_NCM =' +
+      ' NCM.ID'#13#10
     MaxBlobSize = -1
-    Params = <
-      item
-        DataType = ftUnknown
-        Name = 'ID'
-        ParamType = ptInput
-      end>
+    Params = <>
     SQLConnection = DmDatabase.scoDados
     Left = 344
     Top = 209
@@ -3562,6 +3538,22 @@ object DMSPEDFiscal: TDMSPEDFiscal
     object sdsNotaFiscal_ItensCOD_ENQIPI: TStringField
       FieldName = 'COD_ENQIPI'
       Size = 3
+    end
+    object sdsNotaFiscal_ItensUNIDADE_CAD: TStringField
+      FieldName = 'UNIDADE_CAD'
+      Size = 6
+    end
+    object sdsNotaFiscal_ItensSPED_TIPO_ITEM: TStringField
+      FieldName = 'SPED_TIPO_ITEM'
+      Size = 2
+    end
+    object sdsNotaFiscal_ItensNCM: TStringField
+      FieldName = 'NCM'
+      Size = 10
+    end
+    object sdsNotaFiscal_ItensNCM_EX: TStringField
+      FieldName = 'NCM_EX'
+      Size = 2
     end
   end
   object dspNotaFiscal_Itens: TDataSetProvider
@@ -3873,6 +3865,22 @@ object DMSPEDFiscal: TDMSPEDFiscal
     object cdsNotaFiscal_ItensCOD_ENQIPI: TStringField
       FieldName = 'COD_ENQIPI'
       Size = 3
+    end
+    object cdsNotaFiscal_ItensUNIDADE_CAD: TStringField
+      FieldName = 'UNIDADE_CAD'
+      Size = 6
+    end
+    object cdsNotaFiscal_ItensSPED_TIPO_ITEM: TStringField
+      FieldName = 'SPED_TIPO_ITEM'
+      Size = 2
+    end
+    object cdsNotaFiscal_ItensNCM: TStringField
+      FieldName = 'NCM'
+      Size = 10
+    end
+    object cdsNotaFiscal_ItensNCM_EX: TStringField
+      FieldName = 'NCM_EX'
+      Size = 2
     end
   end
   object dsNotaFiscal_Itens: TDataSource
