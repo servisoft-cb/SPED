@@ -328,17 +328,18 @@ object DMSPEDFiscal: TDMSPEDFiscal
       'n O.COD_MODELO_NOTA'#13#10'         when CFOP.COD_MODELO_NOTA is not n' +
       'ull then CFOP.COD_MODELO_NOTA'#13#10'         else '#39'55'#39#13#10'       end CO' +
       'D_MODELO,'#13#10'       PUNI.ITEM_UNIDADE, UCONV.UNIDADE_CONV, UCONV.Q' +
-      'TD QTD_CONVERSOR'#13#10'from MOVIMENTO M'#13#10'left join PRODUTO PRO on M.I' +
-      'D_PRODUTO = PRO.ID'#13#10'left join PESSOA PES on M.ID_PESSOA = PES.CO' +
-      'DIGO'#13#10'left join TAB_NCM NCM on PRO.ID_NCM = NCM.ID'#13#10'left join TA' +
-      'B_CFOP CFOP on M.ID_CFOP = CFOP.ID'#13#10'left join OPERACAO_NOTA O on' +
-      ' M.ID_OPERACAO = O.ID'#13#10'left join PRODUTO_UNI PUNI on PUNI.ID = M' +
-      '.ID_PRODUTO and PUNI.UNIDADE_CONV = M.UNIDADE'#13#10'left join UNIDADE' +
-      '_CONV UCONV on UCONV.UNIDADE = PRO.UNIDADE and UCONV.ITEM = PUNI' +
-      '.ITEM_UNIDADE'#13#10'where (M.DTENTRADASAIDA between :DT_INICIAL and :' +
-      'DT_FINAL) and'#13#10'      M.FILIAL = :FILIAL and'#13#10'      ((M.TIPO_REG ' +
-      '= '#39'NTS'#39') or (M.TIPO_REG = '#39'NSE'#39') or (M.TIPO_REG = '#39'NTE'#39') or (M.T' +
-      'IPO_REG = '#39'CFI'#39'))   '
+      'TD QTD_CONVERSOR, COMB.NOME NOME_COR'#13#10'from MOVIMENTO M'#13#10'left joi' +
+      'n PRODUTO PRO on M.ID_PRODUTO = PRO.ID'#13#10'left join PESSOA PES on ' +
+      'M.ID_PESSOA = PES.CODIGO'#13#10'left join TAB_NCM NCM on PRO.ID_NCM = ' +
+      'NCM.ID'#13#10'left join TAB_CFOP CFOP on M.ID_CFOP = CFOP.ID'#13#10'left joi' +
+      'n OPERACAO_NOTA O on M.ID_OPERACAO = O.ID'#13#10'left join PRODUTO_UNI' +
+      ' PUNI on PUNI.ID = M.ID_PRODUTO and PUNI.UNIDADE_CONV = M.UNIDAD' +
+      'E'#13#10'left join UNIDADE_CONV UCONV on UCONV.UNIDADE = PRO.UNIDADE a' +
+      'nd UCONV.ITEM = PUNI.ITEM_UNIDADE'#13#10'left join COMBINACAO COMB on ' +
+      'M.ID_COR = COMB.ID'#13#10'where (M.DTENTRADASAIDA between :DT_INICIAL ' +
+      'and :DT_FINAL) and'#13#10'      M.FILIAL = :FILIAL and'#13#10'      ((M.TIPO' +
+      '_REG = '#39'NTS'#39') or (M.TIPO_REG = '#39'NSE'#39') or (M.TIPO_REG = '#39'NTE'#39') or' +
+      ' (M.TIPO_REG = '#39'CFI'#39'))   '
     MaxBlobSize = -1
     Params = <
       item
@@ -641,6 +642,10 @@ object DMSPEDFiscal: TDMSPEDFiscal
       FieldName = 'UNIDADE'
       Size = 6
     end
+    object sdsMovimentoNOME_COR: TStringField
+      FieldName = 'NOME_COR'
+      Size = 60
+    end
   end
   object dspMovimento: TDataSetProvider
     DataSet = sdsMovimento
@@ -934,6 +939,10 @@ object DMSPEDFiscal: TDMSPEDFiscal
     object cdsMovimentoUNIDADE: TStringField
       FieldName = 'UNIDADE'
       Size = 6
+    end
+    object cdsMovimentoNOME_COR: TStringField
+      FieldName = 'NOME_COR'
+      Size = 60
     end
   end
   object dsMovimento: TDataSource
@@ -3226,15 +3235,16 @@ object DMSPEDFiscal: TDMSPEDFiscal
       '_CST, 0) CST_ICMS, coalesce(IPI.COD_IPI, 0) CST_IPI,'#13#10'        co' +
       'alesce(PIS.CODIGO, 0) CST_PIS, coalesce(COFINS.CODIGO, 0) CST_CO' +
       'FINS,'#13#10'       coalesce(TIPI.CODIGO, 0) COD_ENQIPI,  P.UNIDADE UN' +
-      'IDADE_CAD, P.SPED_TIPO_ITEM, NCM.NCM,'#13#10'       P.NCM_EX'#13#10'from NOT' +
-      'AFISCAL_ITENS I'#13#10'inner join NOTAFISCAL N on I.ID = N.ID'#13#10'inner j' +
-      'oin TAB_CFOP CFOP on I.ID_CFOP = CFOP.ID '#13#10'inner join PRODUTO P ' +
-      'on I.ID_PRODUTO = P.ID'#13#10'left join TAB_CSTICMS ICMS on I.ID_CSTIC' +
-      'MS = ICMS.ID '#13#10'left join TAB_CSTIPI IPI on I.ID_CSTIPI = IPI.ID ' +
-      #13#10'left join TAB_PIS PIS on I.ID_PIS = PIS.ID '#13#10'left join TAB_COF' +
-      'INS COFINS on I.ID_COFINS = COFINS.ID '#13#10'left join TAB_ENQIPI TIP' +
-      'I on I.ID_ENQIPI = TIPI.ID '#13#10'left join TAB_NCM NCM on P.ID_NCM =' +
-      ' NCM.ID'#13#10
+      'IDADE_CAD, P.SPED_TIPO_ITEM, NCM.NCM,'#13#10'       P.NCM_EX, COMB.NOM' +
+      'E NOME_COR'#13#10'from NOTAFISCAL_ITENS I'#13#10'inner join NOTAFISCAL N on ' +
+      'I.ID = N.ID'#13#10'inner join TAB_CFOP CFOP on I.ID_CFOP = CFOP.ID '#13#10'i' +
+      'nner join PRODUTO P on I.ID_PRODUTO = P.ID'#13#10'left join TAB_CSTICM' +
+      'S ICMS on I.ID_CSTICMS = ICMS.ID '#13#10'left join TAB_CSTIPI IPI on I' +
+      '.ID_CSTIPI = IPI.ID '#13#10'left join TAB_PIS PIS on I.ID_PIS = PIS.ID' +
+      ' '#13#10'left join TAB_COFINS COFINS on I.ID_COFINS = COFINS.ID '#13#10'left' +
+      ' join TAB_ENQIPI TIPI on I.ID_ENQIPI = TIPI.ID '#13#10'left join TAB_N' +
+      'CM NCM on P.ID_NCM = NCM.ID'#13#10'left join combinacao comb on i.id_c' +
+      'or = comb.id'#13#10#13#10#13#10
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DmDatabase.scoDados
@@ -3554,6 +3564,10 @@ object DMSPEDFiscal: TDMSPEDFiscal
     object sdsNotaFiscal_ItensNCM_EX: TStringField
       FieldName = 'NCM_EX'
       Size = 2
+    end
+    object sdsNotaFiscal_ItensNOME_COR: TStringField
+      FieldName = 'NOME_COR'
+      Size = 60
     end
   end
   object dspNotaFiscal_Itens: TDataSetProvider
@@ -3881,6 +3895,10 @@ object DMSPEDFiscal: TDMSPEDFiscal
     object cdsNotaFiscal_ItensNCM_EX: TStringField
       FieldName = 'NCM_EX'
       Size = 2
+    end
+    object cdsNotaFiscal_ItensNOME_COR: TStringField
+      FieldName = 'NOME_COR'
+      Size = 60
     end
   end
   object dsNotaFiscal_Itens: TDataSource

@@ -1095,6 +1095,10 @@ type
     cdsNotaFiscal_ItensSPED_TIPO_ITEM: TStringField;
     cdsNotaFiscal_ItensNCM: TStringField;
     cdsNotaFiscal_ItensNCM_EX: TStringField;
+    sdsNotaFiscal_ItensNOME_COR: TStringField;
+    cdsNotaFiscal_ItensNOME_COR: TStringField;
+    sdsMovimentoNOME_COR: TStringField;
+    cdsMovimentoNOME_COR: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure mAuxResumoNewRecord(DataSet: TDataSet);
   private

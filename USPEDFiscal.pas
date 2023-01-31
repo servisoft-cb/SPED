@@ -1830,7 +1830,8 @@ begin
     if trim(fDMSPEDFiscal.cdsMovimentoTAMANHO.AsString) <> '' then
       fDMSPEDFiscal.mProdutoTamanho.AsString     := fDMSPEDFiscal.cdsMovimentoTAMANHO.AsString;
     fDMSPEDFiscal.mProdutoNome.AsString := fDMSPEDFiscal.cdsMovimentoNOME_PRODUTO_SERV.AsString;
-
+    if trim(fDMSPEDFiscal.cdsMovimentoNOME_COR.AsString) <> '' then
+      fDMSPEDFiscal.mProdutoNome.AsString := fDMSPEDFiscal.mProdutoNome.AsString + ' ' + fDMSPEDFiscal.cdsMovimentoNOME_COR.AsString;
     fDMSPEDFiscal.mProdutoCod_Barra.AsString := fDMSPEDFiscal.cdsMovimentoCOD_BARRA_CAD.AsString;
     fDMSPEDFiscal.mProdutoCod_Anterior.AsString := '';
     fDMSPEDFiscal.mProdutoUnidade.AsString      := UpperCase(fDMSPEDFiscal.cdsMovimentoUNIDADE_PRODUTO_CAD.AsString);
@@ -1885,10 +1886,10 @@ begin
         with Registro0200New do
         begin
           COD_ITEM     := fDMSPEDFiscal.mProdutoCod_Produto.AsString;
-          DESCR_ITEM   := fDMSPEDFiscal.mProdutoNome.AsString;
+          DESCR_ITEM   := TiraAcentos(fDMSPEDFiscal.mProdutoNome.AsString);
           COD_BARRA    := fDMSPEDFiscal.mProdutoCod_Barra.AsString;
           COD_ANT_ITEM := '';
-          UNID_INV     := fDMSPEDFiscal.mProdutoUnidade.AsString;
+          UNID_INV     := TiraAcentos(fDMSPEDFiscal.mProdutoUnidade.AsString);
           case fDMSPEDFiscal.mProdutoTipo_Item.AsInteger of
             0 : TIPO_ITEM := tiMercadoriaRevenda;
             1 : TIPO_ITEM := tiMateriaPrima;
@@ -1979,7 +1980,7 @@ begin
         begin
           COD_IND_BEM := fDMSPEDFiscal.cdsAtivoImobID.AsString;
           IDENT_MERC  := fDMSPEDFiscal.cdsAtivoImobTIPO_ATIVO.AsInteger;
-          DESCR_ITEM  := fDMSPEDFiscal.cdsAtivoImobNOME_PRODUTO.AsString;
+          DESCR_ITEM  := TiraAcentos(fDMSPEDFiscal.cdsAtivoImobNOME_PRODUTO.AsString);
           if fDMSPEDFiscal.cdsAtivoImobID_PRODUTO_PRINCIPAL.AsInteger > 0 then
           begin
             if fDMSPEDFiscal.qParametrosIMP_NFE_REF_PROD.AsString = 'R' then
@@ -2023,7 +2024,7 @@ begin
     exit;
   fDMSPEDFiscal.mNatureza.Insert;
   fDMSPEDFiscal.mNaturezaCod_Natureza.AsString  := fDMSPEDFiscal.cdsMovimentoCODCFOP.AsString;
-  fDMSPEDFiscal.mNaturezaNome_Natureza.AsString := fDMSPEDFiscal.cdsMovimentoNOME_CFOP.AsString;
+  fDMSPEDFiscal.mNaturezaNome_Natureza.AsString := TiraAcentos(fDMSPEDFiscal.cdsMovimentoNOME_CFOP.AsString);
   fDMSPEDFiscal.mNatureza.Post;
 end;
 
@@ -2039,7 +2040,7 @@ begin
         with Registro0400New do
         begin
           COD_NAT   := fDMSPEDFiscal.mNaturezaCod_Natureza.AsString;
-          DESCR_NAT := fDMSPEDFiscal.mNaturezaNome_Natureza.AsString;
+          DESCR_NAT := TiraAcentos(fDMSPEDFiscal.mNaturezaNome_Natureza.AsString);
         end;
       end;
     end;
@@ -2067,7 +2068,7 @@ begin
           IND_CTA    := fDMSPEDFiscal.cdsPlano_ContasTIPO_REG.AsString;
           NIVEL      := fDMSPEDFiscal.cdsPlano_ContasNIVEL.AsString;
           COD_CTA    := fDMSPEDFiscal.cdsPlano_ContasCODIGO.AsString;
-          NOME_CTA   := fDMSPEDFiscal.cdsPlano_ContasNOME.AsString;
+          NOME_CTA   := TiraAcentos(fDMSPEDFiscal.cdsPlano_ContasNOME.AsString);
         end;
       end;
     end;
@@ -3574,9 +3575,9 @@ begin
         if trim(fDMSPEDFiscal.cdsBalancoTAMANHO.AsString) <> '' then
           fDMSPEDFiscal.mProdutoTamanho.AsString     := fDMSPEDFiscal.cdsBalancoTAMANHO.AsString;
         fDMSPEDFiscal.mProdutoNome.AsString := fDMSPEDFiscal.cdsBalancoNOME_PRODUTO.AsString;
-  if trim(fDMSPEDFiscal.mProdutoNome.AsString) = '' then
-    ShowMessage('parte 3');
-
+        if trim(fDMSPEDFiscal.cdsBalancoNOME_COMBINACAO.AsString) <> '' then
+          fDMSPEDFiscal.mProdutoNome.AsString := fDMSPEDFiscal.mProdutoNome.AsString + ' ' + fDMSPEDFiscal.cdsBalancoNOME_COMBINACAO.AsString;
+        fDMSPEDFiscal.mProdutoNome.AsString := TiraAcentos(fDMSPEDFiscal.mProdutoNome.AsString);
         fDMSPEDFiscal.mProdutoCod_Barra.AsString    := '';
         fDMSPEDFiscal.mProdutoCod_Anterior.AsString := '';
         fDMSPEDFiscal.mProdutoUnidade.AsString      := UpperCase(fDMSPEDFiscal.qProdutoUNIDADE.AsString);
@@ -3835,12 +3836,12 @@ begin
         fDMSPEDFiscal.mK200.Insert;
         fDMSPEDFiscal.mK200DtEstoque.AsDateTime  := DateEdit2.Date;
         fDMSPEDFiscal.mK200Cod_Produto.AsString  := vCodigo;
-        fDMSPEDFiscal.mK200Nome_Produto.AsString := fDMSPEDFiscal.cdsPosseEstoqueNOME_PRODUTO.AsString;
+        fDMSPEDFiscal.mK200Nome_Produto.AsString := TiraAcentos(fDMSPEDFiscal.cdsPosseEstoqueNOME_PRODUTO.AsString);
         fDMSPEDFiscal.mK200Qtd.AsFloat          := StrToFloat(FormatFloat('0.000',fDMSPEDFiscal.cdsPosseEstoqueQTD.AsFloat));
         if (copy(fDMSPEDFiscal.cdsPosseEstoqueTIPO_EST.AsString,1,1) = '1') or (copy(fDMSPEDFiscal.cdsPosseEstoqueTIPO_EST.AsString,1,1) = '2') then
         begin
            fDMSPEDFiscal.mK200Cod_Pessoa.AsString  := fDMSPEDFiscal.cdsPosseEstoqueID_PESSOA.AsString;
-           fDMSPEDFiscal.mK200Nome_Pessoa.AsString := fDMSPEDFiscal.cdsPosseEstoqueNOME_TERCEIRO.AsString;
+           fDMSPEDFiscal.mK200Nome_Pessoa.AsString := TiraAcentos(fDMSPEDFiscal.cdsPosseEstoqueNOME_TERCEIRO.AsString);
         end;
         fDMSPEDFiscal.mK200Posse.AsString      := fDMSPEDFiscal.cdsPosseEstoqueTIPO_EST.AsString;
         fDMSPEDFiscal.mK200Desc_Posse.AsString := fDMSPEDFiscal.mAuxResumoDesc_Posse.AsString;
@@ -3894,13 +3895,12 @@ begin
   if trim(fDMSPEDFiscal.cdsPosseEstoqueTAMANHO.AsString) <> '' then
     fDMSPEDFiscal.mProdutoTamanho.AsString     := fDMSPEDFiscal.cdsPosseEstoqueTAMANHO.AsString;
   fDMSPEDFiscal.mProdutoNome.AsString := fDMSPEDFiscal.cdsPosseEstoqueNOME_PRODUTO.AsString;
-  if trim(fDMSPEDFiscal.mProdutoNome.AsString) = '' then
-    ShowMessage('parte 1');
 
   if trim(fDMSPEDFiscal.cdsPosseEstoqueTAMANHO.AsString) <> '' then
     fDMSPEDFiscal.mProdutoNome.AsString := fDMSPEDFiscal.mProdutoNome.AsString + ' TAM. ' + fDMSPEDFiscal.cdsPosseEstoqueTAMANHO.AsString;
   if trim(fDMSPEDFiscal.cdsPosseEstoqueNOME_COMBINACAO.AsString) <> '' then
     fDMSPEDFiscal.mProdutoNome.AsString := fDMSPEDFiscal.mProdutoNome.AsString + ' ' + fDMSPEDFiscal.cdsPosseEstoqueNOME_COMBINACAO.AsString;
+  fDMSPEDFiscal.mProdutoNome.AsString := TiraAcentos(fDMSPEDFiscal.mProdutoNome.AsString);
   fDMSPEDFiscal.mProdutoCod_Barra.AsString    := '';
   fDMSPEDFiscal.mProdutoCod_Anterior.AsString := '';
   fDMSPEDFiscal.mProdutoUnidade.AsString      := UpperCase(fDMSPEDFiscal.cdsPosseEstoqueUNIDADE.AsString);
@@ -4364,6 +4364,9 @@ begin
       if trim(fDMSPEDFiscal.cdsMovimentoTAMANHO.AsString) <> '' then
         fDMSPEDFiscal.mProdutoTamanho.AsString     := fDMSPEDFiscal.cdsNotaFiscal_ItensTAMANHO.AsString;
       fDMSPEDFiscal.mProdutoNome.AsString := fDMSPEDFiscal.cdsNotaFiscal_ItensNOME_PRODUTO.AsString;
+      if trim(fDMSPEDFiscal.cdsNotaFiscal_ItensNOME_COR.AsString) <> '' then
+        fDMSPEDFiscal.mProdutoNome.AsString := fDMSPEDFiscal.mProdutoNome.AsString + ' ' + fDMSPEDFiscal.cdsNotaFiscal_ItensNOME_COR.AsString;
+      fDMSPEDFiscal.mProdutoNome.AsString := TiraAcentos(fDMSPEDFiscal.mProdutoNome.AsString);
       fDMSPEDFiscal.mProdutoCod_Barra.AsString := fDMSPEDFiscal.cdsNotaFiscal_ItensCOD_BARRA.AsString;
       fDMSPEDFiscal.mProdutoCod_Anterior.AsString := '';
       fDMSPEDFiscal.mProdutoUnidade.AsString      := UpperCase(fDMSPEDFiscal.cdsNotaFiscal_ItensUNIDADE_CAD.AsString);
