@@ -1099,6 +1099,9 @@ type
     cdsNotaFiscal_ItensNOME_COR: TStringField;
     sdsMovimentoNOME_COR: TStringField;
     cdsMovimentoNOME_COR: TStringField;
+    cdsNotaFiscalVLR_OUTROS_ITENS: TFloatField;
+    sdsNotaFiscal_ItensVLR_OUTROS_ITENS: TFloatField;
+    cdsNotaFiscal_ItensVLR_OUTROS_ITENS: TFloatField;
     procedure DataModuleCreate(Sender: TObject);
     procedure mAuxResumoNewRecord(DataSet: TDataSet);
   private
