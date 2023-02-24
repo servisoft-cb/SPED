@@ -223,6 +223,7 @@ type
 
     procedure prc_Abrir_NotaFiscal_Itens(ID : Integer);
     procedure prc_Le_NotaFiscal_Itens;
+    procedure prc_Le_NotaFiscal;
 
     //procedure prc_Gravar_mProduto2(ID_Produto : Integer ; Codigo : String);
 
@@ -1754,6 +1755,12 @@ begin
       fDMSPEDFiscal.cdsMovimento.Next;
       continue;
     end;}
+    //23/02/2023
+    {if (fDMSPEDFiscal.cdsMovimentoNUM_NOTA.AsInteger <> 44849) and (fDMSPEDFiscal.cdsMovimentoNUM_NOTA.AsInteger <> 44850) then
+    begin
+      fDMSPEDFiscal.cdsMovimento.Next;
+      continue;
+    end;}
 
     if (((fDMSPEDFiscal.cdsMovimentoTIPO_REG.AsString = 'NTS') or (fDMSPEDFiscal.cdsMovimentoTIPO_REG.AsString = 'NTE'))
        and (fDMSPEDFiscal.cdsMovimentoID_NOTAFISCAL.AsInteger <> vNumNota)) or
@@ -2207,7 +2214,8 @@ var
   vAux : String;
 begin
   vContador_Reg_C := 0;
-  prc_Abrir_NotaFiscal('C');
+  //24/02/2023
+  //prc_Abrir_NotaFiscal('C');
 
   if ComboBox3.ItemIndex <> 1 then
   begin
@@ -2234,7 +2242,7 @@ begin
   fDMSPEDFiscal.cdsNotaFiscal.First;
   while not fDMSPEDFiscal.cdsNotaFiscal.Eof do
   begin
-    {if (fDMSPEDFiscal.cdsNotaFiscalNUMNOTA.AsInteger <> 33417) then
+    {if (fDMSPEDFiscal.cdsNotaFiscalNUMNOTA.AsInteger <> 44849) and (fDMSPEDFiscal.cdsNotaFiscalNUMNOTA.AsInteger <> 44850) then
     begin
       fDMSPEDFiscal.cdsNotaFiscal.Next;
       Continue;
@@ -2343,7 +2351,8 @@ begin
               IND_FRT := tfSemCobrancaFrete;
               //if fDMSPEDFiscal.cdsNotaFiscalNUMNOTA.AsInteger = 33417 then
                 //ShowMessage('parte 1');
-            VL_SEG := fDMSPEDFiscal.cdsNotaFiscalVLR_FRETE.AsFloat;
+            VL_FRT := fDMSPEDFiscal.cdsNotaFiscalVLR_FRETE.AsFloat;
+            VL_SEG := fDMSPEDFiscal.cdsNotaFiscalVLR_SEGURO.AsFloat;
             VL_OUT_DA := fDMSPEDFiscal.cdsNotaFiscalVLR_OUTRASDESP.AsFloat;
             if StrToFloat(FormatFloat('0.00',fDMSPEDFiscal.cdsNotaFiscalBASE_ICMSSIMPLES.AsFloat)) > 0 then
               VL_BC_ICMS := fDMSPEDFiscal.cdsNotaFiscalBASE_ICMSSIMPLES.AsFloat
@@ -2923,7 +2932,8 @@ end;
 procedure TfrmSPEDFiscal.prc_Gerar_Bloco_D;
 begin
   vContador_Reg_C := 0;
-  prc_Abrir_NotaFiscal('D');
+  //24/02/2023
+  //prc_Abrir_NotaFiscal('D');
 
   //Abertura do Bloco C
   with ACBrSPEDFiscal1.Bloco_D do
@@ -3986,18 +3996,22 @@ var
 begin
   if (RzCheckList1.ItemChecked[5]) and (not fnc_Valida_Campos('H')) then
     exit;
-
+  if not DirectoryExists(DirectoryEdit1.Text) then
+  begin
+    MessageDlg('*** Local para gravar o arquivo não existe!' , mtError, [mbOk], 0);
+    exit;
+  end;
   if (RzCheckList1.ItemChecked[5]) then
   begin
     if (DateEdit3.Date > DateEdit2.Date) or (DateEdit3.Date < 10) then
     begin
-      MessageDlg('*** Data do inventário inválida' , mtError, [mbOk], 0);
+      MessageDlg('*** Data do inventário inválida!' , mtError, [mbOk], 0);
       exit;
     end;
   end;
   if trim(RxDBLookupCombo1.Text) = '' then
   begin
-    MessageDlg('*** Filial não informada' , mtError, [mbOk], 0);
+    MessageDlg('*** Filial não informada!' , mtError, [mbOk], 0);
     exit;
   end;
   fDMSPEDFiscal.mK200.EmptyDataSet;
@@ -4023,7 +4037,11 @@ begin
       prc_Consultar_cdsBalanco;
     uUtilPadrao.prc_Form_Aguarde(Form,'Notas...');
     if (RzCheckList1.ItemChecked[2]) or (RzCheckList1.ItemChecked[3]) then
+    begin
       prc_Movimento;
+      prc_Abrir_NotaFiscal('');
+      prc_Le_NotaFiscal;
+    end;
     uUtilPadrao.prc_Form_Aguarde(Form,'Verificando Produto...');
     if (RzCheckList1.ItemChecked[5]) then
       prc_Verifica_Produtos_Balanco;
@@ -4473,12 +4491,28 @@ begin
       vComando := vComando + ' and ((N.DTEMISSAO between :DT_INICIAL and :DT_FINAL) and '
                 + '(N.TIPO_REG = ' + QuotedStr('NTS') + '))';
     end;
+    //vcomando := vcomando + ' and (N.NUMNOTA = 44849 or N.NUMNOTA = 44850)'; 
     fDMSPEDFiscal.sdsNotaFiscal_Itens.CommandText := vComando;
     fDMSPEDFiscal.sdsNotaFiscal_Itens.ParamByName('DT_INICIAL').AsDate := DateEdit1.Date;
     fDMSPEDFiscal.sdsNotaFiscal_Itens.ParamByName('DT_FINAL').AsDate   := DateEdit2.Date;
     fDMSPEDFiscal.sdsNotaFiscal_Itens.ParamByName('FILIAL').AsInteger := RxDBLookupCombo1.KeyValue;
   end;
   fDMSPEDFiscal.cdsNotaFiscal_Itens.Open;
+end;
+
+procedure TfrmSPEDFiscal.prc_Le_NotaFiscal;
+begin
+  fDMSPEDFiscal.cdsNotaFiscal.First;
+  while not fDMSPEDFiscal.cdsNotaFiscal.Eof do
+  begin
+    {if (fDMSPEDFiscal.cdsNotaFiscalNUMNOTA.AsInteger <> 44849) and (fDMSPEDFiscal.cdsNotaFiscalNUMNOTA.AsInteger <> 44850) then
+    begin
+      fDMSPEDFiscal.cdsNotaFiscal.Next;
+      Continue;
+    end;}
+    prc_Gravar_mPessoa(fDMSPEDFiscal.cdsNotaFiscalID_CLIENTE.AsInteger);
+    fDMSPEDFiscal.cdsNotaFiscal.Next;
+  end;
 end;
 
 end.
