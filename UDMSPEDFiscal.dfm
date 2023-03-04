@@ -5151,4 +5151,38 @@ object DMSPEDFiscal: TDMSPEDFiscal
     Left = 176
     Top = 312
   end
+  object mProdSemCusto: TClientDataSet
+    Active = True
+    Aggregates = <>
+    Params = <>
+    Left = 144
+    Top = 456
+    Data = {
+      7F0000009619E0BD0100000018000000040000000000030000007F0006436F64
+      69676F0100490000000100055749445448020002003C000C4E6F6D655F50726F
+      6475746F0100490000000100055749445448020002006400084E6F6D655F436F
+      7201004900000001000557494454480200020064000351746408000400000000
+      000000}
+    object mProdSemCustoCodigo: TStringField
+      FieldName = 'Codigo'
+      Size = 60
+    end
+    object mProdSemCustoNome_Produto: TStringField
+      FieldName = 'Nome_Produto'
+      Size = 100
+    end
+    object mProdSemCustoNome_Cor: TStringField
+      FieldName = 'Nome_Cor'
+      Size = 100
+    end
+    object mProdSemCustoQtd: TFloatField
+      FieldName = 'Qtd'
+      DisplayFormat = '0.000##'
+    end
+  end
+  object dsmProdSemCusto: TDataSource
+    DataSet = mProdSemCusto
+    Left = 176
+    Top = 456
+  end
 end

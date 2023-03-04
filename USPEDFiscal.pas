@@ -13,7 +13,7 @@ uses
   SysUtils, Variants, Classes, Graphics, Controls, Forms, ACBrEFDBlocos,
   Dialogs, StdCtrls, ACBrSpedFiscal, ExtCtrls, ComCtrls, ACBrUtil, ACBrTXTClass,
   Mask, ToolEdit, RzTabs, NxCollection, RxLookup, UDMSPEDFiscal, RzPanel,
-  ACBrBase, RzLstBox, RzChkLst, Grids, DBGrids, SMDBGrid;
+  ACBrBase, RzLstBox, RzChkLst, Grids, DBGrids, SMDBGrid, DB, ActiveX, ComObj;
 
 type
 
@@ -109,6 +109,10 @@ type
     ComboBox3: TComboBox;
     chkResumo: TCheckBox;
     ckGravarPrecoZerado: TCheckBox;
+    TS_Produto_Sem_Custo: TRzTabSheet;
+    SMDBGrid4: TSMDBGrid;
+    Panel5: TPanel;
+    NxButton2: TNxButton;
     procedure btnB_0Click(Sender: TObject);
     procedure btnB_9Click(Sender: TObject);
     procedure btnTXTClick(Sender: TObject);
@@ -141,6 +145,7 @@ type
     procedure RxDBLookupCombo1Exit(Sender: TObject);
     procedure NxButton1Click(Sender: TObject);
     procedure RzCheckList1Enter(Sender: TObject);
+    procedure NxButton2Click(Sender: TObject);
   private
     fDMSPEDFiscal: TDMSPEDFiscal;
     vContador_Reg_0 : Integer;
@@ -225,11 +230,15 @@ type
     procedure prc_Le_NotaFiscal_Itens;
     procedure prc_Le_NotaFiscal;
 
+    procedure prc_Gravar_Produto_SemCusto;
+
     //procedure prc_Gravar_mProduto2(ID_Produto : Integer ; Codigo : String);
 
     function Monta_Numero(Campo: String; Tamanho: Integer): String;
 
     function monta_codigo_produto(ID_Produto, ID_Cor : Integer ; Referencia, Tamanho, Usa_Tamanho_Agrupado : String) : String;
+
+    procedure prc_CriaExcel_Novo(vDados: TDataSource; Grid: TSMDBGrid);
 
     { Private declarations }
   public
@@ -241,7 +250,7 @@ var
 
 implementation
 
-uses uUtilPadrao, DB, ACBrEFDBloco_C, ACBrEFDBloco_C_Class,
+uses uUtilPadrao, ACBrEFDBloco_C, ACBrEFDBloco_C_Class,
   SqlExpr, ACBrEFDBloco_D_Class, ACBrEFDBloco_D, ACBrEFDBloco_H_Class,
   ACBrEFDBloco_H, DateUtils, rsDBUtils, ACBrEFDBloco_K,
   ACBrEFDBloco_K_Class, ACBrEFDBloco_E_Class, ACBrEFDBloco_E, ACBrSped,
@@ -1755,12 +1764,6 @@ begin
       fDMSPEDFiscal.cdsMovimento.Next;
       continue;
     end;}
-    //23/02/2023
-    {if (fDMSPEDFiscal.cdsMovimentoNUM_NOTA.AsInteger <> 44849) and (fDMSPEDFiscal.cdsMovimentoNUM_NOTA.AsInteger <> 44850) then
-    begin
-      fDMSPEDFiscal.cdsMovimento.Next;
-      continue;
-    end;}
 
     if (((fDMSPEDFiscal.cdsMovimentoTIPO_REG.AsString = 'NTS') or (fDMSPEDFiscal.cdsMovimentoTIPO_REG.AsString = 'NTE'))
        and (fDMSPEDFiscal.cdsMovimentoID_NOTAFISCAL.AsInteger <> vNumNota)) or
@@ -2242,7 +2245,7 @@ begin
   fDMSPEDFiscal.cdsNotaFiscal.First;
   while not fDMSPEDFiscal.cdsNotaFiscal.Eof do
   begin
-    {if (fDMSPEDFiscal.cdsNotaFiscalNUMNOTA.AsInteger <> 44849) and (fDMSPEDFiscal.cdsNotaFiscalNUMNOTA.AsInteger <> 44850) then
+    {if (fDMSPEDFiscal.cdsNotaFiscalNUMNOTA.AsInteger <> 74474) then
     begin
       fDMSPEDFiscal.cdsNotaFiscal.Next;
       Continue;
@@ -3586,6 +3589,7 @@ begin
   begin
     if not(ckGravarPrecoZerado.Checked) and (StrToFloat(FormatFloat('0.000000',fDMSPEDFiscal.cdsBalancoPRECO_MEDIO.AsFloat)) <= 0) then
     begin
+      prc_Gravar_Produto_SemCusto;
       fDMSPEDFiscal.cdsBalanco.Next;
       Continue;
     end;
@@ -4020,6 +4024,7 @@ begin
   fDMSPEDFiscal.mUnidade.EmptyDataSet;
   fDMSPEDFiscal.mNatureza.EmptyDataSet;
   fDMSPEDFiscal.mAuxResumo.EmptyDataSet;
+  fDMSPEDFiscal.mProdSemCusto.EmptyDataSet;
   fDMSPEDFiscal.qParametros_Est.Open;
 
   if fDMSPEDFiscal.cdsFilialID.AsInteger <> RxDBLookupCombo1.KeyValue then
@@ -4492,6 +4497,7 @@ begin
                 + '(N.TIPO_REG = ' + QuotedStr('NTS') + '))';
     end;
     //vcomando := vcomando + ' and (N.NUMNOTA = 44849 or N.NUMNOTA = 44850)'; 
+    //vcomando := vcomando + ' and (N.NUMNOTA = 74474)'; 
     fDMSPEDFiscal.sdsNotaFiscal_Itens.CommandText := vComando;
     fDMSPEDFiscal.sdsNotaFiscal_Itens.ParamByName('DT_INICIAL').AsDate := DateEdit1.Date;
     fDMSPEDFiscal.sdsNotaFiscal_Itens.ParamByName('DT_FINAL').AsDate   := DateEdit2.Date;
@@ -4505,7 +4511,7 @@ begin
   fDMSPEDFiscal.cdsNotaFiscal.First;
   while not fDMSPEDFiscal.cdsNotaFiscal.Eof do
   begin
-    {if (fDMSPEDFiscal.cdsNotaFiscalNUMNOTA.AsInteger <> 44849) and (fDMSPEDFiscal.cdsNotaFiscalNUMNOTA.AsInteger <> 44850) then
+    {if (fDMSPEDFiscal.cdsNotaFiscalNUMNOTA.AsInteger <> 74474) then
     begin
       fDMSPEDFiscal.cdsNotaFiscal.Next;
       Continue;
@@ -4513,6 +4519,88 @@ begin
     prc_Gravar_mPessoa(fDMSPEDFiscal.cdsNotaFiscalID_CLIENTE.AsInteger);
     fDMSPEDFiscal.cdsNotaFiscal.Next;
   end;
+end;
+
+procedure TfrmSPEDFiscal.prc_Gravar_Produto_SemCusto;
+begin
+  fDMSPEDFiscal.mProdSemCusto.Insert;
+  fDMSPEDFiscal.mProdSemCustoCodigo.AsString := fDMSPEDFiscal.cdsBalancoID_PRODUTO.AsString;
+  if fDMSPEDFiscal.cdsBalancoID_COR.AsInteger > 0 then
+    fDMSPEDFiscal.mProdSemCustoCodigo.AsString := fDMSPEDFiscal.mProdSemCustoCodigo.AsString + '.' + fDMSPEDFiscal.cdsBalancoID_COR.AsString;
+  fDMSPEDFiscal.mProdSemCustoNome_Cor.AsString := fDMSPEDFiscal.cdsBalancoNOME_COMBINACAO.AsString;
+  fDMSPEDFiscal.mProdSemCustoNome_Produto.AsString := fDMSPEDFiscal.cdsBalancoNOME_PRODUTO.AsString;
+  fDMSPEDFiscal.mProdSemCustoQtd.AsFloat           := fDMSPEDFiscal.cdsBalancoQTD_ESTOQUE.AsFloat;
+  fDMSPEDFiscal.mProdSemCusto.Post;
+end;
+
+procedure TfrmSPEDFiscal.NxButton2Click(Sender: TObject);
+begin
+  prc_CriaExcel_Novo(SMDBGrid4.DataSource,SMDBGrid4);
+
+end;
+
+procedure TfrmSPEDFiscal.prc_CriaExcel_Novo(vDados: TDataSource;
+  Grid: TSMDBGrid);
+var
+  planilha: variant;
+  vTexto: string;
+  sLinha: TStringList;
+  cLinha: String;
+  ColunaP: Integer;
+  Coluna: Integer;
+begin
+  CoInitialize(nil);
+  Screen.Cursor := crHourGlass;
+  vDados.DataSet.First;
+  Grid.DisableScroll;
+  sLinha := TStringList.Create;
+
+  try
+    planilha := CreateOleObject('Excel.Application');
+
+    cLinha  := '';
+    for coluna := 1 to vDados.DataSet.FieldCount do
+    begin
+      if trim(cLinha) = '' then
+        cLinha := vDados.DataSet.Fields[coluna - 1].DisplayLabel
+      else
+        cLinha := cLinha + ';' + vDados.DataSet.Fields[coluna - 1].DisplayLabel;
+    end;
+    sLinha.Add(cLinha);
+
+    vDados.DataSet.First;
+    while not vDados.DataSet.Eof do
+    begin
+      ColunaP := 0;
+      cLinha := '';
+      for coluna := 1 to vDados.DataSet.FieldCount do
+      begin
+        ColunaP := ColunaP + 1;
+        if ColunaP > 1 then
+          cLinha := cLinha + ';' + vDados.DataSet.Fields[coluna - 1].AsString
+        else
+          cLinha := vDados.DataSet.Fields[coluna - 1].AsString;
+      end;
+      sLinha.Add(cLinha);
+      vDados.DataSet.Next;
+    end;
+
+    vTexto := ExtractFilePath(Application.ExeName);
+    vTexto := vTexto + Name + '_' + RzPageControl1.ActivePage.Caption + '.csv';
+    if FileExists(vTexto) then
+      DeleteFile(vTexto);
+    sLinha.SaveToFile(vTexto);
+    planilha.visible := true;
+    //planilha.Workbooks.Open(vTexto);
+    //planilha.columns.Autofit;
+
+  finally
+    Screen.Cursor := crDefault;
+    Grid.EnableScroll;
+    FreeAndNil(sLinha);
+  end;
+
+  CoUnInitialize;
 end;
 
 end.

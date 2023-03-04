@@ -1102,6 +1102,12 @@ type
     cdsNotaFiscalVLR_OUTROS_ITENS: TFloatField;
     sdsNotaFiscal_ItensVLR_OUTROS_ITENS: TFloatField;
     cdsNotaFiscal_ItensVLR_OUTROS_ITENS: TFloatField;
+    mProdSemCusto: TClientDataSet;
+    mProdSemCustoCodigo: TStringField;
+    mProdSemCustoNome_Produto: TStringField;
+    mProdSemCustoNome_Cor: TStringField;
+    mProdSemCustoQtd: TFloatField;
+    dsmProdSemCusto: TDataSource;
     procedure DataModuleCreate(Sender: TObject);
     procedure mAuxResumoNewRecord(DataSet: TDataSet);
   private

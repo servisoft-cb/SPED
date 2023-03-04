@@ -3,7 +3,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
   Top = 11
   Width = 1288
   Height = 704
-  Caption = 'Gerar SPED Fiscal    (Vers'#227'o  24/02/2023  1.0.40) '
+  Caption = 'Gerar SPED Fiscal    (Vers'#227'o  03/03/2023  1.0.41) '
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -389,7 +389,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edtFile: TEdit
           Left = 22
           Top = 28
-          Width = 233
+          Width = 217
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 0
@@ -398,7 +398,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           OnExit = edtFileChange
         end
         object cbConcomitante: TCheckBox
-          Left = 279
+          Left = 263
           Top = 30
           Width = 134
           Height = 19
@@ -421,7 +421,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edNotas: TEdit
           Left = 654
           Top = 29
-          Width = -4
+          Width = -20
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 2
@@ -1133,11 +1133,11 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         Top = 190
         Width = 1268
         Height = 452
-        ActivePage = TS_SPED
+        ActivePage = TS_Produto_Sem_Custo
         ActivePageDefault = TS_SPED
         Align = alClient
         ParentColor = False
-        TabIndex = 0
+        TabIndex = 4
         TabOrder = 1
         FixedDimension = 19
         object TS_SPED: TRzTabSheet
@@ -1488,6 +1488,85 @@ object frmSPEDFiscal: TfrmSPEDFiscal
               ParentFont = False
               TabOrder = 0
               OnClick = btnImp_Bloco_KClick
+            end
+          end
+        end
+        object TS_Produto_Sem_Custo: TRzTabSheet
+          Caption = 'Produto Sem Custo'
+          object SMDBGrid4: TSMDBGrid
+            Left = 0
+            Top = 41
+            Width = 1264
+            Height = 388
+            Align = alClient
+            Ctl3D = False
+            DataSource = DMSPEDFiscal.dsmProdSemCusto
+            Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
+            ParentCtl3D = False
+            ReadOnly = True
+            TabOrder = 0
+            TitleFont.Charset = DEFAULT_CHARSET
+            TitleFont.Color = clWindowText
+            TitleFont.Height = -11
+            TitleFont.Name = 'Tahoma'
+            TitleFont.Style = []
+            Flat = True
+            BandsFont.Charset = DEFAULT_CHARSET
+            BandsFont.Color = clWindowText
+            BandsFont.Height = -11
+            BandsFont.Name = 'MS Sans Serif'
+            BandsFont.Style = []
+            Groupings = <>
+            GridStyle.Style = gsCustom
+            GridStyle.OddColor = clWindow
+            GridStyle.EvenColor = clWindow
+            TitleHeight.PixelCount = 24
+            FooterColor = clBtnFace
+            ExOptions = [eoENTERlikeTAB, eoKeepSelection, eoStandardPopup, eoBLOBEditor, eoTitleWordWrap]
+            RegistryKey = 'Software\Scalabium'
+            RegistrySection = 'SMDBGrid'
+            WidthOfIndicator = 11
+            DefaultRowHeight = 17
+            ScrollBars = ssHorizontal
+            RowCount = 2
+            Columns = <
+              item
+                Expanded = False
+                FieldName = 'Codigo'
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'Nome_Produto'
+                Width = 277
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'Nome_Cor'
+                Width = 318
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'Qtd'
+                Visible = True
+              end>
+          end
+          object Panel5: TPanel
+            Left = 0
+            Top = 0
+            Width = 1264
+            Height = 41
+            Align = alTop
+            TabOrder = 1
+            object NxButton2: TNxButton
+              Left = 16
+              Top = 10
+              Width = 129
+              Caption = 'Gerar Arquivo auxiliar'
+              TabOrder = 0
+              OnClick = NxButton2Click
             end
           end
         end
