@@ -3326,7 +3326,7 @@ begin
                + '       cast(a.REFERENCIA || '' '' || a.NOME_produto || '' '' || coalesce(COMB.NOME, '''') as varchar(200)) REF_NOME_COR, '
                + '       cast(a.TIPO_REG || '' '' || a.nome_produto || '' '' || '' '' || a.ID_PRODUTO || '' '' || coalesce(COMB.NOME, '''') as varchar(200)) PRODUTO_NOME_COR, '
                + '       case '
-               + '          when a.usa_preco_cor = ' + QuotedStr('S') + ' then '
+               + '         when (a.usa_preco_cor = ' + QuotedStr('S') + ' and ((a.tipo_reg = ' + QuotedStr('M') + ' or (a.tipo_reg = ' + QuotedStr('C') + ')  then '
                + '                        (select first 1 med.preco_medio from produto_cmedio med where med.id = a.id_produto and med.id_cor = a.id_cor '
                + '                            and med.data <= :DTMOVIMENTO order by med.data desc) '
                + '         else '

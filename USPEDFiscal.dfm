@@ -3,7 +3,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
   Top = 11
   Width = 1288
   Height = 704
-  Caption = 'Gerar SPED Fiscal    (Vers'#227'o  03/03/2023  1.0.41) '
+  Caption = 'Gerar SPED Fiscal    (Vers'#227'o  07/03/2023  1.0.42) '
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -389,7 +389,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edtFile: TEdit
           Left = 22
           Top = 28
-          Width = 217
+          Width = 213
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 0
@@ -398,7 +398,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           OnExit = edtFileChange
         end
         object cbConcomitante: TCheckBox
-          Left = 263
+          Left = 259
           Top = 30
           Width = 134
           Height = 19
@@ -421,7 +421,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edNotas: TEdit
           Left = 654
           Top = 29
-          Width = -20
+          Width = -24
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 2
@@ -1133,11 +1133,11 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         Top = 190
         Width = 1268
         Height = 452
-        ActivePage = TS_Produto_Sem_Custo
+        ActivePage = TS_SPED
         ActivePageDefault = TS_SPED
         Align = alClient
         ParentColor = False
-        TabIndex = 4
+        TabIndex = 0
         TabOrder = 1
         FixedDimension = 19
         object TS_SPED: TRzTabSheet
