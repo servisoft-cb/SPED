@@ -3,7 +3,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
   Top = 11
   Width = 1288
   Height = 704
-  Caption = 'Gerar SPED Fiscal    (Vers'#227'o  07/03/2023  1.0.42) '
+  Caption = 'Gerar SPED Fiscal    (Vers'#227'o  09/03/2023  1.0.43) '
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -389,7 +389,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edtFile: TEdit
           Left = 22
           Top = 28
-          Width = 213
+          Width = 201
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 0
@@ -398,7 +398,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           OnExit = edtFileChange
         end
         object cbConcomitante: TCheckBox
-          Left = 259
+          Left = 247
           Top = 30
           Width = 134
           Height = 19
@@ -421,7 +421,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edNotas: TEdit
           Left = 654
           Top = 29
-          Width = -24
+          Width = -36
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 2
@@ -579,7 +579,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         Left = 0
         Top = 0
         Width = 1268
-        Height = 190
+        Height = 200
         Align = alTop
         TabOrder = 0
         object Label9: TLabel
@@ -705,10 +705,10 @@ object frmSPEDFiscal: TfrmSPEDFiscal
             'Sem Movimento')
         end
         object gbxVendedor: TRzGroupBox
-          Left = 462
-          Top = 7
-          Width = 467
-          Height = 81
+          Left = 485
+          Top = 2
+          Width = 430
+          Height = 61
           BorderColor = clNavy
           BorderInner = fsButtonUp
           BorderOuter = fsBump
@@ -727,7 +727,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           VisualStyle = vsGradient
           object Label15: TLabel
             Left = 13
-            Top = 27
+            Top = 18
             Width = 100
             Height = 13
             Alignment = taRightJustify
@@ -735,7 +735,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           end
           object Label17: TLabel
             Left = 47
-            Top = 53
+            Top = 45
             Width = 67
             Height = 13
             Alignment = taRightJustify
@@ -743,7 +743,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           end
           object ComboBox2: TComboBox
             Left = 115
-            Top = 19
+            Top = 10
             Width = 310
             Height = 21
             Style = csDropDownList
@@ -767,7 +767,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           end
           object DateEdit3: TDateEdit
             Left = 116
-            Top = 45
+            Top = 36
             Width = 91
             Height = 21
             NumGlyphs = 2
@@ -775,7 +775,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           end
           object ckImobilizado: TCheckBox
             Left = 240
-            Top = 47
+            Top = 38
             Width = 121
             Height = 17
             Caption = 'enviar Imobilizado'
@@ -784,7 +784,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           end
           object NxButton1: TNxButton
             Left = 360
-            Top = 42
+            Top = 33
             Width = 41
             Height = 25
             Glyph.Data = {
@@ -895,44 +895,44 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           MultiSelect = True
           ParentCtl3D = False
           ParentFont = False
-          TabOrder = 11
+          TabOrder = 12
           OnEnter = RzCheckList1Enter
         end
         object ck0600: TCheckBox
           Left = 544
-          Top = 96
+          Top = 104
           Width = 209
           Height = 17
           Caption = 'Gerar Centro de Custo (Reg. 0600)'
           Checked = True
           State = cbChecked
-          TabOrder = 8
+          TabOrder = 9
         end
         object ckICMSH020: TCheckBox
           Left = 544
-          Top = 112
+          Top = 120
           Width = 188
           Height = 17
           Caption = 'Produto Final (H020 ICMS Isento)'
-          TabOrder = 9
+          TabOrder = 10
         end
         object ckImp_BlocoK: TCheckBox
           Left = 741
-          Top = 96
+          Top = 104
           Width = 122
           Height = 17
           Caption = 'Imprimir Bloco K'
-          TabOrder = 10
+          TabOrder = 11
         end
         object NxPanel1: TNxPanel
           Left = 1
-          Top = 149
+          Top = 159
           Width = 1266
           Height = 40
           Align = alBottom
           UseDockManager = False
           ParentBackground = False
-          TabOrder = 12
+          TabOrder = 13
           object btnGerarSped: TNxButton
             Left = 424
             Top = 5
@@ -1113,26 +1113,71 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         end
         object chkResumo: TCheckBox
           Left = 741
-          Top = 112
+          Top = 120
           Width = 122
           Height = 17
           Caption = 'Gravar resumo'
-          TabOrder = 13
+          TabOrder = 14
         end
         object ckGravarPrecoZerado: TCheckBox
           Left = 741
-          Top = 128
+          Top = 136
           Width = 187
           Height = 17
           Caption = 'Bloco H, gravar pre'#231'o zerado'
-          TabOrder = 14
+          TabOrder = 15
+        end
+        object RzGroupBox1: TRzGroupBox
+          Left = 485
+          Top = 63
+          Width = 430
+          Height = 35
+          BorderColor = clNavy
+          BorderInner = fsButtonUp
+          BorderOuter = fsBump
+          Caption = ' Op'#231#245'es Bloco K  '
+          Ctl3D = True
+          FlatColor = clNavy
+          FlatColorAdjustment = 2
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clNavy
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentCtl3D = False
+          ParentFont = False
+          TabOrder = 8
+          VisualStyle = vsGradient
+          object Label18: TLabel
+            Left = 4
+            Top = 18
+            Width = 120
+            Height = 13
+            Alignment = taRightJustify
+            Caption = 'Indicador Tipo de leiaute:'
+          end
+          object ComboBox4: TComboBox
+            Left = 128
+            Top = 10
+            Width = 295
+            Height = 21
+            Style = csDropDownList
+            ItemHeight = 13
+            ItemIndex = 1
+            TabOrder = 0
+            Text = '1 - Leiaute completo'
+            Items.Strings = (
+              '0 - Leiaute simplificado'
+              '1 - Leiaute completo'
+              '2 - Leiaute restrito aos saldos de estoque')
+          end
         end
       end
       object RzPageControl1: TRzPageControl
         Left = 0
-        Top = 190
+        Top = 200
         Width = 1268
-        Height = 452
+        Height = 442
         ActivePage = TS_SPED
         ActivePageDefault = TS_SPED
         Align = alClient
@@ -1146,7 +1191,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
             Left = 0
             Top = 0
             Width = 1264
-            Height = 429
+            Height = 419
             TabStop = False
             Align = alClient
             Font.Charset = ANSI_CHARSET
@@ -1167,7 +1212,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
             Left = 0
             Top = 0
             Width = 1264
-            Height = 429
+            Height = 419
             Align = alClient
             DataSource = DMSPEDFiscal.dsPosseEstoque
             Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
@@ -1284,7 +1329,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
             Left = 0
             Top = 0
             Width = 1264
-            Height = 429
+            Height = 419
             Align = alClient
             Ctl3D = False
             DataSource = DMSPEDFiscal.dsmAuxResumo
@@ -1367,7 +1412,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
             Left = 0
             Top = 34
             Width = 1264
-            Height = 395
+            Height = 385
             Align = alClient
             Ctl3D = False
             DataSource = DMSPEDFiscal.dsmK200
@@ -1497,7 +1542,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
             Left = 0
             Top = 41
             Width = 1264
-            Height = 388
+            Height = 378
             Align = alClient
             Ctl3D = False
             DataSource = DMSPEDFiscal.dsmProdSemCusto

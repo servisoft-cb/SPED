@@ -113,6 +113,9 @@ type
     SMDBGrid4: TSMDBGrid;
     Panel5: TPanel;
     NxButton2: TNxButton;
+    RzGroupBox1: TRzGroupBox;
+    Label18: TLabel;
+    ComboBox4: TComboBox;
     procedure btnB_0Click(Sender: TObject);
     procedure btnB_9Click(Sender: TObject);
     procedure btnTXTClick(Sender: TObject);
@@ -1534,7 +1537,7 @@ begin
     12 : ACBrSPEDFiscal1.Bloco_0.Registro0000New.COD_VER := vlVersao111;
     13 : ACBrSPEDFiscal1.Bloco_0.Registro0000New.COD_VER := vlVersao112;
     15 : ACBrSPEDFiscal1.Bloco_0.Registro0000New.COD_VER := vlVersao114;
-    16 : ACBrSPEDFiscal1.Bloco_0.Registro0000New.COD_VER := vlVersao115;
+    16,17,18 : ACBrSPEDFiscal1.Bloco_0.Registro0000New.COD_VER := vlVersao116;
   end;
   case cbFinalidade.ItemIndex of
     0 : ACBrSPEDFiscal1.Bloco_0.Registro0000New.COD_FIN := raOriginal;
@@ -3749,7 +3752,23 @@ begin
         1 : IND_MOV := imSemDados;
       end;
       vContador_Reg_K := vContador_Reg_K + 1;
-    end
+    end;
+
+    //09/03/2023 incluido o registro K010
+    if ComboBox1.ItemIndex = 0 then
+    begin
+      with RegistroK010New do
+      begin
+        case ComboBox4.ItemIndex of
+          0 : IND_TIPO_LEIAUTE := itlSimplificado;
+          1 : IND_TIPO_LEIAUTE := itlCompleto;
+          2 : IND_TIPO_LEIAUTE := itlRestritoSaldoEstoque;
+        end;
+        vContador_Reg_K := vContador_Reg_K + 1;
+      end
+    end;
+    //*********************
+
   end;
 
   prc_Bloco_K_Reg_K100;
