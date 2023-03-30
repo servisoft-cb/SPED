@@ -1852,7 +1852,7 @@ begin
     fDMSPEDFiscal.mProdutoNome.AsString := fDMSPEDFiscal.cdsMovimentoNOME_PRODUTO_SERV.AsString;
     if trim(fDMSPEDFiscal.cdsMovimentoNOME_COR.AsString) <> '' then
       fDMSPEDFiscal.mProdutoNome.AsString := fDMSPEDFiscal.mProdutoNome.AsString + ' ' + fDMSPEDFiscal.cdsMovimentoNOME_COR.AsString;
-    fDMSPEDFiscal.mProdutoCod_Barra.AsString := fDMSPEDFiscal.cdsMovimentoCOD_BARRA_CAD.AsString;
+    fDMSPEDFiscal.mProdutoCod_Barra.AsString := Monta_Numero(fDMSPEDFiscal.cdsMovimentoCOD_BARRA_CAD.AsString,0);
     fDMSPEDFiscal.mProdutoCod_Anterior.AsString := '';
     fDMSPEDFiscal.mProdutoUnidade.AsString      := UpperCase(fDMSPEDFiscal.cdsMovimentoUNIDADE_PRODUTO_CAD.AsString);
     fDMSPEDFiscal.mProdutoTipo_Item.AsString    := fDMSPEDFiscal.cdsMovimentoSPED_TIPO_ITEM.AsString;
@@ -3094,6 +3094,16 @@ begin
         fDMSPEDFiscal.cdsNotaFiscal_Itens.First;
         while not fDMSPEDFiscal.cdsNotaFiscal_Itens.Eof do
         begin
+          with RegistroD110New do
+          begin
+            NUN_ITEM := fDMSPEDFiscal.cdsNotaFiscal_ItensITEM.AsInteger;
+            COD_ITEM := monta_codigo_produto(fDMSPEDFiscal.cdsNotaFiscal_ItensID_PRODUTO.AsInteger,
+                                                             fDMSPEDFiscal.cdsNotaFiscal_ItensID_COR.AsInteger,
+                                                             fDMSPEDFiscal.cdsNotaFiscal_ItensREFERENCIA.AsString,
+                                                             fDMSPEDFiscal.cdsNotaFiscal_ItensTAMANHO.AsString,'N');
+            VL_SERV  := StrToFloat(FormatFloat('0.00',fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_TOTAL.AsFloat));
+            VL_OUT   := StrToFloat(FormatFloat('0.00',0));
+          end;
           //Gravar a tabela auxiliar do registro C190
           prc_Gravar_mC190;
           fDMSPEDFiscal.cdsNotaFiscal_Itens.Next;
@@ -4459,7 +4469,7 @@ begin
       if trim(fDMSPEDFiscal.cdsNotaFiscal_ItensNOME_COR.AsString) <> '' then
         fDMSPEDFiscal.mProdutoNome.AsString := fDMSPEDFiscal.mProdutoNome.AsString + ' ' + fDMSPEDFiscal.cdsNotaFiscal_ItensNOME_COR.AsString;
       fDMSPEDFiscal.mProdutoNome.AsString := TiraAcentos(fDMSPEDFiscal.mProdutoNome.AsString);
-      fDMSPEDFiscal.mProdutoCod_Barra.AsString := fDMSPEDFiscal.cdsNotaFiscal_ItensCOD_BARRA.AsString;
+      fDMSPEDFiscal.mProdutoCod_Barra.AsString := Monta_Numero(fDMSPEDFiscal.cdsNotaFiscal_ItensCOD_BARRA.AsString,0);
       fDMSPEDFiscal.mProdutoCod_Anterior.AsString := '';
       fDMSPEDFiscal.mProdutoUnidade.AsString      := UpperCase(fDMSPEDFiscal.cdsNotaFiscal_ItensUNIDADE_CAD.AsString);
       fDMSPEDFiscal.mProdutoTipo_Item.AsString    := fDMSPEDFiscal.cdsMovimentoSPED_TIPO_ITEM.AsString;
