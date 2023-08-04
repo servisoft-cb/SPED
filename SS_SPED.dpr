@@ -12,9 +12,7 @@ uses
   UCadSpedVersao in 'UCadSpedVersao.pas' {frmCadSpedVersao},
   UConsPosseEstoque in 'UConsPosseEstoque.pas' {frmConsPosseEstoque},
   DmdDatabase_NFeBD in '..\ssfacil\DmdDatabase_NFeBD.pas' {dmDatabase_NFeBD: TDataModule},
-  UDMImportar in 'UDMImportar.pas' {DMImportar: TDataModule},
-  uMensagemTEF in '..\ssfacil\uMensagemTEF.pas' {frmMensagemTEF},
-  uDMTEF in '..\ssfacil\uDMTEF.pas' {DMTEF: TDataModule};
+  UDMImportar in 'UDMImportar.pas' {DMImportar: TDataModule};
 
 {$R *.res}
 
