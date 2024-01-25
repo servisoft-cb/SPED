@@ -13,8 +13,8 @@ uses
   UConsPosseEstoque in 'UConsPosseEstoque.pas' {frmConsPosseEstoque},
   DmdDatabase_NFeBD in '..\ssfacil\DmdDatabase_NFeBD.pas' {dmDatabase_NFeBD: TDataModule},
   UDMImportar in 'UDMImportar.pas' {DMImportar: TDataModule},
-  uMensagemTEF in '..\ssfacil\uMensagemTEF.pas' {frmMensagemTEF},
-  uDMTEF in '..\ssfacil\uDMTEF.pas' {DMTEF: TDataModule};
+  Classe.Retorno in '..\ssfacil\Classes\Classe.Retorno.pas',
+  UInformeEndereco in '..\ssfacil\UInformeEndereco.pas' {frmInformeEndereco};
 
 {$R *.res}
 
@@ -23,5 +23,6 @@ begin
   Application.Title := 'SPED FISCAL';
   Application.CreateForm(TdmDatabase, dmDatabase);
   Application.CreateForm(TfrmSPEDFiscal, frmSPEDFiscal);
+  Application.CreateForm(TfrmInformeEndereco, frmInformeEndereco);
   Application.Run;
 end.

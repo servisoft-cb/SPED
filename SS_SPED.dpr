@@ -12,7 +12,9 @@ uses
   UCadSpedVersao in 'UCadSpedVersao.pas' {frmCadSpedVersao},
   UConsPosseEstoque in 'UConsPosseEstoque.pas' {frmConsPosseEstoque},
   DmdDatabase_NFeBD in '..\ssfacil\DmdDatabase_NFeBD.pas' {dmDatabase_NFeBD: TDataModule},
-  UDMImportar in 'UDMImportar.pas' {DMImportar: TDataModule};
+  UDMImportar in 'UDMImportar.pas' {DMImportar: TDataModule},
+  Classe.Retorno in '..\ssfacil\Classes\Classe.Retorno.pas',
+  UInformeEndereco in '..\ssfacil\UInformeEndereco.pas' {frmInformeEndereco};
 
 {$R *.res}
 
