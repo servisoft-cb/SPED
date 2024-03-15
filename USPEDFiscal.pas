@@ -3391,7 +3391,9 @@ begin
   begin
     with RegistroH005New do
     begin
-        DT_INV := DT_FIN; //o valor informado no campo deve ser menor ou igual ao valor no campo DT_FIN do registro 0000
+        //15/03/2024 alterado
+        //DT_INV := DT_FIN; //o valor informado no campo deve ser menor ou igual ao valor no campo DT_FIN do registro 0000
+        DT_INV := DateEdit3.Date;
         VL_INV := StrToCurr(FormatCurr('0.00',vVlrEstoque));
         case ComboBox2.ItemIndex of
           0 : MOT_INV := miFinalPeriodo;
