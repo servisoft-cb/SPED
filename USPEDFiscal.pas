@@ -277,7 +277,6 @@ const
 
 var
   int0150: integer;
-  int0175: integer;
   int0300: integer;
   int0190: integer;
   int0500: Integer;
@@ -2216,8 +2215,6 @@ begin
 end;
 
 procedure TfrmSPEDFiscal.prc_Gerar_Bloco_C;
-var
-  vAux : String;
 begin
   vContador_Reg_C := 0;
   //24/02/2023
@@ -2270,9 +2267,6 @@ begin
 end;
 
 procedure TfrmSPEDFiscal.prc_Bloco_C_Reg_C100;
-var
-  i : Integer;
-  vAux_Aliq : Real;
 begin
   with ACBrSPEDFiscal1.Bloco_C do
   begin
@@ -3026,9 +3020,6 @@ begin
 end;
 
 procedure TfrmSPEDFiscal.prc_Bloco_D_Reg_D100;
-var
-  i : Integer;
-  vAux_Aliq : Real;
 begin
   with ACBrSPEDFiscal1.Bloco_D do
   begin
@@ -3261,11 +3252,8 @@ end;
 
 procedure TfrmSPEDFiscal.prc_Consultar_cdsBalanco;
 var
-  vQtdAux: Integer;
-  vComando, vComandoAux : WideString;
-  i : Integer;
+  vComando : WideString;
 begin
-  vQtdAux     := 0;
   vComando    := 'select AUX.*,'
                + '       case '
                + '         when AUX.PRECO_MEDIO_FIXO > 0 or AUX.PRECO_MEDIO_FIXO is not null then AUX.PRECO_MEDIO_FIXO'
@@ -3451,7 +3439,8 @@ begin
         //10/02/2020  incluído o registro H020
         if fDMSPEDFiscal.qParametros_EstGERAR_REG_H020.AsString = 'S' then
         begin
-          with RegistroH020New do
+          //with RegistroH020New do
+          with RegistroH020new do
           begin
             if (fDMSPEDFiscal.cdsBalancoSPED_TIPO_ITEM.AsString = '04') and (ckICMSH020.Checked) then
               CST_ICMS := '041'
@@ -3462,6 +3451,7 @@ begin
               VL_ICMS  := StrToFloat(FormatFloat('0.00',0))
             else
               VL_ICMS  := StrToFloat(FormatFloat('0.00',((fDMSPEDFiscal.cdsBalancoPreco_Medio.AsFloat * fDMSPEDFiscal.qUFPERC_ICMS.AsFloat) / 100)));
+
             vContador_Reg_H := vContador_Reg_H + 1;
           end;
         end;
