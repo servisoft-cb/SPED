@@ -3,7 +3,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
   Top = 11
   Width = 1288
   Height = 704
-  Caption = 'Gerar SPED Fiscal    (Vers'#227'o  18/03/2024  1.1.49) '
+  Caption = 'Gerar SPED Fiscal    (Vers'#227'o  30/08/2024  1.1.50) '
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -389,7 +389,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edtFile: TEdit
           Left = 22
           Top = 28
-          Width = 165
+          Width = 157
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 0
@@ -398,7 +398,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           OnExit = edtFileChange
         end
         object cbConcomitante: TCheckBox
-          Left = 211
+          Left = 203
           Top = 30
           Width = 134
           Height = 19
@@ -421,7 +421,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edNotas: TEdit
           Left = 654
           Top = 29
-          Width = -72
+          Width = -80
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 2
@@ -1172,17 +1172,33 @@ object frmSPEDFiscal: TfrmSPEDFiscal
               '2 - Leiaute restrito aos saldos de estoque')
           end
         end
+        object ckC176: TCheckBox
+          Left = 1072
+          Top = 16
+          Width = 65
+          Height = 17
+          Caption = 'C176'
+          TabOrder = 16
+        end
+        object NxButton3: TNxButton
+          Left = 1128
+          Top = 8
+          Width = 75
+          Caption = 'Configura'
+          TabOrder = 17
+          OnClick = NxButton3Click
+        end
       end
       object RzPageControl1: TRzPageControl
         Left = 0
         Top = 200
         Width = 1268
         Height = 442
-        ActivePage = TS_Posse
+        ActivePage = TS_SPED
         ActivePageDefault = TS_SPED
         Align = alClient
         ParentColor = False
-        TabIndex = 1
+        TabIndex = 0
         TabOrder = 1
         FixedDimension = 19
         object TS_SPED: TRzTabSheet
@@ -1613,6 +1629,27 @@ object frmSPEDFiscal: TfrmSPEDFiscal
               TabOrder = 0
               OnClick = NxButton2Click
             end
+          end
+        end
+        object TabSheet1: TRzTabSheet
+          Caption = 'TabSheet1'
+          object Memo1: TMemo
+            Left = 0
+            Top = 0
+            Width = 1264
+            Height = 419
+            TabStop = False
+            Align = alClient
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Courier New'
+            Font.Style = []
+            ParentFont = False
+            ScrollBars = ssBoth
+            TabOrder = 0
+            WantReturns = False
+            WordWrap = False
           end
         end
       end

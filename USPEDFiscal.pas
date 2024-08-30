@@ -116,6 +116,10 @@ type
     RzGroupBox1: TRzGroupBox;
     Label18: TLabel;
     ComboBox4: TComboBox;
+    ckC176: TCheckBox;
+    NxButton3: TNxButton;
+    TabSheet1: TRzTabSheet;
+    Memo1: TMemo;
     procedure btnB_0Click(Sender: TObject);
     procedure btnB_9Click(Sender: TObject);
     procedure btnTXTClick(Sender: TObject);
@@ -149,6 +153,7 @@ type
     procedure NxButton1Click(Sender: TObject);
     procedure RzCheckList1Enter(Sender: TObject);
     procedure NxButton2Click(Sender: TObject);
+    procedure NxButton3Click(Sender: TObject);
   private
     fDMSPEDFiscal: TDMSPEDFiscal;
     vContador_Reg_0 : Integer;
@@ -257,7 +262,8 @@ uses uUtilPadrao, ACBrEFDBloco_C, ACBrEFDBloco_C_Class,
   SqlExpr, ACBrEFDBloco_D_Class, ACBrEFDBloco_D, ACBrEFDBloco_H_Class,
   ACBrEFDBloco_H, DateUtils, rsDBUtils, ACBrEFDBloco_K,
   ACBrEFDBloco_K_Class, ACBrEFDBloco_E_Class, ACBrEFDBloco_E, ACBrSped,
-  UCadSpedVersao, UConsPosseEstoque, ACBrEFDBloco_0, UImportar_Excel;
+  UCadSpedVersao, UConsPosseEstoque, ACBrEFDBloco_0, UImportar_Excel,
+  UConfigC176;
 
 {$IFDEF FPC}
 {$R *.lfm}
@@ -2543,7 +2549,7 @@ begin
               //if fDMSPEDFiscal.cdsNotaFiscalNUMNOTA.AsInteger = 33417 then
                 //ShowMessage('parte 2');
 
-          if (IND_EMIT = edTerceiros) then
+          //if (IND_EMIT = edTerceiros) then
           begin
             with RegistroC170New do // Inicio Adicionar os Itens:
             begin
@@ -2632,7 +2638,6 @@ begin
               end;
               COD_CTA := '';
               vContador_Reg_C := vContador_Reg_C + 1;
-
               //REGISTRO C178
               //Ver este registro
                 {with RegistroC178New do
@@ -2644,6 +2649,54 @@ begin
                 end;}
             end;
           end;
+
+          //Registro C176
+          if ckC176.Checked then
+          begin
+            if fDMSPEDFiscal.cdsNotaFiscalTIPO_NOTA.AsString = 'S' then
+            begin
+              fDMSPEDFiscal.cdsC176.Close;
+              fDMSPEDFiscal.sdsC176.ParamByName('ID_DOC_SAIDA').AsInteger   := fDMSPEDFiscal.cdsNotaFiscal_ItensID.AsInteger;
+              fDMSPEDFiscal.sdsC176.ParamByName('ITEM_DOC_SAIDA').AsInteger := fDMSPEDFiscal.cdsNotaFiscal_ItensITEM.AsInteger;
+              fDMSPEDFiscal.cdsC176.Open;
+              fDMSPEDFiscal.cdsC176.First;
+              while not fDMSPEDFiscal.cdsC176.Eof do
+              begin
+                with RegistroC176New do
+                begin
+                  COD_MOD_ULT_E := '55';
+                  NUM_DOC_ULT_E := fDMSPEDFiscal.cdsC176NUM_NOTA_ENT.AsString;
+                  SER_ULT_E     := fDMSPEDFiscal.cdsC176SERIE_NOTA_ENT.AsString;
+                  DT_ULT_E      := fDMSPEDFiscal.cdsC176DTSAIDAENTRADA.AsDateTime;
+                  COD_PART_ULT_E := fDMSPEDFiscal.cdsC176ID_FORNECEDOR.AsString;
+                  QUANT_ULT_E    := fDMSPEDFiscal.cdsC176QTD_ENTRADA.AsFloat;
+                  VL_UNIT_ULT_E  := fDMSPEDFiscal.cdsC176VLR_UNITARIO.AsFloat;
+                  VL_UNIT_BC_ST  := fDMSPEDFiscal.cdsC176VLR_UNITARIO_BC_ST.AsFloat;
+                  VL_UNIT_BC_ST  := fDMSPEDFiscal.cdsC176VLR_UNITARIO_BC_ST.AsFloat;
+                  CHAVE_NFE_ULT_E := fDMSPEDFiscal.cdsC176NFECHAVEACESSO.AsString;
+                  NUM_ITEM_ULT_E  := fDMSPEDFiscal.cdsC176ITEM_NOTA_ENT.AsString;
+                  VL_UNIT_BC_ICMS_ULT_E := fDMSPEDFiscal.cdsC176VLR_UNITARIO_BC_ICMS_ENT.AsFloat;
+                  ALIQ_ICMS_ULT_E       := fDMSPEDFiscal.cdsC176PERC_ICMS_ENT.AsFloat;
+                  if VL_UNIT_BC_ICMS_ULT_E < VL_UNIT_BC_ST then
+                    VL_UNIT_LIMITE_BC_ICMS_ULT_E := VL_UNIT_BC_ICMS_ULT_E
+                  else
+                    VL_UNIT_LIMITE_BC_ICMS_ULT_E := VL_UNIT_BC_ST;
+                  VL_UNIT_ICMS_ULT_E := StrToFloat(FormatFloat('0.00',(VL_UNIT_LIMITE_BC_ICMS_ULT_E * ALIQ_ICMS_ULT_E) / 100));
+                  VL_UNIT_RES        := fDMSPEDFiscal.cdsC176VLR_ICMS.AsFloat;
+                  COD_RESP_RET       := IntToStr(frmConfigC176.RzRadioGroup1.ItemIndex + 1);
+                  COD_MOT_RES        := tmrVendaOutraUF;
+                  CHAVE_NFE_RET      := fDMSPEDFiscal.cdsNotaFiscalNFECHAVEACESSO.AsString;
+                  SER_NFE_RET        := fDMSPEDFiscal.cdsC176SERIE_DOC_SAIDA.AsString;
+                  ITEM_NFE_RET       := fDMSPEDFiscal.cdsC176ITEM_DOC_SAIDA.AsString;
+                  COD_DA             := IntToStr(frmConfigC176.RzRadioGroup2.ItemIndex);
+                  NUM_DA             := frmConfigC176.edtNumDocumento.Text;
+                end;
+                fDMSPEDFiscal.cdsC176.Next;
+              end;
+            end;
+          end;
+
+
 
           //Gravar a tabela auxiliar do registro C190
           //IF fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString <> '08' then
@@ -2992,6 +3045,8 @@ begin
   fDMSPEDFiscal.sdsNotaFiscal.ParamByName('DT_INICIAL').AsDate := DateEdit1.Date;
   fDMSPEDFiscal.sdsNotaFiscal.ParamByName('DT_FINAL').AsDate   := DateEdit2.Date;
   fDMSPEDFiscal.sdsNotaFiscal.ParamByName('FILIAL').AsInteger := RxDBLookupCombo1.KeyValue;
+  Memo1.Lines.Clear;
+  Memo1.Lines.Text := fDMSPEDFiscal.sdsNotaFiscal.CommandText;
   fDMSPEDFiscal.cdsNotaFiscal.Open;
 
   {if Bloco = 'C' then
@@ -4622,6 +4677,11 @@ begin
   end;
 
   CoUnInitialize;
+end;
+
+procedure TfrmSPEDFiscal.NxButton3Click(Sender: TObject);
+begin
+  frmConfigC176.ShowModal;
 end;
 
 end.

@@ -14,7 +14,8 @@ uses
   DmdDatabase_NFeBD in '..\ssfacil\DmdDatabase_NFeBD.pas' {dmDatabase_NFeBD: TDataModule},
   UDMImportar in 'UDMImportar.pas' {DMImportar: TDataModule},
   Classe.Retorno in '..\ssfacil\Classes\Classe.Retorno.pas',
-  UInformeEndereco in '..\ssfacil\UInformeEndereco.pas' {frmInformeEndereco};
+  UInformeEndereco in '..\ssfacil\UInformeEndereco.pas' {frmInformeEndereco},
+  UConfigC176 in 'UConfigC176.pas' {frmConfigC176};
 
 {$R *.res}
 
@@ -23,5 +24,6 @@ begin
   Application.Title := 'SPED FISCAL';
   Application.CreateForm(TdmDatabase, dmDatabase);
   Application.CreateForm(TfrmSPEDFiscal, frmSPEDFiscal);
+  Application.CreateForm(TfrmConfigC176, frmConfigC176);
   Application.Run;
 end.

@@ -4855,7 +4855,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
   end
   object dsmAuxResumo: TDataSource
     DataSet = mAuxResumo
-    Left = 392
+    Left = 400
     Top = 280
   end
   object mK200: TClientDataSet
@@ -5184,5 +5184,167 @@ object DMSPEDFiscal: TDMSPEDFiscal
     DataSet = mProdSemCusto
     Left = 176
     Top = 456
+  end
+  object sdsC176: TSQLDataSet
+    NoMetadata = True
+    GetMetadata = False
+    CommandText = 
+      'select P.ID, P.DTMOV, P.ID_PRODUTO, P.ID_COR, P.TAMANHO, P.TIPO_' +
+      'ES, P.QTD, P.ID_NOTA_ENT, P.ITEM_NOTA_ENT, P.PERC_ICMS,'#13#10'       ' +
+      'P.VLR_UNITARIO, P.BASE_ICMS, P.VLR_ICMS, P.UF, P.ID_DOC_SAIDA, P' +
+      '.ITEM_DOC_SAIDA, P.TIPO_DOC_SAIDA, P.DEVOLUCAO,'#13#10'       P.NUM_DO' +
+      'C_SAIDA, P.SERIE_DOC_SAIDA, P.ID_CLIENTE, P.ID_FORNECEDOR, P.NUM' +
+      '_NOTA_ENT, P.SERIE_NOTA_ENT, P.FILIAL,'#13#10'       N.NFECHAVEACESSO,' +
+      ' I.PERC_ICMS PERC_ICMS_ENT,'#13#10'       (I.PERC_ICMS * P.BASE_ICMS) ' +
+      '/ 100 VLR_UNITARIO_BC_ICMS_ENT, I.PERC_ICMSSUBST_INTERNO, I.PERC' +
+      '_MVA,'#13#10'       iif(coalesce(I.PERC_MVA, 0) > 0, P.VLR_UNITARIO + ' +
+      '((P.VLR_UNITARIO * I.PERC_MVA) / 100), 0) VLR_UNITARIO_BC_ST,'#13#10' ' +
+      '      N.DTSAIDAENTRADA, I.QTD QTD_ENTRADA'#13#10'from PEPS_ESTOQUE P'#13#10 +
+      'left join NOTAFISCAL N on P.ID_NOTA_ENT = N.ID'#13#10'left join NOTAFI' +
+      'SCAL_ITENS I on P.ID_NOTA_ENT = I.ID and P.ITEM_NOTA_ENT = I.ITE' +
+      'M'#13#10'where P.ID_DOC_SAIDA = :ID_DOC_SAIDA and'#13#10'      P.ITEM_DOC_SA' +
+      'IDA = :ITEM_DOC_SAIDA and'#13#10'      P.TIPO_DOC_SAIDA = '#39'NTS'#39'   '
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'ID_DOC_SAIDA'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'ITEM_DOC_SAIDA'
+        ParamType = ptInput
+      end>
+    SQLConnection = DmDatabase.scoDados
+    Left = 48
+    Top = 384
+  end
+  object dspC176: TDataSetProvider
+    DataSet = sdsC176
+    Left = 96
+    Top = 384
+  end
+  object cdsC176: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspC176'
+    Left = 136
+    Top = 384
+    object cdsC176ID: TIntegerField
+      FieldName = 'ID'
+      Required = True
+    end
+    object cdsC176DTMOV: TDateField
+      FieldName = 'DTMOV'
+    end
+    object cdsC176ID_PRODUTO: TIntegerField
+      FieldName = 'ID_PRODUTO'
+    end
+    object cdsC176ID_COR: TIntegerField
+      FieldName = 'ID_COR'
+    end
+    object cdsC176TAMANHO: TStringField
+      FieldName = 'TAMANHO'
+      Size = 10
+    end
+    object cdsC176TIPO_ES: TStringField
+      FieldName = 'TIPO_ES'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsC176QTD: TFloatField
+      FieldName = 'QTD'
+    end
+    object cdsC176ID_NOTA_ENT: TIntegerField
+      FieldName = 'ID_NOTA_ENT'
+    end
+    object cdsC176ITEM_NOTA_ENT: TIntegerField
+      FieldName = 'ITEM_NOTA_ENT'
+    end
+    object cdsC176PERC_ICMS: TFloatField
+      FieldName = 'PERC_ICMS'
+    end
+    object cdsC176VLR_UNITARIO: TFloatField
+      FieldName = 'VLR_UNITARIO'
+    end
+    object cdsC176BASE_ICMS: TFloatField
+      FieldName = 'BASE_ICMS'
+    end
+    object cdsC176VLR_ICMS: TFloatField
+      FieldName = 'VLR_ICMS'
+    end
+    object cdsC176UF: TStringField
+      FieldName = 'UF'
+      Size = 2
+    end
+    object cdsC176ID_DOC_SAIDA: TIntegerField
+      FieldName = 'ID_DOC_SAIDA'
+    end
+    object cdsC176ITEM_DOC_SAIDA: TIntegerField
+      FieldName = 'ITEM_DOC_SAIDA'
+    end
+    object cdsC176TIPO_DOC_SAIDA: TStringField
+      FieldName = 'TIPO_DOC_SAIDA'
+      Size = 5
+    end
+    object cdsC176DEVOLUCAO: TStringField
+      FieldName = 'DEVOLUCAO'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsC176NUM_DOC_SAIDA: TIntegerField
+      FieldName = 'NUM_DOC_SAIDA'
+    end
+    object cdsC176SERIE_DOC_SAIDA: TStringField
+      FieldName = 'SERIE_DOC_SAIDA'
+      Size = 3
+    end
+    object cdsC176ID_CLIENTE: TIntegerField
+      FieldName = 'ID_CLIENTE'
+    end
+    object cdsC176ID_FORNECEDOR: TIntegerField
+      FieldName = 'ID_FORNECEDOR'
+    end
+    object cdsC176NUM_NOTA_ENT: TIntegerField
+      FieldName = 'NUM_NOTA_ENT'
+    end
+    object cdsC176SERIE_NOTA_ENT: TStringField
+      FieldName = 'SERIE_NOTA_ENT'
+      Size = 3
+    end
+    object cdsC176FILIAL: TIntegerField
+      FieldName = 'FILIAL'
+    end
+    object cdsC176NFECHAVEACESSO: TStringField
+      FieldName = 'NFECHAVEACESSO'
+      Size = 44
+    end
+    object cdsC176PERC_ICMS_ENT: TFloatField
+      FieldName = 'PERC_ICMS_ENT'
+    end
+    object cdsC176VLR_UNITARIO_BC_ICMS_ENT: TFloatField
+      FieldName = 'VLR_UNITARIO_BC_ICMS_ENT'
+    end
+    object cdsC176PERC_ICMSSUBST_INTERNO: TFloatField
+      FieldName = 'PERC_ICMSSUBST_INTERNO'
+    end
+    object cdsC176PERC_MVA: TFloatField
+      FieldName = 'PERC_MVA'
+    end
+    object cdsC176VLR_UNITARIO_BC_ST: TFloatField
+      FieldName = 'VLR_UNITARIO_BC_ST'
+    end
+    object cdsC176DTSAIDAENTRADA: TDateField
+      FieldName = 'DTSAIDAENTRADA'
+    end
+    object cdsC176QTD_ENTRADA: TFloatField
+      FieldName = 'QTD_ENTRADA'
+    end
+  end
+  object dsC176: TDataSource
+    DataSet = cdsC176
+    Left = 176
+    Top = 384
   end
 end
