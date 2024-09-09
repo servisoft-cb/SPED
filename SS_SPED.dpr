@@ -15,7 +15,12 @@ uses
   UDMImportar in 'UDMImportar.pas' {DMImportar: TDataModule},
   Classe.Retorno in '..\ssfacil\Classes\Classe.Retorno.pas',
   UInformeEndereco in '..\ssfacil\UInformeEndereco.pas' {frmInformeEndereco},
-  UConfigC176 in 'UConfigC176.pas' {frmConfigC176};
+  UConfigC176 in 'UConfigC176.pas' {frmConfigC176},
+  UCadInicial in '..\ssfacil\UCadInicial.pas' {frmCadInicial},
+  UDMCadFilial in '..\ssfacil\UDMCadFilial.pas' {DMCadFilial: TDataModule},
+  LogTypes in '..\Logs\src\LogTypes.pas',
+  LogProvider in '..\Logs\src\LogProvider.pas',
+  uPessoa in '..\ssfacil\Classes\uPessoa.pas';
 
 {$R *.res}
 
@@ -25,5 +30,7 @@ begin
   Application.CreateForm(TdmDatabase, dmDatabase);
   Application.CreateForm(TfrmSPEDFiscal, frmSPEDFiscal);
   Application.CreateForm(TfrmConfigC176, frmConfigC176);
+  Application.CreateForm(TfrmCadInicial, frmCadInicial);
+  Application.CreateForm(TDMCadFilial, DMCadFilial);
   Application.Run;
 end.

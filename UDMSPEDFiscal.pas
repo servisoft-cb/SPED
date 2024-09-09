@@ -1145,6 +1145,9 @@ type
     cdsC176VLR_UNITARIO_BC_ST: TFloatField;
     cdsC176DTSAIDAENTRADA: TDateField;
     cdsC176QTD_ENTRADA: TFloatField;
+    mE200: TClientDataSet;
+    mE200UF: TStringField;
+    cdsNotaFiscalUF: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure mAuxResumoNewRecord(DataSet: TDataSet);
   private

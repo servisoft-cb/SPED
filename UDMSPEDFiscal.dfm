@@ -11,7 +11,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
     SQL.Strings = (
       'SELECT ID, VERSAO_LEIAUTE_SPED, IMP_NFE_REF_PROD'
       'FROM PARAMETROS')
-    SQLConnection = DmDatabase.scoDados
+    SQLConnection = dmDatabase.scoDados
     Left = 720
     Top = 56
     object qParametrosID: TIntegerField
@@ -35,7 +35,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
       'LASIPI C on C.ID = F.ID_CLASIPI'#13#10'where F.INATIVO = '#39'N'#39'   '
     MaxBlobSize = -1
     Params = <>
-    SQLConnection = DmDatabase.scoDados
+    SQLConnection = dmDatabase.scoDados
     Left = 720
     Top = 16
   end
@@ -209,7 +209,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
       'SELECT *'
       'FROM CIDADE'
       'WHERE ID = :ID')
-    SQLConnection = DmDatabase.scoDados
+    SQLConnection = dmDatabase.scoDados
     Left = 720
     Top = 104
     object qCidadeID: TIntegerField
@@ -241,7 +241,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
       'SELECT *'
       'FROM CONTABILISTA'
       'WHERE ID = :ID')
-    SQLConnection = DmDatabase.scoDados
+    SQLConnection = dmDatabase.scoDados
     Left = 720
     Top = 152
     object qContabilistaID: TIntegerField
@@ -357,7 +357,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
         Name = 'FILIAL'
         ParamType = ptInput
       end>
-    SQLConnection = DmDatabase.scoDados
+    SQLConnection = dmDatabase.scoDados
     Left = 56
     Top = 24
     object sdsMovimentoID: TIntegerField
@@ -969,7 +969,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
       'left join CIDADE CID_ENT on PES.ID_CIDADE_ENT = CID_ENT.ID'
       'left join UF on PES.UF = UF.UF'
       'where CODIGO = :CODIGO   ')
-    SQLConnection = DmDatabase.scoDados
+    SQLConnection = dmDatabase.scoDados
     Left = 720
     Top = 200
     object qPessoaCODIGO: TIntegerField
@@ -1528,7 +1528,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
       'SELECT *'
       'FROM UNIDADE'
       'WHERE UNIDADE = :UNIDADE')
-    SQLConnection = DmDatabase.scoDados
+    SQLConnection = dmDatabase.scoDados
     Left = 720
     Top = 256
     object qUnidadeUNIDADE: TStringField
@@ -1560,7 +1560,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
       'po_item = '#39'08'#39#13#10#13#10#13#10
     MaxBlobSize = -1
     Params = <>
-    SQLConnection = DmDatabase.scoDados
+    SQLConnection = dmDatabase.scoDados
     Left = 56
     Top = 72
     object sdsAtivoImobID: TIntegerField
@@ -1735,7 +1735,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
     CommandText = 'SELECT *'#13#10'FROM PLANO_CONTAS'#13#10
     MaxBlobSize = -1
     Params = <>
-    SQLConnection = DmDatabase.scoDados
+    SQLConnection = dmDatabase.scoDados
     Left = 56
     Top = 120
     object sdsPlano_ContasID: TIntegerField
@@ -1842,7 +1842,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
     CommandText = 'SELECT *'#13#10'FROM CENTROCUSTO'#13#10
     MaxBlobSize = -1
     Params = <>
-    SQLConnection = DmDatabase.scoDados
+    SQLConnection = dmDatabase.scoDados
     Left = 56
     Top = 169
     object sdsCentroCustoID: TIntegerField
@@ -2001,69 +2001,69 @@ object DMSPEDFiscal: TDMSPEDFiscal
       'AO, N.ID_CFOP, N.ID_CLIENTE, N.ID_CONDPGTO,'#13#10'       N.ID_VENDEDO' +
       'R, N.BASE_ICMS, N.VLR_ICMS, N.VLR_IPI, N.VLR_NOTA, N.VLR_ITENS, ' +
       'N.VLR_DUPLICATA, N.VLR_ENTRADA,'#13#10'       N.PERC_DESCONTO, N.VLR_D' +
-      'ESCONTO, N.VLR_FRETE, N.VLR_SEGURO,'#13#10'       N.VLR_OUTRASDESP, N.' +
-      'BASE_ICMSTRANSF, N.PERC_TRANSF,'#13#10'       N.VLR_TRANSF, N.VLR_PIS,' +
-      ' N.VLR_COFINS, N.VLR_TAXACISCOMEX, N.VLR_OUTROS, N.BASE_ICMSSIMP' +
-      'LES, N.VLR_ICMSSIMPLES,'#13#10'       N.PERC_ICMSSIMPLES, N.VLR_IMPORT' +
-      'ACAO, N.BASE_ICMSSUBST, N.VLR_ICMSSUBST, N.BASE_ICMSOUTROS, N.VL' +
-      'R_ICMSOUTROS,'#13#10'       N.VLR_DUPLICATAOUTROS, N.VLR_ADUANEIRA, N.' +
-      'PERC_ICMS_PISCOFINS, N.PERC_ICMS_OUTROSVALORES, N.PERC_ICMS_FRET' +
-      'E,'#13#10'       N.PERC_DESCONTOORIG, N.QTDVOLUME, N.ESPECIE, N.MARCA,' +
-      ' N.NUMEROVOLUME, N.PESOBRUTO, N.PESOLIQUIDO, N.PLACA,'#13#10'       N.' +
-      'TIPO_FRETE, N.ID_TRANSPORTADORA, N.ID_REDESPACHO, N.TIPO_NOTA, N' +
-      '.CANCELADA, N.MOTIVO_CANCELADA,'#13#10'       N.DTSAIDAENTRADA, N.HRSA' +
-      'IDAENTRADA, N.LOCALENTREGA, N.DESCRICAO_DESC, N.ID_CLIENTETRIANG' +
-      ', N.QTDTOTAL_ITENS,'#13#10'       N.NFERECIBO, N.NFEPROTOCOLO, N.NFECH' +
-      'AVEACESSO, N.NFEPROTOCOLO_CANCELADA, N.TIPO_ENVIONFE,'#13#10'       N.' +
-      'NFECODBARRA_CONTINGENCIA, N.NFEVERSAO, N.NFEFINALIDADE, N.NFEAMB' +
-      'IENTE, N.NUMNOTACOPIADA, N.SERIECOPIADA,'#13#10'       N.DTCONTINGENCI' +
-      'A, N.HRCONTINGENCIA, N.MOTIVO_CONTINGENCIA, N.NFEVERSAOEMISSAO, ' +
-      'N.ID_REGIMETRIB, N.RNTC,'#13#10'       N.VAGAOBALSA_IDENTIF, N.VAGAOBA' +
-      'LSA_TIPOIDENTIF, N.UFEMBEXPORTACAO, N.LOCALEMBEXPORTACAO,'#13#10'     ' +
-      '  N.PISCOFINS_SOMAROUTRASDESP, N.TIPO_DESCONTO, N.GERARDUPL_OUTR' +
-      'OSVALORES, N.GERARDUPL_FRETE, N.GERARDUPL_SEGURO,'#13#10'       N.INFO' +
-      'RMADO_NUMNOTAMANUAL, N.NFEDENEGADA, N.MOTIVO_DENEGADA, N.DADOS_A' +
-      'DICIONAIS, N.DTINICIO_DUPLICATA,'#13#10'       N.TIPO_PRAZO, N.PERC_CO' +
-      'MISSAO, N.SIMPLES_FILIAL, N.ID_OPERACAO_NOTA, N.FINALIDADE, N.ID' +
-      '_VARIACAO,'#13#10'       N.STATUS_MANIFESTO, N.ID_CONTA, N.ID_TIPO_COB' +
-      'RANCA, N.CALCULAR_IMP_ITEM, N.GRAVOU_DADOSADICIONAIS,'#13#10'       N.' +
-      'VLR_TRIBUTOS, N.USA_TRANSFICMS, N.ID_NOTACOPIADA, N.ID_CONTA_ORC' +
-      'AMENTO, N.NOTA_ESTORNO, N.COD_CONS_EE,'#13#10'       N.COD_CONS_AGUA, ' +
-      'N.VLR_ICMSSUBST_PROPRIO, N.BASE_ICMSSUBST_PROPRIO, N.HREMISSAO, ' +
-      'N.TIPO_DESTINO_OPERACAO,'#13#10'       N.TIPO_CONSUMIDOR, N.TIPO_ATEND' +
-      'IMENTO, N.LOCALDESPEXPORTACAO, N.VLR_ICMSDESONERADO, N.VLR_TRIBU' +
-      'TOS_ESTADUAL,'#13#10'       N.VLR_TRIBUTOS_MUNICIPAL, N.FONTE_TRIBUTOS' +
-      ', N.VERSAO_TRIBUTOS, N.VLR_TRIBUTOS_FEDERAL,'#13#10'       N.PERC_COMI' +
-      'SSAO_PAGAR_NOTA, N.NFEENVIADA, N.SELECIONADO, N.ID_LOCAL_ESTOQUE' +
-      ', N.VLR_ADIANTAMENTO, N.VLR_ICMS_FCP,'#13#10'       N.VLR_ICMS_UF_DEST' +
-      ', N.VLR_ICMS_UF_REMET, N.VLR_BASE_COMISSAO, N.NOTIFICACAO, N.VLR' +
-      '_PIS_COFINS_SUFRAMA,'#13#10'       N.VLR_DESC_SUFRAMA, N.VLR_AFRMM, N.' +
-      'QTD_TOTAL_PRODUTOS, N.VLR_AJUSTE_CUSTO, N.TIPO_AJUSTE_CUSTO,'#13#10'  ' +
-      '     N.VLR_FRETE_CUSTO, N.USUARIO, N.NGR, N.ID_TAB_PRECO, N.ID_P' +
-      'REFAT, N.BASE_ICMS_FCP, N.BASE_FCP_ST, N.VLR_FCP_ST,'#13#10'       N.P' +
-      'ERC_FCP_ST, N.VLR_ICMS_FCP_DEST, N.BASE_ICMS_FCP_DEST, N.REC_COP' +
-      'IADO, N.SOMAR_FRETE_II, N.VLR_IPI_DEVOL,'#13#10'       N.BASE_IPI, N.V' +
-      'LR_BASE_EFET, N.VLR_ICMS_EFET, N.BASE_ICMSSUBST_RET, N.VLR_ICMSS' +
-      'UBST_RET, N.ID_NOTAORIGINAL_ENT,'#13#10'       N.BASE_PIS, N.BASE_COFI' +
-      'NS, N.ID_VENDEDOR_INT, N.PERC_COMISSAO_INT, N.VLR_SALDO_USADO, N' +
-      '.VLR_SALDO_USADO_PED,'#13#10'       N.ID_ADTO, N.REFAZER_TITULOS, N.VL' +
-      'R_DESCONTO_ITENS, N.ID_NTE_CONTRA_NOTA, N.IE_PRODUTOR_RURAL, N.I' +
-      'D_CENTRO_CUSTO,'#13#10'       N.VLR_PIS_RET, N.VLR_COFINS_RET, N.DESCO' +
-      'NTO_FUNRURAL, N.PERC_FUNRURAL, N.VLR_FUNRURAL, N.PEDIDO_GERADO,'#13 +
-      #10'       N.INDICADOR_MARKETPLACE, N.TIPO_INT_PAGTO, N.ID_INSTITUI' +
-      'CAO_PAGTO, N.COD_BANDEIRA_OPE, N.NUM_AUTORIZACAO_OPE,'#13#10'       N.' +
-      'ID_INTERMEDIADOR, N.VLR_DUPLICATA_ADTO,'#13#10'       case'#13#10'         w' +
-      'hen N.COD_MODELO is not null then N.COD_MODELO'#13#10'         when N.' +
-      'TIPO_REG = '#39'NTS'#39' then '#39'55'#39#13#10'         when O.COD_MODELO_NOTA is n' +
-      'ot null then O.COD_MODELO_NOTA'#13#10'         when T.COD_MODELO_NOTA ' +
-      'is not null then T.COD_MODELO_NOTA'#13#10'         else '#39'55'#39#13#10'       e' +
-      'nd COD_MODELO,'#13#10'       ORI.CODMUNICIPIO CODMUNICIPIO_ORI, DEST.C' +
-      'ODMUNICIPIO CODMUNICIPIO_DEST, N.VLR_OUTROS_ITENS'#13#10'from NOTAFISC' +
+      'ESCONTO, N.VLR_FRETE, N.VLR_SEGURO, N.VLR_OUTRASDESP, N.BASE_ICM' +
+      'STRANSF, N.PERC_TRANSF,'#13#10'       N.VLR_TRANSF, N.VLR_PIS, N.VLR_C' +
+      'OFINS, N.VLR_TAXACISCOMEX, N.VLR_OUTROS, N.BASE_ICMSSIMPLES, N.V' +
+      'LR_ICMSSIMPLES,'#13#10'       N.PERC_ICMSSIMPLES, N.VLR_IMPORTACAO, N.' +
+      'BASE_ICMSSUBST, N.VLR_ICMSSUBST, N.BASE_ICMSOUTROS, N.VLR_ICMSOU' +
+      'TROS,'#13#10'       N.VLR_DUPLICATAOUTROS, N.VLR_ADUANEIRA, N.PERC_ICM' +
+      'S_PISCOFINS, N.PERC_ICMS_OUTROSVALORES, N.PERC_ICMS_FRETE,'#13#10'    ' +
+      '   N.PERC_DESCONTOORIG, N.QTDVOLUME, N.ESPECIE, N.MARCA, N.NUMER' +
+      'OVOLUME, N.PESOBRUTO, N.PESOLIQUIDO, N.PLACA,'#13#10'       N.TIPO_FRE' +
+      'TE, N.ID_TRANSPORTADORA, N.ID_REDESPACHO, N.TIPO_NOTA, N.CANCELA' +
+      'DA, N.MOTIVO_CANCELADA,'#13#10'       N.DTSAIDAENTRADA, N.HRSAIDAENTRA' +
+      'DA, N.LOCALENTREGA, N.DESCRICAO_DESC, N.ID_CLIENTETRIANG, N.QTDT' +
+      'OTAL_ITENS,'#13#10'       N.NFERECIBO, N.NFEPROTOCOLO, N.NFECHAVEACESS' +
+      'O, N.NFEPROTOCOLO_CANCELADA, N.TIPO_ENVIONFE,'#13#10'       N.NFECODBA' +
+      'RRA_CONTINGENCIA, N.NFEVERSAO, N.NFEFINALIDADE, N.NFEAMBIENTE, N' +
+      '.NUMNOTACOPIADA, N.SERIECOPIADA,'#13#10'       N.DTCONTINGENCIA, N.HRC' +
+      'ONTINGENCIA, N.MOTIVO_CONTINGENCIA, N.NFEVERSAOEMISSAO, N.ID_REG' +
+      'IMETRIB, N.RNTC,'#13#10'       N.VAGAOBALSA_IDENTIF, N.VAGAOBALSA_TIPO' +
+      'IDENTIF, N.UFEMBEXPORTACAO, N.LOCALEMBEXPORTACAO,'#13#10'       N.PISC' +
+      'OFINS_SOMAROUTRASDESP, N.TIPO_DESCONTO, N.GERARDUPL_OUTROSVALORE' +
+      'S, N.GERARDUPL_FRETE, N.GERARDUPL_SEGURO,'#13#10'       N.INFORMADO_NU' +
+      'MNOTAMANUAL, N.NFEDENEGADA, N.MOTIVO_DENEGADA, N.DADOS_ADICIONAI' +
+      'S, N.DTINICIO_DUPLICATA,'#13#10'       N.TIPO_PRAZO, N.PERC_COMISSAO, ' +
+      'N.SIMPLES_FILIAL, N.ID_OPERACAO_NOTA, N.FINALIDADE, N.ID_VARIACA' +
+      'O,'#13#10'       N.STATUS_MANIFESTO, N.ID_CONTA, N.ID_TIPO_COBRANCA, N' +
+      '.CALCULAR_IMP_ITEM, N.GRAVOU_DADOSADICIONAIS,'#13#10'       N.VLR_TRIB' +
+      'UTOS, N.USA_TRANSFICMS, N.ID_NOTACOPIADA, N.ID_CONTA_ORCAMENTO, ' +
+      'N.NOTA_ESTORNO, N.COD_CONS_EE,'#13#10'       N.COD_CONS_AGUA, N.VLR_IC' +
+      'MSSUBST_PROPRIO, N.BASE_ICMSSUBST_PROPRIO, N.HREMISSAO, N.TIPO_D' +
+      'ESTINO_OPERACAO,'#13#10'       N.TIPO_CONSUMIDOR, N.TIPO_ATENDIMENTO, ' +
+      'N.LOCALDESPEXPORTACAO, N.VLR_ICMSDESONERADO, N.VLR_TRIBUTOS_ESTA' +
+      'DUAL,'#13#10'       N.VLR_TRIBUTOS_MUNICIPAL, N.FONTE_TRIBUTOS, N.VERS' +
+      'AO_TRIBUTOS, N.VLR_TRIBUTOS_FEDERAL,'#13#10'       N.PERC_COMISSAO_PAG' +
+      'AR_NOTA, N.NFEENVIADA, N.SELECIONADO, N.ID_LOCAL_ESTOQUE, N.VLR_' +
+      'ADIANTAMENTO, N.VLR_ICMS_FCP,'#13#10'       N.VLR_ICMS_UF_DEST, N.VLR_' +
+      'ICMS_UF_REMET, N.VLR_BASE_COMISSAO, N.NOTIFICACAO, N.VLR_PIS_COF' +
+      'INS_SUFRAMA,'#13#10'       N.VLR_DESC_SUFRAMA, N.VLR_AFRMM, N.QTD_TOTA' +
+      'L_PRODUTOS, N.VLR_AJUSTE_CUSTO, N.TIPO_AJUSTE_CUSTO,'#13#10'       N.V' +
+      'LR_FRETE_CUSTO, N.USUARIO, N.NGR, N.ID_TAB_PRECO, N.ID_PREFAT, N' +
+      '.BASE_ICMS_FCP, N.BASE_FCP_ST, N.VLR_FCP_ST,'#13#10'       N.PERC_FCP_' +
+      'ST, N.VLR_ICMS_FCP_DEST, N.BASE_ICMS_FCP_DEST, N.REC_COPIADO, N.' +
+      'SOMAR_FRETE_II, N.VLR_IPI_DEVOL,'#13#10'       N.BASE_IPI, N.VLR_BASE_' +
+      'EFET, N.VLR_ICMS_EFET, N.BASE_ICMSSUBST_RET, N.VLR_ICMSSUBST_RET' +
+      ', N.ID_NOTAORIGINAL_ENT,'#13#10'       N.BASE_PIS, N.BASE_COFINS, N.ID' +
+      '_VENDEDOR_INT, N.PERC_COMISSAO_INT, N.VLR_SALDO_USADO, N.VLR_SAL' +
+      'DO_USADO_PED,'#13#10'       N.ID_ADTO, N.REFAZER_TITULOS, N.VLR_DESCON' +
+      'TO_ITENS, N.ID_NTE_CONTRA_NOTA, N.IE_PRODUTOR_RURAL, N.ID_CENTRO' +
+      '_CUSTO,'#13#10'       N.VLR_PIS_RET, N.VLR_COFINS_RET, N.DESCONTO_FUNR' +
+      'URAL, N.PERC_FUNRURAL, N.VLR_FUNRURAL, N.PEDIDO_GERADO,'#13#10'       ' +
+      'N.INDICADOR_MARKETPLACE, N.TIPO_INT_PAGTO, N.ID_INSTITUICAO_PAGT' +
+      'O, N.COD_BANDEIRA_OPE, N.NUM_AUTORIZACAO_OPE,'#13#10'       N.ID_INTER' +
+      'MEDIADOR, N.VLR_DUPLICATA_ADTO,'#13#10'       case'#13#10'         when N.CO' +
+      'D_MODELO is not null then N.COD_MODELO'#13#10'         when N.TIPO_REG' +
+      ' = '#39'NTS'#39' then '#39'55'#39#13#10'         when O.COD_MODELO_NOTA is not null ' +
+      'then O.COD_MODELO_NOTA'#13#10'         when T.COD_MODELO_NOTA is not n' +
+      'ull then T.COD_MODELO_NOTA'#13#10'         else '#39'55'#39#13#10'       end COD_M' +
+      'ODELO,'#13#10'       ORI.CODMUNICIPIO CODMUNICIPIO_ORI, DEST.CODMUNICI' +
+      'PIO CODMUNICIPIO_DEST, N.VLR_OUTROS_ITENS, CLI.UF'#13#10'from NOTAFISC' +
       'AL N'#13#10'left join OPERACAO_NOTA O on O.ID = N.ID_OPERACAO_NOTA'#13#10'le' +
       'ft join TAB_CFOP T on T.ID = N.ID_CFOP'#13#10'left join CIDADE ORI on ' +
       'N.ID_CIDADE_CTE_ORI = ORI.ID'#13#10'left join CIDADE DEST on N.ID_CIDA' +
-      'DE_CTE_DEST = DEST.ID'#13#10'where N.FILIAL = :FILIAL'#13#10#13#10'  '#13#10#13#10#13#10'     ' +
-      '   '
+      'DE_CTE_DEST = DEST.ID'#13#10'left join PESSOA CLI on N.ID_CLIENTE = CL' +
+      'I.CODIGO'#13#10'where N.FILIAL = :FILIAL'#13#10#13#10'  '#13#10#13#10'        '
     MaxBlobSize = -1
     Params = <
       item
@@ -2071,7 +2071,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
         Name = 'FILIAL'
         ParamType = ptInput
       end>
-    SQLConnection = DmDatabase.scoDados
+    SQLConnection = dmDatabase.scoDados
     Left = 344
     Top = 17
   end
@@ -2743,6 +2743,11 @@ object DMSPEDFiscal: TDMSPEDFiscal
     object cdsNotaFiscalVLR_OUTROS_ITENS: TFloatField
       FieldName = 'VLR_OUTROS_ITENS'
     end
+    object cdsNotaFiscalUF: TStringField
+      FieldName = 'UF'
+      FixedChar = True
+      Size = 2
+    end
   end
   object dsNotaFiscal: TDataSource
     DataSet = cdsNotaFiscal
@@ -2772,7 +2777,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
         Name = 'FILIAL'
         ParamType = ptInput
       end>
-    SQLConnection = DmDatabase.scoDados
+    SQLConnection = dmDatabase.scoDados
     Left = 344
     Top = 65
     object sdsNFe_InutilizadasID: TIntegerField
@@ -2905,7 +2910,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
         Name = 'ID'
         ParamType = ptInput
       end>
-    SQLConnection = DmDatabase.scoDados
+    SQLConnection = dmDatabase.scoDados
     Left = 344
     Top = 113
     object sdsNotaFiscal_RefID: TIntegerField
@@ -3109,7 +3114,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
         Name = 'ID'
         ParamType = ptInput
       end>
-    SQLConnection = DmDatabase.scoDados
+    SQLConnection = dmDatabase.scoDados
     Left = 344
     Top = 161
     object sdsNotaFiscal_ParcID: TIntegerField
@@ -3251,7 +3256,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
       #13#10#13#10
     MaxBlobSize = -1
     Params = <>
-    SQLConnection = DmDatabase.scoDados
+    SQLConnection = dmDatabase.scoDados
     Left = 344
     Top = 209
     object sdsNotaFiscal_ItensID: TIntegerField
@@ -3980,7 +3985,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
       'FROM sped_versao S'
       'WHERE S.dtfinal = (SELECT MIN(S2.dtfinal) FROM sped_versao S2'
       '                      WHERE S2.dtfinal >= :DATA)')
-    SQLConnection = DmDatabase.scoDados
+    SQLConnection = dmDatabase.scoDados
     Left = 720
     Top = 312
     object qSped_VersaoDTINICIO: TDateField
@@ -4009,7 +4014,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
       'SELECT *'
       'FROM UF'
       'WHERE UF.UF = :UF')
-    SQLConnection = DmDatabase.scoDados
+    SQLConnection = dmDatabase.scoDados
     Left = 720
     Top = 376
     object qUFUF: TStringField
@@ -4145,7 +4150,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
         Name = 'DTMOVIMENTO'
         ParamType = ptInput
       end>
-    SQLConnection = DmDatabase.scoDados
+    SQLConnection = dmDatabase.scoDados
     Left = 488
     Top = 328
   end
@@ -4272,7 +4277,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
       'left join tab_ncm n'
       'on p.id_ncm = n.id'
       'where p.id = :ID')
-    SQLConnection = DmDatabase.scoDados
+    SQLConnection = dmDatabase.scoDados
     Left = 728
     Top = 432
     object qProdutoID: TIntegerField
@@ -4392,7 +4397,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
         Name = 'DTMOVIMENTO'
         ParamType = ptInput
       end>
-    SQLConnection = DmDatabase.scoDados
+    SQLConnection = dmDatabase.scoDados
     Left = 480
     Top = 376
   end
@@ -4508,7 +4513,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
         Name = 'FILIAL'
         ParamType = ptInput
       end>
-    SQLConnection = DmDatabase.scoDados
+    SQLConnection = dmDatabase.scoDados
     Left = 56
     Top = 224
   end
@@ -4674,7 +4679,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
         Name = 'DTMOVIMENTO'
         ParamType = ptInput
       end>
-    SQLConnection = DmDatabase.scoDados
+    SQLConnection = dmDatabase.scoDados
     Left = 480
     Top = 424
   end
@@ -4754,7 +4759,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
     SQL.Strings = (
       'SELECT GERAR_REG_H020'
       'FROM PARAMETROS_EST')
-    SQLConnection = DmDatabase.scoDados
+    SQLConnection = dmDatabase.scoDados
     Left = 624
     Top = 96
     object qParametros_EstGERAR_REG_H020: TStringField
@@ -5124,7 +5129,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
         Name = 'FILIAL'
         ParamType = ptInput
       end>
-    SQLConnection = DmDatabase.scoDados
+    SQLConnection = dmDatabase.scoDados
     Left = 48
     Top = 312
   end
@@ -5189,21 +5194,24 @@ object DMSPEDFiscal: TDMSPEDFiscal
     NoMetadata = True
     GetMetadata = False
     CommandText = 
-      'select P.ID, P.DTMOV, P.ID_PRODUTO, P.ID_COR, P.TAMANHO, P.TIPO_' +
-      'ES, P.QTD, P.ID_NOTA_ENT, P.ITEM_NOTA_ENT, P.PERC_ICMS,'#13#10'       ' +
-      'P.VLR_UNITARIO, P.BASE_ICMS, P.VLR_ICMS, P.UF, P.ID_DOC_SAIDA, P' +
-      '.ITEM_DOC_SAIDA, P.TIPO_DOC_SAIDA, P.DEVOLUCAO,'#13#10'       P.NUM_DO' +
-      'C_SAIDA, P.SERIE_DOC_SAIDA, P.ID_CLIENTE, P.ID_FORNECEDOR, P.NUM' +
-      '_NOTA_ENT, P.SERIE_NOTA_ENT, P.FILIAL,'#13#10'       N.NFECHAVEACESSO,' +
-      ' I.PERC_ICMS PERC_ICMS_ENT,'#13#10'       (I.PERC_ICMS * P.BASE_ICMS) ' +
-      '/ 100 VLR_UNITARIO_BC_ICMS_ENT, I.PERC_ICMSSUBST_INTERNO, I.PERC' +
-      '_MVA,'#13#10'       iif(coalesce(I.PERC_MVA, 0) > 0, P.VLR_UNITARIO + ' +
-      '((P.VLR_UNITARIO * I.PERC_MVA) / 100), 0) VLR_UNITARIO_BC_ST,'#13#10' ' +
-      '      N.DTSAIDAENTRADA, I.QTD QTD_ENTRADA'#13#10'from PEPS_ESTOQUE P'#13#10 +
-      'left join NOTAFISCAL N on P.ID_NOTA_ENT = N.ID'#13#10'left join NOTAFI' +
-      'SCAL_ITENS I on P.ID_NOTA_ENT = I.ID and P.ITEM_NOTA_ENT = I.ITE' +
-      'M'#13#10'where P.ID_DOC_SAIDA = :ID_DOC_SAIDA and'#13#10'      P.ITEM_DOC_SA' +
-      'IDA = :ITEM_DOC_SAIDA and'#13#10'      P.TIPO_DOC_SAIDA = '#39'NTS'#39'   '
+      'select AUX.*'#13#10'from (select P.ID, P.DTMOV, P.ID_PRODUTO, P.ID_COR' +
+      ', P.TAMANHO, P.TIPO_ES, P.QTD, P.ID_NOTA_ENT, P.ITEM_NOTA_ENT,'#13#10 +
+      '             P.PERC_ICMS, P.VLR_UNITARIO, P.BASE_ICMS, P.VLR_ICM' +
+      'S, P.UF, P.ID_DOC_SAIDA, P.ITEM_DOC_SAIDA,'#13#10'             P.TIPO_' +
+      'DOC_SAIDA, P.DEVOLUCAO, P.NUM_DOC_SAIDA, P.SERIE_DOC_SAIDA, P.ID' +
+      '_CLIENTE, P.ID_FORNECEDOR,'#13#10'             P.NUM_NOTA_ENT, P.SERIE' +
+      '_NOTA_ENT, P.FILIAL, N.NFECHAVEACESSO, I.PERC_ICMS PERC_ICMS_ENT' +
+      ','#13#10'             (I.PERC_ICMS * P.BASE_ICMS) / 100 VLR_UNITARIO_B' +
+      'C_ICMS_ENT, I.PERC_ICMSSUBST_INTERNO, I.PERC_MVA,'#13#10'             ' +
+      'iif(coalesce(I.PERC_MVA, 0) > 0, P.VLR_UNITARIO + ((P.VLR_UNITAR' +
+      'IO * I.PERC_MVA) / 100), 0) VLR_UNITARIO_BC_ST,'#13#10'             N.' +
+      'DTSAIDAENTRADA, I.QTD QTD_ENTRADA'#13#10'      from PEPS_ESTOQUE P'#13#10'  ' +
+      '    left join NOTAFISCAL N on P.ID_NOTA_ENT = N.ID'#13#10'      left j' +
+      'oin NOTAFISCAL_ITENS I on P.ID_NOTA_ENT = I.ID and'#13#10'            ' +
+      'P.ITEM_NOTA_ENT = I.ITEM'#13#10'      where P.ID_DOC_SAIDA = :ID_DOC_S' +
+      'AIDA and'#13#10'            P.ITEM_DOC_SAIDA = :ITEM_DOC_SAIDA and'#13#10'  ' +
+      '          P.TIPO_DOC_SAIDA = '#39'NTS'#39') AUX'#13#10'where AUX.VLR_UNITARIO_' +
+      'BC_ST > 0   '
     MaxBlobSize = -1
     Params = <
       item
@@ -5216,7 +5224,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
         Name = 'ITEM_DOC_SAIDA'
         ParamType = ptInput
       end>
-    SQLConnection = DmDatabase.scoDados
+    SQLConnection = dmDatabase.scoDados
     Left = 48
     Top = 384
   end
@@ -5346,5 +5354,19 @@ object DMSPEDFiscal: TDMSPEDFiscal
     DataSet = cdsC176
     Left = 176
     Top = 384
+  end
+  object mE200: TClientDataSet
+    Active = True
+    Aggregates = <>
+    Params = <>
+    Left = 288
+    Top = 504
+    Data = {
+      310000009619E0BD010000001800000001000000000003000000310002554601
+      004900000001000557494454480200020002000000}
+    object mE200UF: TStringField
+      FieldName = 'UF'
+      Size = 2
+    end
   end
 end
