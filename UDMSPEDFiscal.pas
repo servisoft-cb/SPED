@@ -1083,8 +1083,6 @@ type
     dspICMS: TDataSetProvider;
     cdsICMS: TClientDataSet;
     dsICMS: TDataSource;
-    cdsICMSVLR_ICMS_DEBITO: TFloatField;
-    cdsICMSVLR_ICMS_CREDITO: TFloatField;
     cdsBalancoPRECO_MEDIO_FIXO: TFloatField;
     cdsBalancoPRECO_MEDIO_CALC: TFloatField;
     sdsNotaFiscal_ItensUNIDADE_CAD: TStringField;
@@ -1148,6 +1146,8 @@ type
     mE200: TClientDataSet;
     mE200UF: TStringField;
     cdsNotaFiscalUF: TStringField;
+    cdsICMSVLR_ICMS_DEBITO: TFloatField;
+    cdsICMSVLR_ICMS_CREDITO: TFloatField;
     procedure DataModuleCreate(Sender: TObject);
     procedure mAuxResumoNewRecord(DataSet: TDataSet);
   private

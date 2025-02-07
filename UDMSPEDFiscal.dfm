@@ -4368,32 +4368,32 @@ object DMSPEDFiscal: TDMSPEDFiscal
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftUnknown
+        DataType = ftInteger
         Name = 'FILIAL'
         ParamType = ptInput
       end
       item
-        DataType = ftUnknown
+        DataType = ftDate
         Name = 'DTMOVIMENTO'
         ParamType = ptInput
       end
       item
-        DataType = ftUnknown
+        DataType = ftInteger
         Name = 'FILIAL'
         ParamType = ptInput
       end
       item
-        DataType = ftUnknown
+        DataType = ftDate
         Name = 'DTMOVIMENTO'
         ParamType = ptInput
       end
       item
-        DataType = ftUnknown
+        DataType = ftInteger
         Name = 'FILIAL'
         ParamType = ptInput
       end
       item
-        DataType = ftUnknown
+        DataType = ftDate
         Name = 'DTMOVIMENTO'
         ParamType = ptInput
       end>
@@ -4485,6 +4485,8 @@ object DMSPEDFiscal: TDMSPEDFiscal
     Top = 376
   end
   object sdsIPI: TSQLDataSet
+    NoMetadata = True
+    GetMetadata = False
     CommandText = 
       'select CFOP.CODCFOP, IPI.COD_IPI, sum(I.VLR_TOTAL + coalesce(I.V' +
       'LR_FRETE, 0)) VLR_TOTAL, sum(I.BASE_IPI) BASE_IPI,'#13#10'       sum(I' +
@@ -5100,6 +5102,8 @@ object DMSPEDFiscal: TDMSPEDFiscal
     Top = 528
   end
   object sdsICMS: TSQLDataSet
+    NoMetadata = True
+    GetMetadata = False
     CommandText = 
       'with A'#13#10'as (select'#13#10'           case'#13#10'             when (N.TIPO_N' +
       'OTA = '#39'S'#39') then sum(N.VLR_ICMS)'#13#10'             else 0'#13#10'          ' +
