@@ -3,7 +3,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
   Top = 11
   Width = 1288
   Height = 704
-  Caption = 'Gerar SPED Fiscal    (Vers'#227'o  07/02/2025  1.1.52) '
+  Caption = 'Gerar SPED Fiscal    (Vers'#227'o  10/02/2025  1.1.54) '
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -389,7 +389,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edtFile: TEdit
           Left = 22
           Top = 28
-          Width = 141
+          Width = 133
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 0
@@ -398,7 +398,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           OnExit = edtFileChange
         end
         object cbConcomitante: TCheckBox
-          Left = 187
+          Left = 179
           Top = 30
           Width = 134
           Height = 19
@@ -421,7 +421,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edNotas: TEdit
           Left = 654
           Top = 29
-          Width = -96
+          Width = -104
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 2
@@ -659,7 +659,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object RxDBLookupCombo1: TRxDBLookupCombo
           Left = 91
           Top = 24
-          Width = 366
+          Width = 316
           Height = 21
           DropDownCount = 8
           LookupField = 'ID'
@@ -671,7 +671,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object cbFinalidade: TComboBox
           Left = 91
           Top = 45
-          Width = 366
+          Width = 316
           Height = 21
           Style = csDropDownList
           ItemHeight = 13
@@ -685,7 +685,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object DirectoryEdit1: TDirectoryEdit
           Left = 91
           Top = 112
-          Width = 366
+          Width = 316
           Height = 21
           NumGlyphs = 1
           TabOrder = 6
@@ -705,9 +705,9 @@ object frmSPEDFiscal: TfrmSPEDFiscal
             'Sem Movimento')
         end
         object gbxVendedor: TRzGroupBox
-          Left = 485
+          Left = 413
           Top = 2
-          Width = 430
+          Width = 545
           Height = 61
           BorderColor = clNavy
           BorderInner = fsButtonUp
@@ -744,7 +744,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           object ComboBox2: TComboBox
             Left = 115
             Top = 10
-            Width = 310
+            Width = 424
             Height = 21
             Style = csDropDownList
             ItemHeight = 13
@@ -850,7 +850,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           end
         end
         object RzCheckList1: TRzCheckList
-          Left = 934
+          Left = 966
           Top = 2
           Width = 121
           Height = 129
@@ -1128,9 +1128,9 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           TabOrder = 15
         end
         object RzGroupBox1: TRzGroupBox
-          Left = 485
+          Left = 413
           Top = 63
-          Width = 430
+          Width = 545
           Height = 35
           BorderColor = clNavy
           BorderInner = fsButtonUp
@@ -1173,8 +1173,8 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           end
         end
         object ckC176: TCheckBox
-          Left = 1072
-          Top = 16
+          Left = 1136
+          Top = 32
           Width = 65
           Height = 17
           Caption = 'C176'

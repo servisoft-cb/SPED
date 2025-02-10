@@ -13,7 +13,8 @@ uses
   SysUtils, Variants, Classes, Graphics, Controls, Forms, ACBrEFDBlocos,
   Dialogs, StdCtrls, ACBrSpedFiscal, ExtCtrls, ComCtrls, ACBrUtil, ACBrTXTClass,
   Mask, ToolEdit, RzTabs, NxCollection, RxLookup, UDMSPEDFiscal, RzPanel,
-  ACBrBase, RzLstBox, RzChkLst, Grids, DBGrids, SMDBGrid, DB, ActiveX, ComObj;
+  ACBrBase, RzLstBox, RzChkLst, Grids, DBGrids, SMDBGrid, DB, ActiveX, ComObj,
+  NxEdit;
 
 type
 
@@ -1541,7 +1542,7 @@ begin
     11 : ACBrSPEDFiscal1.Bloco_0.Registro0000New.COD_VER := vlVersao110;
     12 : ACBrSPEDFiscal1.Bloco_0.Registro0000New.COD_VER := vlVersao111;
     13 : ACBrSPEDFiscal1.Bloco_0.Registro0000New.COD_VER := vlVersao112;
-    15 : ACBrSPEDFiscal1.Bloco_0.Registro0000New.COD_VER := vlVersao114;
+    14,15 : ACBrSPEDFiscal1.Bloco_0.Registro0000New.COD_VER := vlVersao114;
     16,17 : ACBrSPEDFiscal1.Bloco_0.Registro0000New.COD_VER := vlVersao116;
     18 : ACBrSPEDFiscal1.Bloco_0.Registro0000New.COD_VER := vlVersao117;
   end;
