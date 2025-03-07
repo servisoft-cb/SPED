@@ -121,6 +121,8 @@ type
     NxButton3: TNxButton;
     TabSheet1: TRzTabSheet;
     Memo1: TMemo;
+    TabSheet2: TRzTabSheet;
+    Memo2: TMemo;
     procedure btnB_0Click(Sender: TObject);
     procedure btnB_9Click(Sender: TObject);
     procedure btnTXTClick(Sender: TObject);
@@ -1545,6 +1547,7 @@ begin
     14,15 : ACBrSPEDFiscal1.Bloco_0.Registro0000New.COD_VER := vlVersao114;
     16,17 : ACBrSPEDFiscal1.Bloco_0.Registro0000New.COD_VER := vlVersao116;
     18 : ACBrSPEDFiscal1.Bloco_0.Registro0000New.COD_VER := vlVersao117;
+    19 : ACBrSPEDFiscal1.Bloco_0.Registro0000New.COD_VER := vlVersao118;
   end;
   case cbFinalidade.ItemIndex of
     0 : ACBrSPEDFiscal1.Bloco_0.Registro0000New.COD_FIN := raOriginal;
@@ -3413,6 +3416,8 @@ begin
   fDMSPEDFiscal.sdsBalanco.CommandText := vComando;
   fDMSPEDFiscal.sdsBalanco.ParamByName('FILIAL').AsInteger   := RxDBLookupCombo1.KeyValue;
   fDMSPEDFiscal.sdsBalanco.ParamByName('DTMOVIMENTO').AsDate := DateEdit3.Date;
+  memo2.Lines.Clear;
+  Memo2.Lines.Text := fDMSPEDFiscal.sdsBalanco.CommandText;
   fDMSPEDFiscal.cdsBalanco.Open;
 end;
 

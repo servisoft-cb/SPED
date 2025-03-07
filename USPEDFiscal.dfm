@@ -3,7 +3,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
   Top = 11
   Width = 1288
   Height = 704
-  Caption = 'Gerar SPED Fiscal    (Vers'#227'o  10/02/2025  1.1.54) '
+  Caption = 'Gerar SPED Fiscal    (Vers'#227'o  07/03/2025  1.1.55) '
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -389,7 +389,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edtFile: TEdit
           Left = 22
           Top = 28
-          Width = 133
+          Width = 125
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 0
@@ -398,7 +398,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           OnExit = edtFileChange
         end
         object cbConcomitante: TCheckBox
-          Left = 179
+          Left = 171
           Top = 30
           Width = 134
           Height = 19
@@ -421,7 +421,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edNotas: TEdit
           Left = 654
           Top = 29
-          Width = -104
+          Width = -112
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 2
@@ -1634,6 +1634,27 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object TabSheet1: TRzTabSheet
           Caption = 'TabSheet1'
           object Memo1: TMemo
+            Left = 0
+            Top = 0
+            Width = 1264
+            Height = 419
+            TabStop = False
+            Align = alClient
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Courier New'
+            Font.Style = []
+            ParentFont = False
+            ScrollBars = ssBoth
+            TabOrder = 0
+            WantReturns = False
+            WordWrap = False
+          end
+        end
+        object TabSheet2: TRzTabSheet
+          Caption = 'TabSheet2'
+          object Memo2: TMemo
             Left = 0
             Top = 0
             Width = 1264
