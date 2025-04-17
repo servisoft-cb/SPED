@@ -123,6 +123,7 @@ type
     Memo1: TMemo;
     TabSheet2: TRzTabSheet;
     Memo2: TMemo;
+    ckParticipante: TCheckBox;
     procedure btnB_0Click(Sender: TObject);
     procedure btnB_9Click(Sender: TObject);
     procedure btnTXTClick(Sender: TObject);
@@ -3512,7 +3513,8 @@ begin
         vContador_Reg_H := vContador_Reg_H + 1;
 
         //10/02/2020  incluído o registro H020
-        if fDMSPEDFiscal.qParametros_EstGERAR_REG_H020.AsString = 'S' then
+        //if fDMSPEDFiscal.qParametros_EstGERAR_REG_H020.AsString = 'S' then
+        if ckICMSH020.Checked then
         begin
           //with RegistroH020New do
           with RegistroH020new do
@@ -3855,7 +3857,12 @@ begin
 end;
 
 procedure TfrmSPEDFiscal.prc_Consultar_PosseEstoque;
+var
+  vComando: String;
 begin
+
+
+
   fDMSPEDFiscal.cdsPosseEstoque.Close;
   fDMSPEDFiscal.sdsPosseEstoque.ParamByName('FILIAL').AsInteger   := RxDBLookupCombo1.KeyValue;
   fDMSPEDFiscal.sdsPosseEstoque.ParamByName('DTMOVIMENTO').AsDate := DateEdit2.Date;

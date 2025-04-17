@@ -389,7 +389,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edtFile: TEdit
           Left = 22
           Top = 28
-          Width = 125
+          Width = 117
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 0
@@ -398,7 +398,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           OnExit = edtFileChange
         end
         object cbConcomitante: TCheckBox
-          Left = 171
+          Left = 163
           Top = 30
           Width = 134
           Height = 19
@@ -421,7 +421,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edNotas: TEdit
           Left = 654
           Top = 29
-          Width = -112
+          Width = -120
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 2
@@ -895,7 +895,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           MultiSelect = True
           ParentCtl3D = False
           ParentFont = False
-          TabOrder = 12
+          TabOrder = 15
           OnEnter = RzCheckList1Enter
         end
         object ck0600: TCheckBox
@@ -922,7 +922,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           Width = 122
           Height = 17
           Caption = 'Imprimir Bloco K'
-          TabOrder = 11
+          TabOrder = 12
         end
         object NxPanel1: TNxPanel
           Left = 1
@@ -932,7 +932,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           Align = alBottom
           UseDockManager = False
           ParentBackground = False
-          TabOrder = 13
+          TabOrder = 16
           object btnGerarSped: TNxButton
             Left = 424
             Top = 5
@@ -1117,7 +1117,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           Width = 122
           Height = 17
           Caption = 'Gravar resumo'
-          TabOrder = 14
+          TabOrder = 13
         end
         object ckGravarPrecoZerado: TCheckBox
           Left = 741
@@ -1125,7 +1125,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           Width = 187
           Height = 17
           Caption = 'Bloco H, gravar pre'#231'o zerado'
-          TabOrder = 15
+          TabOrder = 14
         end
         object RzGroupBox1: TRzGroupBox
           Left = 413
@@ -1178,15 +1178,23 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           Width = 65
           Height = 17
           Caption = 'C176'
-          TabOrder = 16
+          TabOrder = 17
         end
         object NxButton3: TNxButton
           Left = 1128
           Top = 8
           Width = 75
           Caption = 'Configura'
-          TabOrder = 17
+          TabOrder = 18
           OnClick = NxButton3Click
+        end
+        object ckParticipante: TCheckBox
+          Left = 544
+          Top = 136
+          Width = 188
+          Height = 17
+          Caption = 'Sem C'#243'd. Participante no K200'
+          TabOrder = 11
         end
       end
       object RzPageControl1: TRzPageControl
