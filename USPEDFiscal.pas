@@ -2147,7 +2147,10 @@ begin
   oDBUtils.SetDataSourceProperties(Self, fDMSPEDFiscal);
   TS_Exemplo.TabVisible := False;
   if fDMSPEDFiscal.cdsFilial.RecordCount = 1 then
+  begin
     RxDBLookupCombo1.KeyValue := fDMSPEDFiscal.cdsFilialID.AsInteger;
+    RxDBLookupCombo1Exit(Sender);
+  end;
 
   RzCheckList1.ItemChecked[1] := True;
   RzCheckList1.ItemChecked[6] := True;
