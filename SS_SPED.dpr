@@ -5,8 +5,6 @@ uses
   USPEDFiscal in 'USPEDFiscal.pas' {frmSPEDFiscal},
   DmdDatabase in '..\ssfacil\DmdDatabase.pas' {dmDatabase: TDataModule},
   UDMSPEDFiscal in 'UDMSPEDFiscal.pas' {DMSPEDFiscal: TDataModule},
-  uUtilPadrao in '..\ssfacil\uUtilPadrao.pas',
-  UEscolhe_Filial in '..\ssfacil\UEscolhe_Filial.pas' {frmEscolhe_Filial},
   rsDBUtils in '..\rslib\nova\rsDBUtils.pas',
   UDMSpedVersao in 'UDMSpedVersao.pas' {DMSpedVersao: TDataModule},
   UCadSpedVersao in 'UCadSpedVersao.pas' {frmCadSpedVersao},
@@ -17,12 +15,12 @@ uses
   UInformeEndereco in '..\ssfacil\UInformeEndereco.pas' {frmInformeEndereco},
   UConfigC176 in 'UConfigC176.pas' {frmConfigC176},
   UCadInicial in '..\ssfacil\UCadInicial.pas' {frmCadInicial},
-  UDMCadFilial in '..\ssfacil\UDMCadFilial.pas' {DMCadFilial: TDataModule},
   LogTypes in '..\Logs\src\LogTypes.pas',
   LogProvider in '..\Logs\src\LogProvider.pas',
   uPessoa in '..\ssfacil\Classes\uPessoa.pas',
   UInfMotivoExc in '..\ssfacil\UInfMotivoExc.pas' {frmInfMotivoExc},
-  EstoqueAppUtils in '..\ssfacil\Classes\EstoqueAppUtils.pas';
+  uUtilPadrao in 'uUtilPadrao.pas',
+  UDMCadFilial in '..\ssfacil\UDMCadFilial.pas' {DMCadFilial: TDataModule};
 
 {$R *.res}
 
