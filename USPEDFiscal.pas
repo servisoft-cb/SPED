@@ -124,6 +124,7 @@ type
     TabSheet2: TRzTabSheet;
     Memo2: TMemo;
     ckParticipante: TCheckBox;
+    chkC170Cupom: TCheckBox;
     procedure btnB_0Click(Sender: TObject);
     procedure btnB_9Click(Sender: TObject);
     procedure btnTXTClick(Sender: TObject);
@@ -183,6 +184,9 @@ type
     procedure prc_Le_PosseEstoque;
 
     procedure prc_Abrir_NotaFiscal(Bloco : String);
+    procedure prc_Abrir_CupomFiscal;
+    procedure prc_Abrir_CupomFiscal_Itens(AId: Integer);
+    procedure prc_Abrir_C190(Aid: Integer);
 
     procedure LoadToMemo;
     procedure prc_Gerar_Bloco_0;
@@ -211,8 +215,11 @@ type
 
 
     procedure prc_Gerar_Bloco_C;
+    procedure prc_Bloco_C_Reg_C001;
     procedure prc_Bloco_C_Reg_C100; //Falta gerar a NFCe
     procedure prc_Bloco_C_Reg_C100_Inutilizadas;
+    procedure prc_Bloco_C_Reg_C100_Cupom;
+
     procedure prc_Bloco_C_Reg_C500;
     procedure prc_Bloco_C_Reg_C990;
 
@@ -2247,14 +2254,8 @@ begin
   end;
 
   //Abertura do Bloco C
-  with ACBrSPEDFiscal1.Bloco_C do
-  begin
-    with RegistroC001New do
-    begin
-      IND_MOV := imComDados;
-      vContador_Reg_C := vContador_Reg_C + 1;
-    end;
-  end;
+  prc_Bloco_C_Reg_C001;
+
   case ComboBox3.ItemIndex of
     0,2 : prc_Bloco_C_Reg_C100_Inutilizadas;
   end;
@@ -2280,6 +2281,16 @@ begin
     fDMSPEDFiscal.cdsNotaFiscal.Next;
   end;
 
+  fDMSPEDFiscal.cdsCupomFiscal.First;
+  while not fDMSPEDFiscal.cdsCupomFiscal.Eof do
+  begin
+    if fDMSPEDFiscal.cdsCupomFiscalID.AsInteger = 3770005 then
+      ShowMessage('1');
+    prc_Bloco_C_Reg_C100_Cupom;
+    fDMSPEDFiscal.cdsCupomFiscal.Next;
+  end;
+
+
   prc_Bloco_C_Reg_C990;
   //ACBrSPEDFiscal1.WriteBloco_C(True); // False, NAO fecha o Bloco
 end;
@@ -2288,8 +2299,8 @@ procedure TfrmSPEDFiscal.prc_Bloco_C_Reg_C100;
 begin
   with ACBrSPEDFiscal1.Bloco_C do
   begin
-    with RegistroC001New do
-    begin
+  //  with RegistroC001New do
+  //  begin
       with RegistroC100New do
       begin
         if fDMSPEDFiscal.cdsNotaFiscalTIPO_NOTA.AsString = 'E' then
@@ -2751,7 +2762,7 @@ begin
           //fazer aqui
         end;}
       end;
-    end;
+//    end;
   end;
 end;
 
@@ -4146,6 +4157,7 @@ begin
       prc_Movimento;
       prc_Abrir_NotaFiscal('');
       prc_Le_NotaFiscal;
+      prc_Abrir_CupomFiscal;
     end;
     uUtilPadrao.prc_Form_Aguarde(Form,'Verificando Produto...');
     if (RzCheckList1.ItemChecked[5]) then
@@ -4771,6 +4783,160 @@ end;
 procedure TfrmSPEDFiscal.NxButton3Click(Sender: TObject);
 begin
   frmConfigC176.ShowModal;
+end;
+
+procedure TfrmSPEDFiscal.prc_Abrir_CupomFiscal;
+begin
+  fDMSPEDFiscal.cdsCupomFiscal.Close;
+  fDMSPEDFiscal.sdsCupomFiscal.ParamByName('DTINICIAL').AsDate := DateEdit1.Date;
+  fDMSPEDFiscal.sdsCupomFiscal.ParamByName('DTFINAL').AsDate   := DateEdit2.Date;
+  fDMSPEDFiscal.sdsCupomFiscal.ParamByName('FILIAL').AsInteger := RxDBLookupCombo1.KeyValue;
+  fDMSPEDFiscal.cdsCupomFiscal.Open;
+end;
+
+procedure TfrmSPEDFiscal.prc_Bloco_C_Reg_C100_Cupom;
+var
+  LValorBase : Real;
+begin
+  with ACBrSPEDFiscal1.Bloco_C do
+  begin
+    with RegistroC100New do
+    begin
+      IND_OPER := tpSaidaPrestacao;
+      IND_EMIT := edEmissaoPropria;
+      COD_MOD := '65';
+      COD_PART := '';
+      SER     := fDMSPEDFiscal.cdsCupomFiscalSERIE.AsString;
+      NUM_DOC := fDMSPEDFiscal.cdsCupomFiscalNUMCUPOM.AsString;
+      CHV_NFE := fDMSPEDFiscal.cdsCupomFiscalNFECHAVEACESSO.AsString;
+      if fDMSPEDFiscal.cdsCupomFiscalCANCELADO.AsString = 'S' then
+        COD_SIT  := sdCancelado
+      else
+        COD_SIT  := sdRegular;
+      if COD_SIT = sdCancelado then
+      begin
+        fDMSPEDFiscal.cdsCupomFiscal.Next;
+        Exit;
+      end;
+      DT_DOC := fDMSPEDFiscal.cdsCupomFiscalDTEMISSAO.AsDateTime;
+      VL_DOC := fDMSPEDFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat;
+      IND_PGTO := tpVista;
+      if fDMSPEDFiscal.cdsCupomFiscalTIPO_PGTO.AsString = 'P' then
+        IND_PGTO := tpPrazo;
+      VL_DESC := fDMSPEDFiscal.cdsCupomFiscalVLR_DESCONTO.AsFloat;
+      VL_ABAT_NT := 0;
+      VL_MERC := fDMSPEDFiscal.cdsCupomFiscalVLR_PRODUTOS.AsFloat;
+      IND_FRT := tfSemCobrancaFrete;
+      if fDMSPEDFiscal.cdsCupomFiscalVLR_FRETE.AsFloat > 0 then
+        IND_FRT := tfPorContaEmitente;
+      VL_FRT := fDMSPEDFiscal.cdsCupomFiscalVLR_FRETE.AsFloat;
+      VL_SEG := 0;
+      VL_OUT_DA := 0;
+      VL_BC_ICMS := fDMSPEDFiscal.cdsCupomFiscalBASE_ICMS.AsFloat;
+      VL_ICMS := fDMSPEDFiscal.cdsCupomFiscalVLR_ICMS.AsFloat;
+      VL_BC_ICMS_ST := 0;
+      VL_ICMS_ST := 0;
+      VL_IPI := 0;
+      VL_PIS := 0;
+      VL_COFINS := 0;
+      VL_PIS_ST := 0;
+      VL_COFINS_ST := 0;
+
+      prc_Abrir_CupomFiscal_Itens(fDMSPEDFiscal.cdsCupomFiscalID.AsInteger);
+      fDMSPEDFiscal.cdsCupomFiscalItem.First;
+
+      if chkC170Cupom.Checked then
+      begin
+        while not fDMSPEDFiscal.cdsCupomFiscalItem.Eof do
+        begin
+          with RegistroC170New do
+          begin
+            NUM_ITEM := fDMSPEDFiscal.cdsCupomFiscalItemITEM.AsString;
+            LValorBase := fDMSPEDFiscal.cdsCupomFiscalItemVLR_TOTAL.AsFloat;
+            COD_ITEM := fDMSPEDFiscal.cdsCupomFiscalItemID_PRODUTO.AsString;
+            DESCR_COMPL := fDMSPEDFiscal.cdsCupomFiscalItemREFERENCIA.AsString;
+            QTD := fDMSPEDFiscal.cdsCupomFiscalItemQTD.AsFloat;
+            UNID := fDMSPEDFiscal.cdsCupomFiscalItemUNIDADE.AsString;
+            VL_ITEM := fDMSPEDFiscal.cdsCupomFiscalItemVLR_UNITARIO.AsFloat;
+            VL_DESC := fDMSPEDFiscal.cdsCupomFiscalItemVLR_DESCONTO.AsFloat;
+            IND_MOV := mfSim;
+            CST_ICMS := '00'; //ver o que vai aqui
+            CST_ICMS := fDMSPEDFiscal.cdsCupomFiscalItemCOD_CST.AsString;
+            CFOP := fDMSPEDFiscal.cdsCupomFiscalItemCFOP.AsString;
+            COD_NAT := EmptyStr;
+            VL_BC_ICMS := fDMSPEDFiscal.cdsCupomFiscalItemBASE_ICMS.AsFloat;
+            ALIQ_ICMS := fDMSPEDFiscal.cdsCupomFiscalItemPERC_ICMS.AsFloat;
+            VL_ICMS := fDMSPEDFiscal.cdsCupomFiscalItemVLR_ICMS.AsFloat;
+            VL_BC_ICMS_ST := 0;
+            ALIQ_ST := 0;
+            VL_ICMS_ST := 0;
+            IND_APUR := iaMensal;
+            CST_IPI := SQLLocate('TAB_CSTIPI','ID','COD_IPI', fDMSPEDFiscal.cdsCupomFiscalItemID_CSTIPI.AsString);
+            COD_ENQ := EmptyStr;
+            VL_BC_IPI := LValorBase;
+            ALIQ_IPI := 0;
+            VL_IPI := 0;
+            CST_PIS := fDMSPEDFiscal.cdsCupomFiscalItemCST_PIS.AsString;
+            CST_COFINS := fDMSPEDFiscal.cdsCupomFiscalItemCST_COFINS.AsString;
+            VL_BC_PIS := LValorBase;
+            ALIQ_PIS_PERC := fDMSPEDFiscal.cdsCupomFiscalItemPERC_PIS.AsFloat;
+            VL_PIS := fDMSPEDFiscal.cdsCupomFiscalItemVLR_PIS.AsFloat;
+            VL_BC_COFINS := LValorBase;
+            ALIQ_COFINS_PERC := fDMSPEDFiscal.cdsCupomFiscalItemPERC_COFINS.AsFloat;
+            VL_COFINS := fDMSPEDFiscal.cdsCupomFiscalItemVLR_COFINS.AsFloat;
+            COD_CTA := '11';
+            vContador_Reg_C := vContador_Reg_C + 1;
+          end;
+          fDMSPEDFiscal.cdsCupomFiscalItem.Next;
+        end;
+      end;
+      vContador_Reg_C := vContador_Reg_C + 1;
+      prc_Abrir_C190(fDMSPEDFiscal.cdsCupomFiscalID.AsInteger);
+      fDMSPEDFiscal.sqlC190.First;
+      while not fDMSPEDFiscal.sqlC190.Eof do
+      begin
+        with RegistroC190New do
+        begin
+          CST_ICMS := fDMSPEDFiscal.sqlC190COD_CST.AsString;
+          CFOP := fDMSPEDFiscal.sqlC190CODCFOP.AsString;
+          ALIQ_ICMS := fDMSPEDFiscal.sqlC190PERC_ICMS.AsFloat;
+          VL_OPR := fDMSPEDFiscal.sqlC190VLR_PRODUTO.AsFloat;
+          VL_BC_ICMS := fDMSPEDFiscal.sqlC190BASE_ICMS.AsFloat;
+          VL_ICMS := fDMSPEDFiscal.sqlC190VLR_ICMS.AsFloat;
+          VL_BC_ICMS_ST := 0;
+          VL_ICMS_ST := 0;
+          VL_RED_BC := fDMSPEDFiscal.sqlC190VALOR_BASE_REDUCAO.AsFloat;
+          fDMSPEDFiscal.sqlC190.Next;
+        end;
+      end;
+    end;
+  end;
+end;
+
+procedure TfrmSPEDFiscal.prc_Bloco_C_Reg_C001;
+begin
+  with ACBrSPEDFiscal1.Bloco_C do
+  begin
+    with RegistroC001New do
+    begin
+      IND_MOV := imComDados;
+      vContador_Reg_C := vContador_Reg_C + 1;
+    end;
+  end;
+end;
+
+procedure TfrmSPEDFiscal.prc_Abrir_CupomFiscal_Itens(AId: Integer);
+begin
+  fDMSPEDFiscal.cdsCupomFiscalItem.Close;
+  fDMSPEDFiscal.sdsCupomFiscalItem.ParamByName('ID_Cupom').AsInteger := AId;
+  fDMSPEDFiscal.cdsCupomFiscalItem.Open;
+end;
+
+procedure TfrmSPEDFiscal.prc_Abrir_C190(Aid: Integer);
+begin
+  fDMSPEDFiscal.sqlC190.Close;
+  fDMSPEDFiscal.sqlC190.ParamByName('ID_Cupom').AsInteger := AId;
+  fDMSPEDFiscal.sqlC190.Open;
 end;
 
 end.

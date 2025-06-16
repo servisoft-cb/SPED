@@ -1,8 +1,8 @@
 object DMSPEDFiscal: TDMSPEDFiscal
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Left = 224
-  Top = 47
+  Left = 307
+  Top = 41
   Height = 676
   Width = 999
   object qParametros: TSQLQuery
@@ -4152,12 +4152,12 @@ object DMSPEDFiscal: TDMSPEDFiscal
       end>
     SQLConnection = dmDatabase.scoDados
     Left = 488
-    Top = 328
+    Top = 400
   end
   object dspBalanco: TDataSetProvider
     DataSet = sdsBalanco
     Left = 520
-    Top = 328
+    Top = 400
   end
   object cdsBalanco: TClientDataSet
     Aggregates = <>
@@ -4165,7 +4165,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
     Params = <>
     ProviderName = 'dspBalanco'
     Left = 561
-    Top = 329
+    Top = 401
     object cdsBalancoID_PRODUTO: TIntegerField
       FieldName = 'ID_PRODUTO'
     end
@@ -4258,7 +4258,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
   object dsBalanco: TDataSource
     DataSet = cdsBalanco
     Left = 600
-    Top = 328
+    Top = 400
   end
   object qProduto: TSQLQuery
     MaxBlobSize = -1
@@ -4399,12 +4399,12 @@ object DMSPEDFiscal: TDMSPEDFiscal
       end>
     SQLConnection = dmDatabase.scoDados
     Left = 480
-    Top = 376
+    Top = 448
   end
   object dspPosseEstoque: TDataSetProvider
     DataSet = sdsPosseEstoque
     Left = 520
-    Top = 376
+    Top = 448
   end
   object cdsPosseEstoque: TClientDataSet
     Aggregates = <>
@@ -4412,7 +4412,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
     Params = <>
     ProviderName = 'dspPosseEstoque'
     Left = 560
-    Top = 376
+    Top = 448
     object cdsPosseEstoqueID_PRODUTO: TIntegerField
       FieldName = 'ID_PRODUTO'
     end
@@ -4482,7 +4482,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
   object dsPosseEstoque: TDataSource
     DataSet = cdsPosseEstoque
     Left = 600
-    Top = 376
+    Top = 448
   end
   object sdsIPI: TSQLDataSet
     NoMetadata = True
@@ -4683,12 +4683,12 @@ object DMSPEDFiscal: TDMSPEDFiscal
       end>
     SQLConnection = dmDatabase.scoDados
     Left = 480
-    Top = 424
+    Top = 496
   end
   object dspPosseEstoque_NaoApagar: TDataSetProvider
     DataSet = sdsPosseEstoque_NaoApagar
     Left = 520
-    Top = 424
+    Top = 496
   end
   object cdsPosseEstoque_NaoApagar: TClientDataSet
     Aggregates = <>
@@ -4696,7 +4696,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
     Params = <>
     ProviderName = 'dspPosseEstoque_NaoApagar'
     Left = 561
-    Top = 424
+    Top = 496
     object IntegerField1: TIntegerField
       FieldName = 'ID_PRODUTO'
     end
@@ -4753,7 +4753,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
   object dsPosseEstoque_NaoApagar: TDataSource
     DataSet = cdsPosseEstoque_NaoApagar
     Left = 600
-    Top = 424
+    Top = 496
   end
   object qParametros_Est: TSQLQuery
     MaxBlobSize = -1
@@ -4817,7 +4817,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
     StoreDefs = True
     OnNewRecord = mAuxResumoNewRecord
     Left = 360
-    Top = 280
+    Top = 392
     Data = {
       E90000009619E0BD010000001800000008000000000003000000E90005426C6F
       636F010049000000010005574944544802000200020008526567697374726F01
@@ -4863,7 +4863,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
   object dsmAuxResumo: TDataSource
     DataSet = mAuxResumo
     Left = 400
-    Top = 280
+    Top = 392
   end
   object mK200: TClientDataSet
     Active = True
@@ -4921,7 +4921,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
     Params = <>
     StoreDefs = True
     Left = 288
-    Top = 408
+    Top = 448
     Data = {
       320100009619E0BD01000000180000000A000000000003000000320109447445
       73746F71756504000600000000000B436F645F50726F6475746F010049000000
@@ -4976,7 +4976,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
   object dsmK200: TDataSource
     DataSet = mK200
     Left = 312
-    Top = 408
+    Top = 448
   end
   object frxReport1: TfrxReport
     Tag = 1
@@ -4994,11 +4994,11 @@ object DMSPEDFiscal: TDMSPEDFiscal
     StoreInDFM = False
     OnReportPrint = 'frxReportOnReportPrint'
     Left = 408
-    Top = 512
+    Top = 552
   end
   object frxBarCodeObject1: TfrxBarCodeObject
     Left = 448
-    Top = 512
+    Top = 552
   end
   object frxmK200: TfrxDBDataset
     UserName = 'frxmK200'
@@ -5017,7 +5017,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
     DataSource = dsmK200
     BCDToCurrency = False
     Left = 488
-    Top = 512
+    Top = 552
   end
   object mE520: TClientDataSet
     Active = True
@@ -5077,7 +5077,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
     Params = <>
     StoreDefs = True
     Left = 656
-    Top = 536
+    Top = 576
     Data = {
       670000009619E0BD010000001800000003000000000003000000670007556E69
       646164650100490000000100055749445448020002000600085174645F436F6E
@@ -5364,13 +5364,995 @@ object DMSPEDFiscal: TDMSPEDFiscal
     Aggregates = <>
     Params = <>
     Left = 288
-    Top = 504
+    Top = 544
     Data = {
       310000009619E0BD010000001800000001000000000003000000310002554601
       004900000001000557494454480200020002000000}
     object mE200UF: TStringField
       FieldName = 'UF'
       Size = 2
+    end
+  end
+  object sdsCupomFiscal: TSQLDataSet
+    NoMetadata = True
+    GetMetadata = False
+    CommandText = 
+      'select CF.ID, CF.NUMCUPOM, CF.DTEMISSAO, CF.HREMISSAO, CF.ID_CLI' +
+      'ENTE, CF.TIPO_PGTO, CF.ID_CONDPGTO, CF.BASE_ICMS,'#13#10'       CF.VLR' +
+      '_ICMS, CF.VLR_PRODUTOS, CF.VLR_DESCONTO, CF.VLR_TOTAL, CF.CANCEL' +
+      'ADO, CF.VLR_RECEBIDO, CF.VLR_TROCO,'#13#10'       CF.ID_CONTA, CF.FILI' +
+      'AL, CF.ID_TIPOCOBRANCA, CF.CPF, CF.TIPO, CF.TERMINAL_ID, CF.VLR_' +
+      'TRIBUTO,'#13#10'       CF.VLR_TRIBUTO_FEDERAL, CF.VLR_TRIBUTO_ESTADUAL' +
+      ', CF.VLR_TRIBUTO_MUNICIPAL, CF.CLIENTE_NOME, CF.NFECHAVEACESSO,'#13 +
+      #10'       CF.NFEPROTOCOLO, CF.NFERECIBO, CF.TIPO_ATENDIMENTO, CF.T' +
+      'IPO_ENVIONFE, CF.NFEPROTOCOLO_CANCELADA, CF.ID_CFOP,'#13#10'       CF.' +
+      'VLR_IPI, CF.VLR_PIS, CF.VLR_COFINS, CF.MOTIVO_CANCELADA, CF.NFED' +
+      'ENEGADA, CF.TIPO_DESTINO_OPERACAO,'#13#10'       CF.NFEFINALIDADE, CF.' +
+      'SERIE, CF.MOTIVO_DENEGADO, CF.QTD_PESSOA, CF.CLIENTE_ENDERECO, C' +
+      'F.DTORIGINAL,'#13#10'       CF.BASE_ICMSSUBST_RET, CF.VLR_ICMSSUBST_RE' +
+      'T, CF.VLR_BASE_EFET, CF.VLR_ICMS_EFET, CF.VLR_OUTROS,'#13#10'       CF' +
+      '.ID_CANAL_VENDA, CF.TRANSMITIR, CF.TIPO_EMISSAO, CF.HRORIGINAL, ' +
+      'CF.ID_NOTA, CF.VLR_ICMS_MONO, CF.STATUS,'#13#10'       CF.ID_ORIGINAL,' +
+      ' CF.VLR_FRETE'#13#10'from CUPOMFISCAL CF'#13#10'where CF.DTEMISSAO between :' +
+      'DTINICIAL and :DTFINAL and'#13#10'      CF.CANCELADO in ('#39'S'#39', '#39'N'#39') and' +
+      #13#10'      CF.NFECHAVEACESSO <> '#39#39' and'#13#10'      CF.NFEPROTOCOLO <> '#39#39 +
+      ' and'#13#10'      CF.FILIAL = :FILIAL   '
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftDate
+        Name = 'DTINICIAL'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'DTFINAL'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'FILIAL'
+        ParamType = ptInput
+      end>
+    SQLConnection = dmDatabase.scoDados
+    Left = 344
+    Top = 257
+    object sdsCupomFiscalID: TIntegerField
+      FieldName = 'ID'
+      Required = True
+    end
+    object sdsCupomFiscalNUMCUPOM: TIntegerField
+      FieldName = 'NUMCUPOM'
+    end
+    object sdsCupomFiscalDTEMISSAO: TDateField
+      FieldName = 'DTEMISSAO'
+    end
+    object sdsCupomFiscalHREMISSAO: TTimeField
+      FieldName = 'HREMISSAO'
+    end
+    object sdsCupomFiscalID_CLIENTE: TIntegerField
+      FieldName = 'ID_CLIENTE'
+    end
+    object sdsCupomFiscalTIPO_PGTO: TStringField
+      FieldName = 'TIPO_PGTO'
+      FixedChar = True
+      Size = 1
+    end
+    object sdsCupomFiscalID_CONDPGTO: TIntegerField
+      FieldName = 'ID_CONDPGTO'
+    end
+    object sdsCupomFiscalBASE_ICMS: TFloatField
+      FieldName = 'BASE_ICMS'
+    end
+    object sdsCupomFiscalVLR_ICMS: TFloatField
+      FieldName = 'VLR_ICMS'
+    end
+    object sdsCupomFiscalVLR_PRODUTOS: TFloatField
+      FieldName = 'VLR_PRODUTOS'
+    end
+    object sdsCupomFiscalVLR_DESCONTO: TFloatField
+      FieldName = 'VLR_DESCONTO'
+    end
+    object sdsCupomFiscalVLR_TOTAL: TFloatField
+      FieldName = 'VLR_TOTAL'
+    end
+    object sdsCupomFiscalCANCELADO: TStringField
+      FieldName = 'CANCELADO'
+      FixedChar = True
+      Size = 1
+    end
+    object sdsCupomFiscalVLR_RECEBIDO: TFloatField
+      FieldName = 'VLR_RECEBIDO'
+    end
+    object sdsCupomFiscalVLR_TROCO: TFloatField
+      FieldName = 'VLR_TROCO'
+    end
+    object sdsCupomFiscalID_CONTA: TIntegerField
+      FieldName = 'ID_CONTA'
+    end
+    object sdsCupomFiscalFILIAL: TIntegerField
+      FieldName = 'FILIAL'
+    end
+    object sdsCupomFiscalID_TIPOCOBRANCA: TIntegerField
+      FieldName = 'ID_TIPOCOBRANCA'
+    end
+    object sdsCupomFiscalCPF: TStringField
+      FieldName = 'CPF'
+      Size = 18
+    end
+    object sdsCupomFiscalTIPO: TStringField
+      FieldName = 'TIPO'
+      Size = 3
+    end
+    object sdsCupomFiscalTERMINAL_ID: TSmallintField
+      FieldName = 'TERMINAL_ID'
+    end
+    object sdsCupomFiscalVLR_TRIBUTO: TFloatField
+      FieldName = 'VLR_TRIBUTO'
+    end
+    object sdsCupomFiscalVLR_TRIBUTO_FEDERAL: TFloatField
+      FieldName = 'VLR_TRIBUTO_FEDERAL'
+    end
+    object sdsCupomFiscalVLR_TRIBUTO_ESTADUAL: TFloatField
+      FieldName = 'VLR_TRIBUTO_ESTADUAL'
+    end
+    object sdsCupomFiscalVLR_TRIBUTO_MUNICIPAL: TFloatField
+      FieldName = 'VLR_TRIBUTO_MUNICIPAL'
+    end
+    object sdsCupomFiscalCLIENTE_NOME: TStringField
+      FieldName = 'CLIENTE_NOME'
+      Size = 30
+    end
+    object sdsCupomFiscalNFECHAVEACESSO: TStringField
+      FieldName = 'NFECHAVEACESSO'
+      Size = 44
+    end
+    object sdsCupomFiscalNFEPROTOCOLO: TStringField
+      FieldName = 'NFEPROTOCOLO'
+      Size = 45
+    end
+    object sdsCupomFiscalNFERECIBO: TStringField
+      FieldName = 'NFERECIBO'
+      Size = 45
+    end
+    object sdsCupomFiscalTIPO_ATENDIMENTO: TSmallintField
+      FieldName = 'TIPO_ATENDIMENTO'
+    end
+    object sdsCupomFiscalTIPO_ENVIONFE: TStringField
+      FieldName = 'TIPO_ENVIONFE'
+      Size = 25
+    end
+    object sdsCupomFiscalNFEPROTOCOLO_CANCELADA: TStringField
+      FieldName = 'NFEPROTOCOLO_CANCELADA'
+      Size = 45
+    end
+    object sdsCupomFiscalID_CFOP: TIntegerField
+      FieldName = 'ID_CFOP'
+    end
+    object sdsCupomFiscalVLR_IPI: TFloatField
+      FieldName = 'VLR_IPI'
+    end
+    object sdsCupomFiscalVLR_PIS: TFloatField
+      FieldName = 'VLR_PIS'
+    end
+    object sdsCupomFiscalVLR_COFINS: TFloatField
+      FieldName = 'VLR_COFINS'
+    end
+    object sdsCupomFiscalMOTIVO_CANCELADA: TStringField
+      FieldName = 'MOTIVO_CANCELADA'
+      Size = 150
+    end
+    object sdsCupomFiscalNFEDENEGADA: TStringField
+      FieldName = 'NFEDENEGADA'
+      FixedChar = True
+      Size = 1
+    end
+    object sdsCupomFiscalTIPO_DESTINO_OPERACAO: TSmallintField
+      FieldName = 'TIPO_DESTINO_OPERACAO'
+    end
+    object sdsCupomFiscalNFEFINALIDADE: TStringField
+      FieldName = 'NFEFINALIDADE'
+      Size = 1
+    end
+    object sdsCupomFiscalSERIE: TStringField
+      FieldName = 'SERIE'
+      Size = 3
+    end
+    object sdsCupomFiscalMOTIVO_DENEGADO: TStringField
+      FieldName = 'MOTIVO_DENEGADO'
+      Size = 200
+    end
+    object sdsCupomFiscalQTD_PESSOA: TIntegerField
+      FieldName = 'QTD_PESSOA'
+    end
+    object sdsCupomFiscalCLIENTE_ENDERECO: TStringField
+      FieldName = 'CLIENTE_ENDERECO'
+      Size = 120
+    end
+    object sdsCupomFiscalDTORIGINAL: TDateField
+      FieldName = 'DTORIGINAL'
+    end
+    object sdsCupomFiscalBASE_ICMSSUBST_RET: TFloatField
+      FieldName = 'BASE_ICMSSUBST_RET'
+    end
+    object sdsCupomFiscalVLR_ICMSSUBST_RET: TFloatField
+      FieldName = 'VLR_ICMSSUBST_RET'
+    end
+    object sdsCupomFiscalVLR_BASE_EFET: TFloatField
+      FieldName = 'VLR_BASE_EFET'
+    end
+    object sdsCupomFiscalVLR_ICMS_EFET: TFloatField
+      FieldName = 'VLR_ICMS_EFET'
+    end
+    object sdsCupomFiscalVLR_OUTROS: TFloatField
+      FieldName = 'VLR_OUTROS'
+    end
+    object sdsCupomFiscalID_CANAL_VENDA: TIntegerField
+      FieldName = 'ID_CANAL_VENDA'
+    end
+    object sdsCupomFiscalTRANSMITIR: TStringField
+      FieldName = 'TRANSMITIR'
+      FixedChar = True
+      Size = 1
+    end
+    object sdsCupomFiscalTIPO_EMISSAO: TStringField
+      FieldName = 'TIPO_EMISSAO'
+      FixedChar = True
+      Size = 1
+    end
+    object sdsCupomFiscalHRORIGINAL: TTimeField
+      FieldName = 'HRORIGINAL'
+    end
+    object sdsCupomFiscalID_NOTA: TIntegerField
+      FieldName = 'ID_NOTA'
+    end
+    object sdsCupomFiscalVLR_ICMS_MONO: TFloatField
+      FieldName = 'VLR_ICMS_MONO'
+    end
+    object sdsCupomFiscalSTATUS: TStringField
+      FieldName = 'STATUS'
+      FixedChar = True
+      Size = 1
+    end
+    object sdsCupomFiscalID_ORIGINAL: TIntegerField
+      FieldName = 'ID_ORIGINAL'
+    end
+    object sdsCupomFiscalVLR_FRETE: TFloatField
+      FieldName = 'VLR_FRETE'
+    end
+  end
+  object dspCupomFiscal: TDataSetProvider
+    DataSet = sdsCupomFiscal
+    Left = 392
+    Top = 257
+  end
+  object cdsCupomFiscal: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspCupomFiscal'
+    Left = 440
+    Top = 257
+    object cdsCupomFiscalID: TIntegerField
+      FieldName = 'ID'
+      Required = True
+    end
+    object cdsCupomFiscalNUMCUPOM: TIntegerField
+      FieldName = 'NUMCUPOM'
+    end
+    object cdsCupomFiscalDTEMISSAO: TDateField
+      FieldName = 'DTEMISSAO'
+    end
+    object cdsCupomFiscalHREMISSAO: TTimeField
+      FieldName = 'HREMISSAO'
+    end
+    object cdsCupomFiscalID_CLIENTE: TIntegerField
+      FieldName = 'ID_CLIENTE'
+    end
+    object cdsCupomFiscalTIPO_PGTO: TStringField
+      FieldName = 'TIPO_PGTO'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsCupomFiscalID_CONDPGTO: TIntegerField
+      FieldName = 'ID_CONDPGTO'
+    end
+    object cdsCupomFiscalBASE_ICMS: TFloatField
+      FieldName = 'BASE_ICMS'
+    end
+    object cdsCupomFiscalVLR_ICMS: TFloatField
+      FieldName = 'VLR_ICMS'
+    end
+    object cdsCupomFiscalVLR_PRODUTOS: TFloatField
+      FieldName = 'VLR_PRODUTOS'
+    end
+    object cdsCupomFiscalVLR_DESCONTO: TFloatField
+      FieldName = 'VLR_DESCONTO'
+    end
+    object cdsCupomFiscalVLR_TOTAL: TFloatField
+      FieldName = 'VLR_TOTAL'
+    end
+    object cdsCupomFiscalCANCELADO: TStringField
+      FieldName = 'CANCELADO'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsCupomFiscalVLR_RECEBIDO: TFloatField
+      FieldName = 'VLR_RECEBIDO'
+    end
+    object cdsCupomFiscalVLR_TROCO: TFloatField
+      FieldName = 'VLR_TROCO'
+    end
+    object cdsCupomFiscalID_CONTA: TIntegerField
+      FieldName = 'ID_CONTA'
+    end
+    object cdsCupomFiscalFILIAL: TIntegerField
+      FieldName = 'FILIAL'
+    end
+    object cdsCupomFiscalID_TIPOCOBRANCA: TIntegerField
+      FieldName = 'ID_TIPOCOBRANCA'
+    end
+    object cdsCupomFiscalCPF: TStringField
+      FieldName = 'CPF'
+      Size = 18
+    end
+    object cdsCupomFiscalTIPO: TStringField
+      FieldName = 'TIPO'
+      Size = 3
+    end
+    object cdsCupomFiscalTERMINAL_ID: TSmallintField
+      FieldName = 'TERMINAL_ID'
+    end
+    object cdsCupomFiscalVLR_TRIBUTO: TFloatField
+      FieldName = 'VLR_TRIBUTO'
+    end
+    object cdsCupomFiscalVLR_TRIBUTO_FEDERAL: TFloatField
+      FieldName = 'VLR_TRIBUTO_FEDERAL'
+    end
+    object cdsCupomFiscalVLR_TRIBUTO_ESTADUAL: TFloatField
+      FieldName = 'VLR_TRIBUTO_ESTADUAL'
+    end
+    object cdsCupomFiscalVLR_TRIBUTO_MUNICIPAL: TFloatField
+      FieldName = 'VLR_TRIBUTO_MUNICIPAL'
+    end
+    object cdsCupomFiscalCLIENTE_NOME: TStringField
+      FieldName = 'CLIENTE_NOME'
+      Size = 30
+    end
+    object cdsCupomFiscalNFECHAVEACESSO: TStringField
+      FieldName = 'NFECHAVEACESSO'
+      Size = 44
+    end
+    object cdsCupomFiscalNFEPROTOCOLO: TStringField
+      FieldName = 'NFEPROTOCOLO'
+      Size = 45
+    end
+    object cdsCupomFiscalNFERECIBO: TStringField
+      FieldName = 'NFERECIBO'
+      Size = 45
+    end
+    object cdsCupomFiscalTIPO_ATENDIMENTO: TSmallintField
+      FieldName = 'TIPO_ATENDIMENTO'
+    end
+    object cdsCupomFiscalTIPO_ENVIONFE: TStringField
+      FieldName = 'TIPO_ENVIONFE'
+      Size = 25
+    end
+    object cdsCupomFiscalNFEPROTOCOLO_CANCELADA: TStringField
+      FieldName = 'NFEPROTOCOLO_CANCELADA'
+      Size = 45
+    end
+    object cdsCupomFiscalID_CFOP: TIntegerField
+      FieldName = 'ID_CFOP'
+    end
+    object cdsCupomFiscalVLR_IPI: TFloatField
+      FieldName = 'VLR_IPI'
+    end
+    object cdsCupomFiscalVLR_PIS: TFloatField
+      FieldName = 'VLR_PIS'
+    end
+    object cdsCupomFiscalVLR_COFINS: TFloatField
+      FieldName = 'VLR_COFINS'
+    end
+    object cdsCupomFiscalMOTIVO_CANCELADA: TStringField
+      FieldName = 'MOTIVO_CANCELADA'
+      Size = 150
+    end
+    object cdsCupomFiscalNFEDENEGADA: TStringField
+      FieldName = 'NFEDENEGADA'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsCupomFiscalTIPO_DESTINO_OPERACAO: TSmallintField
+      FieldName = 'TIPO_DESTINO_OPERACAO'
+    end
+    object cdsCupomFiscalNFEFINALIDADE: TStringField
+      FieldName = 'NFEFINALIDADE'
+      Size = 1
+    end
+    object cdsCupomFiscalSERIE: TStringField
+      FieldName = 'SERIE'
+      Size = 3
+    end
+    object cdsCupomFiscalMOTIVO_DENEGADO: TStringField
+      FieldName = 'MOTIVO_DENEGADO'
+      Size = 200
+    end
+    object cdsCupomFiscalQTD_PESSOA: TIntegerField
+      FieldName = 'QTD_PESSOA'
+    end
+    object cdsCupomFiscalCLIENTE_ENDERECO: TStringField
+      FieldName = 'CLIENTE_ENDERECO'
+      Size = 120
+    end
+    object cdsCupomFiscalDTORIGINAL: TDateField
+      FieldName = 'DTORIGINAL'
+    end
+    object cdsCupomFiscalBASE_ICMSSUBST_RET: TFloatField
+      FieldName = 'BASE_ICMSSUBST_RET'
+    end
+    object cdsCupomFiscalVLR_ICMSSUBST_RET: TFloatField
+      FieldName = 'VLR_ICMSSUBST_RET'
+    end
+    object cdsCupomFiscalVLR_BASE_EFET: TFloatField
+      FieldName = 'VLR_BASE_EFET'
+    end
+    object cdsCupomFiscalVLR_ICMS_EFET: TFloatField
+      FieldName = 'VLR_ICMS_EFET'
+    end
+    object cdsCupomFiscalVLR_OUTROS: TFloatField
+      FieldName = 'VLR_OUTROS'
+    end
+    object cdsCupomFiscalID_CANAL_VENDA: TIntegerField
+      FieldName = 'ID_CANAL_VENDA'
+    end
+    object cdsCupomFiscalTRANSMITIR: TStringField
+      FieldName = 'TRANSMITIR'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsCupomFiscalTIPO_EMISSAO: TStringField
+      FieldName = 'TIPO_EMISSAO'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsCupomFiscalHRORIGINAL: TTimeField
+      FieldName = 'HRORIGINAL'
+    end
+    object cdsCupomFiscalID_NOTA: TIntegerField
+      FieldName = 'ID_NOTA'
+    end
+    object cdsCupomFiscalVLR_ICMS_MONO: TFloatField
+      FieldName = 'VLR_ICMS_MONO'
+    end
+    object cdsCupomFiscalSTATUS: TStringField
+      FieldName = 'STATUS'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsCupomFiscalID_ORIGINAL: TIntegerField
+      FieldName = 'ID_ORIGINAL'
+    end
+    object cdsCupomFiscalVLR_FRETE: TFloatField
+      FieldName = 'VLR_FRETE'
+    end
+  end
+  object dsCupomFiscal: TDataSource
+    DataSet = cdsCupomFiscal
+    Left = 488
+    Top = 257
+  end
+  object sdsCupomFiscalItem: TSQLDataSet
+    NoMetadata = True
+    GetMetadata = False
+    CommandText = 
+      'select CFI.ID, CFI.ITEM, CFI.ID_PRODUTO, CFI.QTD, CFI.PERC_ICMS,' +
+      ' CFI.VLR_UNITARIO, CFI.PERC_DESCONTO, CFI.VLR_DESCONTO,'#13#10'       ' +
+      'CFI.BASE_ICMS, CFI.VLR_ICMS, CFI.VLR_TOTAL, CFI.ID_MOVESTOQUE, C' +
+      'FI.UNIDADE, CFI.CANCELADO, CFI.SITTRIB,'#13#10'       CFI.REFERENCIA, ' +
+      'CFI.VLR_TRIBUTO, CFI.ID_NCM, CFI.ORIGEM_PROD, CFI.ID_CSTIPI, CFI' +
+      '.PERC_TRIBICMS, CFI.ID_VARIACAO,'#13#10'       CFI.PERC_PIS, CFI.PERC_' +
+      'COFINS, CFI.PERC_IPI, CFI.TIPO_PIS, CFI.TIPO_COFINS, CFI.VLR_PIS' +
+      ', CFI.VLR_COFINS,'#13#10'       CFI.VLR_IPI, CFI.VLR_DESCONTORATEIO, C' +
+      'FI.NOME_PRODUTO, CFI.ITEM_ORIGINAL, CFI.ID_PEDIDO, CFI.ITEM_PEDI' +
+      'DO,'#13#10'       CFI.VLR_ACRESCIMO, CFI.VLR_UNIT_ORIGINAL, CFI.BASE_I' +
+      'CMSSUBST_RET, CFI.VLR_ICMSSUBST_RET, CFI.VLR_BASE_EFET,'#13#10'       ' +
+      'CFI.VLR_ICMS_EFE, CFI.PERC_ST, CFI.PERC_ICMS_EFET, CFI.PERC_BASE' +
+      '_RED_EFET, CFI.VLR_JUROS,'#13#10'       CFI.VLR_ICMS_SUBSTITUTO, CFI.C' +
+      'OD_CBENEF, CFI.STATUS, CFI.PRECO_CUSTO, CFI.PRECO_CUSTO_TOTAL, C' +
+      'FI.ID_NOTA,'#13#10'       CFI.VLR_ICMS_MONO, CFI.VLR_FRETE, P.NOME, TI' +
+      'CM.COD_CST, TCFOP.CODCFOP CFOP, TPIS.CODIGO CST_PIS,'#13#10'       TCO' +
+      'F.CODIGO CST_COFINS'#13#10'from CUPOMFISCAL_ITENS CFI'#13#10'join PRODUTO P ' +
+      'on P.ID = CFI.ID_PRODUTO'#13#10'join TAB_CSTICMS TICM on TICM.ID = CFI' +
+      '.ID_CSTICMS'#13#10'join TAB_CFOP TCFOP on TCFOP.ID = CFI.ID_CFOP'#13#10'left' +
+      ' join TAB_PIS TPIS on TPIS.ID = CFI.ID_PIS'#13#10'left join TAB_COFINS' +
+      ' TCOF on TCOF.ID = CFI.ID_COFINS'#13#10'where CFI.ID = :ID_CUPOM'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'ID_CUPOM'
+        ParamType = ptInput
+      end>
+    SQLConnection = dmDatabase.scoDados
+    Left = 344
+    Top = 305
+    object sdsCupomFiscalItemID: TIntegerField
+      FieldName = 'ID'
+      Required = True
+    end
+    object sdsCupomFiscalItemITEM: TIntegerField
+      FieldName = 'ITEM'
+      Required = True
+    end
+    object sdsCupomFiscalItemID_PRODUTO: TIntegerField
+      FieldName = 'ID_PRODUTO'
+    end
+    object sdsCupomFiscalItemQTD: TFloatField
+      FieldName = 'QTD'
+    end
+    object sdsCupomFiscalItemPERC_ICMS: TFloatField
+      FieldName = 'PERC_ICMS'
+    end
+    object sdsCupomFiscalItemVLR_UNITARIO: TFloatField
+      FieldName = 'VLR_UNITARIO'
+    end
+    object sdsCupomFiscalItemPERC_DESCONTO: TFloatField
+      FieldName = 'PERC_DESCONTO'
+    end
+    object sdsCupomFiscalItemVLR_DESCONTO: TFloatField
+      FieldName = 'VLR_DESCONTO'
+    end
+    object sdsCupomFiscalItemBASE_ICMS: TFloatField
+      FieldName = 'BASE_ICMS'
+    end
+    object sdsCupomFiscalItemVLR_ICMS: TFloatField
+      FieldName = 'VLR_ICMS'
+    end
+    object sdsCupomFiscalItemVLR_TOTAL: TFloatField
+      FieldName = 'VLR_TOTAL'
+    end
+    object sdsCupomFiscalItemID_MOVESTOQUE: TIntegerField
+      FieldName = 'ID_MOVESTOQUE'
+    end
+    object sdsCupomFiscalItemUNIDADE: TStringField
+      FieldName = 'UNIDADE'
+      Size = 6
+    end
+    object sdsCupomFiscalItemCANCELADO: TStringField
+      FieldName = 'CANCELADO'
+      FixedChar = True
+      Size = 1
+    end
+    object sdsCupomFiscalItemSITTRIB: TStringField
+      FieldName = 'SITTRIB'
+      Size = 5
+    end
+    object sdsCupomFiscalItemREFERENCIA: TStringField
+      FieldName = 'REFERENCIA'
+    end
+    object sdsCupomFiscalItemVLR_TRIBUTO: TFloatField
+      FieldName = 'VLR_TRIBUTO'
+    end
+    object sdsCupomFiscalItemID_NCM: TIntegerField
+      FieldName = 'ID_NCM'
+    end
+    object sdsCupomFiscalItemORIGEM_PROD: TStringField
+      FieldName = 'ORIGEM_PROD'
+      FixedChar = True
+      Size = 1
+    end
+    object sdsCupomFiscalItemID_CSTIPI: TIntegerField
+      FieldName = 'ID_CSTIPI'
+    end
+    object sdsCupomFiscalItemPERC_TRIBICMS: TFloatField
+      FieldName = 'PERC_TRIBICMS'
+    end
+    object sdsCupomFiscalItemID_VARIACAO: TIntegerField
+      FieldName = 'ID_VARIACAO'
+    end
+    object sdsCupomFiscalItemPERC_PIS: TFloatField
+      FieldName = 'PERC_PIS'
+    end
+    object sdsCupomFiscalItemPERC_COFINS: TFloatField
+      FieldName = 'PERC_COFINS'
+    end
+    object sdsCupomFiscalItemPERC_IPI: TFloatField
+      FieldName = 'PERC_IPI'
+    end
+    object sdsCupomFiscalItemTIPO_PIS: TStringField
+      FieldName = 'TIPO_PIS'
+      FixedChar = True
+      Size = 1
+    end
+    object sdsCupomFiscalItemTIPO_COFINS: TStringField
+      FieldName = 'TIPO_COFINS'
+      FixedChar = True
+      Size = 1
+    end
+    object sdsCupomFiscalItemVLR_PIS: TFloatField
+      FieldName = 'VLR_PIS'
+    end
+    object sdsCupomFiscalItemVLR_COFINS: TFloatField
+      FieldName = 'VLR_COFINS'
+    end
+    object sdsCupomFiscalItemVLR_IPI: TFloatField
+      FieldName = 'VLR_IPI'
+    end
+    object sdsCupomFiscalItemVLR_DESCONTORATEIO: TFloatField
+      FieldName = 'VLR_DESCONTORATEIO'
+    end
+    object sdsCupomFiscalItemNOME_PRODUTO: TStringField
+      FieldName = 'NOME_PRODUTO'
+      Size = 100
+    end
+    object sdsCupomFiscalItemITEM_ORIGINAL: TIntegerField
+      FieldName = 'ITEM_ORIGINAL'
+    end
+    object sdsCupomFiscalItemID_PEDIDO: TIntegerField
+      FieldName = 'ID_PEDIDO'
+    end
+    object sdsCupomFiscalItemITEM_PEDIDO: TIntegerField
+      FieldName = 'ITEM_PEDIDO'
+    end
+    object sdsCupomFiscalItemVLR_ACRESCIMO: TFloatField
+      FieldName = 'VLR_ACRESCIMO'
+    end
+    object sdsCupomFiscalItemVLR_UNIT_ORIGINAL: TFloatField
+      FieldName = 'VLR_UNIT_ORIGINAL'
+    end
+    object sdsCupomFiscalItemBASE_ICMSSUBST_RET: TFloatField
+      FieldName = 'BASE_ICMSSUBST_RET'
+    end
+    object sdsCupomFiscalItemVLR_ICMSSUBST_RET: TFloatField
+      FieldName = 'VLR_ICMSSUBST_RET'
+    end
+    object sdsCupomFiscalItemVLR_BASE_EFET: TFloatField
+      FieldName = 'VLR_BASE_EFET'
+    end
+    object sdsCupomFiscalItemVLR_ICMS_EFE: TFloatField
+      FieldName = 'VLR_ICMS_EFE'
+    end
+    object sdsCupomFiscalItemPERC_ST: TFloatField
+      FieldName = 'PERC_ST'
+    end
+    object sdsCupomFiscalItemPERC_ICMS_EFET: TFloatField
+      FieldName = 'PERC_ICMS_EFET'
+    end
+    object sdsCupomFiscalItemPERC_BASE_RED_EFET: TFloatField
+      FieldName = 'PERC_BASE_RED_EFET'
+    end
+    object sdsCupomFiscalItemVLR_JUROS: TFloatField
+      FieldName = 'VLR_JUROS'
+    end
+    object sdsCupomFiscalItemVLR_ICMS_SUBSTITUTO: TFloatField
+      FieldName = 'VLR_ICMS_SUBSTITUTO'
+    end
+    object sdsCupomFiscalItemCOD_CBENEF: TStringField
+      FieldName = 'COD_CBENEF'
+      Size = 8
+    end
+    object sdsCupomFiscalItemSTATUS: TStringField
+      FieldName = 'STATUS'
+      FixedChar = True
+      Size = 1
+    end
+    object sdsCupomFiscalItemPRECO_CUSTO: TFloatField
+      FieldName = 'PRECO_CUSTO'
+    end
+    object sdsCupomFiscalItemPRECO_CUSTO_TOTAL: TFloatField
+      FieldName = 'PRECO_CUSTO_TOTAL'
+    end
+    object sdsCupomFiscalItemID_NOTA: TIntegerField
+      FieldName = 'ID_NOTA'
+    end
+    object sdsCupomFiscalItemVLR_ICMS_MONO: TFloatField
+      FieldName = 'VLR_ICMS_MONO'
+    end
+    object sdsCupomFiscalItemVLR_FRETE: TFloatField
+      FieldName = 'VLR_FRETE'
+    end
+    object sdsCupomFiscalItemNOME: TStringField
+      FieldName = 'NOME'
+      Size = 100
+    end
+    object sdsCupomFiscalItemCOD_CST: TStringField
+      FieldName = 'COD_CST'
+      Size = 3
+    end
+    object sdsCupomFiscalItemCFOP: TStringField
+      FieldName = 'CFOP'
+      Size = 5
+    end
+    object sdsCupomFiscalItemCST_PIS: TStringField
+      FieldName = 'CST_PIS'
+      Size = 2
+    end
+    object sdsCupomFiscalItemCST_COFINS: TStringField
+      FieldName = 'CST_COFINS'
+      Size = 2
+    end
+  end
+  object dspCupomFiscalItem: TDataSetProvider
+    DataSet = sdsCupomFiscalItem
+    Left = 392
+    Top = 305
+  end
+  object cdsCupomFiscalItem: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspCupomFiscalItem'
+    Left = 440
+    Top = 305
+    object cdsCupomFiscalItemID: TIntegerField
+      FieldName = 'ID'
+      Required = True
+    end
+    object cdsCupomFiscalItemITEM: TIntegerField
+      FieldName = 'ITEM'
+      Required = True
+    end
+    object cdsCupomFiscalItemID_PRODUTO: TIntegerField
+      FieldName = 'ID_PRODUTO'
+    end
+    object cdsCupomFiscalItemQTD: TFloatField
+      FieldName = 'QTD'
+    end
+    object cdsCupomFiscalItemPERC_ICMS: TFloatField
+      FieldName = 'PERC_ICMS'
+    end
+    object cdsCupomFiscalItemVLR_UNITARIO: TFloatField
+      FieldName = 'VLR_UNITARIO'
+    end
+    object cdsCupomFiscalItemPERC_DESCONTO: TFloatField
+      FieldName = 'PERC_DESCONTO'
+    end
+    object cdsCupomFiscalItemVLR_DESCONTO: TFloatField
+      FieldName = 'VLR_DESCONTO'
+    end
+    object cdsCupomFiscalItemBASE_ICMS: TFloatField
+      FieldName = 'BASE_ICMS'
+    end
+    object cdsCupomFiscalItemVLR_ICMS: TFloatField
+      FieldName = 'VLR_ICMS'
+    end
+    object cdsCupomFiscalItemVLR_TOTAL: TFloatField
+      FieldName = 'VLR_TOTAL'
+    end
+    object cdsCupomFiscalItemID_MOVESTOQUE: TIntegerField
+      FieldName = 'ID_MOVESTOQUE'
+    end
+    object cdsCupomFiscalItemUNIDADE: TStringField
+      FieldName = 'UNIDADE'
+      Size = 6
+    end
+    object cdsCupomFiscalItemCANCELADO: TStringField
+      FieldName = 'CANCELADO'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsCupomFiscalItemSITTRIB: TStringField
+      FieldName = 'SITTRIB'
+      Size = 5
+    end
+    object cdsCupomFiscalItemREFERENCIA: TStringField
+      FieldName = 'REFERENCIA'
+    end
+    object cdsCupomFiscalItemVLR_TRIBUTO: TFloatField
+      FieldName = 'VLR_TRIBUTO'
+    end
+    object cdsCupomFiscalItemID_NCM: TIntegerField
+      FieldName = 'ID_NCM'
+    end
+    object cdsCupomFiscalItemORIGEM_PROD: TStringField
+      FieldName = 'ORIGEM_PROD'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsCupomFiscalItemID_CSTIPI: TIntegerField
+      FieldName = 'ID_CSTIPI'
+    end
+    object cdsCupomFiscalItemPERC_TRIBICMS: TFloatField
+      FieldName = 'PERC_TRIBICMS'
+    end
+    object cdsCupomFiscalItemID_VARIACAO: TIntegerField
+      FieldName = 'ID_VARIACAO'
+    end
+    object cdsCupomFiscalItemPERC_PIS: TFloatField
+      FieldName = 'PERC_PIS'
+    end
+    object cdsCupomFiscalItemPERC_COFINS: TFloatField
+      FieldName = 'PERC_COFINS'
+    end
+    object cdsCupomFiscalItemPERC_IPI: TFloatField
+      FieldName = 'PERC_IPI'
+    end
+    object cdsCupomFiscalItemTIPO_PIS: TStringField
+      FieldName = 'TIPO_PIS'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsCupomFiscalItemTIPO_COFINS: TStringField
+      FieldName = 'TIPO_COFINS'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsCupomFiscalItemVLR_PIS: TFloatField
+      FieldName = 'VLR_PIS'
+    end
+    object cdsCupomFiscalItemVLR_COFINS: TFloatField
+      FieldName = 'VLR_COFINS'
+    end
+    object cdsCupomFiscalItemVLR_IPI: TFloatField
+      FieldName = 'VLR_IPI'
+    end
+    object cdsCupomFiscalItemVLR_DESCONTORATEIO: TFloatField
+      FieldName = 'VLR_DESCONTORATEIO'
+    end
+    object cdsCupomFiscalItemNOME_PRODUTO: TStringField
+      FieldName = 'NOME_PRODUTO'
+      Size = 100
+    end
+    object cdsCupomFiscalItemITEM_ORIGINAL: TIntegerField
+      FieldName = 'ITEM_ORIGINAL'
+    end
+    object cdsCupomFiscalItemID_PEDIDO: TIntegerField
+      FieldName = 'ID_PEDIDO'
+    end
+    object cdsCupomFiscalItemITEM_PEDIDO: TIntegerField
+      FieldName = 'ITEM_PEDIDO'
+    end
+    object cdsCupomFiscalItemVLR_ACRESCIMO: TFloatField
+      FieldName = 'VLR_ACRESCIMO'
+    end
+    object cdsCupomFiscalItemVLR_UNIT_ORIGINAL: TFloatField
+      FieldName = 'VLR_UNIT_ORIGINAL'
+    end
+    object cdsCupomFiscalItemBASE_ICMSSUBST_RET: TFloatField
+      FieldName = 'BASE_ICMSSUBST_RET'
+    end
+    object cdsCupomFiscalItemVLR_ICMSSUBST_RET: TFloatField
+      FieldName = 'VLR_ICMSSUBST_RET'
+    end
+    object cdsCupomFiscalItemVLR_BASE_EFET: TFloatField
+      FieldName = 'VLR_BASE_EFET'
+    end
+    object cdsCupomFiscalItemVLR_ICMS_EFE: TFloatField
+      FieldName = 'VLR_ICMS_EFE'
+    end
+    object cdsCupomFiscalItemPERC_ST: TFloatField
+      FieldName = 'PERC_ST'
+    end
+    object cdsCupomFiscalItemPERC_ICMS_EFET: TFloatField
+      FieldName = 'PERC_ICMS_EFET'
+    end
+    object cdsCupomFiscalItemPERC_BASE_RED_EFET: TFloatField
+      FieldName = 'PERC_BASE_RED_EFET'
+    end
+    object cdsCupomFiscalItemVLR_JUROS: TFloatField
+      FieldName = 'VLR_JUROS'
+    end
+    object cdsCupomFiscalItemVLR_ICMS_SUBSTITUTO: TFloatField
+      FieldName = 'VLR_ICMS_SUBSTITUTO'
+    end
+    object cdsCupomFiscalItemCOD_CBENEF: TStringField
+      FieldName = 'COD_CBENEF'
+      Size = 8
+    end
+    object cdsCupomFiscalItemSTATUS: TStringField
+      FieldName = 'STATUS'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsCupomFiscalItemPRECO_CUSTO: TFloatField
+      FieldName = 'PRECO_CUSTO'
+    end
+    object cdsCupomFiscalItemPRECO_CUSTO_TOTAL: TFloatField
+      FieldName = 'PRECO_CUSTO_TOTAL'
+    end
+    object cdsCupomFiscalItemID_NOTA: TIntegerField
+      FieldName = 'ID_NOTA'
+    end
+    object cdsCupomFiscalItemVLR_ICMS_MONO: TFloatField
+      FieldName = 'VLR_ICMS_MONO'
+    end
+    object cdsCupomFiscalItemVLR_FRETE: TFloatField
+      FieldName = 'VLR_FRETE'
+    end
+    object cdsCupomFiscalItemNOME: TStringField
+      FieldName = 'NOME'
+      Size = 100
+    end
+    object cdsCupomFiscalItemCOD_CST: TStringField
+      FieldName = 'COD_CST'
+      Size = 3
+    end
+    object cdsCupomFiscalItemCFOP: TStringField
+      FieldName = 'CFOP'
+      Size = 5
+    end
+    object cdsCupomFiscalItemCST_PIS: TStringField
+      FieldName = 'CST_PIS'
+      Size = 2
+    end
+    object cdsCupomFiscalItemCST_COFINS: TStringField
+      FieldName = 'CST_COFINS'
+      Size = 2
+    end
+  end
+  object dsCupomFiscalItem: TDataSource
+    DataSet = cdsCupomFiscalItem
+    Left = 488
+    Top = 305
+  end
+  object sqlC190: TSQLQuery
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'ID_CUPOM'
+        ParamType = ptInput
+      end>
+    SQL.Strings = (
+      'with C190'
+      'as (select CI.ID, CI.ID_CSTICMS, CI.PERC_ICMS, CI.ID_CFOP,'
+      '           sum(CI.VLR_BASE_EFET) VALOR_BASE_REDUCAO,'
+      
+        '           sum(CI.BASE_ICMS) BASE_ICMS, sum(CI.VLR_ICMS) VLR_ICM' +
+        'S,'
+      '           sum(round(CI.QTD * CI.VLR_UNITARIO, 2)) VLR_PRODUTO,'
+      
+        '           sum(coalesce(CI.VLR_DESCONTO, 0) + coalesce(CI.VLR_DE' +
+        'SCONTORATEIO, 0)) VLR_DESCONTO,'
+      '           sum(CI.VLR_TOTAL) VLR_BASE_PIS,'
+      '           sum(CI.VLR_TOTAL) VLR_BASE_COFINS'
+      '    from CUPOMFISCAL_ITENS CI'
+      '    where CI.ID = :ID_CUPOM'
+      '    group by CI.ID, CI.ID_CSTICMS, CI.PERC_ICMS, CI.ID_CFOP)'
+      
+        'select C.ID, TICM.COD_CST, C.PERC_ICMS, TCFOP.CODCFOP, C.BASE_IC' +
+        'MS, C.VLR_ICMS, C.VLR_PRODUTO, C.VLR_DESCONTO, C.VLR_BASE_PIS,'
+      '       C.VLR_BASE_COFINS, C.VALOR_BASE_REDUCAO'
+      'from C190 C'
+      'join TAB_CSTICMS TICM on C.ID_CSTICMS = TICM.ID'
+      'join TAB_CFOP TCFOP on C.ID_CFOP = TCFOP.ID')
+    SQLConnection = dmDatabase.scoDados
+    Left = 344
+    Top = 352
+    object sqlC190ID: TIntegerField
+      FieldName = 'ID'
+      Required = True
+    end
+    object sqlC190COD_CST: TStringField
+      FieldName = 'COD_CST'
+      Size = 3
+    end
+    object sqlC190PERC_ICMS: TFloatField
+      FieldName = 'PERC_ICMS'
+    end
+    object sqlC190CODCFOP: TStringField
+      FieldName = 'CODCFOP'
+      Size = 5
+    end
+    object sqlC190BASE_ICMS: TFloatField
+      FieldName = 'BASE_ICMS'
+    end
+    object sqlC190VLR_ICMS: TFloatField
+      FieldName = 'VLR_ICMS'
+    end
+    object sqlC190VLR_PRODUTO: TFloatField
+      FieldName = 'VLR_PRODUTO'
+    end
+    object sqlC190VLR_DESCONTO: TFloatField
+      FieldName = 'VLR_DESCONTO'
+    end
+    object sqlC190VLR_BASE_PIS: TFloatField
+      FieldName = 'VLR_BASE_PIS'
+    end
+    object sqlC190VLR_BASE_COFINS: TFloatField
+      FieldName = 'VLR_BASE_COFINS'
+    end
+    object sqlC190VALOR_BASE_REDUCAO: TFloatField
+      FieldName = 'VALOR_BASE_REDUCAO'
     end
   end
 end

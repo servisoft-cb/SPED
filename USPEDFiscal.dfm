@@ -1,8 +1,8 @@
 object frmSPEDFiscal: TfrmSPEDFiscal
-  Left = 48
-  Top = 11
-  Width = 1288
-  Height = 704
+  Left = -7
+  Top = 2
+  Width = 1378
+  Height = 733
   Caption = 'Gerar SPED Fiscal    (Vers'#227'o  09/05/2025  1.1.56) '
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -20,8 +20,8 @@ object frmSPEDFiscal: TfrmSPEDFiscal
   object RZPageControlDados: TRzPageControl
     Left = 0
     Top = 0
-    Width = 1272
-    Height = 665
+    Width = 1362
+    Height = 694
     ActivePage = TS_Gerar_SPED
     ActivePageDefault = TS_Gerar_SPED
     Align = alClient
@@ -251,8 +251,8 @@ object frmSPEDFiscal: TfrmSPEDFiscal
     object TS_Exemplo: TRzTabSheet
       Caption = 'TS_Exemplo'
       DesignSize = (
-        1268
-        642)
+        1358
+        671)
       object Label2: TLabel
         Left = 8
         Top = 161
@@ -292,7 +292,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
       object memoError: TMemo
         Left = 8
         Top = 178
-        Width = 1239
+        Width = 1329
         Height = 83
         TabStop = False
         Anchors = [akLeft, akTop, akRight]
@@ -303,8 +303,8 @@ object frmSPEDFiscal: TfrmSPEDFiscal
       object memoTXT: TMemo
         Left = 8
         Top = 283
-        Width = 1239
-        Height = 278
+        Width = 1329
+        Height = 307
         TabStop = False
         Anchors = [akLeft, akTop, akRight, akBottom]
         Font.Charset = ANSI_CHARSET
@@ -320,8 +320,8 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         WordWrap = False
       end
       object btnError: TButton
-        Left = 1043
-        Top = 538
+        Left = 1133
+        Top = 567
         Width = 100
         Height = 25
         Anchors = [akRight, akBottom]
@@ -330,8 +330,8 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         OnClick = btnErrorClick
       end
       object btnTXT: TButton
-        Left = 1149
-        Top = 538
+        Left = 1239
+        Top = 567
         Width = 100
         Height = 25
         Anchors = [akRight, akBottom]
@@ -342,14 +342,14 @@ object frmSPEDFiscal: TfrmSPEDFiscal
       object Panel1: TPanel
         Left = 0
         Top = 0
-        Width = 1268
+        Width = 1358
         Height = 58
         Align = alTop
         BevelOuter = bvNone
         BorderStyle = bsSingle
         TabOrder = 4
         DesignSize = (
-          1264
+          1354
           54)
         object Label1: TLabel
           Left = 22
@@ -363,7 +363,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object Label5: TLabel
           Left = 0
           Top = 0
-          Width = 1264
+          Width = 1354
           Height = 16
           Align = alTop
           Alignment = taCenter
@@ -389,7 +389,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edtFile: TEdit
           Left = 22
           Top = 28
-          Width = 113
+          Width = 183
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 0
@@ -398,7 +398,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           OnExit = edtFileChange
         end
         object cbConcomitante: TCheckBox
-          Left = 159
+          Left = 229
           Top = 30
           Width = 134
           Height = 19
@@ -421,7 +421,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edNotas: TEdit
           Left = 654
           Top = 29
-          Width = -124
+          Width = 0
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 2
@@ -431,7 +431,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
       object Panel2: TPanel
         Left = 0
         Top = 58
-        Width = 1268
+        Width = 1358
         Height = 87
         Align = alTop
         BevelOuter = bvNone
@@ -441,7 +441,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object Label4: TLabel
           Left = 1
           Top = 1
-          Width = 450
+          Width = 1352
           Height = 16
           Align = alTop
           Alignment = taCenter
@@ -537,8 +537,8 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         end
       end
       object btnB_9: TButton
-        Left = 937
-        Top = 538
+        Left = 1027
+        Top = 567
         Width = 100
         Height = 25
         Anchors = [akRight, akBottom]
@@ -578,7 +578,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
       object Panel3: TPanel
         Left = 0
         Top = 0
-        Width = 1268
+        Width = 1358
         Height = 200
         Align = alTop
         TabOrder = 0
@@ -927,7 +927,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object NxPanel1: TNxPanel
           Left = 1
           Top = 159
-          Width = 1266
+          Width = 1356
           Height = 40
           Align = alBottom
           UseDockManager = False
@@ -1173,8 +1173,8 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           end
         end
         object ckC176: TCheckBox
-          Left = 1136
-          Top = 32
+          Left = 1128
+          Top = 48
           Width = 65
           Height = 17
           Caption = 'C176'
@@ -1196,12 +1196,20 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           Caption = 'Sem C'#243'd. Participante no K200'
           TabOrder = 11
         end
+        object chkC170Cupom: TCheckBox
+          Left = 1128
+          Top = 32
+          Width = 97
+          Height = 17
+          Caption = 'C170 - Cupom'
+          TabOrder = 19
+        end
       end
       object RzPageControl1: TRzPageControl
         Left = 0
         Top = 200
-        Width = 1268
-        Height = 442
+        Width = 1358
+        Height = 471
         ActivePage = TS_SPED
         ActivePageDefault = TS_SPED
         Align = alClient
@@ -1214,8 +1222,8 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           object mSped: TMemo
             Left = 0
             Top = 0
-            Width = 1264
-            Height = 419
+            Width = 1354
+            Height = 448
             TabStop = False
             Align = alClient
             Font.Charset = ANSI_CHARSET
@@ -1235,8 +1243,8 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           object SMDBGrid1: TSMDBGrid
             Left = 0
             Top = 0
-            Width = 1264
-            Height = 419
+            Width = 1354
+            Height = 448
             Align = alClient
             DataSource = DMSPEDFiscal.dsPosseEstoque
             Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
@@ -1352,8 +1360,8 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           object SMDBGrid2: TSMDBGrid
             Left = 0
             Top = 0
-            Width = 1264
-            Height = 419
+            Width = 1354
+            Height = 448
             Align = alClient
             Ctl3D = False
             DataSource = DMSPEDFiscal.dsmAuxResumo
@@ -1435,8 +1443,8 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           object SMDBGrid3: TSMDBGrid
             Left = 0
             Top = 34
-            Width = 1264
-            Height = 385
+            Width = 1354
+            Height = 414
             Align = alClient
             Ctl3D = False
             DataSource = DMSPEDFiscal.dsmK200
@@ -1537,7 +1545,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           object Panel4: TPanel
             Left = 0
             Top = 0
-            Width = 1264
+            Width = 1354
             Height = 34
             Align = alTop
             Color = clSilver
@@ -1565,8 +1573,8 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           object SMDBGrid4: TSMDBGrid
             Left = 0
             Top = 41
-            Width = 1264
-            Height = 378
+            Width = 1354
+            Height = 407
             Align = alClient
             Ctl3D = False
             DataSource = DMSPEDFiscal.dsmProdSemCusto
@@ -1625,7 +1633,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           object Panel5: TPanel
             Left = 0
             Top = 0
-            Width = 1264
+            Width = 1354
             Height = 41
             Align = alTop
             TabOrder = 1
