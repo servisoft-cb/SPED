@@ -13,6 +13,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
   KeyPreview = True
   OldCreateOrder = True
   Position = poScreenCenter
+  OnClose = FormClose
   OnKeyDown = FormKeyDown
   OnShow = FormShow
   PixelsPerInch = 96
@@ -389,7 +390,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edtFile: TEdit
           Left = 22
           Top = 28
-          Width = 183
+          Width = 167
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 0
@@ -398,7 +399,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           OnExit = edtFileChange
         end
         object cbConcomitante: TCheckBox
-          Left = 229
+          Left = 213
           Top = 30
           Width = 134
           Height = 19
@@ -421,7 +422,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edNotas: TEdit
           Left = 654
           Top = 29
-          Width = 0
+          Width = -12
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 2
@@ -441,7 +442,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object Label4: TLabel
           Left = 1
           Top = 1
-          Width = 1352
+          Width = 450
           Height = 16
           Align = alTop
           Alignment = taCenter
@@ -1172,20 +1173,12 @@ object frmSPEDFiscal: TfrmSPEDFiscal
               '2 - Leiaute restrito aos saldos de estoque')
           end
         end
-        object ckC176: TCheckBox
-          Left = 1128
-          Top = 48
-          Width = 65
-          Height = 17
-          Caption = 'C176'
-          TabOrder = 17
-        end
         object NxButton3: TNxButton
           Left = 1128
           Top = 8
           Width = 75
           Caption = 'Configura'
-          TabOrder = 18
+          TabOrder = 17
           OnClick = NxButton3Click
         end
         object ckParticipante: TCheckBox
@@ -1202,7 +1195,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           Width = 97
           Height = 17
           Caption = 'C170 - Cupom'
-          TabOrder = 19
+          TabOrder = 18
         end
       end
       object RzPageControl1: TRzPageControl
