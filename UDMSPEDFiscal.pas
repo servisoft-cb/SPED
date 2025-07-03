@@ -1402,6 +1402,28 @@ type
     sqlC190VLR_BASE_PIS: TFloatField;
     sqlC190VLR_BASE_COFINS: TFloatField;
     sqlC190VALOR_BASE_REDUCAO: TFloatField;
+    mE110VL_TOT_DEBITOS: TFloatField;
+    mE110VL_AJ_DEBITOS: TFloatField;
+    mE110VL_TOT_AJ_DEBITOS: TFloatField;
+    mE110VL_ESTORNOS_CRED: TFloatField;
+    mE110VL_TOT_CREDITOS: TFloatField;
+    mE110VL_AJ_CREDITOS: TFloatField;
+    mE110VL_TOT_AJ_CREDITOS: TFloatField;
+    mE110VL_ESTORNOS_DEB: TFloatField;
+    mE110VL_SLD_CREDOR_ANT: TFloatField;
+    mE110VL_SLD_APURADO: TFloatField;
+    mE110VL_TOT_DED: TFloatField;
+    mE110VL_ICMS_RECOLHER: TFloatField;
+    mE110VL_SLD_CREDOR_TRANSP: TFloatField;
+    mE110DEB_ESP: TFloatField;
+    qE115: TSQLQuery;
+    qE115COD_BENEF: TStringField;
+    qE115CFOP_PROD: TStringField;
+    qE115VLR_TOTAL: TFloatField;
+    qE300: TSQLQuery;
+    qE300UF: TStringField;
+    qE300VLR_ICMS_UF_DEST: TFloatField;
+    qE300VLR_ICMS_UF_REMET: TFloatField;
     procedure DataModuleCreate(Sender: TObject);
     procedure mAuxResumoNewRecord(DataSet: TDataSet);
   private

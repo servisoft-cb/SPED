@@ -960,9 +960,11 @@ object DMSPEDFiscal: TDMSPEDFiscal
       end>
     SQL.Strings = (
       
-        'select PES.*, PAIS.CODPAIS, PAIS.NOME NOME_PAIS, CID.CODMUNICIPI' +
-        'O, CID.NOME NOME_CIDADE,'
-      '       CID_ENT.CODMUNICIPIO CODMUNICIPIO_ENT, UF.QTD_DIGITOS_IE'
+        'select PES.*, iif(PAIS.CODPAIS <> '#39#39', PAIS.CODPAIS, '#39'1058'#39') CODP' +
+        'AIS, PAIS.NOME NOME_PAIS, CID.CODMUNICIPIO,'
+      
+        '       CID.NOME NOME_CIDADE, CID_ENT.CODMUNICIPIO CODMUNICIPIO_E' +
+        'NT, UF.QTD_DIGITOS_IE'
       'from PESSOA PES'
       'inner join PAIS on PES.ID_PAIS = PAIS.ID'
       'inner join CIDADE CID on PES.ID_CIDADE = CID.ID'
@@ -5096,40 +5098,127 @@ object DMSPEDFiscal: TDMSPEDFiscal
     end
   end
   object mE110: TClientDataSet
+    Active = True
     Aggregates = <>
     Params = <>
     Left = 896
     Top = 528
+    Data = {
+      660100009619E0BD01000000180000000E00000000000300000066010E564C5F
+      544F545F44454249544F5308000400000000000D564C5F414A5F44454249544F
+      53080004000000000011564C5F544F545F414A5F44454249544F530800040000
+      00000010564C5F4553544F524E4F535F4352454408000400000000000F564C5F
+      544F545F4352454449544F5308000400000000000E564C5F414A5F4352454449
+      544F53080004000000000012564C5F544F545F414A5F4352454449544F530800
+      0400000000000F564C5F4553544F524E4F535F44454208000400000000001156
+      4C5F534C445F435245444F525F414E5408000400000000000E564C5F534C445F
+      4150555241444F08000400000000000A564C5F544F545F444544080004000000
+      000010564C5F49434D535F5245434F4C484552080004000000000014564C5F53
+      4C445F435245444F525F5452414E53500800040000000000074445425F455350
+      08000400000000000000}
+    object mE110VL_TOT_DEBITOS: TFloatField
+      FieldName = 'VL_TOT_DEBITOS'
+    end
+    object mE110VL_AJ_DEBITOS: TFloatField
+      FieldName = 'VL_AJ_DEBITOS'
+    end
+    object mE110VL_TOT_AJ_DEBITOS: TFloatField
+      FieldName = 'VL_TOT_AJ_DEBITOS'
+    end
+    object mE110VL_ESTORNOS_CRED: TFloatField
+      FieldName = 'VL_ESTORNOS_CRED'
+    end
+    object mE110VL_TOT_CREDITOS: TFloatField
+      FieldName = 'VL_TOT_CREDITOS'
+    end
+    object mE110VL_AJ_CREDITOS: TFloatField
+      FieldName = 'VL_AJ_CREDITOS'
+    end
+    object mE110VL_TOT_AJ_CREDITOS: TFloatField
+      FieldName = 'VL_TOT_AJ_CREDITOS'
+    end
+    object mE110VL_ESTORNOS_DEB: TFloatField
+      FieldName = 'VL_ESTORNOS_DEB'
+    end
+    object mE110VL_SLD_CREDOR_ANT: TFloatField
+      FieldName = 'VL_SLD_CREDOR_ANT'
+    end
+    object mE110VL_SLD_APURADO: TFloatField
+      FieldName = 'VL_SLD_APURADO'
+    end
+    object mE110VL_TOT_DED: TFloatField
+      FieldName = 'VL_TOT_DED'
+    end
+    object mE110VL_ICMS_RECOLHER: TFloatField
+      FieldName = 'VL_ICMS_RECOLHER'
+    end
+    object mE110VL_SLD_CREDOR_TRANSP: TFloatField
+      FieldName = 'VL_SLD_CREDOR_TRANSP'
+    end
+    object mE110DEB_ESP: TFloatField
+      FieldName = 'DEB_ESP'
+    end
   end
   object sdsICMS: TSQLDataSet
     NoMetadata = True
     GetMetadata = False
     CommandText = 
-      'with A'#13#10'as (select'#13#10'           case'#13#10'             when (N.TIPO_N' +
-      'OTA = '#39'S'#39') then sum(N.VLR_ICMS)'#13#10'             else 0'#13#10'          ' +
-      ' end VLR_ICMS_DEBITO,'#13#10'           case'#13#10'             when (N.TIP' +
-      'O_NOTA = '#39'E'#39') then sum(N.VLR_ICMS)'#13#10'             else 0'#13#10'       ' +
-      '    end VLR_ICMS_CREDITO'#13#10'    from NOTAFISCAL N'#13#10'    where N.DTE' +
-      'MISSAO between :DATA1 and :DATA2 and'#13#10'          N.FILIAL = :FILI' +
-      'AL and'#13#10'          (N.TIPO_REG = '#39'NTS'#39' or N.TIPO_REG = '#39'NTE'#39') and' +
-      #13#10'          N.CANCELADA = '#39'N'#39' and'#13#10'          N.NFEDENEGADA = '#39'N'#39 +
-      #13#10'    group by N.TIPO_NOTA)'#13#10'select sum(A.VLR_ICMS_DEBITO) VLR_I' +
-      'CMS_DEBITO, sum(A.VLR_ICMS_CREDITO) VLR_ICMS_CREDITO'#13#10'from A'#13#10#13#10 +
-      '  '
+      'with ICMS'#13#10'as (select'#13#10'           case'#13#10'             when (N.TIP' +
+      'O_NOTA = '#39'S'#39') then sum(N.VLR_ICMS)'#13#10'             else 0'#13#10'       ' +
+      '    end VLR_ICMS_DEBITO,'#13#10'           case'#13#10'             when (N.' +
+      'TIPO_NOTA = '#39'E'#39') then sum(N.VLR_ICMS)'#13#10'             else 0'#13#10'    ' +
+      '       end VLR_ICMS_CREDITO'#13#10'    from NOTAFISCAL N'#13#10'    where ((' +
+      'N.dtemissao between :DATA1 and :DATA2 and N.TIPO_REG = '#39'NTS'#39') or' +
+      #13#10'          (N.dtsaidaentrada between :DATA1 and :DATA2 and  N.T' +
+      'IPO_REG = '#39'NTE'#39')) and'#13#10'          N.FILIAL = :FILIAL and'#13#10'       ' +
+      '   N.CANCELADA = '#39'N'#39' and'#13#10'          N.NFEDENEGADA = '#39'N'#39#13#10'    gro' +
+      'up by N.TIPO_NOTA'#13#10'    union all'#13#10'    select sum(CF.VLR_ICMS) VL' +
+      'R_ICMS_DEBITO, 0 VLR_ICMS_CREDITO'#13#10'    from CUPOMFISCAL CF'#13#10'    ' +
+      'where CF.DTEMISSAO between :DATA1 and :DATA2 and'#13#10'          CF.C' +
+      'ANCELADO IN ('#39'N'#39') and'#13#10'          CF.NFECHAVEACESSO <> '#39#39' and'#13#10'  ' +
+      '        CF.NFEPROTOCOLO <> '#39#39' and'#13#10'          CF.FILIAL = :FILIAL' +
+      ')'#13#10'select sum(coalesce(A.VLR_ICMS_DEBITO, 0)) VLR_ICMS_DEBITO, s' +
+      'um(coalesce(A.VLR_ICMS_CREDITO, 0)) VLR_ICMS_CREDITO'#13#10'from ICMS ' +
+      'A '
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftDate
+        DataType = ftUnknown
         Name = 'DATA1'
         ParamType = ptInput
       end
       item
-        DataType = ftDate
+        DataType = ftUnknown
         Name = 'DATA2'
         ParamType = ptInput
       end
       item
-        DataType = ftInteger
+        DataType = ftUnknown
+        Name = 'DATA1'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftUnknown
+        Name = 'DATA2'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftUnknown
+        Name = 'FILIAL'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftUnknown
+        Name = 'DATA1'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftUnknown
+        Name = 'DATA2'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftUnknown
         Name = 'FILIAL'
         ParamType = ptInput
       end>
@@ -5209,22 +5298,22 @@ object DMSPEDFiscal: TDMSPEDFiscal
       'C_ICMS_ENT, I.PERC_ICMSSUBST_INTERNO, I.PERC_MVA,'#13#10'             ' +
       'iif(coalesce(I.PERC_MVA, 0) > 0, P.VLR_UNITARIO + ((P.VLR_UNITAR' +
       'IO * I.PERC_MVA) / 100), 0) VLR_UNITARIO_BC_ST,'#13#10'             N.' +
-      'DTSAIDAENTRADA, I.QTD QTD_ENTRADA'#13#10'      from PEPS_ESTOQUE P'#13#10'  ' +
+      'DTSAIDAENTRADA, I.QTD QTD_ENTRADA'#13#10'      from UEPS_ESTOQUE P'#13#10'  ' +
       '    left join NOTAFISCAL N on P.ID_NOTA_ENT = N.ID'#13#10'      left j' +
       'oin NOTAFISCAL_ITENS I on P.ID_NOTA_ENT = I.ID and'#13#10'            ' +
       'P.ITEM_NOTA_ENT = I.ITEM'#13#10'      where P.ID_DOC_SAIDA = :ID_DOC_S' +
       'AIDA and'#13#10'            P.ITEM_DOC_SAIDA = :ITEM_DOC_SAIDA and'#13#10'  ' +
       '          P.TIPO_DOC_SAIDA = '#39'NTS'#39') AUX'#13#10'where AUX.VLR_UNITARIO_' +
-      'BC_ST > 0   '
+      'BC_ST > 0'#13#10
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftInteger
+        DataType = ftUnknown
         Name = 'ID_DOC_SAIDA'
         ParamType = ptInput
       end
       item
-        DataType = ftInteger
+        DataType = ftUnknown
         Name = 'ITEM_DOC_SAIDA'
         ParamType = ptInput
       end>
@@ -6353,6 +6442,134 @@ object DMSPEDFiscal: TDMSPEDFiscal
     end
     object sqlC190VALOR_BASE_REDUCAO: TFloatField
       FieldName = 'VALOR_BASE_REDUCAO'
+    end
+  end
+  object qE115: TSQLQuery
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftDate
+        Name = 'DATA1'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'DATA2'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'FILIAL'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'DATA1'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'DATA2'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'FILIAL'
+        ParamType = ptInput
+      end>
+    SQL.Strings = (
+      'with E115'
+      
+        'as (select iif(coalesce(NFI.COD_CBENEF, '#39#39') <> '#39#39', NFI.COD_CBENE' +
+        'F, P.COD_BENEF) COD_BENEF, TCFOP.CODCFOP CFOP_PROD,'
+      '           NFI.VLR_TOTAL'
+      '    from NOTAFISCAL N'
+      '    join NOTAFISCAL_ITENS NFI on N.ID = NFI.ID'
+      '    join PRODUTO P on P.ID = NFI.ID_PRODUTO'
+      '    join TAB_CFOP TCFOP on TCFOP.ID = NFI.ID_CFOP'
+      '    where N.DTEMISSAO between :DATA1 and :DATA2 and'
+      '          N.FILIAL = :FILIAL and'
+      '          (N.TIPO_REG = '#39'NTS'#39' or N.TIPO_REG = '#39'NTE'#39') and'
+      '          N.CANCELADA = '#39'N'#39' and'
+      '          N.NFEDENEGADA = '#39'N'#39
+      '    union all'
+      
+        '    select iif(coalesce(CI.COD_CBENEF, '#39#39') <> '#39#39', CI.COD_CBENEF,' +
+        ' P.COD_BENEF) COD_BENEF, TCFOP.CODCFOP CFOP_PROD,'
+      '           CI.VLR_TOTAL'
+      '    from CUPOMFISCAL_ITENS CI'
+      '    inner join CUPOMFISCAL C on CI.ID = C.ID'
+      '    inner join TAB_CFOP TCFOP on TCFOP.ID = CI.ID_CFOP'
+      '    inner join PRODUTO P on CI.ID_PRODUTO = P.ID'
+      '    inner join TAB_NCM N on CI.ID_NCM = N.ID'
+      '    where C.DTEMISSAO between :DATA1 and :DATA2 and'
+      '          C.FILIAL = :FILIAL and'
+      '          C.NFECHAVEACESSO is not null and'
+      '          coalesce(C.NFEPROTOCOLO, '#39#39') <> '#39#39')'
+      'select COD_BENEF, CFOP_PROD, sum(VLR_TOTAL) VLR_TOTAL'
+      'from E115'
+      'where COD_BENEF <> '#39#39
+      'group by COD_BENEF, CFOP_PROD   ')
+    SQLConnection = dmDatabase.scoDados
+    Left = 728
+    Top = 488
+    object qE115COD_BENEF: TStringField
+      FieldName = 'COD_BENEF'
+      Size = 8
+    end
+    object qE115CFOP_PROD: TStringField
+      FieldName = 'CFOP_PROD'
+      Size = 5
+    end
+    object qE115VLR_TOTAL: TFloatField
+      FieldName = 'VLR_TOTAL'
+    end
+  end
+  object qE300: TSQLQuery
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftDate
+        Name = 'data1'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftDate
+        Name = 'data2'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftInteger
+        Name = 'FILIAL'
+        ParamType = ptInput
+      end>
+    SQL.Strings = (
+      
+        'select PES.UF, sum(coalesce(NFI.VLR_ICMS_UF_DEST, 0)) VLR_ICMS_U' +
+        'F_DEST,'
+      '       sum(coalesce(NFI.VLR_ICMS_UF_REMET, 0)) VLR_ICMS_UF_REMET'
+      'from NOTAFISCAL NF'
+      'join NOTAFISCAL_ITENS NFI on NF.ID = NFI.ID'
+      'join PESSOA PES on PES.CODIGO = NF.ID_CLIENTE'
+      'where NF.DTEMISSAO between :data1 and :data2 and'
+      '      NF.FILIAL = :FILIAL and'
+      '      (NF.TIPO_REG = '#39'NTS'#39') and'
+      '      NF.CANCELADA = '#39'N'#39' and'
+      '      NF.NFEDENEGADA = '#39'N'#39
+      'group by 1  ')
+    SQLConnection = dmDatabase.scoDados
+    Left = 736
+    Top = 536
+    object qE300UF: TStringField
+      FieldName = 'UF'
+      FixedChar = True
+      Size = 2
+    end
+    object qE300VLR_ICMS_UF_DEST: TFloatField
+      FieldName = 'VLR_ICMS_UF_DEST'
+    end
+    object qE300VLR_ICMS_UF_REMET: TFloatField
+      FieldName = 'VLR_ICMS_UF_REMET'
     end
   end
 end
