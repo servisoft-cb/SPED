@@ -20,7 +20,9 @@ uses
   uPessoa in '..\ssfacil\Classes\uPessoa.pas',
   UInfMotivoExc in '..\ssfacil\UInfMotivoExc.pas' {frmInfMotivoExc},
   uUtilPadrao in 'uUtilPadrao.pas',
-  UDMCadFilial in '..\ssfacil\UDMCadFilial.pas' {DMCadFilial: TDataModule};
+  UDMCadFilial in '..\ssfacil\UDMCadFilial.pas' {DMCadFilial: TDataModule},
+  ClasseRegistroE116 in 'Classes\ClasseRegistroE116.pas',
+  ClasseRegistroE210 in 'Classes\ClasseRegistroE210.pas';
 
 {$R *.res}
 
