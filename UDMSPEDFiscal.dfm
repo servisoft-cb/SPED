@@ -5168,18 +5168,20 @@ object DMSPEDFiscal: TDMSPEDFiscal
       '    end VLR_ICMS_DEBITO,'#13#10'           case'#13#10'             when (N.' +
       'TIPO_NOTA = '#39'E'#39') then sum(N.VLR_ICMS)'#13#10'             else 0'#13#10'    ' +
       '       end VLR_ICMS_CREDITO'#13#10'    from NOTAFISCAL N'#13#10'    where ((' +
-      'N.dtemissao between :DATA1 and :DATA2 and N.TIPO_REG = '#39'NTS'#39') or' +
-      #13#10'          (N.dtsaidaentrada between :DATA1 and :DATA2 and  N.T' +
-      'IPO_REG = '#39'NTE'#39')) and'#13#10'          N.FILIAL = :FILIAL and'#13#10'       ' +
-      '   N.CANCELADA = '#39'N'#39' and'#13#10'          N.NFEDENEGADA = '#39'N'#39#13#10'    gro' +
-      'up by N.TIPO_NOTA'#13#10'    union all'#13#10'    select sum(CF.VLR_ICMS) VL' +
-      'R_ICMS_DEBITO, 0 VLR_ICMS_CREDITO'#13#10'    from CUPOMFISCAL CF'#13#10'    ' +
-      'where CF.DTEMISSAO between :DATA1 and :DATA2 and'#13#10'          CF.C' +
-      'ANCELADO IN ('#39'N'#39') and'#13#10'          CF.NFECHAVEACESSO <> '#39#39' and'#13#10'  ' +
-      '        CF.NFEPROTOCOLO <> '#39#39' and'#13#10'          CF.FILIAL = :FILIAL' +
-      ')'#13#10'select sum(coalesce(A.VLR_ICMS_DEBITO, 0)) VLR_ICMS_DEBITO, s' +
-      'um(coalesce(A.VLR_ICMS_CREDITO, 0)) VLR_ICMS_CREDITO'#13#10'from ICMS ' +
-      'A '
+      'N.DTEMISSAO between :DATA1 and :DATA2 and'#13#10'          N.TIPO_REG ' +
+      '= '#39'NTS'#39') or (N.DTSAIDAENTRADA between :DATA1 and :DATA2 and'#13#10'   ' +
+      '       N.TIPO_REG = '#39'NTE'#39')) and'#13#10'          N.FILIAL = :FILIAL an' +
+      'd'#13#10'          N.CANCELADA = '#39'N'#39' and'#13#10'          N.NFEDENEGADA = '#39'N' +
+      #39#13#10'    group by N.TIPO_NOTA'#13#10'    union all'#13#10'    select (select s' +
+      'um(VLR_ICMS)'#13#10'            from CUPOMFISCAL_ITENS CFI'#13#10'          ' +
+      '  where CFI.ID = CF.ID and'#13#10'                  CFI.CANCELADO = '#39'N' +
+      #39') VLR_ICMS_DEBITO1, 0 VLR_ICMS_CREDITO'#13#10'    from CUPOMFISCAL CF' +
+      #13#10'    where CF.DTEMISSAO between :DATA1 and :DATA2 and'#13#10'        ' +
+      '  CF.CANCELADO in ('#39'N'#39') and'#13#10'          CF.NFECHAVEACESSO <> '#39#39' a' +
+      'nd'#13#10'          CF.NFEPROTOCOLO <> '#39#39' and'#13#10'          CF.FILIAL = :' +
+      'FILIAL)'#13#10'select sum(coalesce(A.VLR_ICMS_DEBITO, 0)) VLR_ICMS_DEB' +
+      'ITO, sum(coalesce(A.VLR_ICMS_CREDITO, 0)) VLR_ICMS_CREDITO'#13#10'from' +
+      ' ICMS A '
     MaxBlobSize = -1
     Params = <
       item
@@ -5287,24 +5289,24 @@ object DMSPEDFiscal: TDMSPEDFiscal
     NoMetadata = True
     GetMetadata = False
     CommandText = 
-      'select AUX.*'#13#10'from (select P.ID, P.DTMOV, P.ID_PRODUTO, P.ID_COR' +
-      ', P.TAMANHO, P.TIPO_ES, P.QTD, P.ID_NOTA_ENT, P.ITEM_NOTA_ENT,'#13#10 +
-      '             P.PERC_ICMS, P.VLR_UNITARIO, P.BASE_ICMS, P.VLR_ICM' +
-      'S, P.UF, P.ID_DOC_SAIDA, P.ITEM_DOC_SAIDA,'#13#10'             P.TIPO_' +
-      'DOC_SAIDA, P.DEVOLUCAO, P.NUM_DOC_SAIDA, P.SERIE_DOC_SAIDA, P.ID' +
-      '_CLIENTE, P.ID_FORNECEDOR,'#13#10'             P.NUM_NOTA_ENT, P.SERIE' +
-      '_NOTA_ENT, P.FILIAL, N.NFECHAVEACESSO, I.PERC_ICMS PERC_ICMS_ENT' +
-      ','#13#10'             (I.PERC_ICMS * P.BASE_ICMS) / 100 VLR_UNITARIO_B' +
-      'C_ICMS_ENT, I.PERC_ICMSSUBST_INTERNO, I.PERC_MVA,'#13#10'             ' +
-      'iif(coalesce(I.PERC_MVA, 0) > 0, P.VLR_UNITARIO + ((P.VLR_UNITAR' +
-      'IO * I.PERC_MVA) / 100), 0) VLR_UNITARIO_BC_ST,'#13#10'             N.' +
-      'DTSAIDAENTRADA, I.QTD QTD_ENTRADA'#13#10'      from UEPS_ESTOQUE P'#13#10'  ' +
-      '    left join NOTAFISCAL N on P.ID_NOTA_ENT = N.ID'#13#10'      left j' +
-      'oin NOTAFISCAL_ITENS I on P.ID_NOTA_ENT = I.ID and'#13#10'            ' +
-      'P.ITEM_NOTA_ENT = I.ITEM'#13#10'      where P.ID_DOC_SAIDA = :ID_DOC_S' +
-      'AIDA and'#13#10'            P.ITEM_DOC_SAIDA = :ITEM_DOC_SAIDA and'#13#10'  ' +
-      '          P.TIPO_DOC_SAIDA = '#39'NTS'#39') AUX'#13#10'where AUX.VLR_UNITARIO_' +
-      'BC_ST > 0'#13#10
+      'select C176.*'#13#10'from (select P.ID, P.DTMOV, P.ID_PRODUTO, P.ID_CO' +
+      'R, P.TAMANHO, P.TIPO_ES, P.QTD, P.ID_NOTA_ENT, P.ITEM_NOTA_ENT,'#13 +
+      #10'             P.PERC_ICMS, P.VLR_UNITARIO, P.BASE_ICMS, P.VLR_IC' +
+      'MS, P.UF, P.ID_DOC_SAIDA, P.ITEM_DOC_SAIDA,'#13#10'             P.TIPO' +
+      '_DOC_SAIDA, P.DEVOLUCAO, P.NUM_DOC_SAIDA, P.SERIE_DOC_SAIDA, P.I' +
+      'D_CLIENTE, P.ID_FORNECEDOR,'#13#10'             P.NUM_NOTA_ENT, P.SERI' +
+      'E_NOTA_ENT, P.FILIAL, N.NFECHAVEACESSO, I.PERC_ICMS PERC_ICMS_EN' +
+      'T,'#13#10'             (I.PERC_ICMS * P.BASE_ICMS) / 100 VLR_UNITARIO_' +
+      'BC_ICMS_ENT, I.PERC_ICMSSUBST_INTERNO, I.PERC_MVA,'#13#10'            ' +
+      ' iif(coalesce(I.PERC_MVA, 0) > 0, P.VLR_UNITARIO + ((P.VLR_UNITA' +
+      'RIO * I.PERC_MVA) / 100), 0) VLR_UNITARIO_BC_ST,'#13#10'             N' +
+      '.DTSAIDAENTRADA, I.QTD QTD_ENTRADA'#13#10'      from UEPS_ESTOQUE P'#13#10' ' +
+      '     left join NOTAFISCAL N on P.ID_NOTA_ENT = N.ID'#13#10'      left ' +
+      'join NOTAFISCAL_ITENS I on P.ID_NOTA_ENT = I.ID and'#13#10'           ' +
+      ' P.ITEM_NOTA_ENT = I.ITEM'#13#10'      where P.ID_DOC_SAIDA = :ID_DOC_' +
+      'SAIDA and'#13#10'            P.ITEM_DOC_SAIDA = :ITEM_DOC_SAIDA and'#13#10' ' +
+      '           P.TIPO_DOC_SAIDA = '#39'NTS'#39') C176'#13#10'where C176.VLR_UNITAR' +
+      'IO_BC_ST > 0'
     MaxBlobSize = -1
     Params = <
       item
@@ -6570,6 +6572,42 @@ object DMSPEDFiscal: TDMSPEDFiscal
     end
     object qE300VLR_ICMS_UF_REMET: TFloatField
       FieldName = 'VLR_ICMS_UF_REMET'
+    end
+  end
+  object qC176_Pessoa: TSQLQuery
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftDate
+        Name = 'data1'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'data2'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'FILIAL'
+        ParamType = ptInput
+      end>
+    SQL.Strings = (
+      'select distinct P.ID_FORNECEDOR'
+      'from UEPS_ESTOQUE P'
+      'join NOTAFISCAL N on P.ID_DOC_SAIDA = N.ID'
+      'join NOTAFISCAL_ITENS NI on N.ID = NI.ID'
+      'where N.DTEMISSAO between :DATA1 and :DATA2 and'
+      '      N.FILIAL = :FILIAL and'
+      '      (N.TIPO_REG = '#39'NTS'#39') and'
+      '      N.CANCELADA = '#39'N'#39' and'
+      '      N.NFEDENEGADA = '#39'N'#39' and'
+      '      P.PERC_MVA > 0')
+    SQLConnection = dmDatabase.scoDados
+    Left = 800
+    Top = 536
+    object qC176_PessoaID_FORNECEDOR: TIntegerField
+      FieldName = 'ID_FORNECEDOR'
     end
   end
 end

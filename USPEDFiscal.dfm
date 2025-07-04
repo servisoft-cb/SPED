@@ -1,6 +1,6 @@
 object frmSPEDFiscal: TfrmSPEDFiscal
   Left = -7
-  Top = 2
+  Top = 33
   Width = 1378
   Height = 733
   Caption = 'Gerar SPED Fiscal    (Vers'#227'o  09/05/2025  1.1.56) '
@@ -390,7 +390,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edtFile: TEdit
           Left = 22
           Top = 28
-          Width = 167
+          Width = 159
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 0
@@ -399,7 +399,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           OnExit = edtFileChange
         end
         object cbConcomitante: TCheckBox
-          Left = 213
+          Left = 205
           Top = 30
           Width = 134
           Height = 19
@@ -422,7 +422,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edNotas: TEdit
           Left = 654
           Top = 29
-          Width = -12
+          Width = -20
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 2

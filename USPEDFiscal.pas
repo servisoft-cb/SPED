@@ -2398,8 +2398,6 @@ begin
             VL_ICMS := fDMSPEDFiscal.cdsNotaFiscalVLR_ICMS.AsFloat;
           if (fDMSPEDFiscal.cdsNotaFiscalCANCELADA.AsString <> 'S') and (fDMSPEDFiscal.cdsNotaFiscalNFEDENEGADA.AsString <> 'S') then
           begin
-            if fDMSPEDFiscal.cdsNotaFiscalBASE_ICMSSUBST.AsFloat > 0 then
-              ShowMessage('1');
             VL_BC_ICMS_ST := 0;//fDMSPEDFiscal.cdsNotaFiscalBASE_ICMSSUBST.AsFloat;
             VL_ICMS_ST    := 0;//fDMSPEDFiscal.cdsNotaFiscalVLR_ICMSSUBST.AsFloat;
             VL_IPI        := fDMSPEDFiscal.cdsNotaFiscalVLR_IPI.AsFloat;
@@ -2693,8 +2691,6 @@ begin
                 end;}
             end;
           end;
-//          if fDMSPEDFiscal.cdsNotaFiscalNFECHAVEACESSO.AsString = '43250519259375000107550030000050061407405653' then
-//            ShowMessage('1');
           //Registro C176
           if fDMSPEDFiscal.cdsNotaFiscalTIPO_NOTA.AsString = 'S' then
           begin
@@ -4224,9 +4220,9 @@ begin
     uUtilPadrao.prc_Form_Aguarde(Form,'Gravando Arq...');
 
     btnGravar_TxtClick(Sender);
-    FListaICMS.SaveToFile('c:\temp\icms.csv');
-    ShowMessage(FormatFloat('0.00', FValorICMS));
-    ShowMessage(FormatFloat('0.00', FValorICMSCupom));
+//    FListaICMS.SaveToFile('c:\temp\icms.csv');
+//    ShowMessage(FormatFloat('0.00', FValorICMS));
+//    ShowMessage(FormatFloat('0.00', FValorICMSCupom));
 
   finally
     FreeAndNil(Form);
@@ -4620,6 +4616,18 @@ begin
     if trim(fDMSPEDFiscal.cdsNotaFiscalCANCELADA.AsString) <> 'S' then
       prc_Gravar_mPessoa(fDMSPEDFiscal.cdsNotaFiscalID_CLIENTE.AsInteger);
     fDMSPEDFiscal.cdsNotaFiscal.Next;
+  end;
+
+  fDMSPEDFiscal.qC176_Pessoa.Close;
+  fDMSPEDFiscal.qC176_Pessoa.ParamByName('DATA1').AsDate     := DateEdit1.Date;
+  fDMSPEDFiscal.qC176_Pessoa.ParamByName('DATA2').AsDate     := DateEdit2.Date;
+  fDMSPEDFiscal.qC176_Pessoa.ParamByName('FILIAL').AsInteger := RxDBLookupCombo1.KeyValue;
+  fDMSPEDFiscal.qC176_Pessoa.Open;
+  fDMSPEDFiscal.qC176_Pessoa.First;
+  while not fDMSPEDFiscal.qC176_Pessoa.Eof do
+  begin
+    prc_Gravar_mPessoa(fDMSPEDFiscal.qC176_PessoaID_FORNECEDOR.AsInteger);
+    fDMSPEDFiscal.qC176_Pessoa.Next;
   end;
 end;
 
