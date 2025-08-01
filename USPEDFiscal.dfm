@@ -1,6 +1,6 @@
 object frmSPEDFiscal: TfrmSPEDFiscal
   Left = -7
-  Top = 33
+  Top = 2
   Width = 1378
   Height = 733
   Caption = 'Gerar SPED Fiscal    (Vers'#227'o  09/05/2025  1.1.56) '
@@ -390,7 +390,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edtFile: TEdit
           Left = 22
           Top = 28
-          Width = 159
+          Width = 119
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 0
@@ -399,7 +399,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           OnExit = edtFileChange
         end
         object cbConcomitante: TCheckBox
-          Left = 205
+          Left = 165
           Top = 30
           Width = 134
           Height = 19
@@ -422,7 +422,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edNotas: TEdit
           Left = 654
           Top = 29
-          Width = -20
+          Width = -60
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 2
@@ -1196,6 +1196,16 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           Height = 17
           Caption = 'C170 - Cupom'
           TabOrder = 18
+        end
+        object chkC176: TCheckBox
+          Left = 1128
+          Top = 48
+          Width = 97
+          Height = 17
+          Caption = 'C176'
+          Checked = True
+          State = cbChecked
+          TabOrder = 19
         end
       end
       object RzPageControl1: TRzPageControl

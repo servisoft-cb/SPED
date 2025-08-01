@@ -1,8 +1,8 @@
 object DMSPEDFiscal: TDMSPEDFiscal
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Left = 307
-  Top = 41
+  Left = 98
+  Top = 7
   Height = 676
   Width = 999
   object qParametros: TSQLQuery
@@ -5168,20 +5168,20 @@ object DMSPEDFiscal: TDMSPEDFiscal
       '    end VLR_ICMS_DEBITO,'#13#10'           case'#13#10'             when (N.' +
       'TIPO_NOTA = '#39'E'#39') then sum(N.VLR_ICMS)'#13#10'             else 0'#13#10'    ' +
       '       end VLR_ICMS_CREDITO'#13#10'    from NOTAFISCAL N'#13#10'    where ((' +
-      'N.DTEMISSAO between :DATA1 and :DATA2 and'#13#10'          N.TIPO_REG ' +
-      '= '#39'NTS'#39') or (N.DTSAIDAENTRADA between :DATA1 and :DATA2 and'#13#10'   ' +
-      '       N.TIPO_REG = '#39'NTE'#39')) and'#13#10'          N.FILIAL = :FILIAL an' +
-      'd'#13#10'          N.CANCELADA = '#39'N'#39' and'#13#10'          N.NFEDENEGADA = '#39'N' +
-      #39#13#10'    group by N.TIPO_NOTA'#13#10'    union all'#13#10'    select (select s' +
-      'um(VLR_ICMS)'#13#10'            from CUPOMFISCAL_ITENS CFI'#13#10'          ' +
-      '  where CFI.ID = CF.ID and'#13#10'                  CFI.CANCELADO = '#39'N' +
-      #39') VLR_ICMS_DEBITO1, 0 VLR_ICMS_CREDITO'#13#10'    from CUPOMFISCAL CF' +
-      #13#10'    where CF.DTEMISSAO between :DATA1 and :DATA2 and'#13#10'        ' +
-      '  CF.CANCELADO in ('#39'N'#39') and'#13#10'          CF.NFECHAVEACESSO <> '#39#39' a' +
-      'nd'#13#10'          CF.NFEPROTOCOLO <> '#39#39' and'#13#10'          CF.FILIAL = :' +
-      'FILIAL)'#13#10'select sum(coalesce(A.VLR_ICMS_DEBITO, 0)) VLR_ICMS_DEB' +
-      'ITO, sum(coalesce(A.VLR_ICMS_CREDITO, 0)) VLR_ICMS_CREDITO'#13#10'from' +
-      ' ICMS A '
+      'N.DTSAIDAENTRADA between :DATA1 and :DATA2 and'#13#10'          N.TIPO' +
+      '_REG = '#39'NTS'#39') or (N.DTSAIDAENTRADA between :DATA1 and :DATA2 and' +
+      #13#10'          N.TIPO_REG = '#39'NTE'#39')) and'#13#10'          N.FILIAL = :FILI' +
+      'AL and'#13#10'          N.CANCELADA = '#39'N'#39' and'#13#10'          N.NFEDENEGADA' +
+      ' = '#39'N'#39#13#10'    group by N.TIPO_NOTA'#13#10'    union all'#13#10'    select (sel' +
+      'ect sum(VLR_ICMS)'#13#10'            from CUPOMFISCAL_ITENS CFI'#13#10'     ' +
+      '       where CFI.ID = CF.ID and'#13#10'                  CFI.CANCELADO' +
+      ' = '#39'N'#39') VLR_ICMS_DEBITO1, 0 VLR_ICMS_CREDITO'#13#10'    from CUPOMFISC' +
+      'AL CF'#13#10'    where CF.DTEMISSAO between :DATA1 and :DATA2 and'#13#10'   ' +
+      '       CF.CANCELADO in ('#39'N'#39') and'#13#10'          CF.NFECHAVEACESSO <>' +
+      ' '#39#39' and'#13#10'          CF.NFEPROTOCOLO <> '#39#39' and'#13#10'          CF.FILIA' +
+      'L = :FILIAL)'#13#10'select sum(coalesce(A.VLR_ICMS_DEBITO, 0)) VLR_ICM' +
+      'S_DEBITO, sum(coalesce(A.VLR_ICMS_CREDITO, 0)) VLR_ICMS_CREDITO'#13 +
+      #10'from ICMS A '
     MaxBlobSize = -1
     Params = <
       item
@@ -5289,33 +5289,43 @@ object DMSPEDFiscal: TDMSPEDFiscal
     NoMetadata = True
     GetMetadata = False
     CommandText = 
-      'select C176.*'#13#10'from (select P.ID, P.DTMOV, P.ID_PRODUTO, P.ID_CO' +
-      'R, P.TAMANHO, P.TIPO_ES, P.QTD, P.ID_NOTA_ENT, P.ITEM_NOTA_ENT,'#13 +
-      #10'             P.PERC_ICMS, P.VLR_UNITARIO, P.BASE_ICMS, P.VLR_IC' +
-      'MS, P.UF, P.ID_DOC_SAIDA, P.ITEM_DOC_SAIDA,'#13#10'             P.TIPO' +
-      '_DOC_SAIDA, P.DEVOLUCAO, P.NUM_DOC_SAIDA, P.SERIE_DOC_SAIDA, P.I' +
-      'D_CLIENTE, P.ID_FORNECEDOR,'#13#10'             P.NUM_NOTA_ENT, P.SERI' +
-      'E_NOTA_ENT, P.FILIAL, N.NFECHAVEACESSO, I.PERC_ICMS PERC_ICMS_EN' +
-      'T,'#13#10'             (I.PERC_ICMS * P.BASE_ICMS) / 100 VLR_UNITARIO_' +
-      'BC_ICMS_ENT, I.PERC_ICMSSUBST_INTERNO, I.PERC_MVA,'#13#10'            ' +
-      ' iif(coalesce(I.PERC_MVA, 0) > 0, P.VLR_UNITARIO + ((P.VLR_UNITA' +
-      'RIO * I.PERC_MVA) / 100), 0) VLR_UNITARIO_BC_ST,'#13#10'             N' +
-      '.DTSAIDAENTRADA, I.QTD QTD_ENTRADA'#13#10'      from UEPS_ESTOQUE P'#13#10' ' +
-      '     left join NOTAFISCAL N on P.ID_NOTA_ENT = N.ID'#13#10'      left ' +
-      'join NOTAFISCAL_ITENS I on P.ID_NOTA_ENT = I.ID and'#13#10'           ' +
-      ' P.ITEM_NOTA_ENT = I.ITEM'#13#10'      where P.ID_DOC_SAIDA = :ID_DOC_' +
-      'SAIDA and'#13#10'            P.ITEM_DOC_SAIDA = :ITEM_DOC_SAIDA and'#13#10' ' +
-      '           P.TIPO_DOC_SAIDA = '#39'NTS'#39') C176'#13#10'where C176.VLR_UNITAR' +
-      'IO_BC_ST > 0'
+      'select ID, DTMOV, ID_PRODUTO, ID_COR, TAMANHO, TIPO_ES, QTD, ID_' +
+      'NOTA_ENT, ITEM_NOTA_ENT, PERC_ICMS, VLR_UNITARIO,'#13#10'       BASE_I' +
+      'CMS, VLR_ICMS, UF, ID_DOC_SAIDA, ITEM_DOC_SAIDA, TIPO_DOC_SAIDA,' +
+      ' DEVOLUCAO, NUM_DOC_SAIDA, SERIE_DOC_SAIDA,'#13#10'       ID_CLIENTE, ' +
+      'ID_FORNECEDOR, NUM_NOTA_ENT, SERIE_NOTA_ENT, FILIAL, NFECHAVEACE' +
+      'SSO, PERC_ICMS_ENT,'#13#10'       VLR_UNITARIO_BC_ICMS_ENT, PERC_ICMSS' +
+      'UBST_INTERNO, PERC_MVA,'#13#10'       iif(VLR_UNITARIO_BC_ST > 0, VLR_' +
+      'UNITARIO_BC_ST, VLR_UNITARIO) VLR_UNITARIO_BC_ST, DTSAIDAENTRADA' +
+      ','#13#10'       QTD QTD_ENTRADA, BASE_ICMSSUBST_RET, BASE_ICMSSUBST, V' +
+      'LR_ICMS_CREDITO'#13#10'from (select P.ID, P.DTMOV, P.ID_PRODUTO, P.ID_' +
+      'COR, P.TAMANHO, P.TIPO_ES, P.QTD, P.ID_NOTA_ENT, P.ITEM_NOTA_ENT' +
+      ','#13#10'             P.PERC_ICMS, P.VLR_UNITARIO, P.BASE_ICMS, P.VLR_' +
+      'ICMS, P.UF, P.ID_DOC_SAIDA, P.ITEM_DOC_SAIDA,'#13#10'             P.TI' +
+      'PO_DOC_SAIDA, P.DEVOLUCAO, P.NUM_DOC_SAIDA, P.SERIE_DOC_SAIDA, P' +
+      '.ID_CLIENTE, P.ID_FORNECEDOR,'#13#10'             P.NUM_NOTA_ENT, P.SE' +
+      'RIE_NOTA_ENT, P.FILIAL, N.NFECHAVEACESSO, I.PERC_ICMS_INTER PERC' +
+      '_ICMS_ENT,'#13#10'             (I.PERC_ICMS * P.BASE_ICMS) / 100 VLR_U' +
+      'NITARIO_BC_ICMS_ENT, I.PERC_ICMSSUBST_INTERNO, I.PERC_MVA,'#13#10'    ' +
+      '         I.VLR_ICMSSUBST_RET VLR_UNITARIO_BC_ST, N.DTSAIDAENTRAD' +
+      'A, I.QTD QTD_ENTRADA,'#13#10'             (I.BASE_ICMSSUBST_RET / I.QT' +
+      'D) BASE_ICMSSUBST_RET, (I.BASE_ICMSSUBST / I.QTD) BASE_ICMSSUBST' +
+      ', (I.VLR_ICMS / I.QTD) VLR_ICMS_CREDITO'#13#10'      from UEPS_ESTOQUE' +
+      ' P'#13#10'      left join NOTAFISCAL N on P.ID_NOTA_ENT = N.ID'#13#10'      ' +
+      'left join NOTAFISCAL_ITENS I on P.ID_NOTA_ENT = I.ID and'#13#10'      ' +
+      '      P.ITEM_NOTA_ENT = I.ITEM'#13#10'      where P.ID_DOC_SAIDA = :ID' +
+      '_DOC_SAIDA and'#13#10'            P.ITEM_DOC_SAIDA = :ITEM_DOC_SAIDA a' +
+      'nd'#13#10'            P.TIPO_DOC_SAIDA = '#39'NTS'#39') C176'#13#10'where C176.VLR_U' +
+      'NITARIO_BC_ST > 0 or PERC_MVA > 0   '
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftUnknown
+        DataType = ftInteger
         Name = 'ID_DOC_SAIDA'
         ParamType = ptInput
       end
       item
-        DataType = ftUnknown
+        DataType = ftInteger
         Name = 'ITEM_DOC_SAIDA'
         ParamType = ptInput
       end>
@@ -5443,6 +5453,15 @@ object DMSPEDFiscal: TDMSPEDFiscal
     end
     object cdsC176QTD_ENTRADA: TFloatField
       FieldName = 'QTD_ENTRADA'
+    end
+    object cdsC176BASE_ICMSSUBST_RET: TFloatField
+      FieldName = 'BASE_ICMSSUBST_RET'
+    end
+    object cdsC176BASE_ICMSSUBST: TFloatField
+      FieldName = 'BASE_ICMSSUBST'
+    end
+    object cdsC176VLR_ICMS_CREDITO: TFloatField
+      FieldName = 'VLR_ICMS_CREDITO'
     end
   end
   object dsC176: TDataSource
@@ -6553,7 +6572,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
       'from NOTAFISCAL NF'
       'join NOTAFISCAL_ITENS NFI on NF.ID = NFI.ID'
       'join PESSOA PES on PES.CODIGO = NF.ID_CLIENTE'
-      'where NF.DTEMISSAO between :data1 and :data2 and'
+      'where NF.DTSAIDAENTRADA between :data1 and :data2 and'
       '      NF.FILIAL = :FILIAL and'
       '      (NF.TIPO_REG = '#39'NTS'#39') and'
       '      NF.CANCELADA = '#39'N'#39' and'
@@ -6604,10 +6623,84 @@ object DMSPEDFiscal: TDMSPEDFiscal
       '      N.NFEDENEGADA = '#39'N'#39' and'
       '      P.PERC_MVA > 0')
     SQLConnection = dmDatabase.scoDados
-    Left = 800
-    Top = 536
+    Left = 808
+    Top = 544
     object qC176_PessoaID_FORNECEDOR: TIntegerField
       FieldName = 'ID_FORNECEDOR'
+    end
+  end
+  object SQL_Temp_Produto: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQL.Strings = (
+      'select id_produto from TEMP_SPED_PRODUTO')
+    SQLConnection = dmDatabase.scoDados
+    Left = 808
+    Top = 456
+    object SQL_Temp_ProdutoID_PRODUTO: TIntegerField
+      FieldName = 'ID_PRODUTO'
+      Required = True
+    end
+  end
+  object SQL_Temp_CFOP: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQL.Strings = (
+      'select id_cfop from TEMP_SPED_CFOP')
+    SQLConnection = dmDatabase.scoDados
+    Left = 808
+    Top = 504
+    object SQL_Temp_CFOPID_CFOP: TIntegerField
+      FieldName = 'ID_CFOP'
+      Required = True
+    end
+  end
+  object SP_C176_Temp: TSQLQuery
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftDate
+        Name = 'P_DATA_INI'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'P_DATA_FIM'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'P_FILIAL'
+        ParamType = ptInput
+      end>
+    SQL.Strings = (
+      'SELECT * FROM PRC_C176_TEMP(:P_DATA_INI, :P_DATA_FIM, :P_FILIAL)')
+    SQLConnection = dmDatabase.scoDados
+    Left = 808
+    Top = 408
+    object SP_C176_TempR_RETORNO: TIntegerField
+      FieldName = 'R_RETORNO'
+    end
+  end
+  object qConverteCSTentrada: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQL.Strings = (
+      'select CCE.CST_ORIGINAL, CCE.CST_ENTRADA'
+      'from CONVERTE_CST_ENTRADA CCE'
+      'where CCE.ORIGEM = 9   ')
+    SQLConnection = dmDatabase.scoDados
+    Left = 800
+    Top = 352
+    object qConverteCSTentradaCST_ORIGINAL: TStringField
+      FieldName = 'CST_ORIGINAL'
+      FixedChar = True
+      Size = 3
+    end
+    object qConverteCSTentradaCST_ENTRADA: TStringField
+      FieldName = 'CST_ENTRADA'
+      FixedChar = True
+      Size = 3
     end
   end
 end

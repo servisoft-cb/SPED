@@ -1426,6 +1426,18 @@ type
     qE300VLR_ICMS_UF_REMET: TFloatField;
     qC176_Pessoa: TSQLQuery;
     qC176_PessoaID_FORNECEDOR: TIntegerField;
+    SQL_Temp_Produto: TSQLQuery;
+    SQL_Temp_ProdutoID_PRODUTO: TIntegerField;
+    SQL_Temp_CFOP: TSQLQuery;
+    SQL_Temp_CFOPID_CFOP: TIntegerField;
+    SP_C176_Temp: TSQLQuery;
+    SP_C176_TempR_RETORNO: TIntegerField;
+    cdsC176BASE_ICMSSUBST_RET: TFloatField;
+    cdsC176BASE_ICMSSUBST: TFloatField;
+    cdsC176VLR_ICMS_CREDITO: TFloatField;
+    qConverteCSTentrada: TSQLQuery;
+    qConverteCSTentradaCST_ORIGINAL: TStringField;
+    qConverteCSTentradaCST_ENTRADA: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure mAuxResumoNewRecord(DataSet: TDataSet);
   private

@@ -20,7 +20,8 @@ uses
   uPessoa in '..\ssfacil\Classes\uPessoa.pas',
   UInfMotivoExc in '..\ssfacil\UInfMotivoExc.pas' {frmInfMotivoExc},
   uUtilPadrao in 'uUtilPadrao.pas',
-  UDMCadFilial in '..\ssfacil\UDMCadFilial.pas' {DMCadFilial: TDataModule};
+  UDMCadFilial in '..\ssfacil\UDMCadFilial.pas' {DMCadFilial: TDataModule},
+  ClasseRegistroE116 in 'Classes\ClasseRegistroE116.pas';
 
 {$R *.res}
 
@@ -29,6 +30,5 @@ begin
   Application.Title := 'SPED FISCAL';
   Application.CreateForm(TdmDatabase, dmDatabase);
   Application.CreateForm(TfrmSPEDFiscal, frmSPEDFiscal);
-  Application.CreateForm(TDMCadFilial, DMCadFilial);
   Application.Run;
 end.

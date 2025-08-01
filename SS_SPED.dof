@@ -90,12 +90,12 @@ MaxStackSize=1048576
 ImageBase=4194304
 ExeDescription=
 [Directories]
-OutputDir=D:\Delphi7\SSFacil\EXE
-UnitOutputDir=D:\Delphi7\SSFacil\DCU_SPED
+OutputDir=c:\Delphi7\SSFacil\EXE
+UnitOutputDir=c:\Delphi7\SSFacil\DCU_SPED
 PackageDLLOutputDir=
 PackageDCPOutputDir=
 SearchPath=
-Packages=vcl;rtl;vclx;indy;inet;xmlrtl;vclie;inetdbbde;inetdbxpress;dbrtl;dsnap;dsnapcon;vcldb;soaprtl;VclSmp;dbexpress;dbxcds;webdsnap;websnap;adortl;bdertl;vcldbx;ibxpress;teeui;teedb;tee;dss;visualclx;visualdbclx;vclactnband;vclshlctrls;IntrawebDB_50_70;Intraweb_50_70;Rave50CLX;Rave50VCL;dclOfficeXP;DJCL70;PacoteCJV;qrpt;RaizeComponentsVcl;RaizeComponentsVclDb;NxCommonRun_d7;NxCollectionRun_d7;NxAddonsRun_d7;RLibWinD7vcl
+Packages=vcl;rtl;vclx;indy;inet;xmlrtl;vclie;inetdbbde;inetdbxpress;dbrtl;dsnap;dsnapcon;vcldb;soaprtl;VclSmp;dbexpress;dbxcds;webdsnap;websnap;adortl;bdertl;vcldbx;ibxpress;teeui;teedb;tee;dss;visualclx;visualdbclx;vclactnband;vclshlctrls;IntrawebDB_50_70;Intraweb_50_70;Rave50CLX;Rave50VCL;dclOfficeXP;DJcl;PacoteCJV;qrpt;RaizeComponentsVcl;RaizeComponentsVclDb;NxCommonRun_d7;NxCollectionRun_d7;NxAddonsRun_d7;RLibWinD7vcl
 Conditionals=
 DebugSourceDirs=
 UsePackages=0
@@ -136,15 +136,22 @@ ProductVersion=1.0.0.0
 Comments=
 [Excluded Packages]
 c:\program files (x86)\borland\delphi7\Bin\DBWEBXPRT.BPL=Borland Web Wizard Package
+C:\Program Files (x86)\Developer Express Inc\Library\Delphi7\dxPSTeeChartD7.bpl=ExpressPrinting System ReportLink for TeeChart by Developer Express Inc.
+C:\Program Files (x86)\Developer Express Inc\Library\Delphi7\dxPSDBTeeChartD7.bpl=ExpressPrinting System ReportLink for DBTeeChart by Developer Express Inc.
+C:\Program Files (x86)\Borland\Delphi7\RBuilder\Lib\dclRBC107.bpl=ReportBuilder TeeChart 4 Components
+C:\Program Files (x86)\Developer Express Inc\Library\Delphi7\dcldxPScxScheduler3LnkD7.bpl=ExpressPrinting System ReportLink for ExpressScheduler 3 by Developer Express Inc.
+C:\Program Files (x86)\FastReport 5 VCL Standard\LibD7\dclfrxTee7.bpl=FastReport 5.0 Tee Components
+C:\Program Files (x86)\FastReport 5 VCL Standard\LibD7\dclfsTee7.bpl=FastScript 1.9 Tee Components
 [HistoryLists\hlUnitAliases]
 Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
 [HistoryLists\hlUnitOutputDirectory]
-Count=2
-Item0=D:\Delphi7\SSFacil\DCU_SPED
-Item1=C:\Delphi7\SSFacil\DCU
+Count=3
+Item0=c:\Delphi7\SSFacil\DCU_SPED
+Item1=D:\Delphi7\SSFacil\DCU_SPED
+Item2=C:\Delphi7\SSFacil\DCU
 [HistoryLists\hlOutputDirectorry]
 Count=3
-Item0=D:\Delphi7\SSFacil\EXE
-Item1=C:\Delphi7\SSFacil\EXE
+Item0=c:\Delphi7\SSFacil\EXE
+Item1=D:\Delphi7\SSFacil\EXE
 Item2=C:\Delphi7\SSFacil\EXE_Novo
