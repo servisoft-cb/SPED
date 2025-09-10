@@ -1,9 +1,9 @@
 object frmSPEDFiscal: TfrmSPEDFiscal
-  Left = 48
-  Top = 11
+  Left = 88
+  Top = 63
   Width = 1288
   Height = 704
-  Caption = 'Gerar SPED Fiscal    (Vers'#227'o  09/05/2025  1.1.56) '
+  Caption = 'Gerar SPED Fiscal    (Vers'#227'o  09/09/2025  1.1.57) '
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -389,7 +389,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edtFile: TEdit
           Left = 22
           Top = 28
-          Width = 113
+          Width = 101
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 0
@@ -398,7 +398,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           OnExit = edtFileChange
         end
         object cbConcomitante: TCheckBox
-          Left = 159
+          Left = 147
           Top = 30
           Width = 134
           Height = 19
@@ -421,7 +421,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edNotas: TEdit
           Left = 654
           Top = 29
-          Width = -124
+          Width = -4
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 2
@@ -579,7 +579,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         Left = 0
         Top = 0
         Width = 1268
-        Height = 200
+        Height = 209
         Align = alTop
         TabOrder = 0
         object Label9: TLabel
@@ -899,7 +899,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           OnEnter = RzCheckList1Enter
         end
         object ck0600: TCheckBox
-          Left = 544
+          Left = 560
           Top = 104
           Width = 209
           Height = 17
@@ -909,7 +909,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           TabOrder = 9
         end
         object ckICMSH020: TCheckBox
-          Left = 544
+          Left = 560
           Top = 120
           Width = 188
           Height = 17
@@ -917,7 +917,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           TabOrder = 10
         end
         object ckImp_BlocoK: TCheckBox
-          Left = 741
+          Left = 757
           Top = 104
           Width = 122
           Height = 17
@@ -926,7 +926,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         end
         object NxPanel1: TNxPanel
           Left = 1
-          Top = 159
+          Top = 168
           Width = 1266
           Height = 40
           Align = alBottom
@@ -1112,7 +1112,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
             'Saidas')
         end
         object chkResumo: TCheckBox
-          Left = 741
+          Left = 757
           Top = 120
           Width = 122
           Height = 17
@@ -1120,7 +1120,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           TabOrder = 13
         end
         object ckGravarPrecoZerado: TCheckBox
-          Left = 741
+          Left = 757
           Top = 136
           Width = 187
           Height = 17
@@ -1189,19 +1189,27 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           OnClick = NxButton3Click
         end
         object ckParticipante: TCheckBox
-          Left = 544
+          Left = 560
           Top = 136
           Width = 188
           Height = 17
           Caption = 'Sem C'#243'd. Participante no K200'
           TabOrder = 11
         end
+        object Edit1: TEdit
+          Left = 424
+          Top = 104
+          Width = 121
+          Height = 21
+          TabOrder = 19
+          Text = 'Edit1'
+        end
       end
       object RzPageControl1: TRzPageControl
         Left = 0
-        Top = 200
+        Top = 209
         Width = 1268
-        Height = 442
+        Height = 433
         ActivePage = TS_SPED
         ActivePageDefault = TS_SPED
         Align = alClient
@@ -1215,7 +1223,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
             Left = 0
             Top = 0
             Width = 1264
-            Height = 419
+            Height = 410
             TabStop = False
             Align = alClient
             Font.Charset = ANSI_CHARSET
@@ -1236,7 +1244,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
             Left = 0
             Top = 0
             Width = 1264
-            Height = 419
+            Height = 410
             Align = alClient
             DataSource = DMSPEDFiscal.dsPosseEstoque
             Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
@@ -1353,7 +1361,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
             Left = 0
             Top = 0
             Width = 1264
-            Height = 419
+            Height = 410
             Align = alClient
             Ctl3D = False
             DataSource = DMSPEDFiscal.dsmAuxResumo
@@ -1436,7 +1444,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
             Left = 0
             Top = 34
             Width = 1264
-            Height = 385
+            Height = 376
             Align = alClient
             Ctl3D = False
             DataSource = DMSPEDFiscal.dsmK200
@@ -1566,7 +1574,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
             Left = 0
             Top = 41
             Width = 1264
-            Height = 378
+            Height = 369
             Align = alClient
             Ctl3D = False
             DataSource = DMSPEDFiscal.dsmProdSemCusto

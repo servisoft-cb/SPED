@@ -124,6 +124,7 @@ type
     TabSheet2: TRzTabSheet;
     Memo2: TMemo;
     ckParticipante: TCheckBox;
+    Edit1: TEdit;
     procedure btnB_0Click(Sender: TObject);
     procedure btnB_9Click(Sender: TObject);
     procedure btnTXTClick(Sender: TObject);
@@ -3863,13 +3864,16 @@ procedure TfrmSPEDFiscal.prc_Consultar_PosseEstoque;
 var
   vComando: String;
 begin
-
-
-
+  ShowMessage('parte 1');
   fDMSPEDFiscal.cdsPosseEstoque.Close;
   fDMSPEDFiscal.sdsPosseEstoque.ParamByName('FILIAL').AsInteger   := RxDBLookupCombo1.KeyValue;
-  fDMSPEDFiscal.sdsPosseEstoque.ParamByName('DTMOVIMENTO').AsDate := DateEdit2.Date;
+  //fDMSPEDFiscal.sdsPosseEstoque.ParamByName('DTMOVIMENTO').AsDate := DateEdit2.Date;
+  //fDMSPEDFiscal.sdsPosseEstoque.ParamByName('DTMOVIMENTO').AsString := FormatDateTime('MM/DD/YYYY',DateEdit2.date);
+  fDMSPEDFiscal.sdsPosseEstoque.ParamByName('DTMOVIMENTO').AsDate := StrToDate(Edit1.Text);
+
   fDMSPEDFiscal.cdsPosseEstoque.Open;
+    ShowMessage('parte 2');
+
 end;
 
 procedure TfrmSPEDFiscal.prc_Bloco_K_Reg_K100;
