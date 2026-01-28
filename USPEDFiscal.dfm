@@ -389,7 +389,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edtFile: TEdit
           Left = 22
           Top = 28
-          Width = 101
+          Width = 97
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 0
@@ -398,7 +398,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           OnExit = edtFileChange
         end
         object cbConcomitante: TCheckBox
-          Left = 147
+          Left = 143
           Top = 30
           Width = 134
           Height = 19
@@ -421,7 +421,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edNotas: TEdit
           Left = 654
           Top = 29
-          Width = -4
+          Width = -8
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 2
@@ -1195,14 +1195,6 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           Height = 17
           Caption = 'Sem C'#243'd. Participante no K200'
           TabOrder = 11
-        end
-        object Edit1: TEdit
-          Left = 424
-          Top = 104
-          Width = 121
-          Height = 21
-          TabOrder = 19
-          Text = 'Edit1'
         end
       end
       object RzPageControl1: TRzPageControl

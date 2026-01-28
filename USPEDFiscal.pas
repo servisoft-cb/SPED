@@ -124,7 +124,6 @@ type
     TabSheet2: TRzTabSheet;
     Memo2: TMemo;
     ckParticipante: TCheckBox;
-    Edit1: TEdit;
     procedure btnB_0Click(Sender: TObject);
     procedure btnB_9Click(Sender: TObject);
     procedure btnTXTClick(Sender: TObject);
@@ -2368,8 +2367,6 @@ begin
             else
             if fDMSPEDFiscal.cdsNotaFiscalTIPO_FRETE.AsString = '9' then
               IND_FRT := tfSemCobrancaFrete;
-              //if fDMSPEDFiscal.cdsNotaFiscalNUMNOTA.AsInteger = 33417 then
-                //ShowMessage('parte 1');
             VL_FRT := fDMSPEDFiscal.cdsNotaFiscalVLR_FRETE.AsFloat;
             VL_SEG := fDMSPEDFiscal.cdsNotaFiscalVLR_SEGURO.AsFloat;
             VL_OUT_DA := fDMSPEDFiscal.cdsNotaFiscalVLR_OUTRASDESP.AsFloat;
@@ -2558,11 +2555,6 @@ begin
         fDMSPEDFiscal.cdsNotaFiscal_Itens.First;
         while not fDMSPEDFiscal.cdsNotaFiscal_Itens.Eof do
         begin
-          //if (IND_EMIT = edTerceiros) AND (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString <> '08') then
-              //if fDMSPEDFiscal.cdsNotaFiscalNUMNOTA.AsInteger = 33417 then
-                //ShowMessage('parte 2');
-
-          //if (IND_EMIT = edTerceiros) then
           begin
             with RegistroC170New do // Inicio Adicionar os Itens:
             begin
@@ -3864,16 +3856,10 @@ procedure TfrmSPEDFiscal.prc_Consultar_PosseEstoque;
 var
   vComando: String;
 begin
-  ShowMessage('parte 1');
   fDMSPEDFiscal.cdsPosseEstoque.Close;
   fDMSPEDFiscal.sdsPosseEstoque.ParamByName('FILIAL').AsInteger   := RxDBLookupCombo1.KeyValue;
-  //fDMSPEDFiscal.sdsPosseEstoque.ParamByName('DTMOVIMENTO').AsDate := DateEdit2.Date;
-  //fDMSPEDFiscal.sdsPosseEstoque.ParamByName('DTMOVIMENTO').AsString := FormatDateTime('MM/DD/YYYY',DateEdit2.date);
-  fDMSPEDFiscal.sdsPosseEstoque.ParamByName('DTMOVIMENTO').AsDate := StrToDate(Edit1.Text);
-
+  fDMSPEDFiscal.sdsPosseEstoque.ParamByName('DTMOVIMENTO').AsDate := DateEdit2.Date;
   fDMSPEDFiscal.cdsPosseEstoque.Open;
-    ShowMessage('parte 2');
-
 end;
 
 procedure TfrmSPEDFiscal.prc_Bloco_K_Reg_K100;
