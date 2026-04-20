@@ -1,8 +1,8 @@
 object DMSPEDFiscal: TDMSPEDFiscal
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Left = 98
-  Top = 7
+  Left = 64214
+  Top = 14
   Height = 676
   Width = 999
   object qParametros: TSQLQuery
@@ -2069,7 +2069,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftInteger
+        DataType = ftUnknown
         Name = 'FILIAL'
         ParamType = ptInput
       end>
@@ -4318,84 +4318,88 @@ object DMSPEDFiscal: TDMSPEDFiscal
     NoMetadata = True
     GetMetadata = False
     CommandText = 
-      'select aux.*,'#13#10'CASE'#13#10'  WHEN TIPO_EST = '#39'00'#39' THEN '#39'Pr'#243'prio'#39#13#10'  WH' +
-      'EN TIPO_EST = '#39'1E'#39' THEN '#39'Em Terceiro'#39#13#10'  WHEN TIPO_EST = '#39'22'#39' TH' +
-      'EN '#39'De Terceiro'#39#13#10'ELSE '#39#39#13#10'end DESC_TIPO_EST'#13#10#13#10'from('#13#10'SELECT EM' +
-      '.id_produto, EM.filial, EM.ID_COR, sum(cast(EM.QTD2  AS NUMERIC(' +
-      '15,5))) QTD, C.NOME NOME_COMBINACAO,'#13#10'P.NOME NOME_PRODUTO, P.REF' +
-      'ERENCIA, 0 ID_PESSOA, '#39'00'#39' TIPO_EST, EM.TAMANHO,'#13#10'P.unidade, P.s' +
-      'ped_tipo_item, P.ncm_ex, NCM.ncm, '#39#39' NOME_TERCEIRO'#13#10'FROM ESTOQUE' +
-      '_MOV EM'#13#10'INNER JOIN PRODUTO P'#13#10'ON EM.ID_PRODUTO = P.ID'#13#10'LEFT JOI' +
-      'N TAB_NCM NCM'#13#10'ON P.ID_NCM = NCM.ID'#13#10'LEFT JOIN operacao_nota ONO' +
-      'TA'#13#10'ON EM.ID_OPERACAO = ONOTA.ID'#13#10'LEFT JOIN COMBINACAO C'#13#10'ON EM.' +
-      'ID_COR = C.ID'#13#10'WHERE EM.FILIAL = :FILIAL'#13#10'  AND P.POSSE_MATERIAL' +
-      ' = '#39'E'#39#13#10'  AND P.INATIVO = '#39'N'#39#13#10'  AND ((P.SPED_TIPO_ITEM = '#39'00'#39')'#13 +
-      #10'     or (P.SPED_TIPO_ITEM = '#39'01'#39')'#13#10'     or (P.SPED_TIPO_ITEM = ' +
-      #39'02'#39')'#13#10'     or (P.SPED_TIPO_ITEM = '#39'03'#39')'#13#10'     or (P.SPED_TIPO_I' +
-      'TEM = '#39'04'#39')'#13#10'     or (P.SPED_TIPO_ITEM = '#39'05'#39')'#13#10'     or (P.SPED_' +
-      'TIPO_ITEM = '#39'06'#39')'#13#10'     or (P.SPED_TIPO_ITEM = '#39'10'#39'))'#13#10'  AND EM.' +
-      'DTMOVIMENTO <= :DTMOVIMENTO'#13#10'GROUP BY EM.id_produto, EM.filial, ' +
-      'EM.ID_COR, C.NOME,'#13#10'P.NOME, P.REFERENCIA, ID_PESSOA, EM.TAMANHO,' +
-      #13#10'P.unidade, P.sped_tipo_item, P.ncm_ex, NCM.ncm, NOME_TERCEIRO'#13 +
-      #10#13#10'UNION'#13#10#13#10'SELECT ET.id_produto, ET.filial, ET.id_cor, sum(cast' +
-      '(et.qtdrestante AS NUMERIC(15,5))) QTD, et.nome_combinacao,'#13#10'p.N' +
-      'OME NOME_PRODUTO, et.REFERENCIA, et.id_terceiro ID_PESSOA , '#39'1E'#39 +
-      ' TIPO_EST, et.tamanho,'#13#10'et.unidade, et.sped_tipo_item, p.ncm_ex,' +
-      ' NCM.ncm, ET.nome_terceiro'#13#10'FROM vestoque_em_terc ET'#13#10'INNER JOIN' +
-      ' PRODUTO P ON et.ID_PRODUTO = P.ID'#13#10'LEFT JOIN TAB_NCM NCM'#13#10'ON P.' +
-      'ID_NCM = NCM.ID'#13#10'WHERE et.FILIAL = :FILIAL'#13#10'  AND ((et.SPED_TIPO' +
-      '_ITEM = '#39'00'#39')'#13#10'     or (et.SPED_TIPO_ITEM = '#39'01'#39')'#13#10'     or (et.S' +
-      'PED_TIPO_ITEM = '#39'02'#39')'#13#10'     or (et.SPED_TIPO_ITEM = '#39'03'#39')'#13#10'     ' +
-      'or (et.SPED_TIPO_ITEM = '#39'04'#39')'#13#10'     or (et.SPED_TIPO_ITEM = '#39'05'#39 +
-      ')'#13#10'     or (et.SPED_TIPO_ITEM = '#39'06'#39')'#13#10'     or (et.SPED_TIPO_ITE' +
-      'M = '#39'10'#39'))'#13#10'  AND et.data <= :DTMOVIMENTO'#13#10'GROUP BY et.id_produt' +
-      'o, et.filial, et.ID_COR, et.nome_combinacao,'#13#10'P.NOME, et.referen' +
-      'cia, et.id_terceiro, et.tamanho,'#13#10'et.unidade, et.sped_tipo_item,' +
-      ' P.ncm_ex, NCM.ncm, ET.nome_terceiro'#13#10#13#10'UNION'#13#10#13#10'SELECT DT.id_pr' +
-      'oduto, DT.filial, DT.ID_COR, sum(cast(DT.qtdrestante AS NUMERIC(' +
-      '15,5))) QTD, DT.NOME_COMBINACAO,'#13#10#13#10'DT.NOME_PRODUTO, DT.REFERENC' +
-      'IA, DT.id_terceiro ID_PESSOA , '#39'22'#39' TIPO_EST, DT.TAMANHO,'#13#10'DT.un' +
-      'idade, DT.sped_tipo_item, P.ncm_ex, NCM.ncm, DT.nome_terceiro'#13#10'F' +
-      'ROM vestoque_de_terc DT'#13#10'INNER JOIN PRODUTO P'#13#10'ON DT.ID_PRODUTO ' +
-      '= P.ID'#13#10'LEFT JOIN TAB_NCM NCM'#13#10'ON P.ID_NCM = NCM.ID'#13#10'WHERE DT.FI' +
-      'LIAL = :FILIAL'#13#10'  AND DT.data <= :DTMOVIMENTO'#13#10'  AND ((DT.SPED_T' +
-      'IPO_ITEM = '#39'00'#39')'#13#10'     or (DT.SPED_TIPO_ITEM = '#39'01'#39')'#13#10'     or (D' +
-      'T.SPED_TIPO_ITEM = '#39'02'#39')'#13#10'     or (DT.SPED_TIPO_ITEM = '#39'03'#39')'#13#10'  ' +
-      '   or (DT.SPED_TIPO_ITEM = '#39'04'#39')'#13#10'     or (DT.SPED_TIPO_ITEM = '#39 +
-      '05'#39')'#13#10'     or (DT.SPED_TIPO_ITEM = '#39'06'#39')'#13#10'     or (DT.SPED_TIPO_' +
-      'ITEM = '#39'10'#39'))'#13#10'GROUP BY DT.id_produto, DT.filial, DT.ID_COR, DT.' +
-      'nome_combinacao,'#13#10'DT.nome_produto, DT.REFERENCIA, DT.id_terceiro' +
-      ', DT.TAMANHO,'#13#10'DT.unidade, DT.sped_tipo_item, P.ncm_ex, NCM.ncm,' +
-      ' DT.nome_terceiro'#13#10') aux'#13#10'where aux.qtd > 0'#13#10#13#10
+      'WITH PROD_OK AS ('#13#10'  SELECT'#13#10'    P.ID,'#13#10'    P.NOME,'#13#10'    P.REFER' +
+      'ENCIA,'#13#10'    P.UNIDADE,'#13#10'    P.SPED_TIPO_ITEM,'#13#10'    P.NCM_EX,'#13#10'  ' +
+      '  P.ID_NCM'#13#10'  FROM PRODUTO P'#13#10'  WHERE P.POSSE_MATERIAL = '#39'E'#39#13#10'  ' +
+      '  AND P.INATIVO = '#39'N'#39#13#10'    AND P.SPED_TIPO_ITEM IN ('#39'00'#39','#39'01'#39','#39'0' +
+      '2'#39','#39'03'#39','#39'04'#39','#39'05'#39','#39'06'#39','#39'10'#39')'#13#10')'#13#10'SELECT'#13#10'  AUX.*,'#13#10'  CASE'#13#10'    W' +
+      'HEN AUX.TIPO_EST = '#39'00'#39' THEN '#39'Pr'#243'prio'#39#13#10'    WHEN AUX.TIPO_EST = ' +
+      #39'1E'#39' THEN '#39'Em Terceiro'#39#13#10'    WHEN AUX.TIPO_EST = '#39'22'#39' THEN '#39'De T' +
+      'erceiro'#39#13#10'    ELSE '#39#39#13#10'  END AS DESC_TIPO_EST'#13#10'FROM ('#13#10#13#10'  SELEC' +
+      'T'#13#10'    EM.ID_PRODUTO,'#13#10'    EM.FILIAL,'#13#10'    EM.ID_COR,'#13#10'    SUM(C' +
+      'AST(EM.QTD2 AS NUMERIC(15,5))) AS QTD,'#13#10'    C.NOME AS NOME_COMBI' +
+      'NACAO,'#13#10'    P.NOME AS NOME_PRODUTO,'#13#10'    P.REFERENCIA,'#13#10'    0 AS' +
+      ' ID_PESSOA,'#13#10'    '#39'00'#39' AS TIPO_EST,'#13#10'    EM.TAMANHO,'#13#10'    P.UNIDA' +
+      'DE,'#13#10'    P.SPED_TIPO_ITEM,'#13#10'    P.NCM_EX,'#13#10'    NCM.NCM,'#13#10'    '#39#39' ' +
+      'AS NOME_TERCEIRO'#13#10'  FROM ESTOQUE_MOV EM'#13#10'  INNER JOIN PROD_OK P'#13 +
+      #10'    ON P.ID = EM.ID_PRODUTO'#13#10'  LEFT JOIN TAB_NCM NCM'#13#10'    ON P.' +
+      'ID_NCM = NCM.ID'#13#10'  LEFT JOIN COMBINACAO C'#13#10'    ON EM.ID_COR = C.' +
+      'ID'#13#10'  WHERE EM.FILIAL = :FILIAL'#13#10'    AND EM.DTMOVIMENTO <= :DTMO' +
+      'VIMENTO'#13#10'  GROUP BY'#13#10'    EM.ID_PRODUTO,'#13#10'    EM.FILIAL,'#13#10'    EM.' +
+      'ID_COR,'#13#10'    C.NOME,'#13#10'    P.NOME,'#13#10'    P.REFERENCIA,'#13#10'    EM.TAM' +
+      'ANHO,'#13#10'    P.UNIDADE,'#13#10'    P.SPED_TIPO_ITEM,'#13#10'    P.NCM_EX,'#13#10'   ' +
+      ' NCM.NCM'#13#10'  HAVING SUM(CAST(EM.QTD2 AS NUMERIC(15,5))) > 0'#13#10#13#10'  ' +
+      'UNION ALL'#13#10#13#10#13#10'  SELECT'#13#10'    ET.ID_PRODUTO,'#13#10'    ET.FILIAL,'#13#10'   ' +
+      ' ET.ID_COR,'#13#10'    SUM(CAST(ET.QTDRESTANTE AS NUMERIC(15,5))) AS Q' +
+      'TD,'#13#10'    ET.NOME_COMBINACAO AS NOME_COMBINACAO,'#13#10'    P.NOME AS N' +
+      'OME_PRODUTO,'#13#10'    ET.REFERENCIA AS REFERENCIA,'#13#10'    ET.ID_TERCEI' +
+      'RO AS ID_PESSOA,'#13#10'    '#39'1E'#39' AS TIPO_EST,'#13#10'    ET.TAMANHO,'#13#10'    ET' +
+      '.UNIDADE,'#13#10'    ET.SPED_TIPO_ITEM,'#13#10'    P.NCM_EX,'#13#10'    NCM.NCM,'#13#10 +
+      '    ET.NOME_TERCEIRO AS NOME_TERCEIRO'#13#10'  FROM VESTOQUE_EM_TERC E' +
+      'T'#13#10'  INNER JOIN PRODUTO P'#13#10'    ON P.ID = ET.ID_PRODUTO'#13#10'  LEFT J' +
+      'OIN TAB_NCM NCM'#13#10'    ON P.ID_NCM = NCM.ID'#13#10'  WHERE ET.FILIAL = :' +
+      'FILIAL'#13#10'    AND ET.DATA <= :DTMOVIMENTO'#13#10'    AND ET.SPED_TIPO_IT' +
+      'EM IN ('#39'00'#39','#39'01'#39','#39'02'#39','#39'03'#39','#39'04'#39','#39'05'#39','#39'06'#39','#39'10'#39')'#13#10'  GROUP BY'#13#10'   ' +
+      ' ET.ID_PRODUTO,'#13#10'    ET.FILIAL,'#13#10'    ET.ID_COR,'#13#10'    ET.NOME_COM' +
+      'BINACAO,'#13#10'    P.NOME,'#13#10'    ET.REFERENCIA,'#13#10'    ET.ID_TERCEIRO,'#13#10 +
+      '    ET.TAMANHO,'#13#10'    ET.UNIDADE,'#13#10'    ET.SPED_TIPO_ITEM,'#13#10'    P.' +
+      'NCM_EX,'#13#10'    NCM.NCM,'#13#10'    ET.NOME_TERCEIRO'#13#10'  HAVING SUM(CAST(E' +
+      'T.QTDRESTANTE AS NUMERIC(15,5))) > 0'#13#10#13#10'  UNION ALL'#13#10#13#10#13#10'  SELEC' +
+      'T'#13#10'    DT.ID_PRODUTO,'#13#10'    DT.FILIAL,'#13#10'    DT.ID_COR,'#13#10'    SUM(C' +
+      'AST(DT.QTDRESTANTE AS NUMERIC(15,5))) AS QTD,'#13#10'    DT.NOME_COMBI' +
+      'NACAO AS NOME_COMBINACAO,'#13#10'    DT.NOME_PRODUTO AS NOME_PRODUTO,'#13 +
+      #10'    DT.REFERENCIA AS REFERENCIA,'#13#10'    DT.ID_TERCEIRO AS ID_PESS' +
+      'OA,'#13#10'    '#39'22'#39' AS TIPO_EST,'#13#10'    DT.TAMANHO,'#13#10'    DT.UNIDADE,'#13#10'  ' +
+      '  DT.SPED_TIPO_ITEM,'#13#10'    P.NCM_EX,'#13#10'    NCM.NCM,'#13#10'    DT.NOME_T' +
+      'ERCEIRO AS NOME_TERCEIRO'#13#10'  FROM VESTOQUE_DE_TERC DT'#13#10'  INNER JO' +
+      'IN PRODUTO P'#13#10'    ON P.ID = DT.ID_PRODUTO'#13#10'  LEFT JOIN TAB_NCM N' +
+      'CM'#13#10'    ON P.ID_NCM = NCM.ID'#13#10'  WHERE DT.FILIAL = :FILIAL'#13#10'    A' +
+      'ND DT.DATA <= :DTMOVIMENTO'#13#10'    AND DT.SPED_TIPO_ITEM IN ('#39'00'#39','#39 +
+      '01'#39','#39'02'#39','#39'03'#39','#39'04'#39','#39'05'#39','#39'06'#39','#39'10'#39')'#13#10'  GROUP BY'#13#10'    DT.ID_PRODUT' +
+      'O,'#13#10'    DT.FILIAL,'#13#10'    DT.ID_COR,'#13#10'    DT.NOME_COMBINACAO,'#13#10'   ' +
+      ' DT.NOME_PRODUTO,'#13#10'    DT.REFERENCIA,'#13#10'    DT.ID_TERCEIRO,'#13#10'    ' +
+      'DT.TAMANHO,'#13#10'    DT.UNIDADE,'#13#10'    DT.SPED_TIPO_ITEM,'#13#10'    P.NCM_' +
+      'EX,'#13#10'    NCM.NCM,'#13#10'    DT.NOME_TERCEIRO'#13#10'  HAVING SUM(CAST(DT.QT' +
+      'DRESTANTE AS NUMERIC(15,5))) > 0'#13#10') AUX;'#13#10#13#10
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftInteger
+        DataType = ftUnknown
         Name = 'FILIAL'
         ParamType = ptInput
       end
       item
-        DataType = ftDate
+        DataType = ftUnknown
         Name = 'DTMOVIMENTO'
         ParamType = ptInput
       end
       item
-        DataType = ftInteger
+        DataType = ftUnknown
         Name = 'FILIAL'
         ParamType = ptInput
       end
       item
-        DataType = ftDate
+        DataType = ftUnknown
         Name = 'DTMOVIMENTO'
         ParamType = ptInput
       end
       item
-        DataType = ftInteger
+        DataType = ftUnknown
         Name = 'FILIAL'
         ParamType = ptInput
       end
       item
-        DataType = ftDate
+        DataType = ftUnknown
         Name = 'DTMOVIMENTO'
         ParamType = ptInput
       end>
@@ -5168,20 +5172,20 @@ object DMSPEDFiscal: TDMSPEDFiscal
       '    end VLR_ICMS_DEBITO,'#13#10'           case'#13#10'             when (N.' +
       'TIPO_NOTA = '#39'E'#39') then sum(N.VLR_ICMS)'#13#10'             else 0'#13#10'    ' +
       '       end VLR_ICMS_CREDITO'#13#10'    from NOTAFISCAL N'#13#10'    where ((' +
-      'N.DTSAIDAENTRADA between :DATA1 and :DATA2 and'#13#10'          N.TIPO' +
-      '_REG = '#39'NTS'#39') or (N.DTSAIDAENTRADA between :DATA1 and :DATA2 and' +
-      #13#10'          N.TIPO_REG = '#39'NTE'#39')) and'#13#10'          N.FILIAL = :FILI' +
-      'AL and'#13#10'          N.CANCELADA = '#39'N'#39' and'#13#10'          N.NFEDENEGADA' +
-      ' = '#39'N'#39#13#10'    group by N.TIPO_NOTA'#13#10'    union all'#13#10'    select (sel' +
-      'ect sum(VLR_ICMS)'#13#10'            from CUPOMFISCAL_ITENS CFI'#13#10'     ' +
-      '       where CFI.ID = CF.ID and'#13#10'                  CFI.CANCELADO' +
-      ' = '#39'N'#39') VLR_ICMS_DEBITO1, 0 VLR_ICMS_CREDITO'#13#10'    from CUPOMFISC' +
-      'AL CF'#13#10'    where CF.DTEMISSAO between :DATA1 and :DATA2 and'#13#10'   ' +
-      '       CF.CANCELADO in ('#39'N'#39') and'#13#10'          CF.NFECHAVEACESSO <>' +
-      ' '#39#39' and'#13#10'          CF.NFEPROTOCOLO <> '#39#39' and'#13#10'          CF.FILIA' +
-      'L = :FILIAL)'#13#10'select sum(coalesce(A.VLR_ICMS_DEBITO, 0)) VLR_ICM' +
-      'S_DEBITO, sum(coalesce(A.VLR_ICMS_CREDITO, 0)) VLR_ICMS_CREDITO'#13 +
-      #10'from ICMS A '
+      'N.DTEMISSAO between :DATA1 and :DATA2 and'#13#10'          N.TIPO_REG ' +
+      '= '#39'NTS'#39') or (N.DTSAIDAENTRADA between :DATA1 and :DATA2 and'#13#10'   ' +
+      '       N.TIPO_REG = '#39'NTE'#39')) and'#13#10'          N.FILIAL = :FILIAL an' +
+      'd'#13#10'          N.CANCELADA = '#39'N'#39' and'#13#10'          N.NFEDENEGADA = '#39'N' +
+      #39#13#10'    group by N.TIPO_NOTA'#13#10'    union all'#13#10'    select (select s' +
+      'um(VLR_ICMS)'#13#10'            from CUPOMFISCAL_ITENS CFI'#13#10'          ' +
+      '  where CFI.ID = CF.ID and'#13#10'                  CFI.CANCELADO = '#39'N' +
+      #39') VLR_ICMS_DEBITO1, 0 VLR_ICMS_CREDITO'#13#10'    from CUPOMFISCAL CF' +
+      #13#10'    where CF.DTEMISSAO between :DATA1 and :DATA2 and'#13#10'        ' +
+      '  CF.CANCELADO in ('#39'N'#39') and'#13#10'          CF.NFECHAVEACESSO <> '#39#39' a' +
+      'nd'#13#10'          CF.NFEPROTOCOLO <> '#39#39' and'#13#10'          CF.FILIAL = :' +
+      'FILIAL)'#13#10'select sum(coalesce(A.VLR_ICMS_DEBITO, 0)) VLR_ICMS_DEB' +
+      'ITO, sum(coalesce(A.VLR_ICMS_CREDITO, 0)) VLR_ICMS_CREDITO'#13#10'from' +
+      ' ICMS A '
     MaxBlobSize = -1
     Params = <
       item
@@ -5300,23 +5304,27 @@ object DMSPEDFiscal: TDMSPEDFiscal
       ','#13#10'       QTD QTD_ENTRADA, BASE_ICMSSUBST_RET, BASE_ICMSSUBST, V' +
       'LR_ICMS_CREDITO'#13#10'from (select P.ID, P.DTMOV, P.ID_PRODUTO, P.ID_' +
       'COR, P.TAMANHO, P.TIPO_ES, P.QTD, P.ID_NOTA_ENT, P.ITEM_NOTA_ENT' +
-      ','#13#10'             P.PERC_ICMS, P.VLR_UNITARIO, P.BASE_ICMS, P.VLR_' +
-      'ICMS, P.UF, P.ID_DOC_SAIDA, P.ITEM_DOC_SAIDA,'#13#10'             P.TI' +
-      'PO_DOC_SAIDA, P.DEVOLUCAO, P.NUM_DOC_SAIDA, P.SERIE_DOC_SAIDA, P' +
-      '.ID_CLIENTE, P.ID_FORNECEDOR,'#13#10'             P.NUM_NOTA_ENT, P.SE' +
-      'RIE_NOTA_ENT, P.FILIAL, N.NFECHAVEACESSO, I.PERC_ICMS_INTER PERC' +
-      '_ICMS_ENT,'#13#10'             (I.PERC_ICMS * P.BASE_ICMS) / 100 VLR_U' +
-      'NITARIO_BC_ICMS_ENT, I.PERC_ICMSSUBST_INTERNO, I.PERC_MVA,'#13#10'    ' +
-      '         I.VLR_ICMSSUBST_RET VLR_UNITARIO_BC_ST, N.DTSAIDAENTRAD' +
-      'A, I.QTD QTD_ENTRADA,'#13#10'             (I.BASE_ICMSSUBST_RET / I.QT' +
-      'D) BASE_ICMSSUBST_RET, (I.BASE_ICMSSUBST / I.QTD) BASE_ICMSSUBST' +
-      ', (I.VLR_ICMS / I.QTD) VLR_ICMS_CREDITO'#13#10'      from UEPS_ESTOQUE' +
-      ' P'#13#10'      left join NOTAFISCAL N on P.ID_NOTA_ENT = N.ID'#13#10'      ' +
-      'left join NOTAFISCAL_ITENS I on P.ID_NOTA_ENT = I.ID and'#13#10'      ' +
-      '      P.ITEM_NOTA_ENT = I.ITEM'#13#10'      where P.ID_DOC_SAIDA = :ID' +
-      '_DOC_SAIDA and'#13#10'            P.ITEM_DOC_SAIDA = :ITEM_DOC_SAIDA a' +
-      'nd'#13#10'            P.TIPO_DOC_SAIDA = '#39'NTS'#39') C176'#13#10'where C176.VLR_U' +
-      'NITARIO_BC_ST > 0 or PERC_MVA > 0   '
+      ','#13#10'             P.PERC_ICMS,'#13#10'             trunc(((P.VLR_UNITARI' +
+      'O * P.QTDE_NOTA) - P.VLR_DESCONTO) / (P.QTDE_NOTA * P.QTDE_PACOT' +
+      'E), 2) VLR_UNITARIO,'#13#10'             P.BASE_ICMS, P.VLR_ICMS, P.UF' +
+      ', P.ID_DOC_SAIDA, P.ITEM_DOC_SAIDA, P.TIPO_DOC_SAIDA, P.DEVOLUCA' +
+      'O,'#13#10'             P.NUM_DOC_SAIDA, P.SERIE_DOC_SAIDA, P.ID_CLIENT' +
+      'E, P.ID_FORNECEDOR, P.NUM_NOTA_ENT, P.SERIE_NOTA_ENT,'#13#10'         ' +
+      '    P.FILIAL, N.NFECHAVEACESSO, I.PERC_ICMS_INTER PERC_ICMS_ENT,' +
+      #13#10'             (I.PERC_ICMS * P.BASE_ICMS) / 100 VLR_UNITARIO_BC' +
+      '_ICMS_ENT, I.PERC_ICMSSUBST_INTERNO, I.PERC_MVA,'#13#10'             I' +
+      '.VLR_ICMSSUBST_RET VLR_UNITARIO_BC_ST, N.DTSAIDAENTRADA, I.QTD Q' +
+      'TD_ENTRADA,'#13#10'             (I.BASE_ICMSSUBST_RET / (P.QTDE_NOTA *' +
+      ' coalesce(P.QTDE_PACOTE, 1))) BASE_ICMSSUBST_RET,'#13#10'             ' +
+      '(I.BASE_ICMSSUBST / (P.QTDE_NOTA * coalesce(P.QTDE_PACOTE, 1))) ' +
+      'BASE_ICMSSUBST,'#13#10'             (I.VLR_ICMS / (P.QTDE_NOTA * coale' +
+      'sce(P.QTDE_PACOTE, 1))) VLR_ICMS_CREDITO'#13#10'      from UEPS_ESTOQU' +
+      'E P'#13#10'      left join NOTAFISCAL N on P.ID_NOTA_ENT = N.ID'#13#10'     ' +
+      ' left join NOTAFISCAL_ITENS I on P.ID_NOTA_ENT = I.ID and'#13#10'     ' +
+      '       P.ITEM_NOTA_ENT = I.ITEM'#13#10'      where P.ID_DOC_SAIDA = :I' +
+      'D_DOC_SAIDA and'#13#10'            P.ITEM_DOC_SAIDA = :ITEM_DOC_SAIDA ' +
+      'and'#13#10'            P.TIPO_DOC_SAIDA = '#39'NTS'#39') C176'#13#10'where C176.VLR_' +
+      'UNITARIO_BC_ST > 0 or PERC_MVA > 0   '
     MaxBlobSize = -1
     Params = <
       item
@@ -5975,11 +5983,12 @@ object DMSPEDFiscal: TDMSPEDFiscal
       'on P.ID = CFI.ID_PRODUTO'#13#10'join TAB_CSTICMS TICM on TICM.ID = CFI' +
       '.ID_CSTICMS'#13#10'join TAB_CFOP TCFOP on TCFOP.ID = CFI.ID_CFOP'#13#10'left' +
       ' join TAB_PIS TPIS on TPIS.ID = CFI.ID_PIS'#13#10'left join TAB_COFINS' +
-      ' TCOF on TCOF.ID = CFI.ID_COFINS'#13#10'where CFI.ID = :ID_CUPOM'
+      ' TCOF on TCOF.ID = CFI.ID_COFINS'#13#10'where CFI.ID = :ID_CUPOM AND C' +
+      'FI.CANCELADO = '#39'N'#39
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftInteger
+        DataType = ftUnknown
         Name = 'ID_CUPOM'
         ParamType = ptInput
       end>
@@ -6420,7 +6429,8 @@ object DMSPEDFiscal: TDMSPEDFiscal
       '    group by CI.ID, CI.ID_CSTICMS, CI.PERC_ICMS, CI.ID_CFOP)'
       
         'select C.ID, TICM.COD_CST, C.PERC_ICMS, TCFOP.CODCFOP, C.BASE_IC' +
-        'MS, C.VLR_ICMS, C.VLR_PRODUTO, C.VLR_DESCONTO, C.VLR_BASE_PIS,'
+        'MS, C.VLR_ICMS, (C.VLR_PRODUTO - C.VLR_DESCONTO) VLR_PRODUTO, C.' +
+        'VLR_DESCONTO, C.VLR_BASE_PIS,'
       '       C.VLR_BASE_COFINS, C.VALOR_BASE_REDUCAO'
       'from C190 C'
       'join TAB_CSTICMS TICM on C.ID_CSTICMS = TICM.ID'
@@ -6512,7 +6522,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
       '          N.FILIAL = :FILIAL and'
       '          (N.TIPO_REG = '#39'NTS'#39' or N.TIPO_REG = '#39'NTE'#39') and'
       '          N.CANCELADA = '#39'N'#39' and'
-      '          N.NFEDENEGADA = '#39'N'#39
+      '          N.NFEDENEGADA = '#39'N'#39' '
       '    union all'
       
         '    select iif(coalesce(CI.COD_CBENEF, '#39#39') <> '#39#39', CI.COD_CBENEF,' +
@@ -6572,11 +6582,11 @@ object DMSPEDFiscal: TDMSPEDFiscal
       'from NOTAFISCAL NF'
       'join NOTAFISCAL_ITENS NFI on NF.ID = NFI.ID'
       'join PESSOA PES on PES.CODIGO = NF.ID_CLIENTE'
-      'where NF.DTSAIDAENTRADA between :data1 and :data2 and'
+      'where NF.DTEMISSAO between :data1 and :data2 and'
       '      NF.FILIAL = :FILIAL and'
       '      (NF.TIPO_REG = '#39'NTS'#39') and'
       '      NF.CANCELADA = '#39'N'#39' and'
-      '      NF.NFEDENEGADA = '#39'N'#39
+      '      NF.NFEDENEGADA = '#39'N'#39' '
       'group by 1  ')
     SQLConnection = dmDatabase.scoDados
     Left = 736
@@ -6621,7 +6631,8 @@ object DMSPEDFiscal: TDMSPEDFiscal
       '      (N.TIPO_REG = '#39'NTS'#39') and'
       '      N.CANCELADA = '#39'N'#39' and'
       '      N.NFEDENEGADA = '#39'N'#39' and'
-      '      P.PERC_MVA > 0')
+      '      P.PERC_MVA > 0 and'
+      '      N.NFEPROTOCOLO <> '#39#39)
     SQLConnection = dmDatabase.scoDados
     Left = 808
     Top = 544
@@ -6701,6 +6712,111 @@ object DMSPEDFiscal: TDMSPEDFiscal
       FieldName = 'CST_ENTRADA'
       FixedChar = True
       Size = 3
+    end
+  end
+  object cdsRelatorioC176: TClientDataSet
+    Aggregates = <>
+    IndexFieldNames = 'NumNFSaida'
+    Params = <>
+    Left = 72
+    Top = 552
+    object cdsRelatorioC176NumNFSaida: TIntegerField
+      DisplayLabel = 'NF Sa'#237'da'
+      FieldName = 'NumNFSaida'
+    end
+    object cdsRelatorioC176IDProduto: TIntegerField
+      DisplayLabel = 'Cod.Produto'
+      FieldName = 'IDProduto'
+    end
+    object cdsRelatorioC176NomeProduto: TStringField
+      DisplayLabel = 'Nome Produto'
+      FieldName = 'NomeProduto'
+      Size = 100
+    end
+    object cdsRelatorioC176Qtde: TFloatField
+      FieldName = 'Qtde'
+    end
+    object cdsRelatorioC176BaseICMS: TFloatField
+      DisplayLabel = 'Base ICMS'
+      FieldName = 'BaseICMS'
+    end
+    object cdsRelatorioC176BaseICMSST: TFloatField
+      DisplayLabel = 'Base ICMS ST'
+      FieldName = 'BaseICMSST'
+    end
+    object cdsRelatorioC176ICMSIndividual: TFloatField
+      DisplayLabel = 'ICMS Individual'
+      FieldName = 'ICMSIndividual'
+    end
+    object cdsRelatorioC176ValorICMSST: TFloatField
+      DisplayLabel = 'Valor ICMS ST'
+      FieldName = 'ValorICMSST'
+    end
+    object cdsRelatorioC176TotalICMSSTRessarcimento: TFloatField
+      DisplayLabel = 'Total Ressarcimento'
+      FieldName = 'TotalICMSSTRessarcimento'
+    end
+    object cdsRelatorioC176DataVenda: TDateField
+      DisplayLabel = 'Data Venda'
+      FieldName = 'DataVenda'
+    end
+    object cdsRelatorioC176NumNFEntrada: TIntegerField
+      DisplayLabel = 'NF Entrada'
+      FieldName = 'NumNFEntrada'
+    end
+    object cdsRelatorioC176SerieEntrada: TStringField
+      DisplayLabel = 'Serie'
+      FieldName = 'SerieEntrada'
+      Size = 5
+    end
+    object cdsRelatorioC176ItemEntrada: TIntegerField
+      DisplayLabel = 'Item'
+      FieldName = 'ItemEntrada'
+    end
+    object cdsRelatorioC176DataCompra: TDateField
+      DisplayLabel = 'Data Compra'
+      FieldName = 'DataCompra'
+    end
+    object cdsRelatorioC176ChaveNFEntrada: TStringField
+      DisplayLabel = 'Chave NFEntrada'
+      FieldName = 'ChaveNFEntrada'
+      Size = 44
+    end
+    object cdsRelatorioC176ChaveNFSaida: TStringField
+      DisplayLabel = 'Chave NFSaida'
+      FieldName = 'ChaveNFSaida'
+      Size = 44
+    end
+  end
+  object MCfopSaida: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    Left = 160
+    Top = 528
+    object MCfopSaidaTIPO: TStringField
+      FieldName = 'TIPO'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Size = 3
+    end
+    object MCfopSaidaCFOP: TIntegerField
+      FieldName = 'CFOP'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+    end
+    object MCfopSaidaDATA: TDateField
+      FieldName = 'DATA'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+    end
+    object MCfopSaidavalor_icms: TFloatField
+      FieldName = 'valor_icms'
+    end
+    object MCfopSaidavaloroperacao: TFloatField
+      FieldName = 'valoroperacao'
+    end
+    object MCfopSaidavalor_base_icms: TFloatField
+      FieldName = 'valor_base_icms'
+    end
+    object MCfopSaidaNumNota: TIntegerField
+      FieldName = 'NumNota'
     end
   end
 end

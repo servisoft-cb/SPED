@@ -22,7 +22,13 @@ uses
   uUtilPadrao in 'uUtilPadrao.pas',
   UDMCadFilial in '..\ssfacil\UDMCadFilial.pas' {DMCadFilial: TDataModule},
   ClasseRegistroE116 in 'Classes\ClasseRegistroE116.pas',
-  ClasseRegistroE210 in 'Classes\ClasseRegistroE210.pas';
+  ClasseRegistroE210 in 'Classes\ClasseRegistroE210.pas',
+  ExcelExporter in 'Classes\ExcelExporter.pas',
+  UEPSService in 'Classes\UEPSService.pas',
+  Classe.Parametros in '..\ssfacil\Classes\Classe.Parametros.pas',
+  UConfig_XLS in '..\ssfacil\UConfig_XLS.pas' {frmConfig_XLS},
+  UDMConfig_XLS in '..\ssfacil\UDMConfig_XLS.pas' {DMConfig_XLS: TDataModule},
+  UTransactionHelper in '..\ssfacil\Classes\UTransactionHelper.pas';
 
 {$R *.res}
 
@@ -31,5 +37,7 @@ begin
   Application.Title := 'SPED FISCAL';
   Application.CreateForm(TdmDatabase, dmDatabase);
   Application.CreateForm(TfrmSPEDFiscal, frmSPEDFiscal);
+  Application.CreateForm(TfrmConfig_XLS, frmConfig_XLS);
+  Application.CreateForm(TDMConfig_XLS, DMConfig_XLS);
   Application.Run;
 end.
