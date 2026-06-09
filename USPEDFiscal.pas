@@ -10,40 +10,11 @@ uses
 {$IFNDEF FPC}
   Windows, Messages,
 {$ENDIF}
-  SysUtils,
-  Variants,
-  Classes,
-  Graphics,
-  Controls,
-  Forms,
-  ACBrEFDBlocos,
-  Dialogs,
-  StdCtrls,
-  ACBrSpedFiscal,
-  ExtCtrls,
-  ComCtrls,
-  ACBrUtil,
-  ACBrTXTClass,
-  Mask,
-  ToolEdit,
-  RzTabs,
-  NxCollection,
-  RxLookup,
-  UDMSPEDFiscal,
-  RzPanel,
-  DBClient,
-  ACBrBase,
-  RzLstBox,
-  RzChkLst,
-  Grids,
-  DBGrids,
-  SMDBGrid,
-  DB,
-  ActiveX,
-  ComObj,
-  NxEdit,
-  ClasseRegistroE116,
-  ClasseRegistroE210;
+  SysUtils, Variants, Classes, Graphics, Controls, Forms, ACBrEFDBlocos, Dialogs,
+  StdCtrls, ACBrSpedFiscal, ExtCtrls, ComCtrls, ACBrUtil, ACBrTXTClass, Mask,
+  ToolEdit, RzTabs, NxCollection, RxLookup, UDMSPEDFiscal, RzPanel, DBClient,
+  ACBrBase, RzLstBox, RzChkLst, Grids, DBGrids, SMDBGrid, DB, ActiveX, ComObj,
+  NxEdit, ClasseRegistroE116, ClasseRegistroE210;
 
 type
 
@@ -52,37 +23,7 @@ type
   TfrmSPEDFiscal = class(TForm)
     RZPageControlDados: TRzPageControl;
     TS_Gerar: TRzTabSheet;
-    TS_Exemplo: TRzTabSheet;
-    Label2: TLabel;
-    Label3: TLabel;
-    Label7: TLabel;
-    Label8: TLabel;
-    memoError: TMemo;
-    memoTXT: TMemo;
-    btnError: TButton;
-    btnTXT: TButton;
-    Panel1: TPanel;
-    Label1: TLabel;
-    Label5: TLabel;
-    Label6: TLabel;
-    edtFile: TEdit;
-    cbConcomitante: TCheckBox;
-    edNotas: TEdit;
-    Panel2: TPanel;
-    Label4: TLabel;
-    btnB_0: TButton;
-    btnB_1: TButton;
-    btnB_C: TButton;
-    btnB_D: TButton;
-    btnB_E: TButton;
-    btnB_H: TButton;
-    btnB_G: TButton;
-    btnB_Completo: TButton;
-    btnB_9: TButton;
-    ProgressBar1: TProgressBar;
     ACBrSPEDFiscal1: TACBrSPEDFiscal;
-    edBufLinhas: TEdit;
-    edBufNotas: TEdit;
     BtnBloco_0: TNxButton;
     btnBloco_C: TNxButton;
     btnGravar_Txt: TNxButton;
@@ -154,20 +95,7 @@ type
     ckParticipante: TCheckBox;
     chkC170Cupom: TCheckBox;
     chkC176: TCheckBox;
-    procedure btnB_0Click(Sender: TObject);
-    procedure btnB_9Click(Sender: TObject);
-    procedure btnTXTClick(Sender: TObject);
-    procedure btnB_1Click(Sender: TObject);
-    procedure btnB_CClick(Sender: TObject);
-    procedure btnB_DClick(Sender: TObject);
-    procedure btnB_EClick(Sender: TObject);
-    procedure btnB_HClick(Sender: TObject);
-    procedure btnErrorClick(Sender: TObject);
     procedure edtFileChange(Sender: TObject);
-    procedure cbConcomitanteClick(Sender: TObject);
-    procedure ACBrSPEDFiscal1Error(const MsnError: AnsiString);
-    procedure btnB_CompletoClick(Sender: TObject);
-    procedure btnB_GClick(Sender: TObject);
     procedure BtnBloco_0Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnBloco_CClick(Sender: TObject);
@@ -203,6 +131,8 @@ type
     vGerar_K: Boolean;
     FE116: TE116;
     FE210: TE210;
+    xNomeArquivo: String;
+
     function fnc_Valida_Campos(Tipo_Bloco: string = ''): Boolean;
     procedure prc_Movimento;
     procedure prc_Gravar_mPessoa(ID: Integer);
@@ -224,7 +154,6 @@ type
     procedure prc_Abrir_CupomFiscal;
     procedure prc_Abrir_CupomFiscal_Itens(AId: Integer);
     procedure prc_Abrir_C190(Aid: Integer);
-    procedure LoadToMemo;
     procedure prc_Gerar_Bloco_0;
     procedure prc_Bloco_0_Reg_0000;
     procedure prc_Bloco_0_Reg_0001;
@@ -298,27 +227,11 @@ var
 implementation
 
 uses
-  uUtilPadrao,
-  ACBrEFDBloco_C,
-  ACBrEFDBloco_C_Class,
-  SqlExpr,
-  ACBrEFDBloco_D_Class,
-  ACBrEFDBloco_D,
-  ACBrEFDBloco_H_Class,
-  ACBrEFDBloco_H,
-  DateUtils,
-  rsDBUtils,
-  ACBrEFDBloco_K,
-  ACBrEFDBloco_K_Class,
-  ACBrEFDBloco_E_Class,
-  ACBrEFDBloco_E,
-  ACBrSped,
-  UCadSpedVersao,
-  UConsPosseEstoque,
-  ACBrEFDBloco_0,
-  UImportar_Excel,
-  UConfigC176,
-  ExcelExporter,
+  uUtilPadrao, ACBrEFDBloco_C, ACBrEFDBloco_C_Class, SqlExpr,
+  ACBrEFDBloco_D_Class, ACBrEFDBloco_D, ACBrEFDBloco_H_Class, ACBrEFDBloco_H,
+  DateUtils, rsDBUtils, ACBrEFDBloco_K, ACBrEFDBloco_K_Class,
+  ACBrEFDBloco_E_Class, ACBrEFDBloco_E, ACBrSped, UCadSpedVersao,
+  UConsPosseEstoque, ACBrEFDBloco_0, UImportar_Excel, UConfigC176, ExcelExporter,
   UEPSService;
 
 {$IFDEF FPC}
@@ -327,1119 +240,9 @@ uses
 {$R *.dfm}
 {$ENDIF}
 
-procedure TfrmSPEDFiscal.ACBrSPEDFiscal1Error(const MsnError: AnsiString);
-begin
-  memoError.Lines.Add(MsnError);
-end;
-
-procedure TfrmSPEDFiscal.btnB_0Click(Sender: TObject);
-const
-  strUNID: array[0..4] of string = ('PC', 'UN', 'LT', 'PC', 'MT');
-var
-  int0150: integer;
-  int0300: integer;
-  int0190: integer;
-  int0500: Integer;
-  int0600: Integer;
-begin
-  // Alimenta o componente com informações para gerar todos os registros do
-  // Bloco 0.
-
-  cbConcomitante.Enabled := False;
-  btnB_0.Enabled := False;
-  btnB_C.Enabled := True;
-
-  ACBrSPEDFiscal1.LinhasBuffer := StrToIntDef(edBufLinhas.Text, 0);
-  ACBrSPEDFiscal1.Path := DirectoryEdit1.Text;
-  ACBrSPEDFiscal1.Arquivo := edtFile.Text;
-
-  //Definindo
-  with ACBrSPEDFiscal1 do
-  begin
-    DT_INI := StrToDate('01/11/2011');
-    DT_FIN := StrToDate('30/11/2011');
-  end;
-
-  if cbConcomitante.Checked then
-  begin
-    with ACBrSPEDFiscal1 do
-    begin
-      LinhasBuffer := StrToIntDef(edBufLinhas.Text, 0);
-
-      IniciaGeracao;
-    end;
-
-    LoadToMemo;
-  end;
-
-  with ACBrSPEDFiscal1.Bloco_0 do
-  begin
-    // Dados da Empresa
-    with Registro0000New do
-    begin
-      COD_VER := vlVersao103;
-      COD_FIN := raOriginal;
-      NOME := 'RAZÃO SOCIAL DA EMPRESA EMITENTE';
-      CNPJ := '11111111111180';
-      CPF := '';
-      UF := 'RS';
-      IE := '1111111119';
-      COD_MUN := 4314902;
-      IM := '';
-      SUFRAMA := '';
-      IND_PERFIL := pfPerfilA;
-      IND_ATIV := atOutros;
-    end;
-
-    with Registro0001New do
-    begin
-      IND_MOV := imComDados;
-
-      // FILHO - Dados complementares da Empresa
-      with Registro0005New do
-      begin
-        FANTASIA := 'NOME FANTASSIA';
-        CEP := '29900000';
-        ENDERECO := 'ENDEREÇO DA EMPRESA';
-        NUM := 'S/N';
-        COMPL := '';
-        BAIRRO := 'BAIRRO';
-        FONE := '';
-        FAX := '';
-        EMAIL := '171@171.COM.BR';
-      end;
-//
-//      with Registro0015New do
-//      begin
-//        UF_ST := 'SC';
-//        IE_ST := '254504230';
-//      end;
-//
-      // FILHO - Dados do contador.
-      with Registro0100New do
-      begin
-        NOME := 'SO CONFIE NO CONTADOR I';
-        CPF := '12345678909'; // Deve ser uma informação valida
-        CRC := '65924';
-        CNPJ := '';
-        CEP := '92420020';
-        ENDERECO := 'R. NOME DA RUA';
-        NUM := '450';
-        COMPL := '';
-        BAIRRO := 'BAIRRO CONTADORES';
-        FONE := '';
-        FAX := '';
-        EMAIL := 'NOME@NOME.COM.BR';
-        COD_MUN := 3200607;
-      end;
-      // Check(Reg0001.Registro0190.LocalizaRegistro(UNID), '(0-0190) UNIDADE MEDIDA: A unidade de medida "%s" foi duplicada na lista de registros 0190!', [UNID]);
-      // FILHO
-      for int0150 := 1 to 10 do
-      begin
-        // 10 Clientes
-        with Registro0150New do
-        begin
-          COD_PART := IntToStr(int0150);
-          NOME := 'CLIENTE DE TESTES ' + IntToStr(int0150);
-          if int0150 = 9 then //um exemplo de cliente no exterior.
-          begin
-            COD_PAIS := '3131'; //GUAM
-            CNPJ := '';
-            CPF := '';
-//            COD_MUN := 43140070 + int0150; //O código do município é deixado de fora propositalmente. O componente vai fazê-lo ficar vazio
-          end
-          else
-          begin
-            CNPJ := '11111111111180';
-            CPF := '12345678909';
-            COD_PAIS := '1058';
-          end;
-
-          IE := '';
-          COD_MUN := 43140070 + int0150;
-          SUFRAMA := '';
-          ENDERECO := 'ENDERECO CLIENTE' + IntToStr(int0150);
-          NUM := '';
-          COMPL := 'COMPLEMENTO' + IntToStr(int0150);
-          BAIRRO := 'BAIRRO CLIENTE' + IntToStr(int0150);
-          //
-          // FILHO - 1 Alteração para cada cliente de 2 a 3
-          if (int0150 = 2) or (int0150 = 3) then
-          begin
-            with Registro0175New do
-            begin
-              DT_ALT := DT_INI + 1;
-              NR_CAMPO := '1';
-              CONT_ANT := 'CAMPO ANTERIOR ' + '1';
-            end;
-          end;
-        end;
-      end;
-
-      // FILHO
-      // 4 Unidades de medida
-      // Const strUNID, esta declarada no inicio deste evento.
-      for int0190 := Low(strUNID) to High(strUNID) do
-      begin
-        if not Registro0190.LocalizaRegistro(strUNID[int0190]) then
-        begin
-          with Registro0190New do
-          begin
-            UNID := strUNID[int0190];
-            DESCR := 'Descricao ' + strUNID[int0190];
-          end;
-        end;
-      end;
-
-      with Registro0200New do
-      begin
-        COD_ITEM := '000001';
-        DESCR_ITEM := 'PRODUTO 1';
-        COD_BARRA := '';
-        UNID_INV := 'UN';
-        TIPO_ITEM := tiMercadoriaRevenda;
-        COD_NCM := '30049026';
-        COD_GEN := '30';
-        ALIQ_ICMS := 17.00;
-
-        //REGISTRO 0206: CÓDIGO DE PRODUTO CONFORME TABELA PUBLICADA PELA ANP (COMBUSTÍVEIS)
-//        With Registro0206New do
-//        begin
-//          COD_COMB := '910101001';
-//        end;
-      end;
-
-      // FILHO
-      for int0300 := 1 to 10 do
-      begin
-        // 10 Bens Imobilizados
-        with Registro0300New do
-        begin
-          COD_IND_BEM := FormatFloat('000000', int0300);
-          IDENT_MERC := 1;
-          DESCR_ITEM := 'DESCRIÇÃO DO ITEM';
-          COD_PRNC := '';
-          COD_CTA := '';
-          NR_PARC := 10;
-          // FILHO
-          with Registro0305New do
-          begin
-            COD_CCUS := '1';
-//            FUNC := 'BREVE DESCRIÇÃO DA FUNÇÃO DO IMOBILIZADO ' +FormatFloat('000000', int0300);;
-            VIDA_UTIL := 60;
-          end;
-        end;
-      end;
-
-      with Registro0400New do
-      begin
-        COD_NAT := '12020';
-        DESCR_NAT := 'DESCRIÇÃO DA NATUREZA DE OPERAÇÃO 12020';
-      end;
-
-      with Registro0450New do
-      begin
-        COD_INF := '000001';
-        TXT := 'INFORMAÇÃO COMPLEMENTAR DO DOCUMENTO FISCAL';
-      end;
-
-      with Registro0460New do
-      begin
-        COD_OBS := '000001';
-        TXT := 'TEXTO DE OBSERVAÇÃO DO DOCUMENTO FISCAL ';
-      end;
-
-      for int0500 := 1 to 10 do
-      begin
-        with Registro0500New do
-        begin
-          DT_ALT := StrToDate('30/11/2011');
-          COD_NAT_CC := '01';
-          IND_CTA := 'A';
-          NIVEL := '1';
-          COD_CTA := IntToStr(int0500);
-          NOME_CTA := 'CONTA CONTÁBIL ' + IntToStr(int0500);
-        end;
-      end;
-
-      for int0600 := 1 to 10 do
-      begin
-        with Registro0600New do
-        begin
-          DT_ALT := StrToDate('30/11/2011');
-          COD_CCUS := IntToStr(int0600);
-          CCUS := 'CENTRO DE CUSTOS ' + IntToStr(int0600);
-        end;
-      end;
-    end;
-  end;
-
-  if cbConcomitante.Checked then
-  begin
-    ACBrSPEDFiscal1.WriteBloco_0;
-    LoadToMemo;
-  end;
-end;
-
-procedure TfrmSPEDFiscal.btnB_9Click(Sender: TObject);
-begin
-  btnB_9.Enabled := False;
-  ACBrSPEDFiscal1.WriteBloco_9;
-  LoadToMemo;
-
-  // Habilita os botões
-  btnB_0.Enabled := True;
-  btnB_1.Enabled := True;
-  btnB_C.Enabled := True;
-  btnB_D.Enabled := True;
-  btnB_E.Enabled := True;
-  btnB_G.Enabled := True;
-  btnB_H.Enabled := True;
-
-  cbConcomitante.Enabled := True;
-end;
-
-procedure TfrmSPEDFiscal.btnTXTClick(Sender: TObject);
-begin
-  btnTXT.Enabled := False;
-
-  ACBrSPEDFiscal1.LinhasBuffer := StrToIntDef(edBufLinhas.Text, 0);
-
-  with ACBrSPEDFiscal1 do
-  begin
-    DT_INI := StrToDate('01/11/2011');
-    DT_FIN := StrToDate('30/11/2011');
-  end;
-
-  // Limpa a lista de erros.
-  memoError.Lines.Clear;
-  // Informa o pata onde será salvo o arquivo TXT.
-  // ACBrSpedFiscal1.Path := '.\Arquivo Sped TXT\';
-  // Método que gera o arquivo TXT.
-  ACBrSPEDFiscal1.SaveFileTXT;
-
-  // Carrega o arquivo TXT no memo.
-  LoadToMemo;
-
-  // Habilita os botões
-  btnB_0.Enabled := True;
-  btnTXT.Enabled := True;
-  cbConcomitante.Enabled := True;
-end;
-
-procedure TfrmSPEDFiscal.btnErrorClick(Sender: TObject);
-begin
-  with ACBrSPEDFiscal1 do
-  begin
-    DT_INI := StrToDate('01/07/2011');
-    DT_FIN := StrToDate('01/07/2011');
-  end;
-
-  // Limpa a lista de erros.
-  memoError.Lines.Clear;
-
-  // Método que gera o arquivo TXT.
-  ACBrSPEDFiscal1.SaveFileTXT;
-
-  // Habilita os botões
-  btnB_0.Enabled := True;
-  btnB_1.Enabled := True;
-  btnB_C.Enabled := True;
-  btnB_D.Enabled := True;
-  btnB_E.Enabled := True;
-  btnB_H.Enabled := True;
-end;
-
-procedure TfrmSPEDFiscal.btnB_1Click(Sender: TObject);
-begin
-  btnB_1.Enabled := False;
-  btnB_9.Enabled := cbConcomitante.Checked;
-
-  // Alimenta o componente com informações para gerar todos os registros do Bloco 1.
-  with ACBrSPEDFiscal1.Bloco_1 do
-  begin
-    with Registro1001New do
-    begin
-      IND_MOV := imComDados;
-    end;
-    with Registro1010New do
-    begin
-      IND_EXP := 'N';
-      IND_CCRF := 'N';
-      IND_COMB := 'N';
-      IND_USINA := 'N';
-      IND_VA := 'N';
-      IND_EE := 'N';
-      IND_CART := 'N';
-      IND_FORM := 'N';
-      IND_AER := 'N';
-      IND_GIAF1 := 'N';
-      IND_GIAF3 := 'N';
-      IND_GIAF4 := 'N';
-      IND_REST_RESSARC_COMPL_ICMS := 'N';
-    end;
-  end;
-
-  if cbConcomitante.Checked then
-  begin
-    ACBrSPEDFiscal1.WriteBloco_1;
-    LoadToMemo;
-  end;
-end;
-
-procedure TfrmSPEDFiscal.btnB_CClick(Sender: TObject);
-var
-  INotas: integer;
-  IItens: integer;
-  NNotas: integer;
-  BNotas: integer;
-begin
-  // Alimenta o componente com informações para gerar todos os registros do
-  // Bloco C.
-  btnB_C.Enabled := False;
-  btnB_D.Enabled := True;
-
-  NNotas := StrToInt64Def(edNotas.Text, 1);
-  BNotas := StrToInt64Def(edBufNotas.Text, 1);
-
-  ProgressBar1.Visible := cbConcomitante.Checked;
-  ProgressBar1.Max := NNotas;
-  ProgressBar1.Position := 0;
-
-  with ACBrSPEDFiscal1.Bloco_C do
-  begin
-    with RegistroC001New do
-    begin
-      IND_MOV := imComDados;
-      //
-      for INotas := 1 to NNotas do
-      begin
-        with RegistroC100New do
-        begin
-          IND_OPER := tpEntradaAquisicao;
-          //Só pra variar a emissão entre própria e de terceiros
-          if Odd(INotas) then
-            IND_EMIT := edEmissaoPropria
-          else
-            IND_EMIT := edTerceiros;
-
-          COD_PART := '001';
-          COD_MOD := '';
-          COD_SIT := sdRegular;
-          SER := '';
-          NUM_DOC := FormatFloat('11000000', INotas);
-          CHV_NFE := '';
-          DT_DOC := DT_INI + INotas;
-          DT_E_S := DT_INI + INotas;
-          VL_DOC := 0;
-          IND_PGTO := tpSemPagamento;
-          VL_DESC := 0;
-          VL_ABAT_NT := 0;
-          VL_MERC := 0;
-          IND_FRT := tfSemCobrancaFrete;
-          VL_SEG := 0;
-          VL_OUT_DA := 0;
-          VL_BC_ICMS := 0;
-          VL_ICMS := 0;
-          VL_BC_ICMS_ST := 0;
-          VL_ICMS_ST := 0;
-          VL_IPI := 0;
-          VL_PIS := 0;
-          VL_COFINS := 0;
-          VL_PIS_ST := 0;
-          VL_COFINS_ST := 0;
-
-
-          { Gera registros específicos para notas emitidas por terceiros }
-          if IND_EMIT = edTerceiros then
-          begin
-            with RegistroC110New do
-            begin
-              COD_INF := '000001';
-              TXT_COMPL := '';
-
-              with RegistroC113New do
-              begin
-                IND_OPER := tpEntradaAquisicao;
-                IND_EMIT := edEmissaoPropria;
-                COD_PART := '001';
-                COD_MOD := '1';
-                SER := '1';
-                SUB := '1';
-                NUM_DOC := '333';
-                DT_DOC := StrToDate('02/11/2011');
-              end;
-            end;
-          end;
-
-          { Gera o registro de importação apenas para notas de entrada }
-          if IND_OPER = tpEntradaAquisicao then
-          begin
-            with RegistroC120New do
-            begin
-              COD_DOC_IMP := diSimplificadaImport;
-              NUM_DOC__IMP := '1024879531';
-              PIS_IMP := 0.00;
-              COFINS_IMP := 0.00;
-              NUM_ACDRAW := '';
-            end;
-          end;
-
-          { Gera registros específicos para notas emitidas por terceiros e de prestação }
-          if (IND_EMIT = edTerceiros) and (IND_OPER = tpSaidaPrestacao) then
-          begin
-            with RegistroC130New do
-            begin
-              VL_SERV_NT := 10.12;
-              VL_BC_ISSQN := 10.12;
-              VL_ISSQN := 10.12;
-              VL_BC_IRRF := 10.12;
-              VL_IRRF := 10.12;
-              VL_BC_PREV := 10.12;
-              VL_PREV := 10.12;
-            end;
-          end;
-
-
-          // REGISTRO C170: ITENS DO DOCUMENTO (CÓDIGO 01, 1B, 04 e 55).
-          for IItens := 1 to 10 do
-          begin
-            with RegistroC170New do // Inicio Adicionar os Itens:
-            begin
-              NUM_ITEM := FormatFloat('000', IItens);
-              COD_ITEM := FormatFloat('000000', StrToInt(NUM_ITEM));
-              DESCR_COMPL := FormatFloat('11000000', INotas) + ' -> ITEM ' + COD_ITEM;
-              QTD := 1;
-              UNID := 'UN';
-              VL_ITEM := 0;
-              VL_DESC := 0;
-              IND_MOV := mfNao;
-              CST_ICMS := '001';
-              CFOP := '1252';
-              COD_NAT := '64';
-              VL_BC_ICMS := 0;
-              ALIQ_ICMS := 0;
-              VL_ICMS := 0;
-              VL_BC_ICMS_ST := 0;
-              ALIQ_ST := 0;
-              VL_ICMS_ST := 0;
-              IND_APUR := iaMensal;
-              CST_IPI := CstIpiToStr(stipiEntradaIsenta);
-              COD_ENQ := '';
-              VL_BC_IPI := 0;
-              ALIQ_IPI := 0;
-              VL_IPI := 0;
-              CST_PIS := CstPisToStr(stpisOutrasOperacoes);
-              VL_BC_PIS := 0;
-              ALIQ_PIS_PERC := 0;
-              QUANT_BC_PIS := 0;
-              ALIQ_PIS_R := 0;
-              VL_PIS := 0;
-              CST_COFINS := CstCofinsToStr(stcofinsOutrasOperacoes);
-              VL_BC_COFINS := 0;
-              ALIQ_COFINS_PERC := 0;
-              QUANT_BC_COFINS := 0;
-              ALIQ_COFINS_R := 0;
-              VL_COFINS := 0;
-              COD_CTA := '000';
-
-              //REGISTRO C171: ARMAZENAMENTO DE COMBUSTIVEIS (código 01, 55)
-              { Só gera para operações de aquisição }
-//              if IND_OPER = tpEntradaAquisicao then
-//              begin
-//                with RegistroC171New do
-//                begin
-//                  NUM_TANQUE := '115';
-//                  QTDE := 1.00;
-//                end;
-//              end;
-              //REGISTRO C176: RESSARCIMENTO DE ICMS EM OPERAÇÕES COM
-              //SUBSTITUIÇÃO TRIBUTÁRIA (CÓDIGO 01, 55).
-//              with RegistroC176New do
-//              begin
-//                COD_MOD_ULT_E := '55';
-//                NUM_DOC_ULT_E := '124567';
-//                SER_ULT_E := '1';
-//                DT_ULT_E := Now;
-//                COD_PART_ULT_E := '000001';
-//                QUANT_ULT_E := 10.00;
-//                VL_UNIT_ULT_E := 1.00;
-//                VL_UNIT_BC_ST := 5.00;
-//              end;
-            end; // Fim dos Itens;
-          end;
-
-          // REGISTRO C190: REGISTRO ANALÍTICO DO DOCUMENTO (CÓDIGO 01, 1B, 04 E 55).
-          for IItens := 1 to 10 do
-          begin
-            with RegistroC190New do
-            begin
-              CST_ICMS := '040';
-              CFOP := '1252';
-              ALIQ_ICMS := 0;
-              VL_OPR := 0;
-              VL_BC_ICMS := 0;
-              VL_ICMS := 0;
-              VL_BC_ICMS_ST := 0;
-              VL_ICMS_ST := 0;
-              VL_RED_BC := 0;
-              VL_IPI := 0;
-              COD_OBS := '000';
-            end; // Fim dos Itens;
-          end;
-        end;
-
-        if cbConcomitante.Checked then
-        begin
-          if (INotas mod BNotas) = 0 then // Gravar a cada N notas
-          begin
-            // Grava registros na memoria para o TXT, e limpa memoria
-            ACBrSPEDFiscal1.WriteBloco_C(False); // False, NAO fecha o Bloco
-            ProgressBar1.Position := INotas;
-            Application.ProcessMessages;
-          end;
-        end;
-      end;
-
-      //REGISTRO C400 - EQUIPAMENTO ECF (CÓDIGO 02 e 2D).
-      with RegistroC400New do
-      begin
-        COD_MOD := '2D';
-        ECF_MOD := 'DARUMA FS600';
-        ECF_FAB := '21098765432123456789';
-        ECF_CX := '001';
-
-        with RegistroC405New do
-        begin
-          DT_DOC := DT_FIN; //StrToDate('30/11/2011');
-          CRO := 1;
-          CRZ := 1;
-          NUM_COO_FIN := 1;
-          GT_FIN := 100.00;
-          VL_BRT := 100.00;
-
-          with RegistroC410New do
-          begin
-            VL_PIS := 0.00;
-            VL_COFINS := 0.00;
-          end;
-
-          with RegistroC420New do
-          begin
-            COD_TOT_PAR := 'T1700';
-            VLR_ACUM_TOT := 100.00;
-            NR_TOT := 1;
-            DESCR_NR_TOT := 'TOTALIZADOR T1700';
-
-            { Gera este registro somente para empresas do pergil B de apresentação }
-            if Bloco_0.Registro0000.IND_PERFIL = pfPerfilB then
-            begin
-              with RegistroC425New do
-              begin
-                COD_ITEM := '000001';
-                QTD := 1;
-                UNID := 'PC';
-                VL_ITEM := 100.00;
-                VL_PIS := 0.00;
-                VL_COFINS := 0.00;
-              end;
-            end;
-          end;
-
-          if Bloco_0.Registro0000.IND_PERFIL <> pfPerfilB then
-          begin
-            with REgistroC460New do
-            begin
-              COD_MOD := '2D';
-              COD_SIT := sdRegular;
-              NUM_DOC := '000001';
-              DT_DOC := StrToDate('30/11/2011');
-              VL_DOC := 100.00;
-              VL_PIS := 0.00;
-              VL_COFINS := 0.00;
-              CPF_CNPJ := '33333333333';
-              NOM_ADQ := 'TESTE';
-
-              with RegistroC470New do
-              begin
-                COD_ITEM := '000001';
-                QTD := 1;
-                QTD_CANC := 0;
-                UNID := 'UN';
-                VL_ITEM := 100.00;
-                CST_ICMS := '000';
-                CFOP := '5102';
-                ALIQ_ICMS := 17.00;
-                VL_PIS := 0.00;
-                VL_COFINS := 0.00;
-              end;
-            end;
-          end;
-
-          with RegistroC490New do
-          begin
-            CST_ICMS := '000';
-            CFOP := '5102';
-            ALIQ_ICMS := 17.00;
-            VL_OPR := 100.00;
-            VL_BC_ICMS := 100.00;
-            VL_ICMS := 17.00;
-            COD_OBS := '000001'
-          end;
-
-          { Só envia este registro se o contribuinte for da BA }
-          if Bloco_0.Registro0000.UF = 'BA' then
-          begin
-            with RegistroC495New do
-            begin
-              ALIQ_ICMS := 17.00;
-              COD_ITEM := '000001';
-              QTD := 1.00;
-              QTD_CANC := 0.00;
-              UNID := 'UN';
-              VL_ITEM := 100.00;
-              VL_DESC := 0.00;
-              VL_CANC := 0.00;
-              VL_ACMO := 0.00;
-              VL_BC_ICMS := 100.00;
-              VL_ICMS := 17.00;
-              VL_ISEN := 0.00;
-              VL_ICMS_ST := 0.00;
-            end;
-          end;
-        end;
-      end;
-
-    end;
-  end;
-
-  if cbConcomitante.Checked then
-  begin
-    ACBrSPEDFiscal1.WriteBloco_C(True); // True, fecha o Bloco
-    LoadToMemo;
-  end;
-
-  ProgressBar1.Visible := False;
-
-end;
-
-procedure TfrmSPEDFiscal.btnB_CompletoClick(Sender: TObject);
-begin
-  btnB_0Click(Self);
-  btnB_CClick(Self);
-  btnB_DClick(Self);
-  btnB_EClick(Self);
-  btnB_GClick(Self);
-  btnB_HClick(Self);
-  btnB_1Click(Self);
-
-end;
-
-procedure TfrmSPEDFiscal.btnB_DClick(Sender: TObject);
-begin
-  btnB_D.Enabled := False;
-  btnB_E.Enabled := True;
-
-  // Alimenta o componente com informações para gerar todos os registros do Bloco D.
-  with ACBrSPEDFiscal1.Bloco_D do
-  begin
-    with RegistroD001New do
-    begin
-      IND_MOV := imComDados;
-
-      with RegistroD100New do
-      begin
-        IND_OPER := tpEntradaAquisicao;
-        IND_EMIT := edTerceiros;
-        COD_PART := '000001';
-        COD_MOD := '57';
-        COD_SIT := sdRegular;
-        SER := '1';
-        NUM_DOC := '012345';
-        CHV_CTE := '';
-        DT_DOC := DT_FIN - 1; //StrToDate('30/11/2011');
-        DT_A_P := DT_FIN - 1; //StrToDate('30/11/2011');
-        TP_CT_e := '1';
-        VL_DOC := 100.00;
-        VL_DESC := 0.00;
-        IND_FRT := tfPorContaEmitente;
-        VL_SERV := 100.00;
-        VL_BC_ICMS := 100.00;
-        VL_ICMS := 17.00;
-        VL_NT := 10.10;
-        COD_INF := '000001';
-        COD_CTA := '111';
-      end;
-
-      with RegistroD190New do
-      begin
-        CST_ICMS := '000';
-        CFOP := '1252';
-        ALIQ_ICMS := 17.00;
-        VL_OPR := 100.00;
-        VL_BC_ICMS := 100.00;
-        VL_ICMS := 17.00;
-        VL_RED_BC := 0.00;
-        COD_OBS := '000001';
-      end;
-    end;
-  end;
-
-  if cbConcomitante.Checked then
-  begin
-    ACBrSPEDFiscal1.WriteBloco_D;
-    LoadToMemo;
-  end;
-end;
-
-procedure TfrmSPEDFiscal.btnB_EClick(Sender: TObject);
-const
-  ESTADOS: array[0..1] of string = ('RS', 'SC');
-var
-  I: Integer;
-begin
-  // Alimenta o componente com informações para gerar todos os registros do Bloco E.
-  btnB_E.Enabled := False;
-  btnB_G.Enabled := True;
-
-  with ACBrSPEDFiscal1.Bloco_E do
-  begin
-    with RegistroE001New do
-    begin
-      IND_MOV := imComDados;
-
-      with RegistroE100New do
-      begin
-        DT_INI := StrToDate('01/11/2011');
-        DT_FIN := StrToDate('30/11/2011');
-
-        with RegistroE110New do
-        begin
-          VL_TOT_DEBITOS := 17.00;
-          VL_AJ_DEBITOS := 0.00;
-          VL_TOT_AJ_DEBITOS := 0.00;
-          VL_ESTORNOS_CRED := 0;
-          VL_TOT_CREDITOS := 17.00;
-          VL_AJ_CREDITOS := 0;
-          VL_TOT_AJ_CREDITOS := 0;
-          VL_ESTORNOS_DEB := 0;
-          VL_SLD_CREDOR_ANT := 0;
-          VL_SLD_APURADO := 0.00;
-          VL_TOT_DED := 0.00;
-          VL_ICMS_RECOLHER := 0.00;
-          VL_SLD_CREDOR_TRANSPORTAR := 0;
-          DEB_ESP := 0;
-
-          //
-          // with RegistroE113New do begin
-          // COD_PART := '000001';
-          // COD_MOD  := '01';
-          // SER      := 'SERI';
-          // SUB      := '';
-          // NUM_DOC  := '123456789';
-          // DT_DOC   := Now;
-          // COD_ITEM := '000001';
-          // VL_AJ_ITEM := 0;
-          // end;
-          // end;
-          { Rio Grande do Sul não possui as tabelas do registro E115, então este não precisa ser gerado }
-          // with RegistroE115New do begin
-          // COD_INF_ADIC   := 'RS000001';
-          // VL_INF_ADIC    := 0;
-          // DESCR_COMPL_AJ := '';
-          // end;
-
-          with RegistroE116New do
-          begin
-            COD_OR := '000';
-            VL_OR := 0;
-            DT_VCTO := Now;
-            COD_REC := '123';
-            NUM_PROC := '10';
-            IND_PROC := opSefaz;
-            PROC := 'DESCRIÇÃO DO PROCESSO';
-            TXT_COMPL := '';
-            MES_REF := '112011';
-          end;
-        end;
-      end;
-
-      { Gera um registro E200 e filhos para cada estado onde o contribuinte possui inscrição estadual }
-      for I := Low(ESTADOS) to High(ESTADOS) do
-      begin
-        with RegistroE200New do
-        begin
-          DT_INI := DataInicial.Date;
-          DT_FIN := DataFinal.Date;
-          UF := ESTADOS[I];
-
-          with RegistroE210New do
-          begin
-            IND_MOV_ST := mstSemOperacaoST;
-            VL_SLD_CRED_ANT_ST := 0;
-            VL_DEVOL_ST := 0;
-            VL_RESSARC_ST := 0;
-            VL_OUT_CRED_ST := 0;
-            VL_AJ_CREDITOS_ST := 0;
-            VL_SLD_DEV_ANT_ST := 0.00;
-            VL_DEDUCOES_ST := 0;
-            VL_ICMS_RECOL_ST := 0.00;
-            VL_SLD_CRED_ST_TRANSPORTAR := 0;
-            VL_OUT_DEB_ST := 0.00;
-            DEB_ESP_ST := 0;
-
-            // with RegistroE220New do begin
-            // COD_AJ_APUR    := 'RS109999';
-            // DESCR_COMPL_AJ := '';
-            // VL_AJ_APUR     := 0.00;
-            //
-            // with RegistroE230New do begin
-            // NUM_DA    := '123';
-            // NUM_PROC  := '123';
-            // IND_PROC  := opOutros;
-            // PROC      := 'DESCRIÇÃO RESUMIDA';
-            // TXT_COMPL := 'COMPLEMENTO';
-            // end;
-            //
-            // with RegistroE240New do begin
-            // COD_PART   := '000001';
-            // COD_MOD    := '01';
-            // SER        := 'SERI';
-            // SUB        := '';
-            // NUM_DOC    := '123456789';
-            // DT_DOC     := Now;
-            // COD_ITEM   := '000001';
-            // VL_AJ_ITEM := 0;
-            // end;
-            // end;
-
-            with RegistroE250New do
-            begin
-              COD_OR := '000';
-              VL_OR := 0;
-              DT_VCTO := Now;
-              COD_REC := '123';
-              NUM_PROC := '1020304050';
-              IND_PROC := opOutros;
-              PROC := 'DESCRIÇÃO RESUMIDA';
-              TXT_COMPL := '';
-              MES_REF := '112011';
-            end;
-          end;
-        end;
-      end;
-
-      with RegistroE500New do
-      begin
-        IND_APUR := iaMensal;
-        //DT_INI := StrToDate('01/11/2011');
-        //DT_FIN := StrToDate('30/11/2011');
-        DT_INI := DataInicial.Date;
-        DT_FIN := DataFinal.Date;
-
-        with RegistroE510New do
-        begin
-          CFOP := '5120';
-          CST_IPI := '50';
-          VL_CONT_IPI := 0;
-          VL_BC_IPI := 0;
-          VL_IPI := 0;
-        end;
-
-        with RegistroE520New do
-        begin
-          VL_SD_ANT_IPI := 0;
-          VL_DEB_IPI := 0;
-          VL_CRED_IPI := 0;
-          VL_OD_IPI := 10.00;
-          VL_OC_IPI := 0;
-          VL_SC_IPI := 0;
-          VL_SD_IPI := 10.00;
-
-          with RegistroE530New do
-          begin
-            IND_AJ := ajDebito;
-            VL_AJ := 10;
-            COD_AJ := '001';
-            IND_DOC := odOutros;
-            NUM_DOC := '123';
-            DESCR_AJ := 'DESCRIÇÃO DETALHADA';
-          end;
-        end;
-        { fim registro E500 }
-      end;
-    end;
-  end;
-
-  if cbConcomitante.Checked then
-  begin
-    ACBrSPEDFiscal1.WriteBloco_E;
-    LoadToMemo;
-  end;
-end;
-
-procedure TfrmSPEDFiscal.btnB_GClick(Sender: TObject);
-begin
-  btnB_G.Enabled := False;
-  btnB_H.Enabled := True;
-
-  // Alimenta o componente com informações para gerar todos os registros do Bloco G.
-  with ACBrSPEDFiscal1.Bloco_G do
-  begin
-    with RegistroG001New do
-    begin
-      IND_MOV := imComDados;
-
-      with RegistroG110New do
-      begin
-        DT_INI := Now;
-        DT_FIN := Now;
-        SALDO_IN_ICMS := 44.00;
-        SOM_PARC := 4.40;
-        VL_TRIB_EXP := 10.999;
-        VL_TOTAL := 10.999;
-        IND_PER_SAI := 1.00;
-        ICMS_APROP := 4.40;
-        SOM_ICMS_OC := 10.999;
-
-        with RegistroG125New do
-        begin
-          COD_IND_BEM := '000001';
-          DT_MOV := StrToDate('01/11/2011');
-          TIPO_MOV := mbcSI;
-          VL_IMOB_ICMS_OP := 10.999;
-          VL_IMOB_ICMS_ST := 10.999;
-          VL_IMOB_ICMS_FRT := 10.999;
-          VL_IMOB_ICMS_DIF := 10.999;
-          NUM_PARC := 10;
-          VL_PARC_PASS := 4.40;
-
-          with RegistroG126New do
-          begin
-            DT_INI := StrToDate('01/10/2011');
-            ;
-            DT_FIN := StrToDate('30/10/2011');
-            ;
-            NUM_PARC := 1234;
-            VL_PARC_PASS := 10.999;
-            VL_TRIB_OC := 10.999;
-            VL_TOTAL := 10.999;
-            IND_PER_SAI := 1.00;
-            VL_PARC_APROP := 10.999;
-          end;
-
-          with RegistroG130New do
-          begin
-            IND_EMIT := edEmissaoPropria;
-            COD_PART := '000001';
-            COD_MOD := '55';
-            SERIE := '1';
-            NUM_DOC := '000068849';
-            CHV_NFE_CTE := '35100260318797000100550010000688490882775007';
-            DT_DOC := Now;
-
-            with RegistroG140New do
-            begin
-              NUM_ITEM := '9999';
-              COD_ITEM := '000001';
-            end;
-          end;
-        end;
-      end;
-    end;
-  end;
-
-  if cbConcomitante.Checked then
-  begin
-    ACBrSPEDFiscal1.WriteBloco_G;
-    LoadToMemo;
-  end;
-
-end;
-
-procedure TfrmSPEDFiscal.btnB_HClick(Sender: TObject);
-var
-  IInvent: integer;
-begin
-  btnB_H.Enabled := False;
-  btnB_1.Enabled := True;
-
-  // Alimenta o componente com informações para gerar todos os registros do
-  // Bloco H.
-  with ACBrSPEDFiscal1.Bloco_H do
-  begin
-    with RegistroH001New do
-    begin
-      IND_MOV := imComDados;
-      //
-      with RegistroH005New do
-      begin
-        DT_INV := DT_FIN; //o valor informado no campo deve ser menor ou igual ao valor no campo DT_FIN do registro 0000
-        VL_INV := 1000;
-        // FILHO
-        for IInvent := 1 to 10 do
-        begin
-          with RegistroH010New do
-          begin
-            COD_ITEM := FormatFloat('00000000000000', IInvent);
-            UNID := 'UN';
-            QTD := 1;
-            VL_UNIT := 100;
-            VL_ITEM := 100;
-            IND_PROP := piInformante;
-            COD_PART := '';
-            TXT_COMPL := '';
-            COD_CTA := '11'; //cleomar - informamos uma conta generica
-
-            with RegistroH020New do
-            begin
-              CST_ICMS := '00';
-              BC_ICMS := 1;
-              VL_ICMS := 2;
-            end;
-
-          end;
-        end;
-      end;
-    end;
-  end;
-
-  if cbConcomitante.Checked then
-  begin
-    ACBrSPEDFiscal1.WriteBloco_H;
-    LoadToMemo;
-  end;
-end;
-
 procedure TfrmSPEDFiscal.edtFileChange(Sender: TObject);
 begin
-  ACBrSPEDFiscal1.Arquivo := edtFile.Text;
-end;
-
-procedure TfrmSPEDFiscal.LoadToMemo;
-begin
-  memoTXT.Lines.Clear;
-  if FileExists(ACBrSPEDFiscal1.Path + ACBrSPEDFiscal1.Arquivo) then
-    memoTXT.Lines.LoadFromFile(ACBrSPEDFiscal1.Path + ACBrSPEDFiscal1.Arquivo);
-end;
-
-procedure TfrmSPEDFiscal.cbConcomitanteClick(Sender: TObject);
-begin
-  btnTXT.Enabled := not cbConcomitante.Checked;
-  btnError.Enabled := btnTXT.Enabled;
-
-  edBufNotas.Enabled := cbConcomitante.Checked;
-
-  if not cbConcomitante.Checked then
-  begin
-    btnB_0.Enabled := True;
-    btnB_C.Enabled := False;
-    btnB_D.Enabled := False;
-    btnB_E.Enabled := False;
-    btnB_H.Enabled := False;
-    btnB_1.Enabled := False;
-    btnB_9.Enabled := False;
-  end;
+  ACBrSPEDFiscal1.Arquivo := xNomeArquivo;
 end;
 
 procedure TfrmSPEDFiscal.BtnBloco_0Click(Sender: TObject);
@@ -1494,13 +297,6 @@ end;
 procedure TfrmSPEDFiscal.prc_Gerar_Bloco_0;
 begin
   vContador_Reg_0 := 0;
-  
-  //Tirei no dia 18/03/2014
-  //ACBrSPEDFiscal1.LinhasBuffer := StrToIntDef(edBufLinhas.Text, 0);
-  //ACBrSPEDFiscal1.Path         := DirectoryEdit1.Text;
-  //ACBrSPEDFiscal1.Arquivo      := edtFile.Text;
-  //ACBrSPEDFiscal1.LinhasBuffer := StrToIntDef(edBufLinhas.Text, 0);
-  //ACBrSPEDFiscal1.IniciaGeracao;
 
   prc_Bloco_0_Reg_0000;
   prc_Bloco_0_Reg_0001;
@@ -1511,8 +307,6 @@ begin
   prc_Bloco_0_Reg_0150;
   prc_Bloco_0_Reg_0190;
   prc_Bloco_0_Reg_0200;
-  //prc_Bloco_0_Reg_0205;
-  //prc_Bloco_0_Reg_0206;
   prc_Bloco_0_Reg_0300;
   prc_Bloco_0_Reg_0400;
   prc_Bloco_0_Reg_0450;
@@ -1521,33 +315,6 @@ begin
   if ck0600.Checked then
     prc_Bloco_0_Reg_0600;
   prc_Bloco_0_Reg_0990;
-
-
-  //tirei daqui 18/03/2014
-  //ACBrSPEDFiscal1.SaveFileTXT;
-  //LoadToMemo;
-    {with Registro0001New do
-
-      end;
-
-      // FILHO
-
-      with Registro0450New do
-      begin
-        COD_INF := '000001';
-        TXT := 'INFORMAÇÃO COMPLEMENTAR DO DOCUMENTO FISCAL';
-      end;
-
-      with Registro0460New do
-      begin
-        COD_OBS := '000001';
-        TXT := 'TEXTO DE OBSERVAÇÃO DO DOCUMENTO FISCAL ';
-      end;
-
-
-      end;
-    end;}
-
 end;
 
 procedure TfrmSPEDFiscal.prc_Bloco_0_Reg_0000;
@@ -1663,14 +430,6 @@ end;
 
 procedure TfrmSPEDFiscal.prc_Bloco_0_Reg_0015;
 begin
-      // FILHO - Dados complementares da Empresa
-//
-//      with Registro0015New do
-//      begin
-//        UF_ST := 'SC';
-//        IE_ST := '254504230';
-//      end;
-//  vContador_Reg_0 := vContador_Reg_0 + 1;
 end;
 
 procedure TfrmSPEDFiscal.prc_Bloco_0_Reg_0100;
@@ -1739,37 +498,12 @@ begin
         end
       end
     end;
-    //prc_Bloco_0_Reg_0175 // No Momento não vai ser usado
-    {ACBrSPEDFiscal1.Bloco_0.Registro0150New.COD_PART := fDMSPEDFiscal.mPessoaCodigo.AsString;
-    ACBrSPEDFiscal1.Bloco_0.Registro0150New.NOME     := fDMSPEDFiscal.mPessoaNome.AsString;
-    ACBrSPEDFiscal1.Bloco_0.Registro0150New.COD_PAIS := fDMSPEDFiscal.mPessoaCod_Pais.AsString;
-    if fDMSPEDFiscal.mPessoaCNPJ.AsString <> '' then
-      ACBrSPEDFiscal1.Bloco_0.Registro0150New.CNPJ := Monta_Numero(fDMSPEDFiscal.mPessoaCNPJ.AsString,14)
-    else
-      ACBrSPEDFiscal1.Bloco_0.Registro0150New.CNPJ := Monta_Numero(fDMSPEDFiscal.mPessoaCPF.AsString,11);
-    ACBrSPEDFiscal1.Bloco_0.Registro0150New.IE := fDMSPEDFiscal.mPessoaInscr_Estadual.AsString;
-    ACBrSPEDFiscal1.Bloco_0.Registro0150New.COD_MUN := fDMSPEDFiscal.mPessoaCod_Municipio.AsInteger;
-    ACBrSPEDFiscal1.Bloco_0.Registro0150New.SUFRAMA := fDMSPEDFiscal.mPessoaSuframa.AsString;
-    ACBrSPEDFiscal1.Bloco_0.Registro0150New.ENDERECO := fDMSPEDFiscal.mPessoaEndereco.AsString;
-    ACBrSPEDFiscal1.Bloco_0.Registro0150New.NUM      := fDMSPEDFiscal.mPessoaNum_End.AsString;
-    ACBrSPEDFiscal1.Bloco_0.Registro0150New.COMPL    := fDMSPEDFiscal.mPessoaComplemento_End.AsString;
-    ACBrSPEDFiscal1.Bloco_0.Registro0150New.BAIRRO   := fDMSPEDFiscal.mPessoaBairro.AsString;
-    vContador_Reg_0 := vContador_Reg_0 + 1;
-    //prc_Bloco_0_Reg_0175 // No Momento não vai ser usado}
     fDMSPEDFiscal.mPessoa.Next;
   end;
 end;
 
 procedure TfrmSPEDFiscal.prc_Bloco_0_Reg_0175;
 begin
-  // FILHO - 1 Alteração para cada cliente de 2 a 3
-  {with Registro0175New do
-  begin
-    DT_ALT := DT_INI + 1;
-    NR_CAMPO := '1';
-    CONT_ANT := 'CAMPO ANTERIOR ' + '1';
-  end;}
-  //vContador_Reg_0 := vContador_Reg_0 + 1;
 end;
 
 procedure TfrmSPEDFiscal.prc_Bloco_0_Reg_0190;
@@ -1791,10 +525,6 @@ begin
         end
       end
     end;
-    //08/12/2022 alterado tirado daqui e colocado logo após o 0200
-    //if (trim(fDMSPEDFiscal.mUnidadeUnidade_Conv.AsString) <> '') and (fDMSPEDFiscal.mUnidadeUnidade_Conv.AsString <> fDMSPEDFiscal.mUnidadeUnidade.AsString) then
-    //if StrToFloat(FormatFloat('0.000',fDMSPEDFiscal.mUnidadeFator_Conversao.AsFloat)) <> 1 then
-      //prc_Bloco_0_Reg_0220;
     fDMSPEDFiscal.mUnidade.Next;
   end;
 end;
@@ -1899,9 +629,6 @@ begin
     vCodigo := vCodigo + '.' + fDMSPEDFiscal.cdsMovimentoID_COR.AsString;
   if (trim(fDMSPEDFiscal.cdsMovimentoTAMANHO.AsString) <> '') and (fDMSPEDFiscal.cdsMovimentoUSA_TAMANHO_AGRUPADO_NFE.AsString <> 'S') then
     vCodigo := vCodigo + '.' + fDMSPEDFiscal.cdsMovimentoTAMANHO.AsString;
-
-  if (vcodigo = '13759') or (vcodigo = '14780') or (vcodigo = '14918') then
-    ShowMessage('Aqui produtos');
 
   if not fDMSPEDFiscal.mProduto.FindKey([vCodigo]) then
   begin
@@ -2030,19 +757,10 @@ end;
 
 procedure TfrmSPEDFiscal.prc_Bloco_0_Reg_0205;
 begin
-  //Não foi feito este bloco
-  //  vContador_Reg_0 := vContador_Reg_0 + 1;
 end;
 
 procedure TfrmSPEDFiscal.prc_Bloco_0_Reg_0206;
 begin
-  //Não foi feito este bloco
-        //REGISTRO 0206: CÓDIGO DE PRODUTO CONFORME TABELA PUBLICADA PELA ANP (COMBUSTÍVEIS)
-//        With Registro0206New do
-//        begin
-//          COD_COMB := '910101001';
-//        end;
-//    vContador_Reg_0 := vContador_Reg_0 + 1;
 end;
 
 procedure TfrmSPEDFiscal.prc_Bloco_0_Reg_0220;
@@ -2116,7 +834,6 @@ procedure TfrmSPEDFiscal.prc_Gravar_mNatureza(ID_CFOP: Integer; CODCFOP, NOME: s
 begin
   if (fDMSPEDFiscal.cdsMovimentoCOD_MODELO.AsString = '57') or (fDMSPEDFiscal.cdsMovimentoCOD_MODELO.AsString = '06') then
     exit;
-  //if fDMSPEDFiscal.mNatureza.FindKey([fDMSPEDFiscal.cdsMovimentoCODCFOP.AsString]) then
   if trim(CODCFOP) = '' then
     CODCFOP := SQLLocate('TAB_CFOP', 'ID', 'CODCFOP', IntToStr(ID_CFOP));
   if fDMSPEDFiscal.mNatureza.FindKey([CODCFOP]) then
@@ -2213,7 +930,6 @@ procedure TfrmSPEDFiscal.FormShow(Sender: TObject);
 begin
   fDMSPEDFiscal := TDMSPEDFiscal.Create(Self);
   oDBUtils.SetDataSourceProperties(Self, fDMSPEDFiscal);
-  TS_Exemplo.TabVisible := False;
   if fDMSPEDFiscal.cdsFilial.RecordCount = 1 then
   begin
     ComboFilial.KeyValue := fDMSPEDFiscal.cdsFilialID.AsInteger;
@@ -2306,9 +1022,6 @@ end;
 procedure TfrmSPEDFiscal.prc_Gerar_Bloco_C;
 begin
   vContador_Reg_C := 0;
-  //24/02/2023
-  //prc_Abrir_NotaFiscal('C');
-
   if ComboBox3.ItemIndex <> 1 then
   begin
     fDMSPEDFiscal.cdsNFe_Inutilizadas.Close;
@@ -2329,12 +1042,6 @@ begin
   fDMSPEDFiscal.cdsNotaFiscal.First;
   while not fDMSPEDFiscal.cdsNotaFiscal.Eof do
   begin
-    {if (fDMSPEDFiscal.cdsNotaFiscalNUMNOTA.AsInteger <> 74474) then
-    begin
-      fDMSPEDFiscal.cdsNotaFiscal.Next;
-      Continue;
-    end;}
-
     fDMSPEDFiscal.mC190.EmptyDataSet;
     if (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString = '06') or (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString = '29') or (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString = '28') then
       prc_Bloco_C_Reg_C500
@@ -2349,16 +1056,14 @@ begin
     prc_Bloco_C_Reg_C100_Cupom;
     fDMSPEDFiscal.cdsCupomFiscal.Next;
   end;
-
   prc_Bloco_C_Reg_C990;
-  //ACBrSPEDFiscal1.WriteBloco_C(True); // False, NAO fecha o Bloco
 end;
 
 procedure TfrmSPEDFiscal.prc_Bloco_C_Reg_C100;
 var
   LGeraC176: Boolean;
-  LNumItem : Integer;
-  LUF : string;
+  LNumItem: Integer;
+  LUF: string;
 begin
   fDMSPEDFiscal.qConverteCSTentrada.Close;
   fDMSPEDFiscal.qConverteCSTentrada.Open;
@@ -2417,10 +1122,7 @@ begin
 
         if (fDMSPEDFiscal.cdsNotaFiscalCANCELADA.AsString <> 'S') and (fDMSPEDFiscal.cdsNotaFiscalNFEDENEGADA.AsString <> 'S') then
         begin
-          VL_DOC := fDMSPEDFiscal.cdsNotaFiscalVLR_NOTA.AsFloat +
-                    fDMSPEDFiscal.cdsNotaFiscalVLR_IPI.AsFloat +
-                    fDMSPEDFiscal.cdsNotaFiscalVLR_FRETE.AsFloat +
-                    fDMSPEDFiscal.cdsNotaFiscalVLR_OUTRASDESP.AsFloat;
+          VL_DOC := fDMSPEDFiscal.cdsNotaFiscalVLR_NOTA.AsFloat + fDMSPEDFiscal.cdsNotaFiscalVLR_IPI.AsFloat + fDMSPEDFiscal.cdsNotaFiscalVLR_FRETE.AsFloat + fDMSPEDFiscal.cdsNotaFiscalVLR_OUTRASDESP.AsFloat;
           if fDMSPEDFiscal.cdsNotaFiscalTIPO_PRAZO.AsString = 'V' then
             IND_PGTO := tpVista
           else if fDMSPEDFiscal.cdsNotaFiscalTIPO_PRAZO.AsString = 'P' then
@@ -2429,7 +1131,7 @@ begin
             IND_PGTO := tpOutros;
           VL_DESC := fDMSPEDFiscal.cdsNotaFiscalVLR_DESCONTO.AsFloat;
           VL_ABAT_NT := 0;
-          VL_MERC := StrToFloat(FormatFloat('0.00', fDMSPEDFiscal.cdsNotaFiscalVLR_ITENS.AsFloat));// + fDMSPEDFiscal.cdsNotaFiscalVLR_DESCONTO.AsFloat));
+          VL_MERC := StrToFloat(FormatFloat('0.00', fDMSPEDFiscal.cdsNotaFiscalVLR_ITENS.AsFloat)); // + fDMSPEDFiscal.cdsNotaFiscalVLR_DESCONTO.AsFloat));
           if fDMSPEDFiscal.cdsNotaFiscalTIPO_FRETE.AsString = '1' then
             IND_FRT := tfPorContaEmitente
           else if fDMSPEDFiscal.cdsNotaFiscalTIPO_FRETE.AsString = '2' then
@@ -2462,10 +1164,9 @@ begin
         end;
       end;
       vContador_Reg_C := vContador_Reg_C + 1;
-      LUF := SQLLocate('PESSOA','CODIGO','UF', fDMSPEDFiscal.cdsNotaFiscalID_CLIENTE.AsString);
+      LUF := SQLLocate('PESSOA', 'CODIGO', 'UF', fDMSPEDFiscal.cdsNotaFiscalID_CLIENTE.AsString);
 
-      if (IND_EMIT = edEmissaoPropria) and (COD_MOD = '55') and (COD_SIT = sdRegular) and
-         (fDMSPEDFiscal.cdsNotaFiscalVLR_ICMS_UF_DEST.AsFloat > 0) and (LUF <> fDMSPEDFiscal.cdsFilialUF.AsString)  then
+      if (IND_EMIT = edEmissaoPropria) and (COD_MOD = '55') and (COD_SIT = sdRegular) and (fDMSPEDFiscal.cdsNotaFiscalVLR_ICMS_UF_DEST.AsFloat > 0) and (LUF <> fDMSPEDFiscal.cdsFilialUF.AsString) then
       begin
         with RegistroC101New do
         begin
@@ -2474,122 +1175,6 @@ begin
           VL_ICMS_UF_REM := 0;
         end;
       end;
-
-        //Registro C105
-        //Dúvida se vai ou não gerar aqui
-        { Gera registros específicos para notas emitidas por terceiros }
-        //Dúvida
-        //if IND_EMIT = edTerceiros then //tirei esse IF 17/03/2014
-        //begin
-          //With RegistroC110New do
-      begin
-            //Ver aqui
-            //COD_INF   := '000001';
-            //TXT_COMPL := '';
-            //vContador_Reg_C := vContador_Reg_C + 1;
-            {fDMSPEDFiscal.cdsNotaFiscal_Ref.Close;
-            fDMSPEDFiscal.sdsNotaFiscal_Ref.ParamByName('ID').AsInteger := fDMSPEDFiscal.cdsNotaFiscalID.AsInteger;
-            fDMSPEDFiscal.cdsNotaFiscal_Ref.Open;
-            while not fDMSPEDFiscal.cdsNotaFiscal_Ref.Eof do
-            begin
-              if (fDMSPEDFiscal.cdsNotaFiscal_RefTIPO.AsString = '13') or
-                 (fDMSPEDFiscal.cdsNotaFiscal_RefTIPO.AsString = '14') or
-                 (fDMSPEDFiscal.cdsNotaFiscal_RefTIPO.AsString = '20a') then
-              begin
-                With RegistroC110New do
-                  begin
-                    COD_INF   := '000001';
-                    TXT_COMPL := '';
-                    vContador_Reg_C := vContador_Reg_C + 1;
-                    with RegistroC113New do
-                    begin
-                      IND_OPER := tpEntradaAquisicao;
-                      IND_EMIT := edTerceiros;
-                      if fDMSPEDFiscal.cdsNotaFiscal_RefTIPO.AsString = '13' then
-                      begin
-                        COD_PART := fDMSPEDFiscal.cdsNotaFiscal_RefCOD_PESSOA.AsString;
-                        COD_MOD  := '55';
-                        SER      := fDMSPEDFiscal.cdsNotaFiscal_RefSERIE_NFE.AsString;
-                        SUB      := '';
-                        NUM_DOC  := fDMSPEDFiscal.cdsNotaFiscal_RefNUMNOTA_NFE.AsString;
-                        DT_DOC   := fDMSPEDFiscal.cdsNotaFiscal_RefDTEMISSAO_NFE.AsDateTime;
-                      end
-                      else
-                      begin
-                        COD_PART := fDMSPEDFiscal.cdsNotaFiscal_RefID_CLIENTE.AsString;
-                        COD_MOD  := fDMSPEDFiscal.cdsNotaFiscal_RefMODELO_REF.AsString;
-                        SER      := fDMSPEDFiscal.cdsNotaFiscal_RefSERIE_REF.AsString;
-                        SUB      := '';
-                        NUM_DOC  := fDMSPEDFiscal.cdsNotaFiscal_RefNUMNOTA_REF.AsString;
-                        //DT_DOC   :=
-                      end;
-                      vContador_Reg_C := vContador_Reg_C + 1;
-                    end;
-                  end;
-              end;
-              fDMSPEDFiscal.cdsNotaFiscal_Ref.Next;
-            end;}
-      end;
-        //end;
-        //Local da Coleta e/ou Entrega
-        {if (fDMSPEDFiscal.cdsNotaFiscalCANCELADA.AsString <> 'S') and (fDMSPEDFiscal.cdsNotaFiscalNFEDENEGADA.AsString <> 'S') then
-        begin
-          fDMSPEDFiscal.qPessoa.Close;
-          fDMSPEDFiscal.qPessoa.ParamByName('CODIGO').AsInteger := fDMSPEDFiscal.cdsNotaFiscalID_CLIENTE.AsInteger;
-          fDMSPEDFiscal.qPessoa.Open;
-          if trim(fDMSPEDFiscal.qPessoaENDERECO_ENT.AsString) <> '' then
-          begin
-            With RegistroC110New do
-            begin
-              COD_INF   := '000001';
-              TXT_COMPL := '';
-              vContador_Reg_C := vContador_Reg_C + 1;
-              with RegistroC115New do
-              begin
-                IND_CARGA   := ttRodoviario;
-                CNPJ_COL    := '';
-                IE_COL      := '';
-                CPF_COL     := '';
-                COD_MUN_COL := '';
-                if fDMSPEDFiscal.qPessoaPESSOA_ENT.AsString = 'J' then
-                  CNPJ_ENTG := Monta_Numero(fDMSPEDFiscal.qPessoaCNPJ_CPF.AsString,14)
-                else
-                if fDMSPEDFiscal.qPessoaPESSOA_ENT.AsString = 'F' then
-                  CPF_COL   := Monta_Numero(fDMSPEDFiscal.qPessoaCNPJ_CPF.AsString,11);
-                IE_ENTG      := fDMSPEDFiscal.qPessoaINSC_EST_ENT.AsString;
-                COD_MUN_ENTG := fDMSPEDFiscal.qPessoaCODMUNICIPIO_ENT.AsString;
-                vContador_Reg_C := vContador_Reg_C + 1;
-              end;
-            end;
-          end;
-        end;}
-        { Gera o registro de importação apenas para notas de entrada }
-        {if IND_OPER = tpEntradaAquisicao then
-        begin
-          with RegistroC120New do
-          begin
-            COD_DOC_IMP := diSimplificadaImport;
-            NUM_DOC__IMP := '1024879531';
-            PIS_IMP := 0.00;
-            COFINS_IMP := 0.00;
-            NUM_ACDRAW := '';
-          end;
-        end;}
-        { Gera registros específicos para notas emitidas por terceiros e de prestação }
-        //aqui
-        {if (IND_EMIT = edTerceiros) and (IND_OPER = tpSaidaPrestacao) then
-        begin
-          with RegistroC130New do
-          begin
-            VL_SERV_NT := 10.12;
-            VL_BC_ISSQN := 10.12;
-            VL_ISSQN := 10.12;
-            VL_BC_IRRF := 10.12;
-            VL_IRRF := 10.12;
-            VL_BC_PREV := 10.12;
-            VL_PREV := 10.12;
-          end;
-        end;}
         //Ler as parcelas aqui
       if fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString = '01' then
       begin
@@ -2709,8 +1294,7 @@ begin
               VL_BC_IPI := 0;
             VL_IPI := fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_IPI.AsFloat;
               //CST_PIS := pisOutrasOperacoes;
-            if (fDMSPEDFiscal.cdsNotaFiscal_ItensCST_PIS.AsString = EmptyStr) or
-               (fDMSPEDFiscal.cdsNotaFiscal_ItensCST_PIS.AsString = '0') then
+            if (fDMSPEDFiscal.cdsNotaFiscal_ItensCST_PIS.AsString = EmptyStr) or (fDMSPEDFiscal.cdsNotaFiscal_ItensCST_PIS.AsString = '0') then
               CST_PIS := CstPisToStr(stpisOutrasOperacoes)
             else
               CST_PIS := fDMSPEDFiscal.cdsNotaFiscal_ItensCST_PIS.AsString;
@@ -2723,8 +1307,7 @@ begin
               VL_PIS := fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_PIS.AsFloat;
             end;
               //CST_COFINS := cofinsOutrasOperacoes;
-            if (fDMSPEDFiscal.cdsNotaFiscal_ItensCST_COFINS.AsString = EmptyStr) or
-               (fDMSPEDFiscal.cdsNotaFiscal_ItensCST_COFINS.AsString = '0') then
+            if (fDMSPEDFiscal.cdsNotaFiscal_ItensCST_COFINS.AsString = EmptyStr) or (fDMSPEDFiscal.cdsNotaFiscal_ItensCST_COFINS.AsString = '0') then
               CST_COFINS := CstCofinsToStr(stcofinsOutrasOperacoes)
             else
               CST_COFINS := fDMSPEDFiscal.cdsNotaFiscal_ItensCST_COFINS.AsString;
@@ -2740,15 +1323,6 @@ begin
             end;
             COD_CTA := '';
             vContador_Reg_C := vContador_Reg_C + 1;
-              //REGISTRO C178
-              //Ver este registro
-                {with RegistroC178New do
-                begin
-                  CL_ENQ    := fDMSPEDFiscal.cdsNotaFiscal_ItensCOD_ENQIPI.AsString;
-                  VL_UNID   := fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_TOTAL.AsFloat;
-                  QUANT_PAD := fDMSPEDFiscal.cdsNotaFiscal_ItensQTD.AsFloat;
-                  vContador_Reg_C := vContador_Reg_C + 1;
-                end;}
           end;
         end;
           //Registro C176
@@ -2768,10 +1342,6 @@ begin
               VL_UNIT_BC_ST := fDMSPEDFiscal.cdsC176BASE_ICMSSUBST_RET.AsFloat;       //Vlr unitário b.calculo ICMS ST
               if VL_UNIT_BC_ST = 0 then
                 VL_UNIT_BC_ST := fDMSPEDFiscal.cdsC176BASE_ICMSSUBST.AsFloat;
-
-//                if (VL_UNIT_BC_ST < VL_UNIT_ULT_E) and (fDMSPEDFiscal.cdsC176BASE_ICMSSUBST_RET.AsFloat > 0) then
-//                  VL_UNIT_BC_ST := VL_UNIT_ULT_E;
-
               CHAVE_NFE_ULT_E := fDMSPEDFiscal.cdsC176NFECHAVEACESSO.AsString;
               if fDMSPEDFiscal.cdsC176ITEM_NOTA_ENT.AsString = '0' then
                 NUM_ITEM_ULT_E := '1'
@@ -2829,13 +1399,9 @@ begin
             fDMSPEDFiscal.cdsC176.Next;
           end;
         end;
-          //Gravar a tabela auxiliar do registro C190
-          //IF fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString <> '08' then
         prc_Gravar_mC190;
         fDMSPEDFiscal.cdsNotaFiscal_Itens.Next;
       end;
-
-        // REGISTRO C190: REGISTRO ANALÍTICO DO DOCUMENTO (CÓDIGO 01, 1B, 04 E 55).
       if (fDMSPEDFiscal.cdsNotaFiscalCANCELADA.AsString = 'N') and (fDMSPEDFiscal.cdsNotaFiscalNFEDENEGADA.AsString = 'N') then
       begin
         fDMSPEDFiscal.mC190.First;
@@ -2844,16 +1410,9 @@ begin
           with RegistroC190New do
           begin
             CST_ICMS := fDMSPEDFiscal.mC190CST_ICMS.AsString;
-//              if fDMSPEDFiscal.qConverteCSTentrada.Locate('CST_ORIGINAL',fDMSPEDFiscal.mC190CST_ICMS.AsString,[]) then
-//                CST_ICMS := fDMSPEDFiscal.qConverteCSTentradaCST_ENTRADA.AsString;
             CFOP := fDMSPEDFiscal.mC190Cod_CFOP.AsString;
-
-
-//            if CFOP = '5405' then
             if (fDMSPEDFiscal.cdsNotaFiscalTIPO_NOTA.AsString = 'E') then
             begin
-//              if not fDMSPEDFiscal.MCfopSaida.Locate('tipo;cfop;data',
-//                     VarArrayOf(['NFS',CFOP, fDMSPEDFiscal.cdsNotaFiscalDTEMISSAO.AsDateTime]), [locaseinsensitive]) then
               begin
                 fDMSPEDFiscal.MCfopSaida.Insert;
                 fDMSPEDFiscal.MCfopSaidaTIPO.AsString := 'NFE';
@@ -2862,19 +1421,9 @@ begin
                 fDMSPEDFiscal.MCfopSaidavaloroperacao.AsFloat := fDMSPEDFiscal.mC190Vlr_Operacao.AsFloat;
                 fDMSPEDFiscal.MCfopSaidavalor_icms.AsFloat := fDMSPEDFiscal.mC190Vlr_ICMS.AsFloat;
                 fDMSPEDFiscal.MCfopSaidavalor_base_icms.AsFloat := fDMSPEDFiscal.mC190Vlr_Base_ICMS.AsFloat;
-                fDMSPEDFiscal.MCfopSaidaNumNota.AsInteger :=  fDMSPEDFiscal.cdsNotaFiscalNUMNOTA.AsInteger;
+                fDMSPEDFiscal.MCfopSaidaNumNota.AsInteger := fDMSPEDFiscal.cdsNotaFiscalNUMNOTA.AsInteger;
 
               end;
-//              else
-//              begin
-//                fDMSPEDFiscal.MCfopSaida.Edit;
-//                fDMSPEDFiscal.MCfopSaidaTIPO.AsString := 'NFS';
-//                fDMSPEDFiscal.MCfopSaidaCFOP.AsString := CFOP;
-//                fDMSPEDFiscal.MCfopSaidaDATA.AsDateTime := fDMSPEDFiscal.cdsNotaFiscalDTEMISSAO.AsDateTime;
-//                fDMSPEDFiscal.MCfopSaidavalor_icms.AsFloat := fDMSPEDFiscal.MCfopSaidavalor_icms.AsFloat + fDMSPEDFiscal.mC190Vlr_ICMS.AsFloat;
-//                fDMSPEDFiscal.MCfopSaidavaloroperacao.AsFloat := fDMSPEDFiscal.MCfopSaidavaloroperacao.AsFloat + fDMSPEDFiscal.mC190Vlr_Operacao.AsFloat;
-//                fDMSPEDFiscal.MCfopSaidavalor_base_icms.AsFloat := fDMSPEDFiscal.MCfopSaidavalor_base_icms.AsFloat + fDMSPEDFiscal.mC190Vlr_Base_ICMS.AsFloat;
-//              end;
               fDMSPEDFiscal.MCfopSaida.post;
             end;
             ALIQ_ICMS := fDMSPEDFiscal.mC190Perc_ICMS.AsFloat;
@@ -2895,16 +1444,7 @@ begin
           fDMSPEDFiscal.mC190.Next;
         end;
       end;
-        {with RegistroC195 do
-        begin
-          //fazer aqui
-        end;
-        with RegistroC197New do
-        begin
-          //fazer aqui
-        end;}
     end;
-//    end;
   end;
 end;
 
@@ -3056,7 +1596,6 @@ begin
           end;
           fDMSPEDFiscal.mC190.Next;
         end;
-        //Final da C590
       end;
     end;
   end;
@@ -3084,14 +1623,7 @@ begin
     end;
     fDMSPEDFiscal.mC190CST_ICMS.AsInteger := LCST_ICMS;
 
-    fDMSPEDFiscal.mC190Vlr_Operacao.AsFloat := fDMSPEDFiscal.mC190Vlr_Operacao.AsFloat +
-                                               fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_TOTAL.AsFloat +
-                                               fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_FRETE.AsFloat +
-                                               fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_SEGURO.AsFloat +
-                                               fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_OUTRASDESPESAS.AsFloat +
-                                               fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_ICMSSUBST.AsFloat +
-                                               fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_IPI.AsFloat -
-                                               fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_DESCONTO.AsFloat;
+    fDMSPEDFiscal.mC190Vlr_Operacao.AsFloat := fDMSPEDFiscal.mC190Vlr_Operacao.AsFloat + fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_TOTAL.AsFloat + fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_FRETE.AsFloat + fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_SEGURO.AsFloat + fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_OUTRASDESPESAS.AsFloat + fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_ICMSSUBST.AsFloat + fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_IPI.AsFloat - fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_DESCONTO.AsFloat;
     fDMSPEDFiscal.mC190Vlr_Base_ICMS.AsFloat := fDMSPEDFiscal.mC190Vlr_Base_ICMS.AsFloat + fDMSPEDFiscal.cdsNotaFiscal_ItensBASE_ICMS.AsFloat + fDMSPEDFiscal.cdsNotaFiscalBASE_ICMSSIMPLES.AsFloat;
     fDMSPEDFiscal.mC190Vlr_ICMS.AsFloat := fDMSPEDFiscal.mC190Vlr_ICMS.AsFloat + fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_ICMS.AsFloat + fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_ICMSSIMPLES.AsFloat;
     fDMSPEDFiscal.mC190Vlr_Base_ICMS_ST.AsFloat := fDMSPEDFiscal.mC190Vlr_Base_ICMS_ST.AsFloat + fDMSPEDFiscal.cdsNotaFiscal_ItensBASE_ICMSSUBST.AsFloat;
@@ -3134,21 +1666,19 @@ procedure TfrmSPEDFiscal.btnGravar_TxtClick(Sender: TObject);
 var
   vArq: string;
 begin
-  ACBrSPEDFiscal1.LinhasBuffer := StrToIntDef(edBufLinhas.Text, 0);
+  ACBrSPEDFiscal1.LinhasBuffer := 1000;
   ACBrSPEDFiscal1.Path := DirectoryEdit1.Text;
   vArq := 'SPED_Fiscal_' + FormatFloat('0000', YearOf(DataFinal.Date)) + FormatFloat('00', MonthOf(DataFinal.Date)) + '.txt';
-  edtFile.Text := vArq;
-  ACBrSPEDFiscal1.Arquivo := edtFile.Text;
+  xNomeArquivo := vArq;
+  ACBrSPEDFiscal1.Arquivo := xNomeArquivo;
 
   ACBrSPEDFiscal1.SaveFileTXT;
-  LoadToMemo;
 
   mSped.Lines.Clear;
   if FileExists(ACBrSPEDFiscal1.Path + ACBrSPEDFiscal1.Arquivo) then
     mSped.Lines.LoadFromFile(ACBrSPEDFiscal1.Path + ACBrSPEDFiscal1.Arquivo);
 
   fDMSPEDFiscal.mAuxResumo.IndexFieldNames := 'Registro;Descricao_Sped';
-  //RzPageControl1.ActivePage := TS_Resumo;
 end;
 
 procedure TfrmSPEDFiscal.btnBloco_DClick(Sender: TObject);
@@ -3164,9 +1694,6 @@ end;
 procedure TfrmSPEDFiscal.prc_Gerar_Bloco_D;
 begin
   vContador_Reg_C := 0;
-  //24/02/2023
-  //prc_Abrir_NotaFiscal('D');
-  //Abertura do Bloco C
   with ACBrSPEDFiscal1.Bloco_D do
   begin
     with RegistroD001New do
@@ -3202,7 +1729,7 @@ begin
     vComando := vComando + ' and (((N.DTEMISSAO between :DT_INICIAL and :DT_FINAL) and ';
     vComando := vComando + '(N.TIPO_REG = ' + QuotedStr('NTS') + ')) or ';
     vComando := vComando + '((N.DTSAIDAENTRADA between :DT_INICIAL and :DT_FINAL)';
-    vComando := vComando + 'and ' + '(N.TIPO_REG = ' + QuotedStr('NTE') + ')))';// and ';
+    vComando := vComando + 'and ' + '(N.TIPO_REG = ' + QuotedStr('NTE') + ')))'; // and ';
     x := ' and (((N.DTEMISSAO between :DT_INICIAL and :DT_FINAL) and ' + '(N.TIPO_REG = ' + QuotedStr('NTS') + ')) or ((N.DTSAIDAENTRADA between :DT_INICIAL and :DT_FINAL) and ' + '(N.TIPO_REG = ' + QuotedStr('NTE') + ')))';
   end
   else if ComboBox3.ItemIndex = 1 then
@@ -3220,30 +1747,6 @@ begin
   Memo1.Lines.Clear;
   Memo1.Lines.Text := fDMSPEDFiscal.sdsNotaFiscal.CommandText;
   fDMSPEDFiscal.cdsNotaFiscal.Open;
-
-  {if Bloco = 'C' then
-    fDMSPEDFiscal.sdsNotaFiscal.CommandText := fDMSPEDFiscal.sdsNotaFiscal.CommandText
-                                             + ' AND ((N.COD_MODELO = ' + QuotedStr('06') + ')'
-                                             + ' OR   (N.COD_MODELO = ' + QuotedStr('29') + ')'
-                                             + ' OR   (N.COD_MODELO = ' + QuotedStr('28') + ')'
-                                             + ' OR   (N.COD_MODELO = ' + QuotedStr('01') + ')'
-                                             + ' OR   (N.COD_MODELO = ' + QuotedStr('1B') + ')'
-                                             + ' OR   (N.COD_MODELO = ' + QuotedStr('04') + ')'
-                                             + ' OR   (N.COD_MODELO = ' + QuotedStr('55') + '))';}
-  {if Bloco = 'D' then
-    fDMSPEDFiscal.sdsNotaFiscal.CommandText := fDMSPEDFiscal.sdsNotaFiscal.CommandText
-                                             + ' AND ((N.COD_MODELO = ' + QuotedStr('07') + ')'
-                                             + ' OR   (N.COD_MODELO = ' + QuotedStr('08') + ')'
-                                             + ' OR   (N.COD_MODELO = ' + QuotedStr('8B') + ')'
-                                             + ' OR   (N.COD_MODELO = ' + QuotedStr('09') + ')'
-                                             + ' OR   (N.COD_MODELO = ' + QuotedStr('10') + ')'
-                                             + ' OR   (N.COD_MODELO = ' + QuotedStr('11') + ')'
-                                             + ' OR   (N.COD_MODELO = ' + QuotedStr('26') + ')'
-                                             + ' OR   (N.COD_MODELO = ' + QuotedStr('27') + ')'
-                                             + ' OR   (N.COD_MODELO = ' + QuotedStr('57') + ')'
-                                             + ' OR   (N.COD_MODELO = ' + QuotedStr('21') + ')'
-                                             + ' OR   (N.COD_MODELO = ' + QuotedStr('22') + '))';
-  fDMSPEDFiscal.cdsNotaFiscal.Open}
 end;
 
 procedure TfrmSPEDFiscal.prc_Bloco_D_Reg_D100;
@@ -3337,14 +1840,6 @@ begin
           end;
           fDMSPEDFiscal.mC190.Next;
         end;
-        {with RegistroD195 do
-        begin
-          //fazer aqui
-        end;
-        with RegistroD197New do
-        begin
-          //fazer aqui
-        end;}
       end;
     end;
   end;
@@ -3524,8 +2019,6 @@ begin
   begin
     with RegistroH005New do
     begin
-        //15/03/2024 alterado
-        //DT_INV := DT_FIN; //o valor informado no campo deve ser menor ou igual ao valor no campo DT_FIN do registro 0000
       DT_INV := DateEdit3.Date;
       VL_INV := StrToCurr(FormatCurr('0.00', vVlrEstoque));
       case ComboBox2.ItemIndex of
@@ -3563,7 +2056,6 @@ begin
     begin
       with RegistroH010New do
       begin
-        //01/02/2019
         if fDMSPEDFiscal.qParametrosIMP_NFE_REF_PROD.AsString = 'R' then
           vCodigo := fDMSPEDFiscal.cdsBalancoREFERENCIA.AsString
         else
@@ -3572,10 +2064,7 @@ begin
           vCodigo := vCodigo + '.' + fDMSPEDFiscal.cdsBalancoID_COR.AsString;
         if (trim(fDMSPEDFiscal.cdsBalancoTAMANHO.AsString) <> '') then //and (fDMSPEDFiscal.cdsMovimentoUSA_TAMANHO_AGRUPADO_NFE.AsString <> 'S') then
           vCodigo := vCodigo + '.' + fDMSPEDFiscal.cdsBalancoTAMANHO.AsString;
-        //if fDMSPEDFiscal.qParametrosIMP_NFE_REF_PROD.AsString = 'R' then
         COD_ITEM := vCodigo;
-        //else
-          //COD_ITEM   := fDMSPEDFiscal.cdsBalancoID_PRODUTO.AsString;
         UNID := UpperCase(fDMSPEDFiscal.cdsBalancoUNIDADE.AsString);
         QTD := StrToFloat(FormatFloat('0.000', fDMSPEDFiscal.cdsBalancoQTD_ESTOQUE.AsFloat));
         VL_UNIT := StrToFloat(FormatFloat('0.000000', fDMSPEDFiscal.cdsBalancoPreco_Medio.AsFloat));
@@ -3586,9 +2075,6 @@ begin
         COD_CTA := '11'; //cleomar - informamos uma conta generica
         VL_ITEM_IR := StrToFloat(FormatFloat('0.00', fDMSPEDFiscal.cdsBalancoVlr_Total.AsFloat));
         vContador_Reg_H := vContador_Reg_H + 1;
-
-        //10/02/2020  incluído o registro H020
-        //if fDMSPEDFiscal.qParametros_EstGERAR_REG_H020.AsString = 'S' then
         if ckICMSH020.Checked then
         begin
           //with RegistroH020New do
@@ -3645,9 +2131,6 @@ end;
 procedure TfrmSPEDFiscal.prc_Gerar_Bloco_H;
 begin
   vContador_Reg_H := 0;
-
-  // Alimenta o componente com informações para gerar todos os registros do
-  // Bloco H.
   with ACBrSPEDFiscal1.Bloco_H do
   begin
     with RegistroH001New do
@@ -3661,16 +2144,9 @@ begin
       vContador_Reg_H := vContador_Reg_H + 1;
     end
   end;
-
   prc_Bloco_H_Reg_H005;
   prc_Bloco_H_Reg_H010;
   prc_Bloco_H_Reg_H990;
-
-  //if cbConcomitante.Checked then
-  //begin
-  //  ACBrSPEDFiscal1.WriteBloco_H;
-  //  LoadToMemo;
-  //end;
 end;
 
 function TfrmSPEDFiscal.Monta_Numero(Campo: string; Tamanho: Integer): string;
@@ -3722,7 +2198,6 @@ procedure TfrmSPEDFiscal.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShi
 begin
   if (Shift = [ssCtrl]) and (Key = 83) then //S
   begin
-    TS_Exemplo.TabVisible := not (TS_Exemplo.TabVisible);
     BtnBloco_0.Visible := not (BtnBloco_0.Visible);
     btnBloco_1.Visible := not (btnBloco_1.Visible);
     btnBloco_9.Visible := not (btnBloco_9.Visible);
@@ -3750,14 +2225,6 @@ begin
       fDMSPEDFiscal.cdsBalanco.Next;
       Continue;
     end;
-
-    {if (fDMSPEDFiscal.cdsBalancoID_PRODUTO.AsInteger <> 38872) and
-       (fDMSPEDFiscal.cdsBalancoID_PRODUTO.AsInteger <> 41179) then
-    begin
-      fDMSPEDFiscal.cdsBalanco.Next;
-      continue;
-    end;}
-
     if fDMSPEDFiscal.qParametrosIMP_NFE_REF_PROD.AsString = 'R' then
       vCodigo := fDMSPEDFiscal.cdsBalancoREFERENCIA.AsString
     else
@@ -3769,15 +2236,11 @@ begin
       vCodigo := vCodigo + '.' + fDMSPEDFiscal.cdsBalancoTAMANHO.AsString;
     if not fDMSPEDFiscal.mProduto.FindKey([vCodigo]) then
     begin
-      if (vcodigo = '13759') or (vcodigo = '14780') or (vcodigo = '14918') then
-        ShowMessage('Aqui produtos 2');
-
       fDMSPEDFiscal.qProduto.Close;
       fDMSPEDFiscal.qProduto.ParamByName('ID').AsInteger := fDMSPEDFiscal.cdsBalancoID_PRODUTO.AsInteger;
       fDMSPEDFiscal.qProduto.Open;
       if not fDMSPEDFiscal.qProduto.IsEmpty then
       begin
-
 
         fDMSPEDFiscal.mProduto.Insert;
         fDMSPEDFiscal.mProdutoID.AsInteger := fDMSPEDFiscal.qProdutoID.AsInteger;
@@ -3813,10 +2276,6 @@ begin
     fDMSPEDFiscal.qProduto.Close;
     fDMSPEDFiscal.qProduto.ParamByName('ID').AsInteger := ID_Produto;
     fDMSPEDFiscal.qProduto.Open;
-
-    if (ID_Produto = 13759) or (ID_Produto = 14780) or (ID_Produto = 14918) then
-      ShowMessage('Aqui produtos 3');
-
     if not fDMSPEDFiscal.qProduto.IsEmpty then
     begin
       fDMSPEDFiscal.mProduto.Insert;
@@ -3976,12 +2435,6 @@ begin
     fDMSPEDFiscal.cdsPosseEstoque.First;
     while not fDMSPEDFiscal.cdsPosseEstoque.Eof do
     begin
-      {if StrToFloat(FormatFloat('0.0000',fDMSPEDFiscal.cdsPosseEstoqueQTD.AsFloat)) <= 0 then
-      begin
-        fDMSPEDFiscal.cdsPosseEstoque.Next;
-        continue;
-      end;}
-
       if fDMSPEDFiscal.qParametrosIMP_NFE_REF_PROD.AsString = 'R' then
         vCodigo := fDMSPEDFiscal.cdsPosseEstoqueREFERENCIA.AsString
       else
@@ -4109,10 +2562,6 @@ begin
     vCodigo := vCodigo + '.' + fDMSPEDFiscal.cdsPosseEstoqueID_COR.AsString;
   if (trim(fDMSPEDFiscal.cdsPosseEstoqueTAMANHO.AsString) <> '') then
     vCodigo := vCodigo + '.' + fDMSPEDFiscal.cdsPosseEstoqueTAMANHO.AsString;
-
-    if (vCodigo = '13759') or (vCodigo = '14780') or (vCodigo = '14918') then
-      ShowMessage('Aqui produtos 4');
-
   if fDMSPEDFiscal.mProduto.Locate('Cod_Produto', vCodigo, ([Locaseinsensitive])) then
     exit;
 
@@ -4281,14 +2730,8 @@ begin
     begin
       prc_ExportarClientDataSetParaCSV(fDMSPEDFiscal.cdsRelatorioC176, 'C:\$Servisoft\Relacao C176.csv');
       prc_ExportarClientDataSetParaExcel;
-
       prc_ExportarClientDataSetParaCSV(fDMSPEDFiscal.MCfopSaida, 'C:\$Servisoft\CFOP_SAIDA.csv');
-
     end;
-//    FListaICMS.SaveToFile('c:\temp\icms.csv');
-//    ShowMessage(FormatFloat('0.00', FValorICMS));
-//    ShowMessage(FormatFloat('0.00', FValorICMSCupom));
-
   finally
     FreeAndNil(Form);
   end;
@@ -4445,13 +2888,6 @@ begin
       IND_REST_RESSARC_COMPL_ICMS := 'N';
     end;
   end;
-
-  if cbConcomitante.Checked then
-  begin
-    ACBrSPEDFiscal1.WriteBloco_1;
-    LoadToMemo;
-  end;
-
 end;
 
 procedure TfrmSPEDFiscal.ComboFilialExit(Sender: TObject);
@@ -4560,18 +2996,13 @@ begin
   while not fDMSPEDFiscal.cdsNotaFiscal_Itens.Eof do
   begin
     //Somente para a Abrolhos
-    vGerarProd := (fDMSPEDFiscal.cdsNotaFiscal_ItensTIPO_REG.AsString = 'NTE'); 
-    if not(vGerarProd) then
+    vGerarProd := (fDMSPEDFiscal.cdsNotaFiscal_ItensTIPO_REG.AsString = 'NTE');
+    if not (vGerarProd) then
     begin
       fDMSPEDFiscal.cdsNotaFiscal_Itens.Next;
       Continue;
     end;
-
     vCodigo := monta_codigo_produto(fDMSPEDFiscal.cdsNotaFiscal_ItensID_PRODUTO.AsInteger, fDMSPEDFiscal.cdsNotaFiscal_ItensID_COR.AsInteger, fDMSPEDFiscal.cdsNotaFiscal_ItensREFERENCIA.AsString, fDMSPEDFiscal.cdsNotaFiscal_ItensTAMANHO.AsString, 'N');
-
-    if (vcodigo = '13759') or (vcodigo = '14780') or (vcodigo = '14918') then
-      ShowMessage('Aqui produtos 5');
-
     if not (fDMSPEDFiscal.mProduto.Locate('Cod_Produto', vCodigo, ([Locaseinsensitive]))) then
     begin
       fDMSPEDFiscal.mProduto.Insert;
@@ -4613,9 +3044,7 @@ begin
     end;
     fDMSPEDFiscal.cdsNotaFiscal_Itens.Next;
   end;
-  ShowMessage('terminou!');
   fDMSPEDFiscal.cdsNotaFiscal_Itens.First;
-
 end;
 
 procedure TfrmSPEDFiscal.prc_Abrir_NotaFiscal_Itens(ID: Integer);
@@ -4634,11 +3063,7 @@ begin
     vComando := vComando + ' where N.FILIAL = :FILIAL ';
     if ComboBox3.ItemIndex = 0 then
     begin
-      vComando := vComando + '  and (((N.DTEMISSAO between :DT_INICIAL and :DT_FINAL) and '
-                + '(N.TIPO_REG = ' + QuotedStr('NTS') + ')) or ((N.DTSAIDAENTRADA between :DT_INICIAL and :DT_FINAL) and '
-                + '(N.TIPO_REG = ' + QuotedStr('NTE') + '))) ';
-  //                                             aqui
-//      vComando := vComando + '  and (((N.DTEMISSAO between :DT_INICIAL and :DT_FINAL) and ' + '(N.TIPO_REG = ' + QuotedStr('NTS') + ') and exists(select 1 from UEPS_ESTOQUE UEPS ' + ' where UEPS.ID_DOC_SAIDA = I.ID and  UEPS.ITEM_DOC_SAIDA = I.ITEM and ' + '(UEPS.PERC_MVA * VLR_UNITARIO > 0))) or ((N.DTSAIDAENTRADA between :DT_INICIAL and :DT_FINAL) and ' + '(N.TIPO_REG = ' + QuotedStr('NTE') + '))) ';
+      vComando := vComando + '  and (((N.DTEMISSAO between :DT_INICIAL and :DT_FINAL) and ' + '(N.TIPO_REG = ' + QuotedStr('NTS') + ')) or ((N.DTSAIDAENTRADA between :DT_INICIAL and :DT_FINAL) and ' + '(N.TIPO_REG = ' + QuotedStr('NTE') + '))) ';
     end
     else if ComboBox3.ItemIndex = 1 then
     begin
@@ -4648,8 +3073,6 @@ begin
     begin
       vComando := vComando + ' and ((N.DTEMISSAO between :DT_INICIAL and :DT_FINAL) and ' + '(N.TIPO_REG = ' + QuotedStr('NTS') + '))';
     end;
-    //vcomando := vcomando + ' and (N.NUMNOTA = 44849 or N.NUMNOTA = 44850)';
-    //vcomando := vcomando + ' and (N.NUMNOTA = 74474)';
     fDMSPEDFiscal.sdsNotaFiscal_Itens.CommandText := vComando;
     fDMSPEDFiscal.sdsNotaFiscal_Itens.ParamByName('DT_INICIAL').AsDate := DataInicial.Date;
     fDMSPEDFiscal.sdsNotaFiscal_Itens.ParamByName('DT_FINAL').AsDate := DataFinal.Date;
@@ -4750,8 +3173,6 @@ begin
       DeleteFile(vTexto);
     sLinha.SaveToFile(vTexto);
     planilha.visible := true;
-    //planilha.Workbooks.Open(vTexto);
-    //planilha.columns.Autofit;
 
   finally
     Screen.Cursor := crDefault;
@@ -4801,7 +3222,7 @@ begin
         Exit;
       end;
       DT_DOC := fDMSPEDFiscal.cdsCupomFiscalDTEMISSAO.AsDateTime;
-      VL_DOC := fDMSPEDFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat;//+ fDMSPEDFiscal.cdsCupomFiscalVLR_DESCONTO.AsFloat;
+      VL_DOC := fDMSPEDFiscal.cdsCupomFiscalVLR_TOTAL.AsFloat; //+ fDMSPEDFiscal.cdsCupomFiscalVLR_DESCONTO.AsFloat;
       IND_PGTO := tpVista;
       if fDMSPEDFiscal.cdsCupomFiscalTIPO_PGTO.AsString = 'P' then
         IND_PGTO := tpPrazo;
@@ -4885,31 +3306,6 @@ begin
           VL_OPR := fDMSPEDFiscal.sqlC190VLR_PRODUTO.AsFloat;
           VL_BC_ICMS := fDMSPEDFiscal.sqlC190BASE_ICMS.AsFloat;
           VL_ICMS := fDMSPEDFiscal.sqlC190VLR_ICMS.AsFloat;
-//            if CFOP = '5102' then
-//            begin
-//              if not fDMSPEDFiscal.MCfopSaida.Locate('tipo;cfop;data',
-//                     VarArrayOf(['CUP',CFOP, fDMSPEDFiscal.cdsCupomFiscalDTEmissao.AsDateTime]), [locaseinsensitive]) then
-//              begin
-//                fDMSPEDFiscal.MCfopSaida.Insert;
-//                fDMSPEDFiscal.MCfopSaidaTIPO.AsString := 'CUP';
-//                fDMSPEDFiscal.MCfopSaidaCFOP.AsString := CFOP;
-//                fDMSPEDFiscal.MCfopSaidaDATA.AsDateTime := fDMSPEDFiscal.cdsCupomFiscalDTEmissao.AsDateTime;
-//                fDMSPEDFiscal.MCfopSaidavaloroperacao.AsFloat := VL_OPR;
-//                fDMSPEDFiscal.MCfopSaidavalor_icms.AsFloat := VL_ICMS;
-//                fDMSPEDFiscal.MCfopSaidavalor_base_icms.AsFloat := VL_BC_ICMS;
-//              end
-//              else
-//              begin
-//                fDMSPEDFiscal.MCfopSaida.Edit;
-//                fDMSPEDFiscal.MCfopSaidaTIPO.AsString := 'CUP';
-//                fDMSPEDFiscal.MCfopSaidaCFOP.AsString := CFOP;
-//                fDMSPEDFiscal.MCfopSaidaDATA.AsDateTime := fDMSPEDFiscal.cdsCupomFiscalDTEmissao.AsDateTime;
-//                fDMSPEDFiscal.MCfopSaidavaloroperacao.AsFloat := fDMSPEDFiscal.MCfopSaidavaloroperacao.AsFloat + VL_OPR;
-//                fDMSPEDFiscal.MCfopSaidavalor_icms.AsFloat := fDMSPEDFiscal.MCfopSaidavalor_icms.AsFloat + VL_ICMS;
-//                fDMSPEDFiscal.MCfopSaidavalor_base_icms.AsFloat := fDMSPEDFiscal.MCfopSaidavalor_base_icms.AsFloat + VL_BC_ICMS;
-//              end;
-//              fDMSPEDFiscal.MCfopSaida.post;
-//            end;
 
           FValorICMSCupom := FValorICMSCupom + VL_ICMS;
 //      if VL_ICMS > 0 then
@@ -4984,18 +3380,18 @@ begin
         VL_SLD_CREDOR_ANT := 0;
         VL_SLD_APURADO := fDMSPEDFiscal.cdsICMSVLR_ICMS_DEBITO.AsFloat - fDMSPEDFiscal.cdsICMSVLR_ICMS_CREDITO.AsFloat;
         if VL_SLD_APURADO < 0 then
-          VL_SLD_APURADO := VL_SLD_APURADO * -1;
+          VL_SLD_APURADO := VL_SLD_APURADO *  - 1;
         VL_TOT_DED := 0.00;
         VL_ICMS_RECOLHER := VL_SLD_APURADO - VL_TOT_DED;
 
         FE116.VL_OR := VL_ICMS_RECOLHER;
         if FE116.VL_OR < 0 then
-          FE116.VL_OR := FE116.VL_OR * -1;
+          FE116.VL_OR := FE116.VL_OR *  - 1;
         VL_SLD_CREDOR_TRANSPORTAR := 0;
         if VL_ICMS_RECOLHER < 0 then
         begin
           VL_ICMS_RECOLHER := 0.00;
-          VL_SLD_CREDOR_TRANSPORTAR := (fDMSPEDFiscal.cdsICMSVLR_ICMS_DEBITO.AsFloat - fDMSPEDFiscal.cdsICMSVLR_ICMS_CREDITO.AsFloat) * -1;
+          VL_SLD_CREDOR_TRANSPORTAR := (fDMSPEDFiscal.cdsICMSVLR_ICMS_DEBITO.AsFloat - fDMSPEDFiscal.cdsICMSVLR_ICMS_CREDITO.AsFloat) *  - 1;
         end;
         DEB_ESP := 0;
       end;
@@ -5237,13 +3633,13 @@ end;
 procedure TfrmSPEDFiscal.prc_ExportarClientDataSetParaExcel;
 var
   LExportador: TExcelExporter;
-  LPathFile : String;
+  LPathFile: string;
 begin
   LExportador := TExcelExporter.Create;
   try
     LPathFile := IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0)) + 'Excel');
     ForceDirectories(LPathFile); // Cria se não existir
-    LPathFile := LPathFile + ChangeFileExt('Conferencia','.xlsx');
+    LPathFile := LPathFile + ChangeFileExt('Conferencia', '.xlsx');
     LExportador.Exportar(fDMSPEDFiscal.cdsRelatorioC176, LPathFile);
   finally
     LExportador.Free;

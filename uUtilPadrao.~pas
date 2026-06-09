@@ -70,7 +70,6 @@ var
   vRegistro_CSV2: String;
   vUsuario: String;
   vTerminal: Integer; //terminal PDV Cupom
-  vMSgNotificacao: String;
   vEndereco_Arq: String;
   vDtValidade: String; //data até quando o sistema está liberado
   vCodigoCorreto: String;
