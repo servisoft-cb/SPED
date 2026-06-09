@@ -1,6 +1,6 @@
 object frmSPEDFiscal: TfrmSPEDFiscal
-  Left = 318
-  Top = 92
+  Left = 115
+  Top = 48
   Width = 1315
   Height = 780
   Caption = 'Gerar SPED Fiscal    (Vers'#227'o  12/03/2026  1.1.0.25) '
@@ -23,7 +23,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
     Top = 0
     Width = 1299
     Height = 741
-    ActivePage = TS_Gerar_SPED
+    ActivePage = TS_Exemplo
     ActivePageDefault = TS_Gerar_SPED
     Align = alClient
     BackgroundColor = clSilver
@@ -32,7 +32,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
     ParentBackgroundColor = False
     ParentColor = False
     TabColors.Shadow = clSilver
-    TabIndex = 2
+    TabIndex = 1
     TabOrder = 0
     FixedDimension = 19
     object TS_Gerar: TRzTabSheet
@@ -390,7 +390,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edtFile: TEdit
           Left = 22
           Top = 28
-          Width = -16
+          Width = 0
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 0
@@ -399,7 +399,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           OnExit = edtFileChange
         end
         object cbConcomitante: TCheckBox
-          Left = 30
+          Left = 14
           Top = 30
           Width = 134
           Height = 19
@@ -422,7 +422,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object edNotas: TEdit
           Left = 654
           Top = 29
-          Width = -195
+          Width = 0
           Height = 21
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 2
@@ -442,7 +442,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
         object Label4: TLabel
           Left = 1
           Top = 1
-          Width = 450
+          Width = 1289
           Height = 16
           Align = alTop
           Alignment = taCenter
@@ -1655,8 +1655,8 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           object Memo1: TMemo
             Left = 0
             Top = 0
-            Width = 1264
-            Height = 419
+            Width = 1291
+            Height = 495
             TabStop = False
             Align = alClient
             Font.Charset = ANSI_CHARSET
@@ -1676,8 +1676,8 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           object Memo2: TMemo
             Left = 0
             Top = 0
-            Width = 1264
-            Height = 419
+            Width = 1291
+            Height = 495
             TabStop = False
             Align = alClient
             Font.Charset = ANSI_CHARSET

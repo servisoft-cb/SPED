@@ -1900,6 +1900,9 @@ begin
   if (trim(fDMSPEDFiscal.cdsMovimentoTAMANHO.AsString) <> '') and (fDMSPEDFiscal.cdsMovimentoUSA_TAMANHO_AGRUPADO_NFE.AsString <> 'S') then
     vCodigo := vCodigo + '.' + fDMSPEDFiscal.cdsMovimentoTAMANHO.AsString;
 
+  if (vcodigo = '13759') or (vcodigo = '14780') or (vcodigo = '14918') then
+    ShowMessage('Aqui produtos');
+
   if not fDMSPEDFiscal.mProduto.FindKey([vCodigo]) then
   begin
     fDMSPEDFiscal.mProduto.Insert;
@@ -1928,9 +1931,6 @@ begin
     begin
       if StrToFloat(FormatFloat('0.0000', fDMSPEDFiscal.cdsMovimentoQTD_CONVERSOR.AsFloat)) <> 1 then
       begin
-//        if fDMSPEDFiscal.cdsNotaFiscal_ItensUNIDADE.AsString = 'CX20' then
-//          ShowMessage('aqui');
-
         fDMSPEDFiscal.mUnidade_Conv.Insert;
         fDMSPEDFiscal.mUnidade_ConvUnidade.AsString := fDMSPEDFiscal.cdsMovimentoUNIDADE_CONV.AsString;
         fDMSPEDFiscal.mUnidade_ConvQtd_Conv.AsFloat := fDMSPEDFiscal.cdsMovimentoQTD_CONVERSOR.AsFloat;
@@ -2014,6 +2014,7 @@ begin
             while not fDMSPEDFiscal.mUnidade_Conv.Eof do
             begin
               prc_Bloco_0_Reg_0220;
+              prc_Gravar_mUnidade(fDMSPEDFiscal.mUnidade_ConvUnidade.AsString);
               fDMSPEDFiscal.mUnidade_Conv.Next;
             end;
 
@@ -2398,8 +2399,6 @@ begin
         COD_SIT := sdRegimeEspecNEsp
       else
         COD_SIT := sdRegular;
-        //if fDMSPEDFiscal.cdsNotaFiscalNUMNOTA.AsInteger = 141310 then
-        //  showmessage('aqui');
       SER := fDMSPEDFiscal.cdsNotaFiscalSERIE.AsString;
       NUM_DOC := fDMSPEDFiscal.cdsNotaFiscalNUMNOTA.AsString;
       if (fDMSPEDFiscal.cdsNotaFiscalCANCELADA.AsString = 'N') and (fDMSPEDFiscal.cdsNotaFiscalNFEDENEGADA.AsString = 'N') then
@@ -2418,11 +2417,6 @@ begin
 
         if (fDMSPEDFiscal.cdsNotaFiscalCANCELADA.AsString <> 'S') and (fDMSPEDFiscal.cdsNotaFiscalNFEDENEGADA.AsString <> 'S') then
         begin
-//            VL_DOC := fDMSPEDFiscal.cdsNotaFiscalVLR_NOTA.AsFloat;
-//          if fDMSPEDFiscal.cdsNotaFiscalNFECHAVEACESSO.AsString = '43250892644228000132550020003428671919564610' then
-//            ShowMessage('aqui');
-
-//          VL_DOC := fDMSPEDFiscal.cdsNotaFiscalVLR_ITENS.AsFloat + fDMSPEDFiscal.cdsNotaFiscalVLR_IPI.AsFloat + fDMSPEDFiscal.cdsNotaFiscalVLR_FRETE.AsFloat;
           VL_DOC := fDMSPEDFiscal.cdsNotaFiscalVLR_NOTA.AsFloat +
                     fDMSPEDFiscal.cdsNotaFiscalVLR_IPI.AsFloat +
                     fDMSPEDFiscal.cdsNotaFiscalVLR_FRETE.AsFloat +
@@ -2444,8 +2438,6 @@ begin
             IND_FRT := tfPorContaTerceiros
           else if fDMSPEDFiscal.cdsNotaFiscalTIPO_FRETE.AsString = '9' then
             IND_FRT := tfSemCobrancaFrete;
-              //if fDMSPEDFiscal.cdsNotaFiscalNUMNOTA.AsInteger = 33417 then
-                //ShowMessage('parte 1');
           VL_FRT := fDMSPEDFiscal.cdsNotaFiscalVLR_FRETE.AsFloat;
           VL_SEG := fDMSPEDFiscal.cdsNotaFiscalVLR_SEGURO.AsFloat;
           VL_OUT_DA := fDMSPEDFiscal.cdsNotaFiscalVLR_OUTRASDESP.AsFloat;
@@ -2454,8 +2446,6 @@ begin
           else
             VL_BC_ICMS := fDMSPEDFiscal.cdsNotaFiscalBASE_ICMS.AsFloat;
         end;
-          //if fDMSPEDFiscal.cdsNotaFiscalNUMNOTA.AsInteger = 20099 then
-          //  showMessage('aqui');
         if StrToFloat(FormatFloat('0.00', fDMSPEDFiscal.cdsNotaFiscalVLR_ICMSSIMPLES.AsFloat)) > 0 then
           VL_ICMS := fDMSPEDFiscal.cdsNotaFiscalVLR_ICMSSIMPLES.AsFloat
         else
@@ -2475,7 +2465,7 @@ begin
       LUF := SQLLocate('PESSOA','CODIGO','UF', fDMSPEDFiscal.cdsNotaFiscalID_CLIENTE.AsString);
 
       if (IND_EMIT = edEmissaoPropria) and (COD_MOD = '55') and (COD_SIT = sdRegular) and
-         (fDMSPEDFiscal.cdsNotaFiscalVLR_ICMS_UF_DEST.AsFloat > 0) then //and (LUF <> fDMSPEDFiscal.cdsFilialUF.AsString)  then
+         (fDMSPEDFiscal.cdsNotaFiscalVLR_ICMS_UF_DEST.AsFloat > 0) and (LUF <> fDMSPEDFiscal.cdsFilialUF.AsString)  then
       begin
         with RegistroC101New do
         begin
@@ -2633,17 +2623,10 @@ begin
           end;
         end;
       end;
-        // REGISTRO C170: ITENS DO DOCUMENTO (CÓDIGO 01, 1B, 04 e 55).
-        //if fDMSPEDFiscal.cdsNotaFiscalID.AsInteger = 9947 then
-         // ShowMessage('aqui');
       prc_Abrir_NotaFiscal_Itens(fDMSPEDFiscal.cdsNotaFiscalID.AsInteger);
       fDMSPEDFiscal.cdsNotaFiscal_Itens.First;
       while not fDMSPEDFiscal.cdsNotaFiscal_Itens.Eof do
       begin
-          //if (IND_EMIT = edTerceiros) AND (fDMSPEDFiscal.cdsNotaFiscalCOD_MODELO.AsString <> '08') then
-              //if fDMSPEDFiscal.cdsNotaFiscalNUMNOTA.AsInteger = 33417 then
-                //ShowMessage('parte 2');
-
         fDMSPEDFiscal.cdsC176.Close;
         fDMSPEDFiscal.sdsC176.ParamByName('ID_DOC_SAIDA').AsInteger := fDMSPEDFiscal.cdsNotaFiscal_ItensID.AsInteger;
         fDMSPEDFiscal.sdsC176.ParamByName('ITEM_DOC_SAIDA').AsInteger := fDMSPEDFiscal.cdsNotaFiscal_ItensITEM.AsInteger;
@@ -2652,6 +2635,7 @@ begin
 
         LGeraC176 := (fDMSPEDFiscal.cdsC176.RecordCount > 0) and (Copy(fDMSPEDFiscal.cdsNotaFiscal_ItensCODCFOP.AsString, 1, 1) <> '5');
 
+        //Conforme o Raul só vai nas que tem o C176 pelo menos para a Abrolhos
         if (IND_EMIT = edTerceiros) or (LGeraC176) then
         begin
           with RegistroC170New do // Inicio Adicionar os Itens:
@@ -2774,8 +2758,6 @@ begin
           begin
             with RegistroC176New do
             begin
-//              if (fDMSPEDFiscal.cdsNotaFiscalNFECHAVEACESSO.AsString = '43250719259375000107550030000065171037997090') and (fDMSPEDFiscal.cdsC176ITEM_NOTA_ENT.AsInteger = 62) then
-//                ShowMessage('aqui');
               COD_MOD_ULT_E := '55';
               NUM_DOC_ULT_E := fDMSPEDFiscal.cdsC176NUM_NOTA_ENT.AsString;
               SER_ULT_E := fDMSPEDFiscal.cdsC176SERIE_NOTA_ENT.AsString;
@@ -3220,9 +3202,7 @@ begin
     vComando := vComando + ' and (((N.DTEMISSAO between :DT_INICIAL and :DT_FINAL) and ';
     vComando := vComando + '(N.TIPO_REG = ' + QuotedStr('NTS') + ')) or ';
     vComando := vComando + '((N.DTSAIDAENTRADA between :DT_INICIAL and :DT_FINAL)';
-//    vComando := vComando + 'and ' + '(N.TIPO_REG = ' + QuotedStr('NTE') + ') and N.vlr_nota > 0)) and ';
     vComando := vComando + 'and ' + '(N.TIPO_REG = ' + QuotedStr('NTE') + ')))';// and ';
-//    vComando := vComando + '(N.NFEPROTOCOLO <> ' + QuotedStr('') + ')';
     x := ' and (((N.DTEMISSAO between :DT_INICIAL and :DT_FINAL) and ' + '(N.TIPO_REG = ' + QuotedStr('NTS') + ')) or ((N.DTSAIDAENTRADA between :DT_INICIAL and :DT_FINAL) and ' + '(N.TIPO_REG = ' + QuotedStr('NTE') + ')))';
   end
   else if ComboBox3.ItemIndex = 1 then
@@ -3789,13 +3769,15 @@ begin
       vCodigo := vCodigo + '.' + fDMSPEDFiscal.cdsBalancoTAMANHO.AsString;
     if not fDMSPEDFiscal.mProduto.FindKey([vCodigo]) then
     begin
+      if (vcodigo = '13759') or (vcodigo = '14780') or (vcodigo = '14918') then
+        ShowMessage('Aqui produtos 2');
+
       fDMSPEDFiscal.qProduto.Close;
       fDMSPEDFiscal.qProduto.ParamByName('ID').AsInteger := fDMSPEDFiscal.cdsBalancoID_PRODUTO.AsInteger;
       fDMSPEDFiscal.qProduto.Open;
       if not fDMSPEDFiscal.qProduto.IsEmpty then
       begin
-        //if fDMSPEDFiscal.qProdutoID.AsInteger = 31592 then
-        //  ShowMessage('aqui qProduto 1');
+
 
         fDMSPEDFiscal.mProduto.Insert;
         fDMSPEDFiscal.mProdutoID.AsInteger := fDMSPEDFiscal.qProdutoID.AsInteger;
@@ -3831,6 +3813,10 @@ begin
     fDMSPEDFiscal.qProduto.Close;
     fDMSPEDFiscal.qProduto.ParamByName('ID').AsInteger := ID_Produto;
     fDMSPEDFiscal.qProduto.Open;
+
+    if (ID_Produto = 13759) or (ID_Produto = 14780) or (ID_Produto = 14918) then
+      ShowMessage('Aqui produtos 3');
+
     if not fDMSPEDFiscal.qProduto.IsEmpty then
     begin
       fDMSPEDFiscal.mProduto.Insert;
@@ -4114,7 +4100,6 @@ procedure TfrmSPEDFiscal.prc_Gravar_mProdutoMov;
 var
   vCodigo: string;
 begin
-
   if fDMSPEDFiscal.qParametrosIMP_NFE_REF_PROD.AsString = 'R' then
     vCodigo := fDMSPEDFiscal.cdsPosseEstoqueREFERENCIA.AsString
   else
@@ -4124,6 +4109,9 @@ begin
     vCodigo := vCodigo + '.' + fDMSPEDFiscal.cdsPosseEstoqueID_COR.AsString;
   if (trim(fDMSPEDFiscal.cdsPosseEstoqueTAMANHO.AsString) <> '') then
     vCodigo := vCodigo + '.' + fDMSPEDFiscal.cdsPosseEstoqueTAMANHO.AsString;
+
+    if (vCodigo = '13759') or (vCodigo = '14780') or (vCodigo = '14918') then
+      ShowMessage('Aqui produtos 4');
 
   if fDMSPEDFiscal.mProduto.Locate('Cod_Produto', vCodigo, ([Locaseinsensitive])) then
     exit;
@@ -4251,7 +4239,6 @@ begin
     if chkC176.Checked then
       prc_Gerar_Registro_Auxiliar_C176;
 
-
     //26/01/2023
     if (RzCheckList1.ItemChecked[2]) then
     begin
@@ -4294,7 +4281,6 @@ begin
     begin
       prc_ExportarClientDataSetParaCSV(fDMSPEDFiscal.cdsRelatorioC176, 'C:\$Servisoft\Relacao C176.csv');
       prc_ExportarClientDataSetParaExcel;
-
 
       prc_ExportarClientDataSetParaCSV(fDMSPEDFiscal.MCfopSaida, 'C:\$Servisoft\CFOP_SAIDA.csv');
 
@@ -4568,21 +4554,23 @@ end;
 procedure TfrmSPEDFiscal.prc_Le_NotaFiscal_Itens;
 var
   vCodigo: string;
-  
+  vGerarProd: Boolean;
 begin
   fDMSPEDFiscal.cdsNotaFiscal_Itens.First;
   while not fDMSPEDFiscal.cdsNotaFiscal_Itens.Eof do
   begin
-    {if (fDMSPEDFiscal.cdsNotaFiscal_ItensID_PRODUTO.AsInteger <> 38872) and
-       (fDMSPEDFiscal.cdsNotaFiscal_ItensID_PRODUTO.AsInteger <> 41179) then
+    //Somente para a Abrolhos
+    vGerarProd := (fDMSPEDFiscal.cdsNotaFiscal_ItensTIPO_REG.AsString = 'NTE'); 
+    if not(vGerarProd) then
     begin
       fDMSPEDFiscal.cdsNotaFiscal_Itens.Next;
-      continue;
-    end;}
-//    if fDMSPEDFiscal.cdsNotaFiscal_ItensID_PRODUTO.AsInteger = 11364 then
-//      ShowMessage('produto5');
+      Continue;
+    end;
 
     vCodigo := monta_codigo_produto(fDMSPEDFiscal.cdsNotaFiscal_ItensID_PRODUTO.AsInteger, fDMSPEDFiscal.cdsNotaFiscal_ItensID_COR.AsInteger, fDMSPEDFiscal.cdsNotaFiscal_ItensREFERENCIA.AsString, fDMSPEDFiscal.cdsNotaFiscal_ItensTAMANHO.AsString, 'N');
+
+    if (vcodigo = '13759') or (vcodigo = '14780') or (vcodigo = '14918') then
+      ShowMessage('Aqui produtos 5');
 
     if not (fDMSPEDFiscal.mProduto.Locate('Cod_Produto', vCodigo, ([Locaseinsensitive]))) then
     begin
@@ -4598,7 +4586,7 @@ begin
       fDMSPEDFiscal.mProdutoCod_Barra.AsString := Monta_Numero(fDMSPEDFiscal.cdsNotaFiscal_ItensCOD_BARRA.AsString, 0);
       fDMSPEDFiscal.mProdutoCod_Anterior.AsString := '';
       fDMSPEDFiscal.mProdutoUnidade.AsString := UpperCase(fDMSPEDFiscal.cdsNotaFiscal_ItensUNIDADE_CAD.AsString);
-      fDMSPEDFiscal.mProdutoTipo_Item.AsString := fDMSPEDFiscal.cdsMovimentoSPED_TIPO_ITEM.AsString;
+      fDMSPEDFiscal.mProdutoTipo_Item.AsString := fDMSPEDFiscal.cdsNotaFiscal_ItensSPED_TIPO_ITEM.AsString;
       fDMSPEDFiscal.mProdutoNCM.AsString := Monta_Numero(fDMSPEDFiscal.cdsNotaFiscal_ItensNCM.AsString, 0);
       fDMSPEDFiscal.mProdutoNCM_EX.AsString := fDMSPEDFiscal.cdsNotaFiscal_ItensNCM_EX.AsString;
       fDMSPEDFiscal.mProdutoEX_IPI.AsString := fDMSPEDFiscal.cdsNotaFiscal_ItensNCM_EX.AsString;
@@ -4608,17 +4596,12 @@ begin
       prc_Gravar_mUnidade(fDMSPEDFiscal.mProdutoUnidade.AsString);
       prc_Gravar_mNatureza(fDMSPEDFiscal.cdsNotaFiscal_ItensID_CFOP.AsInteger, fDMSPEDFiscal.cdsNotaFiscal_ItensCODCFOP.AsString, '');
     end;
-//    if (fDMSPEDFiscal.cdsNotaFiscal_ItensUNIDADE.AsString <> fDMSPEDFiscal.cdsNotaFiscal_ItensUNIDADE_CAD.AsString) and (StrToFloat(FormatFloat('0.0000',fDMSPEDFiscal.cdsNotaFiscal_ItensQTD_PACOTE.AsFloat)) <> 1)
-//     and (StrToFloat(FormatFloat('0.0000',fDMSPEDFiscal.cdsNotaFiscal_ItensQTD_PACOTE.AsFloat)) > 0) then
+
     if not fDMSPEDFiscal.mUnidade_Conv.Locate('Cod_Produto;Unidade', VarArrayOf([vCodigo, fDMSPEDFiscal.cdsNotaFiscal_ItensUNIDADE.AsString]), [locaseinsensitive]) then
     begin
       if (fDMSPEDFiscal.cdsNotaFiscal_ItensUNIDADE.AsString <> fDMSPEDFiscal.cdsNotaFiscal_ItensUNIDADE_CAD.AsString) then
-//          and (StrToFloat(FormatFloat('0.0000',fDMSPEDFiscal.cdsNotaFiscal_ItensQTD_PACOTE.AsFloat)) > 0) then
       begin
         fDMSPEDFiscal.mUnidade_Conv.Insert;
-//        if fDMSPEDFiscal.cdsNotaFiscal_ItensUNIDADE.AsString = 'CX20' then
-//          ShowMessage('aqui');
-
         fDMSPEDFiscal.mUnidade_ConvUnidade.AsString := fDMSPEDFiscal.cdsNotaFiscal_ItensUNIDADE.AsString;
         fDMSPEDFiscal.mUnidade_ConvQtd_Conv.AsFloat := fDMSPEDFiscal.cdsNotaFiscal_ItensQTD_PACOTE.AsFloat;
         if fDMSPEDFiscal.mUnidade_ConvQtd_Conv.AsFloat = 0 then
@@ -4630,6 +4613,9 @@ begin
     end;
     fDMSPEDFiscal.cdsNotaFiscal_Itens.Next;
   end;
+  ShowMessage('terminou!');
+  fDMSPEDFiscal.cdsNotaFiscal_Itens.First;
+
 end;
 
 procedure TfrmSPEDFiscal.prc_Abrir_NotaFiscal_Itens(ID: Integer);
@@ -4648,7 +4634,11 @@ begin
     vComando := vComando + ' where N.FILIAL = :FILIAL ';
     if ComboBox3.ItemIndex = 0 then
     begin
-      vComando := vComando + '  and (((N.DTEMISSAO between :DT_INICIAL and :DT_FINAL) and ' + '(N.TIPO_REG = ' + QuotedStr('NTS') + ') and exists(select 1 from UEPS_ESTOQUE UEPS ' + ' where UEPS.ID_DOC_SAIDA = I.ID and  UEPS.ITEM_DOC_SAIDA = I.ITEM and ' + '(UEPS.PERC_MVA * VLR_UNITARIO > 0))) or ((N.DTSAIDAENTRADA between :DT_INICIAL and :DT_FINAL) and ' + '(N.TIPO_REG = ' + QuotedStr('NTE') + '))) ';
+      vComando := vComando + '  and (((N.DTEMISSAO between :DT_INICIAL and :DT_FINAL) and '
+                + '(N.TIPO_REG = ' + QuotedStr('NTS') + ')) or ((N.DTSAIDAENTRADA between :DT_INICIAL and :DT_FINAL) and '
+                + '(N.TIPO_REG = ' + QuotedStr('NTE') + '))) ';
+  //                                             aqui
+//      vComando := vComando + '  and (((N.DTEMISSAO between :DT_INICIAL and :DT_FINAL) and ' + '(N.TIPO_REG = ' + QuotedStr('NTS') + ') and exists(select 1 from UEPS_ESTOQUE UEPS ' + ' where UEPS.ID_DOC_SAIDA = I.ID and  UEPS.ITEM_DOC_SAIDA = I.ITEM and ' + '(UEPS.PERC_MVA * VLR_UNITARIO > 0))) or ((N.DTSAIDAENTRADA between :DT_INICIAL and :DT_FINAL) and ' + '(N.TIPO_REG = ' + QuotedStr('NTE') + '))) ';
     end
     else if ComboBox3.ItemIndex = 1 then
     begin

@@ -37,7 +37,5 @@ begin
   Application.Title := 'SPED FISCAL';
   Application.CreateForm(TdmDatabase, dmDatabase);
   Application.CreateForm(TfrmSPEDFiscal, frmSPEDFiscal);
-  Application.CreateForm(TfrmConfig_XLS, frmConfig_XLS);
-  Application.CreateForm(TDMConfig_XLS, DMConfig_XLS);
   Application.Run;
 end.

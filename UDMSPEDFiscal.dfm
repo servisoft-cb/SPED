@@ -1,8 +1,8 @@
 object DMSPEDFiscal: TDMSPEDFiscal
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Left = 64214
-  Top = 14
+  Left = 296
+  Top = 73
   Height = 676
   Width = 999
   object qParametros: TSQLQuery
