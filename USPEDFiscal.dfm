@@ -1,9 +1,9 @@
 object frmSPEDFiscal: TfrmSPEDFiscal
-  Left = 115
-  Top = 48
+  Left = 42
+  Top = 27
   Width = 1315
   Height = 780
-  Caption = 'Gerar SPED Fiscal    (Vers'#227'o  11/06/2026  1.1.0.27) '
+  Caption = 'Gerar SPED Fiscal    (Vers'#227'o  11/06/2026  1.1.0.28) '
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText

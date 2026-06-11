@@ -215,6 +215,7 @@ type
     function Monta_Numero(Campo: string; Tamanho: Integer): string;
     function monta_codigo_produto(ID_Produto, ID_Cor: Integer; Referencia, Tamanho, Usa_Tamanho_Agrupado: string): string;
     procedure prc_CriaExcel_Novo(vDados: TDataSource; Grid: TSMDBGrid);
+    procedure prc_Corrigir_ICMS_Cupom_SPED;
 
     { Private declarations }
   public
@@ -232,7 +233,7 @@ uses
   DateUtils, rsDBUtils, ACBrEFDBloco_K, ACBrEFDBloco_K_Class,
   ACBrEFDBloco_E_Class, ACBrEFDBloco_E, ACBrSped, UCadSpedVersao,
   UConsPosseEstoque, ACBrEFDBloco_0, UImportar_Excel, UConfigC176, ExcelExporter,
-  UEPSService;
+  UEPSService, DmdDatabase, Math;
 
 {$IFDEF FPC}
 {$R *.lfm}
@@ -1171,8 +1172,16 @@ begin
         with RegistroC101New do
         begin
           VL_FCP_UF_DEST := 0;
-          VL_ICMS_UF_DEST := fDMSPEDFiscal.cdsNotaFiscalVLR_ICMS_UF_DEST.AsFloat;
-          VL_ICMS_UF_REM := 0;
+          {if copy(fDMSPEDFiscal.cdsNotaFiscal_ItensCODCFOP.AsString,1,1) <> '6' then
+          begin
+            VL_ICMS_UF_DEST := 0;
+            VL_ICMS_UF_REM  := fDMSPEDFiscal.cdsNotaFiscalVLR_ICMS_UF_DEST.AsFloat;
+          end
+          else}
+          begin
+            VL_ICMS_UF_DEST := fDMSPEDFiscal.cdsNotaFiscalVLR_ICMS_UF_DEST.AsFloat;
+            VL_ICMS_UF_REM  := 0;
+          end;
         end;
       end;
         //Ler as parcelas aqui
@@ -2646,6 +2655,7 @@ begin
     MessageDlg('*** Filial não informada!', mtError, [mbOk], 0);
     exit;
   end;
+
   fDMSPEDFiscal.mK200.EmptyDataSet;
   fDMSPEDFiscal.mPessoa.EmptyDataSet;
   fDMSPEDFiscal.mProduto.EmptyDataSet;
@@ -2665,6 +2675,11 @@ begin
   Form := TForm.Create(Application);
   uUtilPadrao.prc_Form_Aguarde(Form);
   try
+    if SQLLocate('PARAMETROS_GERAL','ID','CORRIGE_ICMS_CUPOM_SPED','1') = 'S' then
+    begin
+       uUtilPadrao.prc_Form_Aguarde(Form, 'Corrigindo ICMS Cupom...');
+       prc_Corrigir_ICMS_Cupom_SPED;
+    end;
 
     uUtilPadrao.prc_Form_Aguarde(Form, 'Gerando UEPS...');
     prc_ExecutarUEPS;
@@ -3516,6 +3531,7 @@ begin
       begin
         IND_MOV_DIFAL := StrToMovimentoDIFAL('1');
         VL_SLD_CRED_ANT_DIF := 0;
+        //aqui 11062026
         VL_TOT_DEBITOS_DIFAL := fDMSPEDFiscal.qE300VLR_ICMS_UF_DEST.AsFloat + fDMSPEDFiscal.qE300VLR_ICMS_UF_REMET.AsFloat;
         VL_OUT_DEB_DIFAL := 0;
         VL_TOT_DEB_FCP := 0;
@@ -3665,6 +3681,27 @@ begin
     UEPS.Executar(ComboFilial.KeyValue, DataFinal.Date);
   finally
     UEPS.Free;
+  end;
+end;
+
+procedure TfrmSPEDFiscal.prc_Corrigir_ICMS_Cupom_SPED;
+var
+  vSQL: TSQLDataSet;
+begin
+  vSQL := TSQLDataSet.Create(nil);
+  try
+    vSQL.SQLConnection := dmDatabase.scoDados;
+    vSQL.CommandText :=
+      'EXECUTE PROCEDURE SP_CORRIGE_ICMS_CUPOM ' +
+      '(:P_DATA_INI, :P_DATA_FIM, :P_FILIAL)';
+
+    vSQL.ParamByName('P_DATA_INI').AsDate  := DataInicial.Date;
+    vSQL.ParamByName('P_DATA_FIM').AsDate  := DataFinal.Date;
+    vSQL.ParamByName('P_FILIAL').AsInteger := ComboFilial.KeyValue;
+
+    vSQL.ExecSQL;
+  finally
+    vSQL.Free;
   end;
 end;
 
