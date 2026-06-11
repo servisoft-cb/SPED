@@ -2991,13 +2991,23 @@ procedure TfrmSPEDFiscal.prc_Le_NotaFiscal_Itens;
 var
   vCodigo: string;
   vGerarProd: Boolean;
+  lGerac176: Boolean;
 begin
   fDMSPEDFiscal.cdsNotaFiscal_Itens.First;
   while not fDMSPEDFiscal.cdsNotaFiscal_Itens.Eof do
   begin
     //Somente para a Abrolhos
     vGerarProd := (fDMSPEDFiscal.cdsNotaFiscal_ItensTIPO_REG.AsString = 'NTE');
-    if not (vGerarProd) then
+
+    fDMSPEDFiscal.cdsC176.Close;
+    fDMSPEDFiscal.sdsC176.ParamByName('ID_DOC_SAIDA').AsInteger := fDMSPEDFiscal.cdsNotaFiscal_ItensID.AsInteger;
+    fDMSPEDFiscal.sdsC176.ParamByName('ITEM_DOC_SAIDA').AsInteger := fDMSPEDFiscal.cdsNotaFiscal_ItensITEM.AsInteger;
+    fDMSPEDFiscal.cdsC176.Open;
+    fDMSPEDFiscal.cdsC176.First;
+
+    LGeraC176 := (fDMSPEDFiscal.cdsC176.RecordCount > 0) and (Copy(fDMSPEDFiscal.cdsNotaFiscal_ItensCODCFOP.AsString, 1, 1) <> '5');
+
+    if not(vGerarProd) and not(LGeraC176) then
     begin
       fDMSPEDFiscal.cdsNotaFiscal_Itens.Next;
       Continue;
