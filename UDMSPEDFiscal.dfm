@@ -4319,8 +4319,8 @@ object DMSPEDFiscal: TDMSPEDFiscal
       'select aux.*,'#13#10'CASE'#13#10'  WHEN TIPO_EST = '#39'00'#39' THEN '#39'Pr'#243'prio'#39#13#10'  WH' +
       'EN TIPO_EST = '#39'1E'#39' THEN '#39'Em Terceiro'#39#13#10'  WHEN TIPO_EST = '#39'22'#39' TH' +
       'EN '#39'De Terceiro'#39#13#10'ELSE '#39#39#13#10'end DESC_TIPO_EST'#13#10#13#10'from('#13#10'SELECT EM' +
-      '.id_produto, EM.filial, EM.ID_COR, sum(cast(EM.QTD2  AS NUMERIC(' +
-      '15,5))) QTD, C.NOME NOME_COMBINACAO,'#13#10'P.NOME NOME_PRODUTO, P.REF' +
+      '.id_produto, EM.filial, EM.ID_COR, sum(cast(EM.QTD2 AS DOUBLE PREC' +
+      'ISION)) QTD, C.NOME NOME_COMBINACAO,'#13#10'P.NOME NOME_PRODUTO, P.REF' +
       'ERENCIA, 0 ID_PESSOA, '#39'00'#39' TIPO_EST, EM.TAMANHO,'#13#10'P.unidade, P.s' +
       'ped_tipo_item, P.ncm_ex, NCM.ncm, '#39#39' NOME_TERCEIRO'#13#10'FROM ESTOQUE' +
       '_MOV EM'#13#10'INNER JOIN PRODUTO P'#13#10'ON EM.ID_PRODUTO = P.ID'#13#10'LEFT JOI' +
@@ -4336,7 +4336,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
       'EM.ID_COR, C.NOME,'#13#10'P.NOME, P.REFERENCIA, ID_PESSOA, EM.TAMANHO,' +
       #13#10'P.unidade, P.sped_tipo_item, P.ncm_ex, NCM.ncm, NOME_TERCEIRO'#13 +
       #10#13#10'UNION'#13#10#13#10'SELECT ET.id_produto, ET.filial, ET.id_cor, sum(cast' +
-      '(et.qtdrestante AS NUMERIC(15,5))) QTD, et.nome_combinacao,'#13#10'p.N' +
+      '(et.qtdrestante AS DOUBLE PRECISION)) QTD, et.nome_combinacao,'#13#10'p.N' +
       'OME NOME_PRODUTO, et.REFERENCIA, et.id_terceiro ID_PESSOA , '#39'1E'#39 +
       ' TIPO_EST, et.tamanho,'#13#10'et.unidade, et.sped_tipo_item, p.ncm_ex,' +
       ' NCM.ncm, ET.nome_terceiro'#13#10'FROM vestoque_em_terc ET'#13#10'INNER JOIN' +
@@ -4350,8 +4350,8 @@ object DMSPEDFiscal: TDMSPEDFiscal
       'o, et.filial, et.ID_COR, et.nome_combinacao,'#13#10'P.NOME, et.referen' +
       'cia, et.id_terceiro, et.tamanho,'#13#10'et.unidade, et.sped_tipo_item,' +
       ' P.ncm_ex, NCM.ncm, ET.nome_terceiro'#13#10#13#10'UNION'#13#10#13#10'SELECT DT.id_pr' +
-      'oduto, DT.filial, DT.ID_COR, sum(cast(DT.qtdrestante AS NUMERIC(' +
-      '15,5))) QTD, DT.NOME_COMBINACAO,'#13#10#13#10'DT.NOME_PRODUTO, DT.REFERENC' +
+      'oduto, DT.filial, DT.ID_COR, sum(cast(DT.qtdrestante AS DOUBLE PRE' +
+      'CISION)) QTD, DT.NOME_COMBINACAO,'#13#10#13#10'DT.NOME_PRODUTO, DT.REFERENC' +
       'IA, DT.id_terceiro ID_PESSOA , '#39'22'#39' TIPO_EST, DT.TAMANHO,'#13#10'DT.un' +
       'idade, DT.sped_tipo_item, P.ncm_ex, NCM.ncm, DT.nome_terceiro'#13#10'F' +
       'ROM vestoque_de_terc DT'#13#10'INNER JOIN PRODUTO P'#13#10'ON DT.ID_PRODUTO ' +
@@ -4472,11 +4472,9 @@ object DMSPEDFiscal: TDMSPEDFiscal
       FixedChar = True
       Size = 11
     end
-    object cdsPosseEstoqueQTD: TFMTBCDField
+    object cdsPosseEstoqueQTD: TFloatField
       FieldName = 'QTD'
       DisplayFormat = '0.000#'
-      Precision = 15
-      Size = 5
     end
   end
   object dsPosseEstoque: TDataSource

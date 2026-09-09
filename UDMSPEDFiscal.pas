@@ -770,7 +770,7 @@ type
     frxReport1: TfrxReport;
     frxBarCodeObject1: TfrxBarCodeObject;
     frxmK200: TfrxDBDataset;
-    cdsPosseEstoqueQTD: TFMTBCDField;
+    cdsPosseEstoqueQTD: TFloatField;
     cdsPosseEstoque_NaoApagarQTD: TFloatField;
     cdsBalancoTIPO_SPED: TStringField;
     cdsBalancoDESC_TIPO_REG: TStringField;
