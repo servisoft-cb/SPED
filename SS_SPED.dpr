@@ -22,12 +22,17 @@ uses
   uUtilPadrao in 'uUtilPadrao.pas',
   UDMCadFilial in '..\ssfacil\UDMCadFilial.pas' {DMCadFilial: TDataModule},
   Classe.Parametros in '..\SSFacil\Classes\Classe.Parametros.pas',
-  UTransactionHelper in '..\SSFacil\Classes\UTransactionHelper.pas';
+  UTransactionHelper in '..\SSFacil\Classes\UTransactionHelper.pas',
+  uLiberacaoBackOffice in '..\SSFacil\uLiberacaoBackOffice.pas',
+  uSistemaAtual in '..\SSFacil\uSistemaAtual.pas';
 
 {$R *.res}
 
 begin
   Application.Initialize;
+
+  DefinirSistema('SPED');
+
   Application.Title := 'SPED FISCAL';
   Application.CreateForm(TdmDatabase, dmDatabase);
   Application.CreateForm(TfrmSPEDFiscal, frmSPEDFiscal);
