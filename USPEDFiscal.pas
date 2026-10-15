@@ -1172,12 +1172,12 @@ begin
         with RegistroC101New do
         begin
           VL_FCP_UF_DEST := 0;
-          {if copy(fDMSPEDFiscal.cdsNotaFiscal_ItensCODCFOP.AsString,1,1) <> '6' then
+          if (fDMSPEDFiscal.cdsNotaFiscalTIPO_NOTA.AsString = 'E') and (fDMSPEDFiscal.cdsNotaFiscalTIPO_REG.AsString = 'NTS') then
           begin
             VL_ICMS_UF_DEST := 0;
             VL_ICMS_UF_REM  := fDMSPEDFiscal.cdsNotaFiscalVLR_ICMS_UF_DEST.AsFloat;
           end
-          else}
+          else
           begin
             VL_ICMS_UF_DEST := fDMSPEDFiscal.cdsNotaFiscalVLR_ICMS_UF_DEST.AsFloat;
             VL_ICMS_UF_REM  := 0;
