@@ -697,7 +697,7 @@ begin
         with Registro0200New do
         begin
           COD_ITEM := fDMSPEDFiscal.mProdutoCod_Produto.AsString;
-          DESCR_ITEM := Replace(TiraAcentos(fDMSPEDFiscal.mProdutoNome.AsString), '|', '');
+          DESCR_ITEM := StringReplace(TiraAcentos(fDMSPEDFiscal.mProdutoNome.AsString), '|', ' ', [rfReplaceAll]);
           COD_BARRA := fDMSPEDFiscal.mProdutoCod_Barra.AsString;
           COD_ANT_ITEM := '';
           UNID_INV := TiraAcentos(fDMSPEDFiscal.mProdutoUnidade.AsString);
@@ -795,7 +795,7 @@ begin
         begin
           COD_IND_BEM := fDMSPEDFiscal.cdsAtivoImobID.AsString;
           IDENT_MERC := fDMSPEDFiscal.cdsAtivoImobTIPO_ATIVO.AsInteger;
-          DESCR_ITEM := TiraAcentos(fDMSPEDFiscal.cdsAtivoImobNOME_PRODUTO.AsString);
+          DESCR_ITEM := StringReplace(TiraAcentos(fDMSPEDFiscal.cdsAtivoImobNOME_PRODUTO.AsString), '|', ' ', [rfReplaceAll]);
           if fDMSPEDFiscal.cdsAtivoImobID_PRODUTO_PRINCIPAL.AsInteger > 0 then
           begin
             if fDMSPEDFiscal.qParametrosIMP_NFE_REF_PROD.AsString = 'R' then
@@ -927,8 +927,41 @@ begin
   ACBrSPEDFiscal1.Bloco_0.Registro0990.QTD_LIN_0 := vContador_Reg_0;
 end;
 
-procedure TfrmSPEDFiscal.FormShow(Sender: TObject);
+function fnc_VersaoExecutavel: string;
+var
+  LHandle, LTamanho: DWORD;
+  LDados: Pointer;
+  LInfo: PVSFixedFileInfo;
+  LTamanhoInfo: UINT;
 begin
+  Result := '';
+  LTamanho := GetFileVersionInfoSize(PChar(ParamStr(0)), LHandle);
+  if LTamanho = 0 then
+    Exit;
+  GetMem(LDados, LTamanho);
+  try
+    if not GetFileVersionInfo(PChar(ParamStr(0)), 0, LTamanho, LDados) then
+      Exit;
+    if not VerQueryValue(LDados, '\', Pointer(LInfo), LTamanhoInfo) then
+      Exit;
+    if LTamanhoInfo < SizeOf(TVSFixedFileInfo) then
+      Exit;
+    Result := Format('%d.%d.%d.%d', [HiWord(LInfo^.dwFileVersionMS),
+      LoWord(LInfo^.dwFileVersionMS), HiWord(LInfo^.dwFileVersionLS),
+      LoWord(LInfo^.dwFileVersionLS)]);
+  finally
+    FreeMem(LDados);
+  end;
+end;
+
+procedure TfrmSPEDFiscal.FormShow(Sender: TObject);
+var
+  LVersao: string;
+begin
+  Caption := 'Gerar SPED Fiscal';
+  LVersao := fnc_VersaoExecutavel;
+  if LVersao <> '' then
+    Caption := Caption + ' (Vers' + #227 + 'o ' + LVersao + ')';
   fDMSPEDFiscal := TDMSPEDFiscal.Create(Self);
   oDBUtils.SetDataSourceProperties(Self, fDMSPEDFiscal);
   if fDMSPEDFiscal.cdsFilial.RecordCount = 1 then
@@ -960,7 +993,7 @@ begin
         with Registro0450New do
         begin
           COD_INF := fDMSPEDFiscal.m0450Codigo.AsString;
-          TXT := fDMSPEDFiscal.m0450Obs.AsString;
+          TXT := StringReplace(fDMSPEDFiscal.m0450Obs.AsString, '|', ' ', [rfReplaceAll]);
         end;
       end;
     end;
@@ -980,7 +1013,7 @@ begin
         with Registro0460New do
         begin
           COD_OBS := fDMSPEDFiscal.m0460Codigo.AsString;
-          TXT := fDMSPEDFiscal.m0460Obs.AsString;
+          TXT := StringReplace(fDMSPEDFiscal.m0460Obs.AsString, '|', ' ', [rfReplaceAll]);
         end;
       end;
     end;
@@ -1237,7 +1270,7 @@ begin
             LNumItem := LNumItem + 1;
             NUM_ITEM := IntToStr(LNumItem); //FormatFloat('000', fDMSPEDFiscal.cdsNotaFiscal_ItensITEM.AsInteger);
             COD_ITEM := monta_codigo_produto(fDMSPEDFiscal.cdsNotaFiscal_ItensID_PRODUTO.AsInteger, fDMSPEDFiscal.cdsNotaFiscal_ItensID_COR.AsInteger, fDMSPEDFiscal.cdsNotaFiscal_ItensREFERENCIA.AsString, fDMSPEDFiscal.cdsNotaFiscal_ItensTAMANHO.AsString, 'N');
-            DESCR_COMPL := fDMSPEDFiscal.cdsNotaFiscal_ItensOBS_COMPLEMENTAR.AsString;
+            DESCR_COMPL := StringReplace(fDMSPEDFiscal.cdsNotaFiscal_ItensOBS_COMPLEMENTAR.AsString, '|', ' ', [rfReplaceAll]);
             QTD := fDMSPEDFiscal.cdsNotaFiscal_ItensQTD.AsFloat;
             UNID := UpperCase(fDMSPEDFiscal.cdsNotaFiscal_ItensUNIDADE.AsString);
             VL_ITEM := fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_TOTAL.AsFloat + fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_OUTROS_ITENS.AsFloat - fDMSPEDFiscal.cdsNotaFiscal_ItensVLR_DESCONTO.AsFloat;
