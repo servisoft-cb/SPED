@@ -1424,6 +1424,7 @@ type
     qE300UF: TStringField;
     qE300VLR_ICMS_UF_DEST: TFloatField;
     qE300VLR_ICMS_UF_REMET: TFloatField;
+    qE300VLR_CREDITOS_DIFAL: TFloatField;
     qC176_Pessoa: TSQLQuery;
     qC176_PessoaID_FORNECEDOR: TIntegerField;
     SQL_Temp_Produto: TSQLQuery;

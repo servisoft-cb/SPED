@@ -3540,6 +3540,8 @@ begin
 end;
 
 procedure TfrmSPEDFiscal.prc_Gerar_Bloco_E300;
+var
+  LDebitos, LCreditos, LSaldo, LRecolher, LSaldoCredor: Currency;
 begin
 
   fDMSPEDFiscal.qE300.Close;
@@ -3560,24 +3562,34 @@ begin
         DT_FIN := DataFinal.Date;
       end;
 
+      LDebitos := fDMSPEDFiscal.qE300VLR_ICMS_UF_DEST.AsCurrency +
+        fDMSPEDFiscal.qE300VLR_ICMS_UF_REMET.AsCurrency;
+      LCreditos := fDMSPEDFiscal.qE300VLR_CREDITOS_DIFAL.AsCurrency;
+      LSaldo := LDebitos - LCreditos;
+      LRecolher := 0;
+      LSaldoCredor := 0;
+      if LSaldo > 0 then
+        LRecolher := LSaldo
+      else
+        LSaldoCredor := -LSaldo;
+
       with RegistroE310New do
       begin
         IND_MOV_DIFAL := StrToMovimentoDIFAL('1');
         VL_SLD_CRED_ANT_DIF := 0;
-        //aqui 11062026
-        VL_TOT_DEBITOS_DIFAL := fDMSPEDFiscal.qE300VLR_ICMS_UF_DEST.AsFloat + fDMSPEDFiscal.qE300VLR_ICMS_UF_REMET.AsFloat;
+        VL_TOT_DEBITOS_DIFAL := LDebitos;
         VL_OUT_DEB_DIFAL := 0;
         VL_TOT_DEB_FCP := 0;
-        VL_TOT_CREDITOS_DIFAL := 0;
+        VL_TOT_CREDITOS_DIFAL := LCreditos;
         VL_TOT_CRED_FCP := 0;
         VL_OUT_CRED_DIFAL := 0;
-        VL_SLD_DEV_ANT_DIFAL := fDMSPEDFiscal.qE300VLR_ICMS_UF_DEST.AsFloat + fDMSPEDFiscal.qE300VLR_ICMS_UF_REMET.AsFloat;
+        VL_SLD_DEV_ANT_DIFAL := LRecolher;
         VL_DEDUCOES_DIFAL := 0;
         VL_RECOL := 0;
         VL_SLD_CRED_TRANSPORTAR := 0;
         DEB_ESP_DIFAL := 0;
-        VL_RECOL_DIFAL := fDMSPEDFiscal.qE300VLR_ICMS_UF_DEST.AsFloat + fDMSPEDFiscal.qE300VLR_ICMS_UF_REMET.AsFloat;
-        VL_SLD_CRED_TRANSPORTAR_DIFAL := 0;
+        VL_RECOL_DIFAL := LRecolher;
+        VL_SLD_CRED_TRANSPORTAR_DIFAL := LSaldoCredor;
         VL_SLD_CRED_ANT_FCP := 0;
         VL_OUT_DEB_FCP := 0;
         VL_OUT_CRED_FCP := 0;
@@ -3586,10 +3598,11 @@ begin
         VL_SLD_CRED_TRANSPORTAR_FCP := 0;
       end;
 
+      if LRecolher > 0 then
       with RegistroE316New do
       begin
         COD_OR := '003';
-        VL_OR := fDMSPEDFiscal.qE300VLR_ICMS_UF_DEST.AsFloat + fDMSPEDFiscal.qE300VLR_ICMS_UF_REMET.AsFloat;
+        VL_OR := LRecolher;
         DT_VCTO := StrToDate('15/' + FormatDateTime('MM/yyyy', IncMonth(DataInicial.Date, 1)));
         COD_REC := '100102';
         NUM_PROC := '';

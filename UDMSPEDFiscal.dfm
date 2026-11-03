@@ -6575,19 +6575,26 @@ object DMSPEDFiscal: TDMSPEDFiscal
         ParamType = ptInput
       end>
     SQL.Strings = (
-      
-        'select PES.UF, sum(coalesce(NFI.VLR_ICMS_UF_DEST, 0)) VLR_ICMS_U' +
-        'F_DEST,'
-      '       sum(coalesce(NFI.VLR_ICMS_UF_REMET, 0)) VLR_ICMS_UF_REMET'
+      'select PES.UF,'
+      '  sum(case when NF.TIPO_REG = '#39'NTS'#39' and NF.TIPO_NOTA = '#39'S'#39''
+      '    then coalesce(NFI.VLR_ICMS_UF_DEST, 0) else 0 end) VLR_ICMS_UF_DEST,'
+      '  sum(case when NF.TIPO_REG = '#39'NTS'#39' and NF.TIPO_NOTA = '#39'S'#39''
+      '    then coalesce(NFI.VLR_ICMS_UF_REMET, 0) else 0 end) VLR_ICMS_UF_REMET,'
+      '  sum(case when NF.TIPO_REG = '#39'NTE'#39' or NF.TIPO_NOTA = '#39'E'#39''
+      '    then coalesce(NFI.VLR_ICMS_UF_DEST, 0) +'
+      '         coalesce(NFI.VLR_ICMS_UF_REMET, 0) else 0 end) VLR_CREDITOS_DIFAL'
       'from NOTAFISCAL NF'
       'join NOTAFISCAL_ITENS NFI on NF.ID = NFI.ID'
       'join PESSOA PES on PES.CODIGO = NF.ID_CLIENTE'
-      'where NF.DTEMISSAO between :data1 and :data2 and'
+      'where ((NF.TIPO_REG = '#39'NTS'#39' and'
+      '        NF.DTEMISSAO between :data1 and :data2) or'
+      '       (NF.TIPO_REG = '#39'NTE'#39' and'
+      '        NF.DTSAIDAENTRADA between :data1 and :data2)) and'
       '      NF.FILIAL = :FILIAL and'
-      '      (NF.TIPO_REG = '#39'NTS'#39') and'
+      '      NF.TIPO_REG in ('#39'NTS'#39', '#39'NTE'#39') and'
       '      NF.CANCELADA = '#39'N'#39' and'
-      '      NF.NFEDENEGADA = '#39'N'#39' '
-      'group by 1  ')
+      '      NF.NFEDENEGADA = '#39'N'#39''
+      'group by 1')
     SQLConnection = dmDatabase.scoDados
     Left = 736
     Top = 536
@@ -6601,6 +6608,9 @@ object DMSPEDFiscal: TDMSPEDFiscal
     end
     object qE300VLR_ICMS_UF_REMET: TFloatField
       FieldName = 'VLR_ICMS_UF_REMET'
+    end
+    object qE300VLR_CREDITOS_DIFAL: TFloatField
+      FieldName = 'VLR_CREDITOS_DIFAL'
     end
   end
   object qC176_Pessoa: TSQLQuery
