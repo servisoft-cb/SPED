@@ -1070,9 +1070,17 @@ object frmSPEDFiscal: TfrmSPEDFiscal
             WidthOfIndicator = 11
             DefaultRowHeight = 17
             ScrollBars = ssHorizontal
-            ColCount = 6
+            ColCount = 7
             RowCount = 2
             Columns = <
+              item
+                Expanded = False
+                FieldName = 'Bloco'
+                Title.Alignment = taCenter
+                Title.Caption = 'Bloco'
+                Width = 50
+                Visible = True
+              end
               item
                 Expanded = False
                 FieldName = 'Registro'
@@ -1084,7 +1092,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
                 Expanded = False
                 FieldName = 'Descricao_Sped'
                 Title.Alignment = taCenter
-                Title.Caption = 'Tipo SPED'
+                Title.Caption = 'Tipo / Resumo'
                 Title.Color = 16777143
                 Visible = True
               end
@@ -1100,6 +1108,7 @@ object frmSPEDFiscal: TfrmSPEDFiscal
               item
                 Expanded = False
                 FieldName = 'Qtd'
+                Title.Caption = 'Quantidade'
                 Title.Alignment = taCenter
                 Title.Color = 16777143
                 Width = 105

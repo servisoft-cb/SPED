@@ -6562,12 +6562,22 @@ object DMSPEDFiscal: TDMSPEDFiscal
       item
         DataType = ftDate
         Name = 'data1'
-        ParamType = ptUnknown
+        ParamType = ptInput
       end
       item
         DataType = ftDate
         Name = 'data2'
-        ParamType = ptUnknown
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'DATA_ENTRADA1'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'DATA_ENTRADA2'
+        ParamType = ptInput
       end
       item
         DataType = ftInteger
@@ -6589,7 +6599,7 @@ object DMSPEDFiscal: TDMSPEDFiscal
       'where ((NF.TIPO_REG = '#39'NTS'#39' and'
       '        NF.DTEMISSAO between :data1 and :data2) or'
       '       (NF.TIPO_REG = '#39'NTE'#39' and'
-      '        NF.DTSAIDAENTRADA between :data1 and :data2)) and'
+      '        NF.DTSAIDAENTRADA between :DATA_ENTRADA1 and :DATA_ENTRADA2)) and'
       '      NF.FILIAL = :FILIAL and'
       '      NF.TIPO_REG in ('#39'NTS'#39', '#39'NTE'#39') and'
       '      NF.CANCELADA = '#39'N'#39' and'

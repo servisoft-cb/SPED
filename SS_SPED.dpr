@@ -25,6 +25,7 @@ uses
   ClasseRegistroE210 in 'Classes\ClasseRegistroE210.pas',
   ExcelExporter in 'Classes\ExcelExporter.pas',
   UEPSService in 'Classes\UEPSService.pas',
+  ResumoSPED in 'Classes\ResumoSPED.pas',
   Classe.Parametros in '..\ssfacil\Classes\Classe.Parametros.pas',
   UConfig_XLS in '..\ssfacil\UConfig_XLS.pas' {frmConfig_XLS},
   UDMConfig_XLS in '..\ssfacil\UDMConfig_XLS.pas' {DMConfig_XLS: TDataModule},

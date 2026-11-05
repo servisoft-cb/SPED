@@ -134,6 +134,7 @@ type
     xNomeArquivo: String;
 
     function fnc_Valida_Campos(Tipo_Bloco: string = ''): Boolean;
+    procedure prc_AtualizarResumoRegistros;
     procedure prc_Movimento;
     procedure prc_Gravar_mPessoa(ID: Integer);
     procedure prc_Gravar_mProduto;
@@ -233,7 +234,7 @@ uses
   DateUtils, rsDBUtils, ACBrEFDBloco_K, ACBrEFDBloco_K_Class,
   ACBrEFDBloco_E_Class, ACBrEFDBloco_E, ACBrSped, UCadSpedVersao,
   UConsPosseEstoque, ACBrEFDBloco_0, UImportar_Excel, UConfigC176, ExcelExporter,
-  UEPSService, DmdDatabase, Math;
+  UEPSService, DmdDatabase, Math, ResumoSPED;
 
 {$IFDEF FPC}
 {$R *.lfm}
@@ -1704,6 +1705,43 @@ begin
   ACBrSPEDFiscal1.Bloco_C.RegistroC990.QTD_LIN_C := vContador_Reg_C;
 end;
 
+procedure TfrmSPEDFiscal.prc_AtualizarResumoRegistros;
+var
+  Contagens: TStringList;
+  I: Integer;
+  Registro: string;
+begin
+  if not chkResumo.Checked then Exit;
+  Contagens := TStringList.Create;
+  fDMSPEDFiscal.mAuxResumo.DisableControls;
+  try
+    ContarRegistrosSPED(mSped.Lines, Contagens);
+    // Substitui as contagens anteriores, preservando o detalhe de H010/K200.
+    fDMSPEDFiscal.mAuxResumo.First;
+    while not fDMSPEDFiscal.mAuxResumo.Eof do
+      if fDMSPEDFiscal.mAuxResumoTipo_SPED.AsString = 'RG' then
+        fDMSPEDFiscal.mAuxResumo.Delete
+      else
+        fDMSPEDFiscal.mAuxResumo.Next;
+    for I := 0 to Contagens.Count - 1 do
+    begin
+      Registro := Contagens.Names[I];
+      fDMSPEDFiscal.mAuxResumo.Append;
+      fDMSPEDFiscal.mAuxResumoBloco.AsString := Copy(Registro, 1, 1);
+      fDMSPEDFiscal.mAuxResumoRegistro.AsString := Registro;
+      fDMSPEDFiscal.mAuxResumoTipo_SPED.AsString := 'RG';
+      fDMSPEDFiscal.mAuxResumoDescricao_Sped.AsString := 'Registros gerados';
+      fDMSPEDFiscal.mAuxResumoQtd.AsInteger := StrToInt(Contagens.Values[Registro]);
+      // Quantidade de linhas, sem somar valores de registros pai e filho.
+      fDMSPEDFiscal.mAuxResumoVlr_Total.Clear;
+      fDMSPEDFiscal.mAuxResumo.Post;
+    end;
+    fDMSPEDFiscal.mAuxResumo.First;
+  finally
+    fDMSPEDFiscal.mAuxResumo.EnableControls;
+    Contagens.Free;
+  end;
+end;
 procedure TfrmSPEDFiscal.btnGravar_TxtClick(Sender: TObject);
 var
   vArq: string;
@@ -1720,7 +1758,8 @@ begin
   if FileExists(ACBrSPEDFiscal1.Path + ACBrSPEDFiscal1.Arquivo) then
     mSped.Lines.LoadFromFile(ACBrSPEDFiscal1.Path + ACBrSPEDFiscal1.Arquivo);
 
-  fDMSPEDFiscal.mAuxResumo.IndexFieldNames := 'Registro;Descricao_Sped';
+  prc_AtualizarResumoRegistros;
+  fDMSPEDFiscal.mAuxResumo.IndexFieldNames := 'Bloco;Registro;Descricao_Sped';
 end;
 
 procedure TfrmSPEDFiscal.btnBloco_DClick(Sender: TObject);
@@ -3547,6 +3586,8 @@ begin
   fDMSPEDFiscal.qE300.Close;
   fDMSPEDFiscal.qE300.ParamByName('DATA1').AsDate := DataInicial.Date;
   fDMSPEDFiscal.qE300.ParamByName('DATA2').AsDate := DataFinal.Date;
+  fDMSPEDFiscal.qE300.ParamByName('DATA_ENTRADA1').AsDate := DataInicial.Date;
+  fDMSPEDFiscal.qE300.ParamByName('DATA_ENTRADA2').AsDate := DataFinal.Date;
   fDMSPEDFiscal.qE300.ParamByName('FILIAL').AsInteger := ComboFilial.KeyValue;
   fDMSPEDFiscal.qE300.Open;
 
@@ -3724,7 +3765,7 @@ var
 begin
   UEPS := TUEPSService.Create;
   try
-    UEPS.Executar(ComboFilial.KeyValue, DataFinal.Date);
+    UEPS.Executar(ComboFilial.KeyValue, DataInicial.Date, DataFinal.Date);
   finally
     UEPS.Free;
   end;
