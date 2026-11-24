@@ -878,8 +878,6 @@ object frmSPEDFiscal: TfrmSPEDFiscal
           Width = 97
           Height = 17
           Caption = 'C176'
-          Checked = True
-          State = cbChecked
           TabOrder = 19
         end
       end
@@ -971,7 +969,6 @@ object frmSPEDFiscal: TfrmSPEDFiscal
               item
                 Expanded = False
                 FieldName = 'QTD'
-                Width = 64
                 Visible = True
               end
               item
@@ -989,7 +986,6 @@ object frmSPEDFiscal: TfrmSPEDFiscal
               item
                 Expanded = False
                 FieldName = 'REFERENCIA'
-                Width = 64
                 Visible = True
               end
               item
@@ -1005,19 +1001,16 @@ object frmSPEDFiscal: TfrmSPEDFiscal
               item
                 Expanded = False
                 FieldName = 'UNIDADE'
-                Width = 64
                 Visible = True
               end
               item
                 Expanded = False
                 FieldName = 'SPED_TIPO_ITEM'
-                Width = 64
                 Visible = True
               end
               item
                 Expanded = False
                 FieldName = 'NCM_EX'
-                Width = 64
                 Visible = True
               end
               item
@@ -1028,7 +1021,6 @@ object frmSPEDFiscal: TfrmSPEDFiscal
               item
                 Expanded = False
                 FieldName = 'TIPO_EST'
-                Width = 64
                 Visible = True
               end>
           end
@@ -1077,7 +1069,6 @@ object frmSPEDFiscal: TfrmSPEDFiscal
                 Expanded = False
                 FieldName = 'Bloco'
                 Title.Alignment = taCenter
-                Title.Caption = 'Bloco'
                 Width = 50
                 Visible = True
               end
@@ -1108,8 +1099,8 @@ object frmSPEDFiscal: TfrmSPEDFiscal
               item
                 Expanded = False
                 FieldName = 'Qtd'
-                Title.Caption = 'Quantidade'
                 Title.Alignment = taCenter
+                Title.Caption = 'Quantidade'
                 Title.Color = 16777143
                 Width = 105
                 Visible = True
